@@ -16,9 +16,16 @@ import { HoleCategoryScreen } from '@/pages/hole/category/HoleCategoryScreen'
 import { HoleDetailHeader } from '@/pages/hole/detail/DetailHeader'
 import { SearchIcon } from '@/components/icon'
 import { TopTabHeader } from '@/router/components/TopTabHeader'
+import { Categories } from '@/pages/hole/Category'
+import { useNavigation } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
+import { ArticleCategoryEnum } from '@/shared/enums'
+import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
+import { HoleMain } from '@/pages/hole/main/HoleMain'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
+const HoleModeTab = createMaterialTopTabNavigator()
 const HoleCategoryTab = createMaterialTopTabNavigator()
 
 const HoleSearchStacks = () => {
@@ -46,22 +53,41 @@ const HoleDetailStacks = () => {
   )
 }
 
-const HoleCategoryTabs = () => {
+const HoleModeTabs = () => {
   return (
-    <HoleCategoryTab.Navigator
+    <HoleModeTab.Navigator
       initialRouteName={'index'}
       tabBar={(props) => <TopTabHeader {...props} />}
     >
-      <HoleCategoryTab.Screen
+      <HoleModeTab.Screen
         name={'latest'}
         component={HoleCategoryScreen}
         options={{ title: '最新' }}
       />
-      <HoleCategoryTab.Screen
+      <HoleModeTab.Screen
         name={'hot'}
         component={() => <HoleCategoryScreen />}
         options={{ title: '热门' }}
       />
+    </HoleModeTab.Navigator>
+  )
+}
+
+const HoleCategoryTabs = () => {
+  return (
+    <HoleCategoryTab.Navigator
+      initialRouteName={'category'}
+      tabBar={(props) => {
+        return <TopTabHeader {...props} />
+      }}
+    >
+      {Categories.map((category) => (
+        <Tab.Screen
+          key={category.name}
+          name={category.name}
+          component={HoleCategoryScreen}
+        />
+      ))}
     </HoleCategoryTab.Navigator>
   )
 }
@@ -77,6 +103,7 @@ export const HoleNestedStacks = () => {
         <HoleStack.Screen name={'post'} component={HolePost} />
         <HoleStack.Screen name={'search'} component={HoleSearchStacks} />
         <HoleStack.Screen name={'detail'} component={HoleDetailStacks} />
+        <HoleStack.Screen name={'mode'} component={HoleModeTabs} />
         <HoleStack.Screen name={'category'} component={HoleCategoryTabs} />
       </HoleStack.Navigator>
     </HoleDetailCommentContextProvider>
@@ -90,18 +117,36 @@ const TabScreens = [
 
 export function TopTabs() {
   const theme = useTheme()
+  const { go } = useHoleCategoryRoute()
 
   return (
     <>
       <StatusBar backgroundColor={theme.colors.background} />
-      <Tab.Navigator initialRouteName={'latest'} tabBar={TopTabHeader}>
-        {TabScreens.map((item) => (
+      <Tab.Navigator
+        initialRouteName={'main'}
+        tabBar={TopTabHeader}
+        screenOptions={{
+          tabBarScrollEnabled: true,
+          lazy: true,
+          lazyPreloadDistance: 0,
+        }}
+      >
+        <Tab.Screen
+          name={'main'}
+          component={HoleMain}
+          options={{ title: '主页' }}
+        />
+        {Categories.map((category) => (
+          // Boards
           <Tab.Screen
-            key={item.name}
-            name={item.name}
-            component={item.component}
-            options={{ title: item.title }}
-          />
+            key={category.name}
+            name={category.name}
+            options={{ title: category.name }}
+          >
+            {(props) => (
+              <HoleCategoryScreen {...props} category={category.name} />
+            )}
+          </Tab.Screen>
         ))}
       </Tab.Navigator>
     </>

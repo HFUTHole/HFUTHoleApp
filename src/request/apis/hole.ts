@@ -11,6 +11,7 @@ import { HoleDetailPostComment } from '@/shared/validators/hole.detail'
 import { HoleSearchValidator } from '@/shared/validators/hole/search'
 import { ImagePickerResult } from 'expo-image-picker'
 import { Config } from '@/shared/config'
+import axios from 'axios'
 
 interface Id {
   id: number
@@ -19,7 +20,6 @@ interface Id {
 export function GetHoleListRequest(
   params: PaginateAble<{ mode: HoleListMode; category?: ArticleCategoryEnum }>
 ) {
-  console.log(params)
   return request<IHoleListResponse>({
     method: 'GET',
     url: '/hole/list',

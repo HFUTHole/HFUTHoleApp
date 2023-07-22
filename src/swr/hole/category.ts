@@ -11,13 +11,15 @@ interface RouteParams {
   category: ArticleCategoryEnum
 }
 
-export function useHoleCategoryList() {
+export function useHoleCategoryList(category: ArticleCategoryEnum) {
   const params = useParams<RouteParams>()
   const route = useRoute()
   const navigation = useNavigation()
 
-  const category = (navigation.getState().routes[0].params as RouteParams)
-    .category
+  // const category = (navigation.getState().routes[0].params as RouteParams)
+  //   .category
+
+  // const category = ArticleCategoryEnum.hfutLife
 
   const mode = useMemo(() => {
     if (route.name === 'latest') {

@@ -11,7 +11,7 @@ import { Svg } from '@/components/svg/Svg'
 import { Text, TouchableRipple } from 'react-native-paper'
 import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 
-const Categories = [
+export const Categories = [
   { name: ArticleCategoryEnum.hfutLife, svg: HFUTLifeSvg },
   { name: ArticleCategoryEnum.taoSecondHand, svg: SecondHandSvg },
   { name: ArticleCategoryEnum.lostAndFound, svg: LostAndFoundSvg },
