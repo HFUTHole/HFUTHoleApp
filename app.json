@@ -35,6 +35,16 @@
         "projectId": "dba5ed50-696a-4891-ab2e-cd94660925e7"
       }
     },
-    "owner": "snowingfox"
+    "owner": "snowingfox",
+    "plugins": [
+      [
+        "expo-updates",
+        {
+          "url": "https://192.168.0.101",
+          "enabled": true,
+          "fallbackToCacheTimeout": 30000
+        }
+      ]
+    ]
   }
 }
