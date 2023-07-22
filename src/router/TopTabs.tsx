@@ -22,10 +22,10 @@ import { useEffect, useState } from 'react'
 import { ArticleCategoryEnum } from '@/shared/enums'
 import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 import { HoleMain } from '@/pages/hole/main/HoleMain'
+import { HoleModeTabs } from './ModeTabs'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
-const HoleModeTab = createMaterialTopTabNavigator()
 const HoleCategoryTab = createMaterialTopTabNavigator()
 
 const HoleSearchStacks = () => {
@@ -50,26 +50,6 @@ const HoleDetailStacks = () => {
       <HoleStack.Screen name={'index'} component={HoleDetail} />
       <HoleStack.Screen name={'reply'} component={HoleReply} />
     </HoleStack.Navigator>
-  )
-}
-
-const HoleModeTabs = () => {
-  return (
-    <HoleModeTab.Navigator
-      initialRouteName={'index'}
-      tabBar={(props) => <TopTabHeader {...props} />}
-    >
-      <HoleModeTab.Screen
-        name={'latest'}
-        component={HoleCategoryScreen}
-        options={{ title: '最新' }}
-      />
-      <HoleModeTab.Screen
-        name={'hot'}
-        component={() => <HoleCategoryScreen />}
-        options={{ title: '热门' }}
-      />
-    </HoleModeTab.Navigator>
   )
 }
 
@@ -127,6 +107,7 @@ export function TopTabs() {
         tabBar={TopTabHeader}
         screenOptions={{
           tabBarScrollEnabled: true,
+          swipeEnabled: true,
           lazy: true,
           lazyPreloadDistance: 0,
         }}
@@ -143,9 +124,7 @@ export function TopTabs() {
             name={category.name}
             options={{ title: category.name }}
           >
-            {(props) => (
-              <HoleCategoryScreen {...props} category={category.name} />
-            )}
+            {(props) => <HoleModeTabs {...props} category={category.name} />}
           </Tab.Screen>
         ))}
       </Tab.Navigator>
