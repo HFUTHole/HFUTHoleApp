@@ -15,6 +15,7 @@ export function HoleLatest() {
     <Page>
       <StatusBar backgroundColor={theme.colors.background} />
       <RefreshableHoleList {...query} ListHeaderComponent={HomeCategories} />
+      <HolePostFAB />
     </Page>
   )
 }
