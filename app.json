@@ -39,7 +39,7 @@
     "updates": {
       "url": "http://192.168.0.101:3000/api/manifest",
       "enabled": true,
-      "fallbackToCacheTimeout": 30000,
+      "fallbackToCacheTimeout": 30000
     }
   }
 }
