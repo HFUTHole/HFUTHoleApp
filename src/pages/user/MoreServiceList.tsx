@@ -3,11 +3,9 @@ import SettingSvg from '@/assets/svg/settings.svg'
 import AboutSvg from '@/assets/svg/user/about.svg'
 import UpdateSvg from '@/assets/svg/update.svg'
 import { SecondaryText } from '@/components/Text/SecondaryText'
-import { RightIcon } from '@/components/icon'
 import * as Updates from 'expo-updates'
 import { Button } from 'react-native-paper'
 import { grey300 } from 'react-native-paper/src/styles/themes/v2/colors'
-import Icon from 'react-native-paper/src/components/Icon'
 
 const List = [
   {
