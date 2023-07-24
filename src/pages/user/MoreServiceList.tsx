@@ -1,45 +1,74 @@
-import { Button, View } from 'react-native'
-import { Svg } from '@/components/svg/Svg'
-import SettingSvg from '@/assets/svg/setting.svg'
+import { Alert, View } from 'react-native'
+import SettingSvg from '@/assets/svg/settings.svg'
 import AboutSvg from '@/assets/svg/user/about.svg'
 import UpdateSvg from '@/assets/svg/update.svg'
 import { SecondaryText } from '@/components/Text/SecondaryText'
 import { RightIcon } from '@/components/icon'
-import { onFetchUpdateAsync } from '@/request/apis/update'
+import * as Updates from 'expo-updates'
+import { Button } from 'react-native-paper'
+import { grey300 } from 'react-native-paper/src/styles/themes/v2/colors'
+import Icon from 'react-native-paper/src/components/Icon'
 
 const List = [
   {
     icon: SettingSvg,
     title: '应用设置',
-    route: '',
+    func: undefined,
   },
   {
     icon: AboutSvg,
     title: '关于应用',
-    route: '',
+    func: undefined,
   },
   {
     icon: UpdateSvg,
     title: '检查更新',
-    route: '',
+    func: onFetchUpdateAsync,
   },
 ]
+
+export async function onFetchUpdateAsync() {
+  try {
+    const update = await Updates.checkForUpdateAsync()
+    if (update.isAvailable) {
+      Alert.alert('更新中', `更新ID：${update.manifest?.id}`, [
+        {
+          text: '确定',
+        },
+      ])
+      await Updates.fetchUpdateAsync()
+      await Updates.reloadAsync()
+    }
+  } catch (error) {
+    Alert.alert('更新失败', `错误信息：\n${error}`, [
+      {
+        text: '确定',
+      },
+    ])
+  }
+}
 
 export function MoreServiceList() {
   return (
     <View className={'space-y-2'}>
       {List.map((item) => (
-        <View className={'flex flex-row justify-between py-4'} key={item.title}>
-          <View className={'flex-row space-x-2 items-center'}>
-            <Svg SvgComponent={item.icon} size={20} />
-            <View>
-              <SecondaryText variant={'bodyLarge'}>{item.title}</SecondaryText>
-            </View>
-          </View>
-          <RightIcon />
-        </View>
+        <Button
+          key={item.title}
+          onPress={item.func}
+          rippleColor={grey300}
+          icon={({ size, color }) => (
+            <item.icon width={28} height={28} color="grey" />
+          )}
+          contentStyle={{
+            height: 65,
+            justifyContent: 'flex-start',
+          }}
+        >
+          <SecondaryText variant={'bodyLarge'} style={{ lineHeight: 20 }}>
+            {item.title}
+          </SecondaryText>
+        </Button>
       ))}
-      <Button title="Fetch update" onPress={onFetchUpdateAsync} />
     </View>
   )
 }
