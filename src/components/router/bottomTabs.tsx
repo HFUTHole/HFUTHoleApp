@@ -8,6 +8,7 @@ import { Text, useTheme } from 'react-native-paper'
 import { Badge } from '@/components/Badge'
 import { useRef } from 'react'
 import { useMount } from 'ahooks'
+import { grey300 } from 'react-native-paper/src/styles/themes/v2/colors'
 
 export const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
   const { totalCount, refetch } = useBaseNotificationsQuery()
@@ -44,9 +45,10 @@ export const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
 
         return (
           <RipplePressable
-            onPress={onPress}
             key={index}
-            className={'flex-1 rounded-full'}
+            onPress={onPress}
+            className={'flex-1'}
+            rippleColor={grey300}
           >
             <View
               className={'flex flex-1 items-center justify-center rounded-full'}
