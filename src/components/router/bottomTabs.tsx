@@ -8,11 +8,12 @@ import { Text, useTheme } from 'react-native-paper'
 import { Badge } from '@/components/Badge'
 import { useRef } from 'react'
 import { useMount } from 'ahooks'
-import { grey300 } from 'react-native-paper/src/styles/themes/v2/colors'
 
+// TODO: Theming
 export const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
   const { totalCount, refetch } = useBaseNotificationsQuery()
   const timer = useRef<ReturnType<typeof setInterval>>()
+  const theme = useTheme()
 
   useMount(() => {
     if (timer.current) {
@@ -48,7 +49,7 @@ export const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
             key={index}
             onPress={onPress}
             className={'flex-1'}
-            rippleColor={grey300}
+            rippleColor={theme.colors.onBackground}
           >
             <View
               className={'flex flex-1 items-center justify-center rounded-full'}
