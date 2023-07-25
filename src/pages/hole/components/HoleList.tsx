@@ -10,6 +10,7 @@ import { useMemo } from 'react'
 import { Empty } from '@/components/image/Empty'
 import { flatInfiniteQueryData } from '@/swr/utils'
 import { useTheme } from 'react-native-paper'
+import { forwardRef } from 'react'
 
 // TODO 完善类型
 type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
@@ -17,14 +18,17 @@ type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
   ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']
 }
 
-export function RefreshableHoleList({
-  isSuccess,
-  data,
-  hasNextPage,
-  fetchNextPage,
-  invalidateQuery,
-  ListHeaderComponent,
-}: Props) {
+function RefreshableHoleListInner(
+  {
+    isSuccess,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    invalidateQuery,
+    ListHeaderComponent,
+  }: Props,
+  ref
+) {
   const { go } = useHoleDetailRoute()
 
   const { data: flatListData, isEmpty: isHoleListEmpty } =
@@ -34,6 +38,7 @@ export function RefreshableHoleList({
     <>
       {isSuccess ? (
         <RefreshingFlatList
+          ref={ref}
           data={flatListData}
           hasNextPage={hasNextPage}
           onRefreshing={fetchNextPage}
@@ -62,3 +67,5 @@ export function RefreshableHoleList({
     </>
   )
 }
+
+export const RefreshableHoleList = forwardRef(RefreshableHoleListInner)
