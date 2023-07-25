@@ -16,6 +16,7 @@ import { forwardRef } from 'react'
 type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
   invalidateQuery: Func
   ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']
+  onScroll
 }
 
 function RefreshableHoleListInner(
@@ -26,15 +27,10 @@ function RefreshableHoleListInner(
     fetchNextPage,
     invalidateQuery,
     ListHeaderComponent,
+    onScroll,
   }: Props,
   ref
 ) {
-  const [scrollY, setScrollY] = useState(0)
-
-  const onScroll = (event) => {
-    setScrollY(event.nativeEvent.contentOffset.y)
-  }
-
   const { go } = useHoleDetailRoute()
 
   const { data: flatListData, isEmpty: isHoleListEmpty } =

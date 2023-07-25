@@ -4,7 +4,7 @@ import { RefreshableHoleList } from '../components/HoleList'
 import { StatusBar } from 'react-native'
 import React, { createRef, useRef } from 'react'
 import { useTheme } from 'react-native-paper'
-import { HoleToTopFAB } from '../ToTopFab'
+import { AnimatedToTopFAB } from '../ToTopFab'
 import { HolePostFAB } from '../PostFab'
 
 export function HoleHot() {
@@ -21,7 +21,7 @@ export function HoleHot() {
       <StatusBar backgroundColor={theme.colors.background} />
       <RefreshableHoleList {...query} ref={listRef} />
       <HolePostFAB />
-      <HoleToTopFAB goToTop={scrollToTopHandler} />
+      <AnimatedToTopFAB goToTop={scrollToTopHandler} />
     </Page>
   )
 }
