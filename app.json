@@ -39,7 +39,7 @@
     },
     "owner": "snowingfox",
     "updates": {
-      "url": "http://192.168.0.101:3000/api/manifest",
+      "url": "",
       "enabled": true,
       "fallbackToCacheTimeout": 0
     },

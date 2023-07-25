@@ -1,22 +1,21 @@
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import SettingSvg from '@/assets/svg/settings.svg'
 import AboutSvg from '@/assets/svg/user/about.svg'
 import UpdateSvg from '@/assets/svg/update.svg'
 import { SecondaryText } from '@/components/Text/SecondaryText'
-import { Button } from 'react-native-paper'
-import { grey300 } from 'react-native-paper/src/styles/themes/v2/colors'
+import { Button, useTheme } from 'react-native-paper'
 import { useFetchUpdateAsync } from '@/shared/hooks/useFetchUpdate'
 
 const List = [
   {
     icon: SettingSvg,
     title: '应用设置',
-    onPress: undefined,
+    onPress: () => {},
   },
   {
     icon: AboutSvg,
     title: '关于应用',
-    nPress: undefined,
+    onPress: () => {},
   },
   {
     icon: UpdateSvg,
@@ -26,18 +25,20 @@ const List = [
 ]
 
 export function MoreServiceList() {
+  const theme = useTheme()
+
   return (
     <View className={'space-y-2'}>
       {List.map((item) => (
         <Button
           key={item.title}
           onPress={item.onPress}
-          rippleColor={grey300}
+          rippleColor={theme.colors.onBackground}
           icon={({ size, color }) => (
-            <item.icon width={28} height={28} color="grey" />
+            <item.icon width={24} height={24} color="grey" />
           )}
           contentStyle={{
-            height: 65,
+            height: 60,
             justifyContent: 'flex-start',
           }}
         >
