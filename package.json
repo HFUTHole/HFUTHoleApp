@@ -2,9 +2,9 @@
   "name": "com.hfuthole.app",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "npx cross-env NODE_OPTIONS=--openssl-legacy-provider expo start --web",
     "build:android": "eas build -p android --profile prod",
     "update": "eas update --channel production --message \"update\""
