@@ -16,6 +16,7 @@
 - [ReactNative](https://reactnative.dev/)
 - [Tailwindcss](https://tailwindcss.com/)
 - [@tanstack/react-query](https://react-query.tanstack.com/)
+- [redux](https://redux.js.org/)
 
 
 
