@@ -5,8 +5,8 @@ import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated'
 export function AnimatedToTopFAB({ goToTop, visible }) {
   return visible ? (
     <Animated.View
-      entering={SlideInRight.springify().duration(300).damping(15)}
-      exiting={SlideOutRight.springify().duration(300).damping(15)}
+      entering={SlideInRight.springify().damping(17)}
+      exiting={SlideOutRight.springify().damping(17)}
     >
       <ToTopFAB onPress={goToTop} />
     </Animated.View>

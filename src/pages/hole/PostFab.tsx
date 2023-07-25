@@ -16,7 +16,7 @@ export function HolePostFAB() {
 export function AnimatedHolePostFAB({ offset }) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: withSpring(offset, {damping: 15}) }],
+      transform: [{ translateY: withSpring(offset, {damping: 13}) }],
     }
   })
 
