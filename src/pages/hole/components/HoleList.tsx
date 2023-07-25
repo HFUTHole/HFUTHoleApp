@@ -6,7 +6,7 @@ import { UseInfiniteQueryResult } from 'react-query'
 import { SkeletonLoading } from '@/components/Skeleton'
 import { Func } from '@/shared/types'
 import { useHoleDetailRoute } from '@/shared/hooks/route/useHoleDetailRoute'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Empty } from '@/components/image/Empty'
 import { flatInfiniteQueryData } from '@/swr/utils'
 import { useTheme } from 'react-native-paper'
@@ -29,6 +29,12 @@ function RefreshableHoleListInner(
   }: Props,
   ref
 ) {
+  const [scrollY, setScrollY] = useState(0)
+
+  const onScroll = (event) => {
+    setScrollY(event.nativeEvent.contentOffset.y)
+  }
+
   const { go } = useHoleDetailRoute()
 
   const { data: flatListData, isEmpty: isHoleListEmpty } =
@@ -39,6 +45,7 @@ function RefreshableHoleListInner(
       {isSuccess ? (
         <RefreshingFlatList
           ref={ref}
+          onScroll={onScroll}
           data={flatListData}
           hasNextPage={hasNextPage}
           onRefreshing={fetchNextPage}

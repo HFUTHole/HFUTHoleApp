@@ -39,9 +39,12 @@ function RefreshingFlatListInner<T = any>(
     { wait: 200 }
   )
 
+  const onScroll = props.onScroll
+
   return (
     <FlatList
       ref={ref}
+      onScroll={onScroll}
       refreshing={refreshing}
       onEndReachedThreshold={0.1}
       onEndReached={onRefresh}

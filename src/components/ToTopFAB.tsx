@@ -1,4 +1,6 @@
+import { useRef } from 'react'
 import { FAB, FABProps, useTheme } from 'react-native-paper'
+import Animated from 'react-native-reanimated'
 
 export function ToTopFAB(props: Partial<FABProps>) {
   const theme = useTheme()

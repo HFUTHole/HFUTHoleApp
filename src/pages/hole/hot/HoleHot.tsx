@@ -20,8 +20,8 @@ export function HoleHot() {
     <Page>
       <StatusBar backgroundColor={theme.colors.background} />
       <RefreshableHoleList {...query} ref={listRef} />
-      <HoleToTopFAB goToTop={scrollToTopHandler} />
       <HolePostFAB />
+      <HoleToTopFAB goToTop={scrollToTopHandler} />
     </Page>
   )
 }
