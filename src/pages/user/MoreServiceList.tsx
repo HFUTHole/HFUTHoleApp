@@ -4,28 +4,29 @@ import AboutSvg from '@/assets/svg/user/about.svg'
 import UpdateSvg from '@/assets/svg/update.svg'
 import { SecondaryText } from '@/components/Text/SecondaryText'
 import { Button, useTheme } from 'react-native-paper'
-import { useFetchUpdateAsync } from '@/shared/hooks/useFetchUpdate'
-
-const List = [
-  {
-    icon: SettingSvg,
-    title: '应用设置',
-    onPress: () => {},
-  },
-  {
-    icon: AboutSvg,
-    title: '关于应用',
-    onPress: () => {},
-  },
-  {
-    icon: UpdateSvg,
-    title: '检查更新',
-    onPress: useFetchUpdateAsync,
-  },
-]
 
 export function MoreServiceList() {
   const theme = useTheme()
+
+  const List = [
+    {
+      icon: SettingSvg,
+      title: '应用设置',
+      onPress: () => {},
+    },
+    {
+      icon: AboutSvg,
+      title: '关于应用',
+      onPress: () => {},
+    },
+    {
+      icon: UpdateSvg,
+      title: '检查更新',
+      onPress: async () => {
+        global.$updateScreen.show()
+      },
+    },
+  ]
 
   return (
     <View className={'space-y-2'}>
