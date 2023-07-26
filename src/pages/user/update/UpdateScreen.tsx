@@ -71,7 +71,7 @@ const ConfirmUpdateDialog = (props: {
         <SecondaryText>
           更新内容:
           {'\n'}
-          {props.update?.manifest?.extra?.['update-message']}
+          {props.update?.manifest?.extra['update-message']}
         </SecondaryText>
       </Dialog.Content>
       <Dialog.Actions>
