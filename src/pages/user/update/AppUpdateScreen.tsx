@@ -1,12 +1,12 @@
 import { SecondaryText } from '@/components/Text/SecondaryText'
-import { useUpdate } from '@/shared/hooks/useUpdate'
+import { useAppUpdate } from '@/shared/hooks/useAppUpdate'
 import { Button, Dialog } from 'react-native-paper'
 import { UpdateCheckResult } from 'expo-updates'
 import { getQAQFont } from '@/shared/utils/utils'
 
-const UpdateScreen = () => {
+const AppUpdateScreen = () => {
   const { visible, updateStatus, error, update, handleUpdate, hideModal } =
-    useUpdate()
+    useAppUpdate()
 
   return (
     visible && (
@@ -130,4 +130,4 @@ const UpdateUnavailableDialog = (props: {
   )
 }
 
-export default UpdateScreen
+export default AppUpdateScreen

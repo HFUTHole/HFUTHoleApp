@@ -23,7 +23,7 @@ export function MoreServiceList() {
       icon: UpdateSvg,
       title: '检查更新',
       onPress: async () => {
-        global.$updateScreen.show()
+        global.$appUpdateScreen.show()
       },
     },
   ]
