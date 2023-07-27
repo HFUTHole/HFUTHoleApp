@@ -3,11 +3,17 @@ import { useAppUpdate } from '@/shared/hooks/useAppUpdate'
 import { Button, Dialog } from 'react-native-paper'
 import { UpdateCheckResult } from 'expo-updates'
 import { getQAQFont } from '@/shared/utils/utils'
+import { useEffect } from 'react'
 
 const AppUpdateScreen = ({ visible, setVisible }) => {
-  const { updateStatus, error, update, handleUpdate, hideModal } = useAppUpdate(
-    { visible, setVisible }
-  )
+  const { updateStatus, error, update, checkUpdate, handleUpdate, hideModal } =
+    useAppUpdate({ visible, setVisible })
+
+  useEffect(() => {
+    if (visible) {
+      checkUpdate()
+    }
+  }, [checkUpdate, visible])
 
   return (
     visible && (

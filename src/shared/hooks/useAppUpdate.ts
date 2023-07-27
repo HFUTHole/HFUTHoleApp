@@ -46,6 +46,7 @@ export const useAppUpdate = ({ visible, setVisible }) => {
     updateStatus,
     error,
     update,
+    checkUpdate,
     handleUpdate,
     hideModal,
   }
