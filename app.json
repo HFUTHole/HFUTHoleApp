@@ -36,10 +36,5 @@
       }
     },
     "owner": "snowingfox",
-    "androidNavigationBar": {
-      "visible": true,
-      "barStyle": "dark-content",
-      "backgroundColor": "white"
-    }
   }
 }
