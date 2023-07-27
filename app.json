@@ -14,10 +14,12 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1",
       "supportsTablet": true,
       "bundleIdentifier": "com.hfuthole.app"
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/splash.png"
       },
@@ -33,13 +35,22 @@
     "extra": {
       "eas": {
         "projectId": "dba5ed50-696a-4891-ab2e-cd94660925e7"
-      }
+      },
+      "update-message": ""
+    },
+    "owner": "snowingfox",
+    "updates": {
+      "url": "",
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
     },
     "owner": "snowingfox",
     "androidNavigationBar": {
       "visible": true,
       "barStyle": "dark-content",
       "backgroundColor": "white"
+    "runtimeVersion": {
+      "policy": "nativeVersion"
     }
   }
 }
