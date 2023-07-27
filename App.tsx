@@ -16,7 +16,6 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { PortalProvider } from '@gorhom/portal'
 import { KeyboardContextProvider } from '@/shared/context/keyboard'
 import { BottomCommentContext } from '@/shared/context/hole/comment'
-import AppUpdateScreen from '@/pages/user/update/AppUpdateScreen'
 
 setupGlobalConfig()
 
@@ -37,7 +36,6 @@ const App = () => {
                             <GestureHandlerRootView style={{ flex: 1 }}>
                               <BottomSheetModalProvider>
                                 <Layout />
-                                <AppUpdateScreen />
                               </BottomSheetModalProvider>
                             </GestureHandlerRootView>
                           </StatusBarContextProvider>

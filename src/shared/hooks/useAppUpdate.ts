@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import * as Updates from 'expo-updates'
 
-export const useAppUpdate = () => {
-  const [visible, setVisible] = useState(false)
+export const useAppUpdate = ({ visible, setVisible }) => {
   const [updateStatus, setUpdateStatus] = useState('')
   const [error, setError] = useState('')
   const [update, setUpdate] = useState<Updates.UpdateCheckResult | undefined>()
@@ -40,23 +39,7 @@ export const useAppUpdate = () => {
     setUpdateStatus('')
     setError('')
     setUpdate(undefined)
-  }, [])
-
-  useEffect(() => {
-    const showUpdateScreen = () => {
-      checkUpdate()
-      setVisible(true)
-    }
-
-    global.$appUpdateScreen = {
-      show: showUpdateScreen,
-      hide: hideModal,
-    }
-
-    return () => {
-      global.$appUpdateScreen = undefined
-    }
-  }, [checkUpdate, hideModal])
+  }, [setVisible])
 
   return {
     visible,

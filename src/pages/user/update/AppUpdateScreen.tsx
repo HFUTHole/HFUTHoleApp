@@ -4,9 +4,10 @@ import { Button, Dialog } from 'react-native-paper'
 import { UpdateCheckResult } from 'expo-updates'
 import { getQAQFont } from '@/shared/utils/utils'
 
-const AppUpdateScreen = () => {
-  const { visible, updateStatus, error, update, handleUpdate, hideModal } =
-    useAppUpdate()
+const AppUpdateScreen = ({ visible, setVisible }) => {
+  const { updateStatus, error, update, handleUpdate, hideModal } = useAppUpdate(
+    { visible, setVisible }
+  )
 
   return (
     visible && (
