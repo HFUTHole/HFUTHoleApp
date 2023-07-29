@@ -2,13 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
 import { View } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
-import {
-  Button,
-  IconButton,
-  Text,
-  TouchableRipple,
-  useTheme,
-} from 'react-native-paper'
+import { Button, Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { CommentIcon, LikeIcon } from '@/components/icon'
 import { Badges } from '@/components/Badges'
 import { TimeText } from '@/components/Text/Time'

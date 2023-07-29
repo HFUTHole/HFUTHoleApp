@@ -23,8 +23,9 @@ interface Props {
   reqFunc: AwaitFunc
   bottom?: ReactNode
   selectable?: boolean
-  onBodyPress?: (data: Data) => AwaitAble
+  onBodyPress?: (data: Data) => AwaitAble<void>
   onLikePress?: () => AwaitAble
+  onLikeSuccess?: () => AwaitAble
   isReply?: boolean
 }
 
@@ -35,10 +36,12 @@ export function CommentItem({
   onBodyPress,
   reqFunc,
   onLikePress,
+  onLikeSuccess,
   isReply,
 }: Props) {
   const mutation = useMutation({
     mutationFn: () => reqFunc({ id: data.id }),
+    onSuccess: onLikeSuccess,
   })
 
   const onLikeIconPress = () => {
@@ -79,10 +82,10 @@ export function CommentItem({
                 <ImageList imgs={data.imgs} />
                 <ReplyBody data={data as IHoleReplyListItem} />
               </View>
-              <View className={'flex flex-row items-center space-x-1'}>
+              <View className={'flex flex-row items-center space-x-1 py-2'}>
                 <LikeIcon
                   active={data.isLiked}
-                  size={14}
+                  size={16}
                   onPress={onLikeIconPress}
                 />
                 <View>

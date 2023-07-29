@@ -4,7 +4,6 @@ import {
   type ApexChartsInstance,
 } from '@/components/apexcharts'
 import { useAppSelector } from '@/store/store'
-import { useScoreContext } from '@/pages/space/score/ScoreContext'
 import { floatFixed } from '@/shared/utils/utils'
 import { useEffect, useMemo, useRef } from 'react'
 import { formatSemester } from '@/pages/space/@utils/utils'
@@ -46,7 +45,7 @@ const getOptions = (series: ApexAxisChartSeries[], categories: string[]) => `
 }
 `
 
-const seriesMap: { key: keyof Rank; name: string }[] = [
+const seriesMap: { key: keyof RankInfo; name: string }[] = [
   { key: 'mine', name: '我的' },
   { key: 'avg', name: '平均' },
   { key: 'head', name: '前10%' },
@@ -54,11 +53,12 @@ const seriesMap: { key: keyof Rank; name: string }[] = [
 ]
 
 const useChart = () => {
-  const { rankType, scoreType } = useScoreContext()
-  const semesters = useAppSelector((state) => state.spaceScore.semesters)
+  const { semesters, rankType, scoreType } = useAppSelector(
+    (state) => state.spaceScore
+  )
 
   const series = useMemo<ApexAxisChartSeries[]>(() => {
-    const getSeriesData = (key: keyof Rank) =>
+    const getSeriesData = (key: keyof RankInfo) =>
       semesters
         .map((semester) => {
           const rankData =

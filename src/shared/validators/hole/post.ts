@@ -25,11 +25,6 @@ class VoteItem {
 }
 
 export class HolePostVoteClassValidator {
-  @MinDate(() => new Date(), { message: '结束时间不能早于当前时间哦' })
-  @IsDate()
-  @IsOptional()
-  endTime: Date = null
-
   @ArrayMaxSize(Limit.holeVoteMaxLength, {
     message: `最多只能创建${Limit.holeVoteMaxLength}个选项哦`,
   })

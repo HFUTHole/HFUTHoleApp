@@ -52,14 +52,14 @@ export function useHoleList() {
 }
 
 export function useHoleDetail() {
-  const params = useParams<{ id: number }>()
+  const params = useParams<{ id: number; holeId?: number }>()
 
   const client = useQueryClient()
 
-  const key = [SWRKeys.hole.detail, params.id]
+  const key = [SWRKeys.hole.detail, params.id, params.holeId]
 
   const query = useQuery(key, {
-    queryFn: () => GetHoleDetailRequest({ id: params.id }),
+    queryFn: () => GetHoleDetailRequest({ id: params.holeId || params.id }),
   })
   const invalidate = async () => {
     await client.invalidateQueries(key)

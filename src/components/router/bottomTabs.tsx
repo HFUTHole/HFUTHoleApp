@@ -3,15 +3,16 @@ import { RipplePressable } from '@/components/RipplePressable'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { BottomTabBarIcon } from '@/components/router/bottomTabBarIcon'
 import { useBaseNotificationsQuery } from '@/swr/notify/useBaseNotifications'
-
-import { Text, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { Badge } from '@/components/Badge'
 import { useRef } from 'react'
 import { useMount } from 'ahooks'
 
+// TODO: Theming
 export const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
   const { totalCount, refetch } = useBaseNotificationsQuery()
   const timer = useRef<ReturnType<typeof setInterval>>()
+  const theme = useTheme()
 
   useMount(() => {
     if (timer.current) {
@@ -44,9 +45,10 @@ export const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
 
         return (
           <RipplePressable
-            onPress={onPress}
             key={index}
-            className={'flex-1 rounded-full'}
+            onPress={onPress}
+            className={'flex-1'}
+            rippleColor={theme.colors.onBackground}
           >
             <View
               className={'flex flex-1 items-center justify-center rounded-full'}

@@ -1,13 +1,19 @@
+enum NotifyEventType {
+  comment = 'comment',
+  reply = 'reply',
+  like = 'like',
+}
+
 declare interface INotifyInteractionListResponse {
   items: Item[]
   meta: Meta
 }
 
-interface INotifyInteractionListItem {
+declare interface INotifyInteractionListItem {
   id: string
   createAt: string
   isRead: boolean
-  type: string
+  type: NotifyEventType
   body: string
   creator: IUser
   hole?: Hole

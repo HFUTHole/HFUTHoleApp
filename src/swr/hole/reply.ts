@@ -3,19 +3,22 @@ import { InfiniteData, useInfiniteQuery, useQueryClient } from 'react-query'
 import { GetHoleReplyRequest, SearchHoleRequest } from '@/request/apis/hole'
 import { SWRKeys } from '@/swr/utils'
 import { Updater } from 'react-query/types/core/utils'
+import { HoleReplyListRouteParams } from '@/shared/types/interface/ReplyListRouteParams.interface'
+import { useBaseInfiniteQuery } from '@/swr/useBaseInfiniteQuery'
 
 export const useHoleReplyList = () => {
-  const params = useParams<{ commentId: string }>()
+  const params = useParams<HoleReplyListRouteParams>()
 
-  const id = params.commentId
-  const key = [SWRKeys.hole.getCommentReply, id]
+  const key = [SWRKeys.hole.getCommentReply, params.commentId, params.replyId]
 
-  const query = useInfiniteQuery(key, {
+  const query = useBaseInfiniteQuery({
+    queryKey: key,
     queryFn: ({ pageParam = 1 }) => {
       return GetHoleReplyRequest({
         limit: 10,
         page: pageParam,
-        id,
+        id: params.commentId,
+        replyId: params.replyId,
       })
     },
     getNextPageParam: (lastPages) => {
@@ -30,22 +33,9 @@ export const useHoleReplyList = () => {
     refetchOnMount: true,
   })
 
-  const isDataEmpty = query.data?.pages?.[0]?.items.length > 0
+  const comment = query.data?.pages?.[0]?.comment
 
   const client = useQueryClient()
-
-  const invalidateQuery = async (onlyFirstGroup = true) => {
-    client.setQueryData<InfiniteData<IHoleListResponse>>(key, (oldData) => {
-      if (onlyFirstGroup) {
-        // 确保刷新时只更换第一组数据，其他组的数据全都销毁
-        oldData.pages = oldData.pages.slice(0, 1)
-      }
-      return oldData
-    })
-    await client.invalidateQueries(key, {
-      refetchPage: (lastPage, index) => index === 0,
-    })
-  }
 
   const invalidAll = async () => {
     await client.invalidateQueries(key)
@@ -59,17 +49,8 @@ export const useHoleReplyList = () => {
     await Promise.all([await query.refetch()])
   }
 
-  const setData = async <T = InfiniteData<IHoleReplyListResponse>>(
-    updater: Updater<T | undefined, T>
-  ) => {
-    await client.setQueryData<InfiniteData<IHoleCommentListResponse>>(
-      key,
-      updater as any
-    )
-  }
-
   const setIsLiked = async (data: IHoleReplyListItem, pageIndex = 0) => {
-    await setData((oldData) => {
+    await query.setData((oldData) => {
       const pageTarget = oldData?.pages?.[pageIndex]
 
       if (pageTarget) {
@@ -90,17 +71,16 @@ export const useHoleReplyList = () => {
         }
       }
 
-      return oldData
+      return oldData!
     })
   }
 
   return {
     ...query,
-    invalidateQuery,
+    comment,
     invalidAll,
     onRefresh,
     onTopRefresh,
-    isDataEmpty,
     setIsLiked,
   }
 }

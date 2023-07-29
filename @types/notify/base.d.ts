@@ -1,6 +1,6 @@
 declare interface IGetBaseNotificationsResponse {
-  interaction: Interaction
-  system: System
+  interaction: Interaction | null
+  system: System | null
 }
 
 interface Interaction {

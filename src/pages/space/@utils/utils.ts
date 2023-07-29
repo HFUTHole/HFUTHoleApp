@@ -1,8 +1,10 @@
-import type { Colors } from '@/pages/space/@utils/types'
 import { addDays, differenceInCalendarDays } from 'date-fns'
 import { VisibleSchedule } from '@/store/reducer/spaceCourse'
 import { ellipsisString } from '@/shared/utils/string'
 import { StyleSheet } from 'react-native'
+import { objectMap, floatFixed } from '@/shared/utils/utils'
+import type { Colors } from '@/pages/space/@utils/types'
+import type { ScoreType, RankType } from '@/pages/space/score/ScoreContext'
 
 export const DAY_HOURS = [
   { start: '08:00', index: 1 },
@@ -132,4 +134,34 @@ export function getLongestSchedule<T extends { period: number }>(
 export const formatSemester = (semester: string) => {
   const regRes = /20([0-9]{2})-20[0-9]{2}学年第(.{1})学期/.exec(semester)
   return `${regRes![1]}-${regRes![2].replace('一', '1').replace('二', '2')}`
+}
+
+export interface FormatScoreParms {
+  rankType: RankType
+  scoreType: ScoreType
+  compulsoryRank: Rank
+  totalRank: Rank
+}
+
+export function formatScore({
+  compulsoryRank,
+  rankType,
+  scoreType,
+  totalRank,
+}: FormatScoreParms) {
+  const rankData = rankType === 'compulsory' ? compulsoryRank : totalRank
+  return {
+    // 参与计算的总人数使用total字段
+    total: rankData.total,
+    ...(objectMap(
+      scoreType === 'score' ? rankData.score : rankData.gpa,
+      (value) => {
+        if (value.toString().includes('.')) {
+          return floatFixed(value)
+        } else {
+          return value
+        }
+      }
+    ) as RankInfo),
+  }
 }

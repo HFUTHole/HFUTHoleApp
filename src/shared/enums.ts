@@ -28,3 +28,9 @@ export enum ArticleCategoryEnum {
   love = '你的名字',
   ACG = 'ACG',
 }
+
+export enum NotifyEventType {
+  comment = 'comment',
+  reply = 'reply',
+  like = 'like',
+}

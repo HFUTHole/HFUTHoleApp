@@ -1,13 +1,15 @@
-import { Image, useWindowDimensions, View, StatusBar } from 'react-native'
+import { Image, View, StatusBar } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useUserFavoriteHoleList, useUserPostedHoleList } from '@/swr/user/hole'
 import { useUserProfile } from '@/swr/user/profile'
-import { Tabs, type Tab } from '@/pages/user/profile/Tabs'
+import { TabView, type Tab } from '@/components/TabView'
 import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { MyAvatar } from '@/components/UserAvatar'
-import { Text, TouchableRipple } from 'react-native-paper'
+import { Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { PrimaryText } from '@/components/Text/PrimaryText'
 import { UserLevelBar } from '@/pages/user/components/UserLevelBar'
+import { useCallback } from 'react'
+import { TabBar } from 'react-native-tab-view'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
@@ -43,6 +45,29 @@ const tabs: Tab[] = [
 export function ProfileScreen() {
   const { isLoading } = useUserPostedHoleList()
   const { data: userData } = useUserProfile()
+  const theme = useTheme()
+
+  const renderTabBar = useCallback(
+    (props) => {
+      return (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: theme.colors.primary }}
+          inactiveColor={theme.colors.surfaceVariant}
+          activeColor={theme.colors.primary}
+          style={{
+            backgroundColor: 'white',
+            borderTopWidth: 1,
+            borderTopColor: '#f0f0f0',
+            borderBottomWidth: 1,
+            borderBottomColor: '#f0f0f0',
+            shadowColor: 'white',
+          }}
+        />
+      )
+    },
+    [theme.colors]
+  )
 
   return (
     <LoadingScreen isLoading={isLoading}>
@@ -79,7 +104,7 @@ export function ProfileScreen() {
             </View>
           </View>
         </View>
-        <Tabs tabs={tabs} />
+        <TabView renderTabBar={renderTabBar} tabs={tabs} />
       </View>
     </LoadingScreen>
   )

@@ -72,7 +72,9 @@ export const HoleDetailCommentItem: React.FC<{
   }
 
   return (
-    <View className={'grid space-y-2'}>
+    <View
+      className={`grid space-y-2 ${data.isNotification && 'bg-surface/10'}`}
+    >
       <CommentItem
         data={data}
         onBodyPress={handleReply}

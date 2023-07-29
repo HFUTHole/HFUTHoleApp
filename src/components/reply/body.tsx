@@ -16,11 +16,11 @@ export function ReplyBody({ data }: Props) {
       <View className={'flex flex-row'}>
         {data.replyUser && (
           <>
-            <Text>回复 </Text>
+            <Text>回复</Text>
             <PrimaryText>@{data.replyUser.username}：</PrimaryText>
           </>
         )}
-        <EmojiableText body={data.body} />
+        <EmojiableText body={data.body} variant={'bodyMedium'} />
       </View>
     </>
   )

@@ -14,6 +14,7 @@ declare interface IHoleReplyListItem {
   isLiked: boolean
   replyUser: User
   imgs: string[]
+  isNotification: boolean | null
 }
 
 interface User {

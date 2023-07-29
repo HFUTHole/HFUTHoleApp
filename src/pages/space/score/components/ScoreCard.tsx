@@ -7,50 +7,15 @@ import {
   UserFriendsIcon,
   FireIcon,
 } from '@/components/icon'
-import { useAppSelector } from '@/store/store'
-import { useMemo, type ReactNode } from 'react'
-import { objectMap, floatFixed } from '@/shared/utils/utils'
-import {
-  useScoreContext,
-  type ScoreType,
-} from '@/pages/space/score/ScoreContext'
-
-interface ScoreInfo {
-  key: keyof Rank
-  title: string
-  Icon: ReactNode
-}
+import { useAppSelector, useAppDispatch } from '@/store/store'
+import { setScoreType, type ScoreType } from '@/store/reducer/spaceScore'
+import { useMemo } from 'react'
+import { formatScore } from '@/pages/space/@utils/utils'
+import type { ScoreInfo } from '@/pages/space/@utils/types'
 
 interface ToggleButton {
   key: ScoreType
   title: string
-}
-
-const useScoreCard = () => {
-  const { rankType, scoreType, setScoreType } = useScoreContext()
-  const { compulsoryRank, totalRank } = useAppSelector(
-    (state) => state.spaceScore
-  )
-
-  const scoreData = useMemo(() => {
-    const rankData = rankType === 'compulsory' ? compulsoryRank : totalRank
-    return objectMap(
-      scoreType === 'score' ? rankData.score : rankData.gpa,
-      (value) => {
-        if (value.toString().includes('.')) {
-          return floatFixed(value)
-        } else {
-          return value
-        }
-      }
-    ) as Rank
-  }, [compulsoryRank, rankType, scoreType, totalRank])
-
-  return {
-    scoreData,
-    scoreType,
-    setScoreType,
-  }
 }
 
 const toggleButtons: ToggleButton[] = [
@@ -82,7 +47,21 @@ const scoreInfos: ScoreInfo[] = [
 ]
 
 export const ScoreCard = () => {
-  const { scoreData, scoreType, setScoreType } = useScoreCard()
+  const dispatch = useAppDispatch()
+  const { compulsoryRank, totalRank, rankType, scoreType } = useAppSelector(
+    (state) => state.spaceScore
+  )
+
+  const scoreData = useMemo(
+    () =>
+      formatScore({
+        compulsoryRank,
+        rankType,
+        scoreType,
+        totalRank,
+      }),
+    [compulsoryRank, rankType, scoreType, totalRank]
+  )
 
   return (
     <Card>
@@ -94,7 +73,7 @@ export const ScoreCard = () => {
             {toggleButtons.map((button) => (
               <Pressable
                 key={button.key}
-                onPress={() => setScoreType(button.key)}
+                onPress={() => dispatch(setScoreType(button.key))}
                 className={`py-1 px-4 rounded-md ${
                   button.key === scoreType ? 'bg-[#4e73f6]' : ''
                 }`}
@@ -108,7 +87,7 @@ export const ScoreCard = () => {
         <Text
           variant="headlineMedium"
           className="text-white font-bold"
-        >{`${scoreData.rank}/${scoreData.actualNum}`}</Text>
+        >{`${scoreData.rank}/${scoreData.total}`}</Text>
 
         <View className="flex flex-row justify-between rounded-md mt-2 p-2 bg-[#4e73f6]">
           {scoreInfos.map((info) => (

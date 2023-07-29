@@ -50,7 +50,7 @@ export function HoleVoteItem({ data, onPress, hole }: Props) {
   const onSuccess = () => {
     if (setData && !vote.isVoted && !vote.isExpired) {
       setData((prev) => {
-        if (!prev.pages) {
+        if (!prev!.pages) {
           const item = prev as unknown as IHoleDetailResponse
           if (item) {
             item.vote.isVoted = true
@@ -64,7 +64,7 @@ export function HoleVoteItem({ data, onPress, hole }: Props) {
           }
         }
 
-        for (const page of prev.pages) {
+        for (const page of prev!.pages) {
           const item = page.items.find((pageItem) => pageItem.id === hole.id)
           if (item) {
             item.vote.isVoted = true
@@ -78,7 +78,7 @@ export function HoleVoteItem({ data, onPress, hole }: Props) {
           }
         }
 
-        return prev
+        return prev!
       })
     }
   }

@@ -16,9 +16,8 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   const [category, setCategory] = useState<ArticleCategoryEnum>(
     ArticleCategoryEnum.hfutLife
   )
-  const [votes, setVotes] = useImmer<HolePostVoteClassValidator>({
+  const [votes, setVotes] = useState<HolePostVoteClassValidator>({
     items: [],
-    endTime: new Date(),
   })
 
   const {

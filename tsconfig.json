@@ -10,7 +10,9 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "strict": true,
+    "noImplicitAny": true
   },
   "extends": "expo/tsconfig.base",
   "include": [

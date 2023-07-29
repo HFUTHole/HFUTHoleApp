@@ -82,3 +82,5 @@ export const UserFriendsIcon = withFontAV5Icon('user-friends')
 export const FireIcon = withFontAV5Icon('fire-alt')
 
 export const AwardIcon = withFontAV5Icon('award')
+
+export const ChartBar = withFontAV5Icon('chart-bar')

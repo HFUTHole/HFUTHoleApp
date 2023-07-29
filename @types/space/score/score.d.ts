@@ -1,17 +1,17 @@
 declare interface IScoreResponse {
-  compulsoryRank: CompulsoryRank
+  compulsoryRank: Rank
   calculateLogs: CalculateLog[]
-  totalRank: TotalRank
+  totalRank: Rank
   semesters: Semester[]
 }
 
-interface CompulsoryRank {
-  score: Rank
-  gpa: Rank
+interface Rank {
+  score: RankInfo
+  gpa: RankInfo
   total: number
 }
 
-interface Rank {
+interface RankInfo {
   rank: number
   mine: number
   max: number
@@ -25,17 +25,11 @@ interface CalculateLog {
   scoreDetails: string[]
 }
 
-interface TotalRank {
-  score: Rank
-  gpa: Rank
-  total: number
-}
-
 interface Semester {
   semester: string
   semesterId: number
-  compulsoryRank: CompulsoryRank
-  totalRank: TotalRank
+  compulsoryRank: Rank
+  totalRank: Rank
   scores: SemesterScore[]
 }
 

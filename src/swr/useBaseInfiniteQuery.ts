@@ -7,6 +7,8 @@ import {
 import { Updater } from 'react-query/types/core/utils'
 import { SetDataOptions } from 'react-query/types/core/types'
 import { ListResponseAble } from '@/shared/types/utils'
+import { flatInfiniteQueryData } from '@/swr/utils'
+import { InferArrayItem } from '@/shared/types'
 
 interface Options<T extends ListResponseAble>
   extends UseInfiniteQueryOptions<T> {}
@@ -32,6 +34,10 @@ export function useBaseInfiniteQuery<T extends ListResponseAble>(
     ...options,
   })
 
+  const flattenData = flatInfiniteQueryData<InferArrayItem<T['items']>>(
+    query.data
+  )
+
   const client = useQueryClient()
 
   const invalidateQuery = async () => {
@@ -55,6 +61,7 @@ export function useBaseInfiniteQuery<T extends ListResponseAble>(
   return {
     ...query,
     client,
+    flattenData,
     invalidateQuery,
     setData,
   }

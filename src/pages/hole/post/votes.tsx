@@ -43,8 +43,8 @@ export function HolePostVote() {
   }
 
   const onSubmit = (data: HolePostVoteClassValidator) => {
-    setVotes((draft) => {
-      draft.items = data.items
+    setVotes({
+      items: data.items,
     })
     close()
   }
@@ -56,8 +56,8 @@ export function HolePostVote() {
   const handleDelete = () => {
     remove(fields.map((_, index) => index))
     append({ value: '' })
-    setVotes((draft) => {
-      draft.items = []
+    setVotes({
+      items: [],
     })
   }
 
@@ -74,8 +74,8 @@ export function HolePostVote() {
             <View className={'p-0 grid space-y-2'}>
               <View className={'grid space-y-2'}>
                 <View>
-                  {errors.items?.length > 0 ||
-                    (errors.items?.message.length > 0 && (
+                  {errors.items?.length! > 0 ||
+                    (errors.items?.message?.length! > 0 && (
                       <Snackbar
                         text={
                           errors.items[0]?.message ||
