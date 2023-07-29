@@ -15,16 +15,22 @@ export function HoleLatest() {
   const listRef = createRef()
 
   const CONTENT_OFFSET_THRESHOLD = 500
-  const PostFABOffset = useSharedValue(0)
+  const [PostFABOffset, setPostFABOffset] = useState(0)
   const [isToTopFABVisible, setToTopFABVisible] = useState(false)
 
-  const scrollHandler = (event) => {
+  const scrollHandler = (event: {
+    nativeEvent: { contentOffset: { y: number } }
+  }) => {
     if (event.nativeEvent.contentOffset.y > CONTENT_OFFSET_THRESHOLD) {
-      PostFABOffset.value = -70
-      setToTopFABVisible(true)
+      {
+        setPostFABOffset(-70)
+        setToTopFABVisible(true)
+      }
     } else {
-      setToTopFABVisible(false)
-      PostFABOffset.value = 0
+      {
+        setToTopFABVisible(false)
+        setPostFABOffset(0)
+      }
     }
   }
 
@@ -41,7 +47,7 @@ export function HoleLatest() {
         {...query}
         onScroll={scrollHandler}
       />
-      <AnimatedHolePostFAB offset={PostFABOffset.value} />
+      <AnimatedHolePostFAB offset={PostFABOffset} />
       <AnimatedToTopFAB
         visible={isToTopFABVisible}
         goToTop={scrollToTopHandler}
