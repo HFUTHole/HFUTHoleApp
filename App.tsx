@@ -16,6 +16,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { PortalProvider } from '@gorhom/portal'
 import { KeyboardContextProvider } from '@/shared/context/keyboard'
 import { BottomCommentContext } from '@/shared/context/hole/comment'
+import { AppUpdater } from '@/components/Update/AppUpdateScreen'
 
 setupGlobalConfig()
 
@@ -27,7 +28,7 @@ const App = () => {
           <PortalProvider>
             <PaperProvider>
               <NavigationContainer>
-                <Updater>
+                <AppUpdater>
                   <KeyboardContextProvider>
                     <HolePostContextProvider>
                       <BottomCommentContext>
@@ -43,7 +44,7 @@ const App = () => {
                       </BottomCommentContext>
                     </HolePostContextProvider>
                   </KeyboardContextProvider>
-                </Updater>
+                </AppUpdater>
               </NavigationContainer>
             </PaperProvider>
           </PortalProvider>

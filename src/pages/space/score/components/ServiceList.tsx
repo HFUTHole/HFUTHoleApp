@@ -1,6 +1,3 @@
-import { View } from 'react-native'
-import BilibiliSvg from '@/assets/svg/home/bilibili.svg'
-import ScoreInterview from '@/assets/svg/space/score_interview.svg'
 import FailureFate from '@/assets/svg/space/failure_rate.svg'
 import CustomRanking from '@/assets/svg/space/custom_ranking.svg'
 import Help from '@/assets/svg/space/help.svg'
@@ -13,39 +10,39 @@ import { useNavigation } from '@react-navigation/native'
 const serviceList = [
   {
     title: '成绩概览',
-    svg: ScoreInterview,
+    svg: ChartSvg,
     route: 'space-nested',
     routeOption: {
       screen: 'score-overview',
     },
   },
-  {
-    title: '挂科率查询',
-    svg: FailureFate,
-    route: 'space-nested',
-    routeOption: {
-      screen: 'failure-rate',
-    },
-  },
-  {
-    title: '自定义排名',
-    svg: CustomRanking,
-    route: 'space-nested',
-    routeOption: {
-      screen: 'custom-ranking',
-    },
-  },
-  {
-    title: '成绩帮助',
-    svg: Help,
-    route: 'space-nested',
-    routeOption: {
-      screen: 'help',
-      params: {
-        type: 'score',
-      },
-    },
-  },
+  // {
+  //   title: '挂科率查询',
+  //   svg: FailureFate,
+  //   route: 'space-nested',
+  //   routeOption: {
+  //     screen: 'failure-rate',
+  //   },
+  // },
+  // {
+  //   title: '自定义排名',
+  //   svg: CustomRanking,
+  //   route: 'space-nested',
+  //   routeOption: {
+  //     screen: 'custom-ranking',
+  //   },
+  // },
+  // {
+  //   title: '成绩帮助',
+  //   svg: Help,
+  //   route: 'space-nested',
+  //   routeOption: {
+  //     screen: 'help',
+  //     params: {
+  //       type: 'score',
+  //     },
+  //   },
+  // },
   // {
   //   title: '挂科率查询',
   //   svg: ChartSvg,

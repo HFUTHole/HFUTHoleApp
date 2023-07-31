@@ -19,26 +19,26 @@ export function UserIcons() {
         title: '小宇宙',
         icon: AppDenoSvg,
         children: [
-          {
-            title: '我的喜欢',
-            onPress: () => {},
-            svg: StarSvg,
-          },
-          {
-            title: '我的发表',
-            route: '',
-            svg: PostSvg,
-          },
+          // {
+          //   title: '我的喜欢',
+          //   onPress: () => {},
+          //   svg: StarSvg,
+          // },
+          // {
+          //   title: '我的发表',
+          //   route: '',
+          //   svg: PostSvg,
+          // },
           {
             title: '我的评论',
             onPress: route.goCommentScreen,
             svg: ReplySvg,
           },
-          {
-            title: '草稿箱',
-            route: '',
-            svg: DraftSvg,
-          },
+          // {
+          //   title: '草稿箱',
+          //   route: '',
+          //   svg: DraftSvg,
+          // },
         ],
       },
       // {

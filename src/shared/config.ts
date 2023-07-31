@@ -1,6 +1,6 @@
 export const Config = {
   request: {
-    baseURL: 'http://10.69.74.185:8000/',
+    baseURL: 'http://192.168.0.102:8000/',
     imgBaseURL: 'http://121.5.130.107:8080/',
     spaceBaseURL: 'https://hfut-space.top/',
     spaceLoginBaseURL: 'https://hfut-space.top/',
