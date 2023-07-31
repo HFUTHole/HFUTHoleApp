@@ -14,6 +14,7 @@ web-build/
 android/
 ios/
 .vscode/
+updates/
 
 # macOS
 .DS_Store
