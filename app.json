@@ -40,7 +40,7 @@
     },
     "owner": "snowingfox",
     "updates": {
-      "url": "",
+      "url": "http://42.192.127.54:8082/api/manifest",
       "enabled": true,
       "fallbackToCacheTimeout": 0
     },
