@@ -21,9 +21,24 @@ export function useUserProfileRoute() {
     linkTo('/user-nested/edit-username')
   }
 
+  const goSettingsScreen = () => {
+    linkTo('/user-nested/settings')
+  }
+
+  const goAboutScreen = () => {
+    linkTo('/user-nested/about')
+  }
+
+  const goCommentScreen = () => {
+    linkTo('/user-nested/comments')
+  }
+
   return {
     goTo,
     goEditScreen,
     goEditUsernameScreen,
+    goSettingsScreen,
+    goAboutScreen,
+    goCommentScreen,
   }
 }

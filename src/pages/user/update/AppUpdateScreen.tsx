@@ -7,7 +7,7 @@ import React, { useEffect } from 'react'
 
 interface Props {
   visible: boolean
-  setVisible: React.Dispatch<boolean>
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AppUpdateScreen = ({ visible, setVisible }: Props) => {
@@ -20,31 +20,31 @@ const AppUpdateScreen = ({ visible, setVisible }: Props) => {
     }
   }, [checkUpdate, visible])
 
-  return (
-    visible && (
-      <>
-        <CheckUpdateDialog
-          visible={updateStatus === 'checking'}
-          onDismiss={hideModal}
-        />
-        <ConfirmUpdateDialog
-          visible={updateStatus === 'available'}
-          onDismiss={hideModal}
-          onContinue={handleUpdate}
-          update={update}
-        />
-        <HandleUpdateDialog visible={updateStatus === 'handling'} />
-        <UpdateUnavailableDialog
-          visible={updateStatus === 'unavailable'}
-          onDismiss={hideModal}
-        />
-        <UpdateErrorDialog
-          visible={updateStatus === 'error'}
-          onDismiss={hideModal}
-          error={error}
-        />
-      </>
-    )
+  return visible ? (
+    <>
+      <CheckUpdateDialog
+        visible={updateStatus === 'checking'}
+        onDismiss={hideModal}
+      />
+      <ConfirmUpdateDialog
+        visible={updateStatus === 'available'}
+        onDismiss={hideModal}
+        onContinue={handleUpdate}
+        update={update}
+      />
+      <HandleUpdateDialog visible={updateStatus === 'handling'} />
+      <UpdateUnavailableDialog
+        visible={updateStatus === 'unavailable'}
+        onDismiss={hideModal}
+      />
+      <UpdateErrorDialog
+        visible={updateStatus === 'error'}
+        onDismiss={hideModal}
+        error={error}
+      />
+    </>
+  ) : (
+    <></>
   )
 }
 

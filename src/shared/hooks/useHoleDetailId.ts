@@ -8,7 +8,7 @@ export function useHoleDetailId() {
   if (!isNumber(params.id)) {
     Toast.show({
       type: 'error',
-      text1: `树洞id #${params.id}不是数字`,
+      text1: `帖子id #${params.id}不是数字`,
     })
 
     return

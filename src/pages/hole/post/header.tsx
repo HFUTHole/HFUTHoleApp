@@ -38,7 +38,7 @@ export function HolePostHeader() {
     onSuccess(data) {
       Toast.show({
         type: 'success',
-        text1: (data.msg as string) || '成功发布树洞',
+        text1: (data.msg as string) || '成功发布帖子',
       })
       navigation.goBack()
     },

@@ -163,7 +163,7 @@ export const ScoreInfo = () => {
                     />
                   </View>
 
-                  <View className="flex flex-row justify-between rounded-md p-2 bg-white/10">
+                  <View className="flex flex-row justify-between rounded-md p-2 bg-white/20">
                     {rankInfos.map((info) => (
                       <View
                         key={info.key}

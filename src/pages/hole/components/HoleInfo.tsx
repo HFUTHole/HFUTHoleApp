@@ -18,6 +18,7 @@ import BilibiliSvg from '@/assets/svg/home/bilibili.svg'
 import { Svg } from '@/components/svg/Svg'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
+import { PrimaryText } from '@/components/Text/PrimaryText'
 
 type Data = IHole
 
@@ -79,18 +80,23 @@ const HoleInfoVote: React.FC<{ data: Data }> = ({ data }) => {
 
 export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
   return (
-    <View className={'flex flex-row justify-between'}>
-      <View className={'flex flex-row items-center space-x-3'}>
-        <UserAvatar url={data.user.avatar} />
-        <View className={'grid space-y-1'}>
-          <Text>{data.user.username}</Text>
-          <TimeText time={data.createAt} />
+    <>
+      <View className={'space-y-2'}>
+        <View className={'flex flex-row justify-between'}>
+          <View className={'flex flex-row items-center space-x-3'}>
+            <UserAvatar url={data.user.avatar} size={40} />
+
+            <View className={'grid space-y-1'}>
+              <Text>{data.user.username}</Text>
+              <TimeText time={data.createAt} />
+            </View>
+          </View>
+          <View>
+            <HoleBottomAction data={data as IHoleDetailResponse} />
+          </View>
         </View>
       </View>
-      <View>
-        <HoleBottomAction data={data as IHoleDetailResponse} />
-      </View>
-    </View>
+    </>
   )
 }
 
@@ -146,8 +152,15 @@ const HoleInfoBottom: React.FC<{ data: Data }> = React.memo(({ data }) => {
         ))}
       </View>
       <View className={'flex flex-row space-x-2 items-center'}>
-        {data.bilibili && <Svg SvgComponent={BilibiliSvg} size={20} />}
+        {data.bilibili && (
+          <View>
+            <Svg SvgComponent={BilibiliSvg} size={20} />
+          </View>
+        )}
         <Button mode={'text'}>{data?.category?.category}</Button>
+        <View>
+          <PrimaryText style={{ fontWeight: 'bold' }}>#{data.id}</PrimaryText>
+        </View>
       </View>
     </View>
   )

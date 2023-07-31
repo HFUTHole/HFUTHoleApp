@@ -7,6 +7,9 @@ import {
 import React from 'react'
 import { Header } from '@/components/Header'
 import { EditUsernameScreen } from '@/pages/user/profile/edit/EditProfileUsername'
+import { AboutScreen } from '@/pages/user/about/AboutScreen'
+import { SettingsScreen } from '@/pages/user/settings/SettingsScreen'
+import { UserCommentScreen } from '@/pages/user/comment/UserCommentScreen'
 
 const UserStack = createNativeStackNavigator()
 
@@ -34,6 +37,27 @@ const UserScreens: Screen[] = [
     component: EditUsernameScreen,
     options: {
       title: '更改用户名',
+    },
+  },
+  {
+    name: 'settings',
+    component: SettingsScreen,
+    options: {
+      title: '应用设置',
+    },
+  },
+  {
+    name: 'about',
+    component: AboutScreen,
+    options: {
+      title: '关于我们',
+    },
+  },
+  {
+    name: 'comments',
+    component: UserCommentScreen,
+    options: {
+      title: '发布的评论',
     },
   },
 ]

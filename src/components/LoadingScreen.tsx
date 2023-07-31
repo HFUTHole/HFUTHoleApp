@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Lottie from 'lottie-react-native'
 import { View } from 'react-native'
 import { SecondaryText } from '@/components/Text/SecondaryText'
+import { useBoolean } from 'ahooks'
 
 interface Props {
   isLoading: boolean
@@ -13,7 +14,7 @@ interface Props {
 
 export function LoadingScreen(props: Props) {
   const animationRef = useRef<Lottie>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, loadingActions] = useBoolean(props.isLoading)
 
   const lottieSource = useMemo(() => {
     const id = props.id || 0
@@ -26,10 +27,16 @@ export function LoadingScreen(props: Props) {
   }, [props.id])
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null
+
     if (!props.isLoading) {
-      setTimeout(() => {
-        setLoading(false)
+      timer = setTimeout(() => {
+        loadingActions.setFalse()
       }, 500)
+    }
+
+    return () => {
+      clearInterval(timer!)
     }
   }, [props.isLoading])
 

@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useEffect, useState } from 'react'
+import React, { ForwardedRef, forwardRef, useEffect, useState } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 import type { FlatListProps } from 'react-native'
 import { Func } from '@/shared/types'
@@ -8,6 +8,7 @@ import { RefreshIndicatorControl } from '@/components/RefreshIndicatorControl'
 type Props<T> = {
   onRefreshing?: Func
   onTopRefresh?: Func
+  fetchNextPage?: Func
   hasNextPage?: boolean
 } & FlatListProps<T>
 
@@ -27,7 +28,10 @@ function RefreshingFlatListInner<T = any>(
         return
       }
 
-      await props.onRefreshing()
+      // 兼容过去的 onRefreshing 获取下一页的写法
+      const fetchNextPageFn = props.onRefreshing || props.fetchNextPage
+
+      await fetchNextPageFn?.()
       setRefreshing(false)
     },
     { wait: 200 }
@@ -56,4 +60,9 @@ function RefreshingFlatListInner<T = any>(
   )
 }
 
-export const RefreshingFlatList = forwardRef(RefreshingFlatListInner)
+export const RefreshingFlatList = forwardRef(RefreshingFlatListInner) as <
+  T = any
+>(
+  props: Props<T>,
+  ref: ForwardedRef<FlatList>
+) => React.JSX.Element

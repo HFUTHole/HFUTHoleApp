@@ -95,14 +95,14 @@ const ScheduleCard = ({ schedule }: { schedule: CourseSchedule }) => {
   return (
     <View
       className={
-        'w-full h-full rounded-md px-1 py-1 justify-between items-center'
+        'w-full h-full rounded-md px-1 pt-2 pb-4 justify-between items-center'
       }
       style={[cardStyle, { height: schedule.height }]}
     >
       <Text style={textStyle} className="font-bold text-xs">
         {formatCourseName(schedule.courseName)}
       </Text>
-      <Text style={textStyle} className="text-xs opacity-80 font-bold">
+      <Text style={textStyle} className="text-[10px]">
         {formatRoom(schedule.room)}
       </Text>
     </View>

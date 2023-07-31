@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { View, Pressable } from 'react-native'
 import { Text } from 'react-native-paper'
-import { Page } from '@/pages/space/components/Page'
 import { useAppSelector } from '@/store/store'
 import { formatScore } from '@/pages/space/@utils/utils'
 import { TabView, type Tab } from '@/components/TabView'

@@ -7,7 +7,7 @@ import { SemesterScoreChart } from '@/pages/space/score/components/SemesterScore
 export const Score = () => {
   return (
     <ScoreScrollWrapper>
-      <View className={'w-screen px-2'}>
+      <View className={'w-screen px-4'}>
         <View className={'rounded-lg space-y-4'}>
           <ScoreCard />
           <View className={'bg-white px-4 py-2 rounded-lg'}>

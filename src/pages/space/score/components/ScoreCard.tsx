@@ -70,7 +70,10 @@ export const ScoreCard = () => {
 
         <Text className="text-white text-2xl">{`${scoreData.rank}/${scoreData.total}`}</Text>
 
-        <View className="flex flex-row justify-between rounded-md mt-2 p-2 bg-[#ffffff]/10">
+        <View
+          className="flex flex-row justify-between rounded-md mt-2 px-4 py-2"
+          style={{ backgroundColor: 'rgba(255, 255, 255, .15)' }}
+        >
           {scoreInfos.map((info) => (
             <View key={info.key}>
               <Text className="text-white/80 text-xs">{info.title}</Text>

@@ -16,7 +16,7 @@ import { forwardRef } from 'react'
 type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
   invalidateQuery: Func
   ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']
-  onScroll
+  onScroll?: Func
 }
 
 function RefreshableHoleListInner(
@@ -54,7 +54,7 @@ function RefreshableHoleListInner(
             ) : (
               <View>
                 <LoadMore
-                  text={'没有更多树洞了哦'}
+                  text={'没有更多帖子了哦'}
                   hasNextPage={hasNextPage!}
                 />
               </View>

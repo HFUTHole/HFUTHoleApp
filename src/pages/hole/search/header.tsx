@@ -81,7 +81,7 @@ export function HoleSearchHeader() {
               control={control}
               className={'text-xs'}
               cursorColor={theme.colors.primary}
-              placeholder={'搜索正文内容、#标签、#树洞号'}
+              placeholder={'搜索正文内容、#标签、#帖子号'}
               maxLength={100}
               onSubmitEditing={onHandleSubmit}
               autoFocus={true}

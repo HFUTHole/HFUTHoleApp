@@ -34,3 +34,10 @@ export function PostUserProfileRequest(data: {
     data,
   })
 }
+
+export function GetUserCommentListRequest() {
+  return request<IUserCommentListResponse>({
+    method: 'GET',
+    url: '/user/comments',
+  })
+}

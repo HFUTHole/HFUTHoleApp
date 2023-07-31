@@ -21,7 +21,7 @@ export class PostHoleValidator {
   @MaxLength(Limit.holeBodyMaxLength, {
     message: `最多只能有${Limit.holeBodyMaxLength}个字哦`,
   })
-  @MinLength(1, { message: '树洞至少要有一个字哦' })
+  @MinLength(1, { message: '帖子至少要有一个字哦' })
   @IsNotEmpty({ message: '不能为空哦' })
   body: string
 
@@ -56,7 +56,7 @@ export class PostHoleValidator {
   @IsOptional()
   bilibili?: string
 
-  @IsEnum(ArticleCategoryEnum, { message: '树洞分类不正确' })
+  @IsEnum(ArticleCategoryEnum, { message: '帖子分类不正确' })
   @IsOptional()
   category?: ArticleCategoryEnum
 }

@@ -11,6 +11,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
+import { PrimaryText } from '@/components/Text/PrimaryText'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
