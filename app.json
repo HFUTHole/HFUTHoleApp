@@ -21,7 +21,7 @@
     "android": {
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/splash.png"
+        "foregroundImage": "./assets/icon.png"
       },
       "permissions": [
         "WRITE_EXTERNAL_STORAGE",
