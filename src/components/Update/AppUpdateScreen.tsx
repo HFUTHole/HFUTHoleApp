@@ -39,13 +39,13 @@ export function AppUpdater({ children }: Props) {
   }, [])
 
   return (
-    <View>
+    <>
       <Dialog title={'有更新啦~'} visible={visible}>
         <View>
           <Text>将在5秒后自动更新哦</Text>
         </View>
       </Dialog>
       {children}
-    </View>
+    </>
   )
 }
