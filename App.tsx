@@ -28,23 +28,21 @@ const App = () => {
           <PortalProvider>
             <PaperProvider>
               <NavigationContainer>
-                <AppUpdater>
-                  <KeyboardContextProvider>
-                    <HolePostContextProvider>
-                      <BottomCommentContext>
-                        <NativeBaseProvider>
-                          <StatusBarContextProvider>
-                            <GestureHandlerRootView style={{ flex: 1 }}>
-                              <BottomSheetModalProvider>
-                                <Layout />
-                              </BottomSheetModalProvider>
-                            </GestureHandlerRootView>
-                          </StatusBarContextProvider>
-                        </NativeBaseProvider>
-                      </BottomCommentContext>
-                    </HolePostContextProvider>
-                  </KeyboardContextProvider>
-                </AppUpdater>
+                <KeyboardContextProvider>
+                  <HolePostContextProvider>
+                    <BottomCommentContext>
+                      <NativeBaseProvider>
+                        <StatusBarContextProvider>
+                          <GestureHandlerRootView style={{ flex: 1 }}>
+                            <BottomSheetModalProvider>
+                              <Layout />
+                            </BottomSheetModalProvider>
+                          </GestureHandlerRootView>
+                        </StatusBarContextProvider>
+                      </NativeBaseProvider>
+                    </BottomCommentContext>
+                  </HolePostContextProvider>
+                </KeyboardContextProvider>
               </NavigationContainer>
             </PaperProvider>
           </PortalProvider>
