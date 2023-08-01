@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form'
 import { TextInput, TextInputProps } from 'react-native'
 import { useEffect, useRef } from 'react'
+import { TextInputMask } from 'react-native-masked-text'
 
 type Props<T extends FieldValues> = {
   name: FieldPath<T>
@@ -27,10 +28,6 @@ export const NativeInput = <T extends object = PlainObject>({
   const theme = useTheme()
   const inputRef = useRef<TextInput>()
 
-  useEffect(() => {
-    inputRef.current!.focus()
-  }, [])
-
   return (
     <Controller
       name={name}
@@ -39,7 +36,8 @@ export const NativeInput = <T extends object = PlainObject>({
       render={({ field }) => (
         <>
           <TextInput
-            onBlur={field.onBlur}
+            type={'custom'}
+            onBlur={() => false}
             onChangeText={field.onChange}
             value={field.value}
             placeholderTextColor={theme.colors.surfaceVariant}

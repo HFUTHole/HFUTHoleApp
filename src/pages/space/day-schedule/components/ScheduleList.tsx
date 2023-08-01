@@ -29,14 +29,15 @@ interface CardProps {
 
 export const ScheduleList = () => {
   const { scheduleList, todaySchedule } = useDaySchedule()
-  const { onPrev, onNext } = useChangeDay()
-  const { onTouchStart, onTouchEnd } = useHorizontalGesture({ onPrev, onNext })
+  // const { onPrev, onNext } = useChangeDay()
+  // const { onTouchStart, onTouchEnd } = useHorizontalGesture({ onPrev, onNext })
 
   return (
     <View
       className="w-full h-full bg-white overflow-hidden mt-10 rounded-t-3xl py-5"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+      // 在 ScrollView 下，onTouchEnd 很难触发 https://github.com/facebook/react-native/issues/33229
+      // onTouchStart={onTouchStart}
+      // onTouchEnd={onTouchEnd}
     >
       {todaySchedule.length ? (
         <View className="p-4">

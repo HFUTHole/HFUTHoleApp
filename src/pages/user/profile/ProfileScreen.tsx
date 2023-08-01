@@ -11,6 +11,7 @@ import { UserLevelBar } from '@/pages/user/components/UserLevelBar'
 import { useCallback } from 'react'
 import { TabBar } from 'react-native-tab-view'
 import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
+import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
@@ -72,9 +73,13 @@ export function ProfileScreen() {
     [theme.colors]
   )
 
+  useStatusBarStyle({
+    translucent: true,
+    transparent: true,
+  })
+
   return (
     <LoadingScreen isLoading={isLoading}>
-      <StatusBar backgroundColor={'transparent'} translucent />
       <View className="flex-1 w-full">
         <Image
           className={'w-full h-40'}

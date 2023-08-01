@@ -10,9 +10,10 @@ import {
   BottomSheetModalProps,
 } from '@gorhom/bottom-sheet'
 import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
-import { useTheme } from 'react-native-paper'
+import { Text, useTheme } from 'react-native-paper'
 import { Func } from '@/shared/types'
 import { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
+import { Modal, StatusBar, View } from 'react-native'
 
 interface Props extends BottomSheetModalProps {
   children: React.ReactNode

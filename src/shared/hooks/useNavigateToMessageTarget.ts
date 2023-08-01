@@ -28,6 +28,7 @@ export function useNavigateToMessageTarget() {
         commentId: data.comment?.id,
         replyId: data.reply?.id,
         holeId: data.hole?.id,
+        isMessageFrom: true,
       })
       return
     }

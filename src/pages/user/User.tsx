@@ -3,11 +3,12 @@ import { SecondaryText } from '@/components/Text/SecondaryText'
 import { Text } from 'react-native-paper'
 import { UserIcons } from '@/pages/user/Icons'
 import { UserHeaderInfo } from '@/pages/user/UserHeaderInfo'
+import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 export function User() {
+  useStatusBarStyle()
   return (
     <ScrollView className={'flex space-y-4 p-4 bg-white'}>
-      <StatusBar backgroundColor={'white'} />
       <UserHeaderInfo />
       <View className={'bg-white flex-row justify-between items-center'}>
         <View className={'flex-1 items-center space-y-1'}>

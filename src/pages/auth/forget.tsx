@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper'
 import { ForgetRequest } from '@/request/apis/auth'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { useAuthMutation } from './utils'
+import { ForgetOnePassword } from '@/pages/auth/ForgetOnePassword'
 
 const ForgetForm = () => {
   const {
@@ -58,6 +59,11 @@ const ForgetForm = () => {
           label={'请输入信息门户密码'}
         />
       </View>
+
+      <View>
+        <ForgetOnePassword />
+      </View>
+
       <View>
         <Button
           mode={'contained'}

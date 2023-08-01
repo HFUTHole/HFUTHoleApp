@@ -1,12 +1,6 @@
 import { SvgProps } from 'react-native-svg'
 import React from 'react'
-import {
-  TouchableRipple,
-  TouchableRippleProps,
-  useTheme,
-} from 'react-native-paper'
-import { isBoolean } from 'class-validator'
-import { TouchableOpacity } from 'react-native'
+import { useTheme } from 'react-native-paper'
 
 type Props = {
   SvgComponent: React.ComponentType<SvgProps>

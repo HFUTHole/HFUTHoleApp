@@ -3,6 +3,7 @@ import { ScheduleScrollWrapper } from '@/pages/space/components/ScheduleScrollWr
 import { Header } from '@/pages/space/week-schedule/components/Header'
 import { View } from 'react-native'
 import { CourseList } from '@/pages/space/week-schedule/components/CourseList'
+import { WeekScheduleControl } from '@/pages/space/week-schedule/components/WeekScheduleControl'
 
 export const WeekSchedule = () => {
   return (
@@ -15,6 +16,7 @@ export const WeekSchedule = () => {
           <CourseList />
         </View>
       </ScheduleScrollWrapper>
+      <WeekScheduleControl />
     </PlainPage>
   )
 }

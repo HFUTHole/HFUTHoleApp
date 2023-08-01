@@ -77,6 +77,7 @@ export const useHoleReplyList = () => {
 
   return {
     ...query,
+    params,
     comment,
     invalidAll,
     onRefresh,

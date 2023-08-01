@@ -13,7 +13,6 @@ import {
   LikeCommentRequest,
 } from '@/request/apis/hole'
 import { ReplyBody } from '@/components/reply/body'
-import { Empty } from '@/components/image/Empty'
 import { useBottomCommentContext } from '@/shared/context/hole/comment'
 
 const RenderItemReplyList: React.FC<{ data: IHoleCommentListItem }> = ({

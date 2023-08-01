@@ -70,7 +70,7 @@ option && myChart.setOption(option);
 </body>
 </html>
   `,
-    []
+    [data]
   )
 
   return (

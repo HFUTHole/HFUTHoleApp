@@ -40,7 +40,11 @@ const LoginForm = () => {
     <View className={'grid space-y-3'}>
       {errors?.reqFailedError && (
         <View className={'py-3'}>
-          <Snackbar text={errors.reqFailedError.message} icon={'info'} error />
+          <Snackbar
+            text={errors.reqFailedError?.message || '出错了'}
+            icon={'info'}
+            error
+          />
         </View>
       )}
 
@@ -90,9 +94,11 @@ const LoginForm = () => {
 export function Login() {
   return (
     <AuthView
-      title={'登录HFUTHole'}
+      title={'登录肥工小宇宙'}
       secondary={'请输入你的账号密码'}
-      snackbar={'欢迎来到HFUTHole'}
+      snackbar={
+        '欢迎来到肥工小宇宙，密码不是信息门户密码哦，如果还没有注册账号点下方的注册'
+      }
     >
       <LoginForm />
     </AuthView>

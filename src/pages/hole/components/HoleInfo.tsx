@@ -203,7 +203,11 @@ export const HoleInfo = React.memo(
                       }
                       key={comment.id}
                     >
-                      <Text className={'font-bold self-start max-w-[20%]'}>
+                      <Text
+                        className={'font-bold self-start max-w-[30%]'}
+                        ellipsizeMode={'tail'}
+                        numberOfLines={1}
+                      >
                         {comment.user.username}
                       </Text>
                       <View className={'flex-1'}>

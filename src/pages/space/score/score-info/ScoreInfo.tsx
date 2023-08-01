@@ -5,7 +5,6 @@ import { useAppSelector } from '@/store/store'
 import { ScreenWrapper } from '@/components/ScrollWrapper'
 import { Text } from 'react-native-paper'
 import { RefreshIndicatorControl } from '@/components/RefreshIndicatorControl'
-import { Page } from '@/pages/space/components/Page'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useCallback, useMemo, useState } from 'react'
 import { formatScore } from '@/pages/space/@utils/utils'
@@ -177,7 +176,7 @@ export const ScoreInfo = () => {
                             <info.Icon size={12} color={'#ffffff'} />
                           </View>
                           <Text className="text-white text-xs">
-                            {scoreData[info.key]}
+                            {scoreData[info.key].toFixed(2)}
                           </Text>
                         </View>
                       </View>

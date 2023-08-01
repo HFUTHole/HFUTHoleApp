@@ -6,6 +6,7 @@ import { LoadingScreen } from '@/components/LoadingScreen'
 import { CommentBottomInput } from '@/pages/hole/detail/components/CommentBottomInput'
 import { HoleReplyListHeader } from '@/pages/hole/detail/reply/HoleReplyListHeader'
 import { HoleReplyListItem } from '@/pages/hole/detail/reply/HoleReplyListItem'
+import { CommentMaskModal } from '@/pages/hole/detail/components/CommentMaskModal'
 
 // TODO 重写回复区，尤其是展示特定的评论
 export function HoleReply() {
@@ -16,6 +17,7 @@ export function HoleReply() {
     isLoading,
     comment,
     flattenData: { data: flattenData, isEmpty: isDataEmpty },
+    params,
   } = useHoleReplyList()
 
   return (
@@ -42,6 +44,7 @@ export function HoleReply() {
             user: comment?.user,
           }}
         />
+        {params.isMessageFrom && <CommentMaskModal />}
       </View>
     </LoadingScreen>
   )

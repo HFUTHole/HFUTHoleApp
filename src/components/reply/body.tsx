@@ -13,12 +13,12 @@ interface Props {
 export function ReplyBody({ data }: Props) {
   return (
     <>
-      <View className={'flex flex-row'}>
+      <View className={'flex flex-row flex-wrap'}>
         {data.replyUser && (
-          <>
+          <View className={'flex-row'}>
             <Text>回复</Text>
             <PrimaryText>@{data.replyUser.username}：</PrimaryText>
-          </>
+          </View>
         )}
         <EmojiableText body={data.body} variant={'bodyMedium'} />
       </View>

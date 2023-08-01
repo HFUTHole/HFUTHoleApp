@@ -8,6 +8,7 @@ import { useTheme } from 'react-native-paper'
 import { AnimatedToTopFAB } from '../ToTopFab'
 import { RefreshableHoleList } from '../components/HoleList'
 import { useSharedValue } from 'react-native-reanimated'
+import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 export function HoleLatest() {
   const query = useHoleList()
@@ -17,6 +18,10 @@ export function HoleLatest() {
   const CONTENT_OFFSET_THRESHOLD = 500
   const [PostFABOffset, setPostFABOffset] = useState(0)
   const [isToTopFABVisible, setToTopFABVisible] = useState(false)
+
+  useStatusBarStyle({
+    themeKey: 'background',
+  })
 
   const scrollHandler = (event: {
     nativeEvent: { contentOffset: { y: number } }
@@ -40,7 +45,6 @@ export function HoleLatest() {
 
   return (
     <Page>
-      <StatusBar backgroundColor={theme.colors.background} />
       <RefreshableHoleList
         ListHeaderComponent={HomeCategories}
         ref={listRef}

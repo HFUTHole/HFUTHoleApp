@@ -9,6 +9,8 @@ import {
   MessageAbleItem,
   useNavigateToMessageTarget,
 } from '@/shared/hooks/useNavigateToMessageTarget'
+import { LoadMore } from '@/components/LoadMore'
+import { hasNextPage } from 'react-query/types/core/infiniteQueryBehavior'
 
 interface Props {
   data: MessageAbleItem[]
@@ -16,21 +18,32 @@ interface Props {
   fetchNextPage: Func
   onTopRefresh: Func
   emptyText: string
+  loadText: string
   isError?: boolean
 }
 
-export function MessageList({ data, onTopRefresh, fetchNextPage }: Props) {
+export function MessageList({
+  data,
+  onTopRefresh,
+  fetchNextPage,
+  hasNextPage,
+  ...props
+}: Props) {
   const { onMessagePress } = useNavigateToMessageTarget()
   return (
-    <View className={'bg-white min-h-screen'}>
+    <View className={'bg-white'}>
       <RefreshingFlatList
         data={data}
         fetchNextPage={fetchNextPage}
         onTopRefresh={onTopRefresh}
+        hasNextPage={hasNextPage!}
         renderItem={({ item }) => (
           <MessageListItem data={item} onPress={() => onMessagePress(item)} />
         )}
-        ListEmptyComponent={<Empty text={'没有更多评论了哦'} />}
+        ListEmptyComponent={<Empty text={props.emptyText} />}
+        ListFooterComponent={
+          <LoadMore hasNextPage={hasNextPage!} text={props.loadText} />
+        }
       />
     </View>
   )

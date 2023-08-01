@@ -6,8 +6,11 @@ import { useBaseNotificationsQuery } from '@/swr/notify/useBaseNotifications'
 import { useMemo } from 'react'
 import { Badge } from '@/components/Badge'
 import { useNotifyRoute } from '@/shared/hooks/route/useNotifyRoute'
+import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 export function Notify() {
+  useStatusBarStyle()
+
   const { data } = useBaseNotificationsQuery()
 
   const { goToInteraction, goToSystem } = useNotifyRoute()
@@ -43,7 +46,6 @@ export function Notify() {
 
   return (
     <>
-      <StatusBar backgroundColor={'#fff'} />
       <View className={'bg-white h-full'}>
         <FlatList
           data={list}

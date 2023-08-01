@@ -10,7 +10,7 @@ import {
 import { useTheme } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-type Props = ScrollViewProps & {
+export type ScreenWrapperProps = ScrollViewProps & {
   children: React.ReactNode
   withScrollView?: boolean
   style?: StyleProp<ViewStyle>
@@ -23,7 +23,7 @@ export function ScreenWrapper({
   style,
   contentContainerStyle,
   ...rest
-}: Props) {
+}: ScreenWrapperProps) {
   const theme = useTheme()
 
   const insets = useSafeAreaInsets()

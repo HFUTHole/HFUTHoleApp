@@ -16,9 +16,11 @@ import { TopTabHeader } from '@/router/components/TopTabHeader'
 import { Header } from '@/components/Header'
 import { SpaceClassmateScreen } from '@/pages/space/classmate/SpaceClassmateScreen'
 import { CourseFailureQuery } from '@/pages/space/course-failure-query/CourseFailureQuery'
+import { SpaceLoginScreen } from '@/pages/space/login/SpaceLoginScreen'
 
 const Tab = createMaterialTopTabNavigator()
 const SpaceStack = createNativeStackNavigator()
+const SpaceAuthStack = createNativeStackNavigator()
 
 const ScoreScreens = [
   {
@@ -85,31 +87,39 @@ const TabScreens = [
 export const SpaceTopTabs = () => {
   const theme = useTheme()
 
-  const spaceAuth = useAuth()
+  const { isLogin, logout } = useAuth()
 
   return (
     <>
-      <StatusBar backgroundColor={theme.colors.background} />
-      <Tab.Navigator
-        initialRouteName={'day'}
-        tabBar={(props) => (
-          <TopTabHeader {...props} onRightPress={spaceAuth.logout}>
-            <LogoutIcon />
-          </TopTabHeader>
-        )}
-        screenOptions={{
-          swipeEnabled: false,
-        }}
-      >
-        {TabScreens.map((item) => (
-          <Tab.Screen
-            name={item.name}
-            component={item.component}
-            options={{ title: item.title }}
-            key={item.name}
-          />
-        ))}
-      </Tab.Navigator>
+      {isLogin ? (
+        <>
+          <StatusBar backgroundColor={theme.colors.background} />
+          <Tab.Navigator
+            initialRouteName={'day'}
+            tabBar={(props) => (
+              <TopTabHeader {...props} onRightPress={logout}>
+                <LogoutIcon />
+              </TopTabHeader>
+            )}
+            screenOptions={{
+              swipeEnabled: false,
+            }}
+          >
+            {TabScreens.map((item) => (
+              <Tab.Screen
+                name={item.name}
+                component={item.component}
+                options={{ title: item.title }}
+                key={item.name}
+              />
+            ))}
+          </Tab.Navigator>
+        </>
+      ) : (
+        <SpaceAuthStack.Navigator screenOptions={{ headerShown: false }}>
+          <SpaceAuthStack.Screen name={'login'} component={SpaceLoginScreen} />
+        </SpaceAuthStack.Navigator>
+      )}
     </>
   )
 }

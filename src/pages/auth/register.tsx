@@ -1,5 +1,5 @@
-import { View } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Pressable, View } from 'react-native'
+import { Button, Text } from 'react-native-paper'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/form/Input'
 import { PasswordInput } from '@/components/form/PasswordInput'
@@ -10,6 +10,7 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator'
 import { Snackbar } from '@/components/snackbar/snackbar'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { useAuthMutation } from './utils'
+import { ForgetOnePassword } from '@/pages/auth/ForgetOnePassword'
 
 const RegisterForm = () => {
   const {
@@ -38,7 +39,11 @@ const RegisterForm = () => {
     <View className={'grid space-y-2'}>
       {errors?.reqFailedError && (
         <View className={'py-3'}>
-          <Snackbar text={errors.reqFailedError.message} icon={'info'} error />
+          <Snackbar
+            text={errors.reqFailedError?.message || '出错啦'}
+            icon={'info'}
+            error
+          />
         </View>
       )}
       <View>
@@ -72,6 +77,10 @@ const RegisterForm = () => {
         />
       </View>
 
+      <View>
+        <ForgetOnePassword />
+      </View>
+
       <View className={'mt-2'}>
         <Button
           mode={'contained'}
@@ -91,7 +100,10 @@ export function Register() {
     <AuthView
       title={'注册HFUTHole'}
       secondary={'请输入你的账号密码'}
-      snackbar={'注册之前需要绑定一下你的信息门户账号来证明你是工大学子哦'}
+      snackbar={[
+        '注册之前需要绑定一下你的信息门户账号来证明你是工大学子哦',
+        '新生学号可以去官网录取结果通知那里查询，信息门户密码默认为身份证后六位',
+      ]}
     >
       <RegisterForm />
     </AuthView>

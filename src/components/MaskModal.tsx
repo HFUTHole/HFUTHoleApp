@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react'
-import { Button, Modal, Pressable, View } from 'react-native'
+import { Modal, Pressable, StatusBar, View } from 'react-native'
 import { ModalProps } from 'react-native/Libraries/Modal/Modal'
 import { Func } from '@/shared/types'
-import { FullWindowOverlay } from 'react-native-screens'
-import { useStatusBarContext } from '@/shared/context/statusbar'
+import UseKeyboardHeight from '@/shared/hooks/useKeyboardHeight'
 
 type Props = {
   children: ReactNode
@@ -11,7 +10,9 @@ type Props = {
   onClose: Func
 } & ModalProps
 
+// TODO 重构，覆盖StatusBar
 export function MaskModal({ children, visible, onClose, ...props }: Props) {
+  const height = UseKeyboardHeight()
   return (
     <>
       <Modal
@@ -20,12 +21,12 @@ export function MaskModal({ children, visible, onClose, ...props }: Props) {
         transparent={true}
         {...props}
       >
-        <View className={'flex-1 justify-end'}>
+        <View className={'relative h-full flex-1'}>
           <Pressable
             className={'absolute w-full h-full bg-black/20 z-[0]'}
             onPress={onClose}
           />
-          <View className={'absolute z-[1]'}>{children}</View>
+          <View className={'z-[1] absolute bottom-0'}>{children}</View>
         </View>
       </Modal>
     </>

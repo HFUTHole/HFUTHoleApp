@@ -30,7 +30,7 @@ export function HoleHot() {
   }
 
   const scrollToTopHandler = () => {
-    listRef.current.scrollToOffset({ offset: 0, animated: true })
+    listRef.current!.scrollToOffset({ offset: 0, animated: true })
   }
 
   return (

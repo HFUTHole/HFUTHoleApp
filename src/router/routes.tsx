@@ -15,7 +15,6 @@ export const Routes = () => {
         {isLogin ? (
           <>
             <Stack.Screen name={'index'} component={IndexStacks} />
-            <Stack.Screen name={'web-view'} component={WebViewPage} />
           </>
         ) : (
           <Stack.Screen
@@ -24,6 +23,7 @@ export const Routes = () => {
             component={AuthStacks}
           />
         )}
+        <Stack.Screen name={'web-view'} component={WebViewPage} />
       </Stack.Navigator>
     </>
   )

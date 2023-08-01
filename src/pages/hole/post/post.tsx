@@ -7,10 +7,6 @@ import { useStatusBarContext } from '@/shared/context/statusbar'
 export function HolePost() {
   const theme = useTheme()
 
-  const { setBackgroundColor } = useStatusBarContext()
-
-  setBackgroundColor()
-
   return (
     <HolePostContextProvider>
       <View

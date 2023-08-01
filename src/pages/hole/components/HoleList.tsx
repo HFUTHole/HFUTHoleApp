@@ -11,6 +11,7 @@ import { Empty } from '@/components/image/Empty'
 import { flatInfiniteQueryData } from '@/swr/utils'
 import { useTheme } from 'react-native-paper'
 import { forwardRef } from 'react'
+import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 // TODO 完善类型
 type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
@@ -32,12 +33,14 @@ function RefreshableHoleListInner(
   ref
 ) {
   const { go } = useHoleDetailRoute()
+  const theme = useTheme()
 
   const { data: flatListData, isEmpty: isHoleListEmpty } =
     flatInfiniteQueryData(data)
 
   return (
     <>
+      <StatusBar backgroundColor={theme.colors.background} />
       {isSuccess ? (
         <RefreshingFlatList
           ref={ref}

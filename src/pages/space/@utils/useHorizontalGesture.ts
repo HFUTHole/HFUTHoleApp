@@ -24,7 +24,6 @@ export const useHorizontalGesture = ({ onPrev, onNext }: Params) => {
       if (!enable || absoluteTranslationX < interactiveBoundary) {
         return
       }
-
       if (translationX > 0) {
         onPrev?.()
       } else {

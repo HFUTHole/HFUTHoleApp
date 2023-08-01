@@ -8,7 +8,7 @@
     "web": "npx cross-env NODE_OPTIONS=--openssl-legacy-provider expo start --web",
     "build:android": "eas build -p android --profile prod",
     "update": "eas update --channel production --message \"update\"",
-    "publish-update":"bash $PWD/scripts/publish.sh -s 'root@42.192.127.54'"
+    "publish-update": "bash $PWD/scripts/publish.sh -s 'root@42.192.127.54'"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9",
@@ -57,6 +57,7 @@
     "react-native": "0.70.8",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-image-zoom-viewer": "^3.0.1",
+    "react-native-masked-text": "^1.13.0",
     "react-native-modal-datetime-picker": "^15.0.0",
     "react-native-pager-view": "6.0.1",
     "react-native-paper": "^5.1.2",

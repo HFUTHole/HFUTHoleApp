@@ -51,12 +51,12 @@ export const SemesterScoreChart = () => {
       .map((item) => {
         const { mine, max, head, avg } = item.compulsoryRank.score
 
-        return Math.min(mine, max, head, avg).toFixed(0)
+        return Math.min(mine, max, head, avg).toFixed(3)
       })
       .reverse()
       .join(',')}, 100),
     max: Math.max(${semesters
-      .map((item) => item.compulsoryRank.score.max.toFixed(0))
+      .map((item) => item.compulsoryRank.score.max.toFixed(3))
       .reverse()
       .join(',')}, 0)
   },
@@ -64,7 +64,7 @@ export const SemesterScoreChart = () => {
   series: [
     {
       data: [${semesters
-        .map((item) => item.compulsoryRank.score.mine.toFixed(0))
+        .map((item) => item.compulsoryRank.score.mine.toFixed(3))
         .reverse()
         .toString()}],
       type: 'line',
@@ -75,7 +75,7 @@ export const SemesterScoreChart = () => {
     },
     {
       data: [${semesters
-        .map((item) => item.compulsoryRank.score.avg.toFixed(2))
+        .map((item) => item.compulsoryRank.score.avg.toFixed(3))
         .reverse()
         .toString()}],
       type: 'line',
@@ -83,7 +83,7 @@ export const SemesterScoreChart = () => {
     },
     {
       data: [${semesters
-        .map((item) => item.compulsoryRank.score.head.toFixed(2))
+        .map((item) => item.compulsoryRank.score.head.toFixed(3))
         .reverse()
         .toString()}],
       type: 'line',
@@ -91,7 +91,7 @@ export const SemesterScoreChart = () => {
     },
     {
       data: [${semesters
-        .map((item) => item.compulsoryRank.score.max.toFixed(0))
+        .map((item) => item.compulsoryRank.score.max.toFixed(3))
         .reverse()
         .toString()}],
       type: 'line',
@@ -109,7 +109,7 @@ export const SemesterScoreChart = () => {
 </body>
 </html>
   `,
-    []
+    [semesters]
   )
 
   return (

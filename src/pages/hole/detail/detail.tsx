@@ -3,6 +3,7 @@ import { useHoleComment, useHoleDetail } from '@/swr/hole'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { HoleDetailComment } from '@/pages/hole/detail/components/Comment'
 import { StatusBar, View } from 'react-native'
+import { CommentMaskModal } from '@/pages/hole/detail/components/CommentMaskModal'
 
 export function HoleDetail() {
   const { setWhiteColor } = useStatusBarContext()
@@ -22,6 +23,7 @@ export function HoleDetail() {
         <View className={'bg-white'}>
           <HoleDetailComment />
         </View>
+        <CommentMaskModal />
       </LoadingScreen>
     </>
   )

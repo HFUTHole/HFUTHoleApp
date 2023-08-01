@@ -80,7 +80,7 @@ export const ScoreCard = () => {
               <View className="flex flex-row mx-auto space-x-1 items-center">
                 <info.Icon size={12} color={'#fff'} style={{ opacity: 0.8 }} />
                 <Text className="text-white/80 text-sm">
-                  {scoreData[info.key]}
+                  {scoreData[info.key].toFixed(2)}
                 </Text>
               </View>
             </View>

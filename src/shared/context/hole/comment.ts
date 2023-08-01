@@ -30,8 +30,8 @@ export const [useBottomCommentContext, BottomCommentContext] = createStore(
     const { getValues, resetField } = form
 
     const openInput = (data: IBottomCommentData = null) => {
-      setShowInput(true)
       setData(data)
+      setShowInput(true)
     }
 
     const closeInput = (isResetFields = false) => {

@@ -1,5 +1,6 @@
 while getopts s:v:m: flag
 do
+    # shellcheck disable=SC2220
     case "${flag}" in
         s) server=${OPTARG};;
         v) runtime_version=${OPTARG};;
