@@ -6,7 +6,6 @@ import React, { createRef, useRef, useState } from 'react'
 import { useTheme } from 'react-native-paper'
 import { AnimatedToTopFAB } from '../ToTopFab'
 import { AnimatedHolePostFAB } from '../PostFab'
-import { useSharedValue } from 'react-native-reanimated'
 
 export function HoleHot() {
   const query = useHoleList()
@@ -30,7 +29,7 @@ export function HoleHot() {
   }
 
   const scrollToTopHandler = () => {
-    listRef.current!.scrollToOffset({ offset: 0, animated: true })
+    listRef.current.scrollToOffset({ offset: 0, animated: true })
   }
 
   return (
