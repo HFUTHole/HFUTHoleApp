@@ -7,24 +7,18 @@ import { HoleSearchResult } from '@/pages/hole/search/result/result'
 import { HoleDetail } from '@/pages/hole/detail/detail'
 import { HoleReply } from '@/pages/hole/detail/reply/HoleReply'
 import { HoleHot } from '@/pages/hole/hot/HoleHot'
-import { TopTabBar } from '@/components/router/TopTabBar'
-import { HoleLatest } from '@/pages/hole/latest/HoleLatest'
-import { StatusBar, View } from 'react-native'
-import { IconButton, useTheme } from 'react-native-paper'
+import { StatusBar } from 'react-native'
+import { useTheme } from 'react-native-paper'
 import { HoleDetailCommentContextProvider } from '@/shared/context/hole_detail'
 import { HoleCategoryScreen } from '@/pages/hole/category/HoleCategoryScreen'
 import { HoleDetailHeader } from '@/pages/hole/detail/DetailHeader'
 import { SearchIcon } from '@/components/icon'
 import { TopTabHeader } from '@/router/components/TopTabHeader'
 import { Categories } from '@/pages/hole/Category'
-import { useNavigation } from '@react-navigation/native'
-import { useEffect, useState } from 'react'
-import { ArticleCategoryEnum } from '@/shared/enums'
 import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 import { HoleMain } from '@/pages/hole/main/HoleMain'
 import { HoleModeTabs } from './ModeTabs'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
-import { HoleLatestNew } from '@/pages/hole/latest/HoleLatestNew'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
@@ -92,11 +86,6 @@ export const HoleNestedStacks = () => {
   )
 }
 
-const TabScreens = [
-  { name: 'latest', component: HoleLatestNew, title: '最新' },
-  { name: 'hot', component: HoleHot, title: '热门' },
-]
-
 export function TopTabs() {
   const theme = useTheme()
   const { go } = useHoleCategoryRoute()
@@ -107,15 +96,12 @@ export function TopTabs() {
     <>
       <StatusBar backgroundColor={theme.colors.background} />
       <Tab.Navigator
-       
         initialRouteName={'main'}
-       
         tabBar={(props) => (
-          <TopTabHeader {...props} onRightPress={route.goIndex}
+          <TopTabHeader {...props} onRightPress={route.goIndex}>
             <SearchIcon />
           </TopTabHeader>
         )}
-      >
         screenOptions={{
           tabBarScrollEnabled: true,
           swipeEnabled: true,

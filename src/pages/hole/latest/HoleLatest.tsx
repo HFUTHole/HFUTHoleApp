@@ -12,7 +12,6 @@ import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 export function HoleLatest() {
   const query = useHoleList()
-  const theme = useTheme()
   const listRef = createRef()
 
   const CONTENT_OFFSET_THRESHOLD = 500
@@ -45,12 +44,7 @@ export function HoleLatest() {
 
   return (
     <Page>
-      <RefreshableHoleList
-        ListHeaderComponent={HomeCategories}
-        ref={listRef}
-        {...query}
-        onScroll={scrollHandler}
-      />
+      <RefreshableHoleList ref={listRef} {...query} onScroll={scrollHandler} />
       <AnimatedHolePostFAB offset={PostFABOffset} />
       <AnimatedToTopFAB
         visible={isToTopFABVisible}

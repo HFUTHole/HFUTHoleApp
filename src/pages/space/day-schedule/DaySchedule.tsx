@@ -7,24 +7,10 @@ import { useSpaceUserInfo } from '@/swr/space/user'
 import { ScheduleScrollWrapper } from '@/pages/space/components/ScheduleScrollWrapper'
 import { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
-import { useEffect, useState } from 'react'
-import { useIsFocused } from '@react-navigation/native'
 
 export const DaySchedule = () => {
   const { isLogin } = useAuth()
   useSpaceUserInfo()
-
-  const isFocused = useIsFocused()
-
-  const [isDialogVisible, setDialogVisible] = useState(false)
-
-  useEffect(() => {
-    if (!isLogin && isFocused) {
-      setDialogVisible(true)
-    } else {
-      setDialogVisible(false)
-    }
-  }, [isLogin, isFocused])
 
   const isFocused = useIsFocused()
 
