@@ -9,7 +9,7 @@ export function Page(props: ViewProps) {
     <SafeAreaView>
       <View
         {...props}
-        className={`min-h-full w-full px-2 ${props.className}`}
+        className={`min-h-full w-full px-3 ${props.className}`}
         style={{
           backgroundColor: theme.colors.background,
         }}

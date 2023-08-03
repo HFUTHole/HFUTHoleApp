@@ -186,7 +186,7 @@ export const HoleInfo = React.memo(
     showComment = true,
   }: Props) => {
     return (
-      <View className={'bg-white rounded-lg mt-2 overflow-hidden'}>
+      <View className={'bg-white rounded-lg mt-4 overflow-hidden'}>
         <TouchableRipple onPress={onPress}>
           <View className={`flex flex-col space-y-3 p-4 ${className}`}>
             <View>{header || <HoleInfoHeader data={data} />}</View>

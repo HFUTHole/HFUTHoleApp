@@ -12,8 +12,8 @@ import Animated, {
 const { width } = Dimensions.get('window')
 
 const LARGE_IMAGE_WIDTH = width * 0.45
-const MEDIUM_IMAGE_WIDTH = LARGE_IMAGE_WIDTH * 0.7
-const SMALL_IMAGE_WIDTH = MEDIUM_IMAGE_WIDTH * 0.35
+const MEDIUM_IMAGE_WIDTH = LARGE_IMAGE_WIDTH * 0.75
+const SMALL_IMAGE_WIDTH = MEDIUM_IMAGE_WIDTH * 0.34
 
 const CarouselItem = ({ uri, text, scrollX, index, dataLength }) => {
   const inputRange = [

@@ -40,7 +40,7 @@ function RefreshableHoleListInner(
 
   return (
     <>
-      <StatusBar backgroundColor={theme.colors.background} />
+      <StatusBar backgroundColor={theme.colors.background}/>
       {isSuccess ? (
         <RefreshingFlatList
           ref={ref}

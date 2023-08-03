@@ -15,7 +15,6 @@ export function Carousel({ data }) {
     <GestureHandlerFlatList
       data={data}
       horizontal
-      style={{ margin: 8 }}
       showsHorizontalScrollIndicator={false}
       onScroll={scrollHandler}
       overScrollMode="never"
