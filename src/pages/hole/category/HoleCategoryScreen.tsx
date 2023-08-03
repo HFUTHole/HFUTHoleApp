@@ -1,15 +1,16 @@
-import { View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useHoleCategoryList } from '@/swr/hole/category'
 import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { HoleCategoryHeader } from '@/pages/hole/category/Header'
+import { HoleModeTabs } from '@/router/ModeTabs'
 import { createRef, useState } from 'react'
 import { useSharedValue } from 'react-native-reanimated'
 import { AnimatedToTopFAB } from '../ToTopFab'
 import { AnimatedHolePostFAB } from '../PostFab'
 
-export function HoleCategoryScreen() {
-  const query = useHoleCategoryList()
+export function HoleCategoryScreen(props) {
+  const query = useHoleCategoryList(props.category)
   const listRef = createRef()
 
   const CONTENT_OFFSET_THRESHOLD = 500
