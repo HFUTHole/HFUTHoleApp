@@ -73,7 +73,7 @@ const CarouselItem = ({ uri, text, scrollX, index, dataLength }: Props) => {
   })
 
   const animatedStyle = useAnimatedStyle(() => {
-    const width = containerWidth.value
+    const width = interpolate(scrollX.value, inputRange, outputRange, 'clamp')
     return {
       width,
     }
@@ -124,10 +124,10 @@ function AnimatedText({
     return {
       opacity: visible.value
         ? withTiming(1, {
-            duration: 200,
+            duration: 100,
           })
         : withTiming(0, {
-            duration: 200,
+            duration: 100,
           }),
     }
   })
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 80,
     left: 15,
-    right: 15,
     bottom: 15,
     width: 120,
     justifyContent: 'flex-end',

@@ -11,26 +11,21 @@ export const sampleData = [
   },
   {
     id: 3,
-    uri: 'https://source.unsplash.com/random/?lovers',
-    text: '走出来的快乐人',
-  },
-  {
-    id: 4,
     uri: 'https://source.unsplash.com/random/?starry',
     text: '夜色好美',
   },
   {
-    id: 5,
+    id: 4,
     uri: 'https://source.unsplash.com/random/?city',
     text: '想家了',
   },
   {
-    id: 6,
+    id: 5,
     uri: 'https://source.unsplash.com/random/?campus',
     text: '想回学校了',
   },
   {
-    id: 7,
+    id: 6,
     uri: 'https://source.unsplash.com/random/?books',
     text: '绩点寄了，怎么办？',
   },
