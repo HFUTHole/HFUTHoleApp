@@ -17,6 +17,7 @@ import { HoleDetailHeader } from '@/pages/hole/detail/DetailHeader'
 import { SearchIcon } from '@/components/icon'
 import { TopTabHeader } from '@/router/components/TopTabHeader'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
+import { HoleLatestNew } from '@/pages/hole/latest/HoleLatestNew'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
@@ -85,7 +86,7 @@ export const HoleNestedStacks = () => {
 }
 
 const TabScreens = [
-  { name: 'latest', component: HoleLatest, title: '最新' },
+  { name: 'latest', component: HoleLatestNew, title: '最新' },
   { name: 'hot', component: HoleHot, title: '热门' },
 ]
 
