@@ -82,23 +82,23 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
   const renderList = [
     {
       value: data.favoriteCounts,
-      element: <LikeIcon size={16} color={theme.colors.surfaceVariant} />,
+      element: <LikeIcon size={14} color={theme.colors.surfaceVariant} />,
     },
     {
       value: data.commentCounts,
-      element: <CommentIcon size={16} color={theme.colors.surfaceVariant} />,
+      element: <CommentIcon size={14} color={theme.colors.surfaceVariant} />,
     },
   ]
 
   return (
     <>
-      <View className={'space-y-2'}>
+      <View className={'my-2 space-y-2'}>
         <View className={'flex flex-row justify-between'}>
           <View className={'flex flex-row items-center space-x-3'}>
             <UserAvatar url={data.user.avatar} size={35} />
             <View>
               <Text
-                className={'mb-0.5 text-base'}
+                className={'mb-0.5 text-sm'}
                 style={{ color: theme.colors.onSurfaceVariant }}
               >
                 {data.user.username}

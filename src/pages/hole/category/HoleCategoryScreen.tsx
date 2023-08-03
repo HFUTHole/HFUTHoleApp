@@ -8,24 +8,35 @@ import { useSharedValue } from 'react-native-reanimated'
 import { AnimatedToTopFAB } from '../ToTopFab'
 import { AnimatedHolePostFAB } from '../PostFab'
 import { ArticleCategoryEnum } from '@/shared/enums'
+import { Page } from '@/components/Page'
+import { useHoleList } from '@/swr/hole'
+import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 export function HoleCategoryScreen(props: { category: ArticleCategoryEnum }) {
   const query = useHoleCategoryList(props.category)
   const listRef = createRef()
 
   const CONTENT_OFFSET_THRESHOLD = 500
-  const PostFABOffset = useSharedValue(0)
+  const [PostFABOffset, setPostFABOffset] = useState(0)
   const [isToTopFABVisible, setToTopFABVisible] = useState(false)
+
+  useStatusBarStyle({
+    themeKey: 'background',
+  })
 
   const scrollHandler = (event: {
     nativeEvent: { contentOffset: { y: number } }
   }) => {
     if (event.nativeEvent.contentOffset.y > CONTENT_OFFSET_THRESHOLD) {
-      PostFABOffset.value = -70
-      setToTopFABVisible(true)
+      {
+        setPostFABOffset(-70)
+        setToTopFABVisible(true)
+      }
     } else {
-      setToTopFABVisible(false)
-      PostFABOffset.value = 0
+      {
+        setToTopFABVisible(false)
+        setPostFABOffset(0)
+      }
     }
   }
 
@@ -34,18 +45,18 @@ export function HoleCategoryScreen(props: { category: ArticleCategoryEnum }) {
   }
 
   return (
-    <View className={'px-2 bg-background'}>
+    <Page>
       <RefreshableHoleList
-        {...query}
-        ListHeaderComponent={HoleCategoryHeader}
         ref={listRef}
+        {...query}
         onScroll={scrollHandler}
+        ListHeaderComponent={HoleCategoryHeader}
       />
-      <AnimatedHolePostFAB offset={PostFABOffset.value} />
+      <AnimatedHolePostFAB offset={PostFABOffset} />
       <AnimatedToTopFAB
         visible={isToTopFABVisible}
         goToTop={scrollToTopHandler}
       />
-    </View>
+    </Page>
   )
 }
