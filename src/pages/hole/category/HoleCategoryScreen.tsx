@@ -3,13 +3,13 @@ import { LoadingScreen } from '@/components/LoadingScreen'
 import { useHoleCategoryList } from '@/swr/hole/category'
 import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { HoleCategoryHeader } from '@/pages/hole/category/Header'
-import { HoleModeTabs } from '@/router/ModeTabs'
 import { createRef, useState } from 'react'
 import { useSharedValue } from 'react-native-reanimated'
 import { AnimatedToTopFAB } from '../ToTopFab'
 import { AnimatedHolePostFAB } from '../PostFab'
+import { ArticleCategoryEnum } from '@/shared/enums'
 
-export function HoleCategoryScreen(props) {
+export function HoleCategoryScreen(props: { category: ArticleCategoryEnum }) {
   const query = useHoleCategoryList(props.category)
   const listRef = createRef()
 
@@ -17,7 +17,9 @@ export function HoleCategoryScreen(props) {
   const PostFABOffset = useSharedValue(0)
   const [isToTopFABVisible, setToTopFABVisible] = useState(false)
 
-  const scrollHandler = (event) => {
+  const scrollHandler = (event: {
+    nativeEvent: { contentOffset: { y: number } }
+  }) => {
     if (event.nativeEvent.contentOffset.y > CONTENT_OFFSET_THRESHOLD) {
       PostFABOffset.value = -70
       setToTopFABVisible(true)
@@ -32,20 +34,18 @@ export function HoleCategoryScreen(props) {
   }
 
   return (
-    <LoadingScreen isLoading={query.isLoading} id={1}>
-      <View className={'px-2 bg-background'}>
-        <RefreshableHoleList
-          {...query}
-          ListHeaderComponent={HoleCategoryHeader}
-          ref={listRef}
-          onScroll={scrollHandler}
-        />
-        <AnimatedHolePostFAB offset={PostFABOffset.value} />
-        <AnimatedToTopFAB
-          visible={isToTopFABVisible}
-          goToTop={scrollToTopHandler}
-        />
-      </View>
-    </LoadingScreen>
+    <View className={'px-2 bg-background'}>
+      <RefreshableHoleList
+        {...query}
+        ListHeaderComponent={HoleCategoryHeader}
+        ref={listRef}
+        onScroll={scrollHandler}
+      />
+      <AnimatedHolePostFAB offset={PostFABOffset.value} />
+      <AnimatedToTopFAB
+        visible={isToTopFABVisible}
+        goToTop={scrollToTopHandler}
+      />
+    </View>
   )
 }

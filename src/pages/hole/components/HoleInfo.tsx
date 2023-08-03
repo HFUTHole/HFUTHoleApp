@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
 import { View, StyleSheet } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
-import { Button, Text, TouchableRipple, useTheme } from 'react-native-paper'
+import { Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { CommentIcon, LikeIcon } from '@/components/icon'
 import { Badges } from '@/components/Badges'
 import { TimeText } from '@/components/Text/Time'
@@ -12,13 +12,11 @@ import { PostHoleVoteRequest } from '@/request/apis/hole'
 import { Toast } from '@/shared/utils/toast'
 import { HoleVoteItem } from '@/pages/hole/components/VoteItem'
 import { SecondaryText } from '@/components/Text/SecondaryText'
-import { HoleBottomAction } from '@/pages/hole/components/sheet/HoleBottomAction'
 import { EmojiableText } from '@/components/Text/EmojiableText'
 import BilibiliSvg from '@/assets/svg/home/bilibili.svg'
 import { Svg } from '@/components/svg/Svg'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
-import { PrimaryText } from '@/components/Text/PrimaryText'
 
 type Data = IHole
 
@@ -151,34 +149,36 @@ export const HoleInfoTitle: React.FC<{ data: Data }> = ({ data }) => {
   const theme = useTheme()
 
   return (
-    <Text
-      variant={'titleMedium'}
-      style={[
-        styles.titleText,
-        {
-          color: theme.colors.onSurfaceVariant,
-        },
-      ]}
-      numberOfLines={2}
-    >
-      <View className={'flex-row space-x-2 items-center'}>
-        <View className={'rounded-md bg-black/10 px-2 py-0.5 self-center'}>
+    <View>
+      <Text
+        variant={'titleMedium'}
+        style={[
+          styles.titleText,
+          {
+            color: theme.colors.onSurfaceVariant,
+          },
+        ]}
+        numberOfLines={2}
+      >
+        <View className={'flex-row space-x-2 items-center'}>
+          <View className={'rounded-md bg-black/10 px-2 py-0.5 self-center'}>
+            <EmojiableText
+              body={data.category.category}
+              variant={'titleMedium'}
+              style={[styles.categoryText, { color: theme.colors.primary }]}
+            />
+          </View>
           <EmojiableText
-            body={data.category.category}
+            body={data.category.category + ' · '}
             variant={'titleMedium'}
             style={[styles.categoryText, { color: theme.colors.primary }]}
           />
         </View>
-        <EmojiableText
-          body={data.category.category + ' · '}
-          variant={'titleMedium'}
-          style={[styles.categoryText, { color: theme.colors.primary }]}
-        />
-      </View>
-      {
-        '给室友和同学宣传一下呀😭给室友和同学宣传一下呀😭给室友和同学宣传一下呀😭'
-      }
-    </Text>
+        {
+          '给室友和同学宣传一下呀😭给室友和同学宣传一下呀😭给室友和同学宣传一下呀😭'
+        }
+      </Text>
+    </View>
   )
 }
 
@@ -188,7 +188,7 @@ export const HoleInfoBody: React.FC<{ data: Data }> = React.memo(({ data }) => {
   const { goResult } = useHoleSearchRoute()
 
   return (
-    <View className={'flex-1 space-y-2'}>
+    <View className={'flex space-y-2'}>
       <HoleInfoTitle data={data} />
       <View>
         <EmojiableText
@@ -217,7 +217,7 @@ interface Props extends IClassName {
   onPress?: Func
   header?: ReactNode
   body?: ReactNode
-  bottom?: ReactNode
+  // bottom?: ReactNode
   showComment?: boolean
 }
 
@@ -227,7 +227,7 @@ export const HoleInfo = React.memo(
     onPress,
     header,
     body,
-    bottom,
+    // bottom,
     className,
     showComment = true,
   }: Props) => {

@@ -7,13 +7,13 @@ import { HoleSearchResult } from '@/pages/hole/search/result/result'
 import { HoleDetail } from '@/pages/hole/detail/detail'
 import { HoleReply } from '@/pages/hole/detail/reply/HoleReply'
 import { HoleHot } from '@/pages/hole/hot/HoleHot'
-import { StatusBar } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { HoleDetailCommentContextProvider } from '@/shared/context/hole_detail'
 import { HoleCategoryScreen } from '@/pages/hole/category/HoleCategoryScreen'
 import { HoleDetailHeader } from '@/pages/hole/detail/DetailHeader'
 import { SearchIcon } from '@/components/icon'
-import { TopTabHeader } from '@/router/components/TopTabHeader'
+import { TopTabHeader } from '@/router/components/TabHeader'
 import { Categories } from '@/pages/hole/Category'
 import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 import { HoleMain } from '@/pages/hole/main/HoleMain'
@@ -98,9 +98,7 @@ export function TopTabs() {
       <Tab.Navigator
         initialRouteName={'main'}
         tabBar={(props) => (
-          <TopTabHeader {...props} onRightPress={route.goIndex}>
-            <SearchIcon />
-          </TopTabHeader>
+          <TopTabHeader {...props} onRightPress={route.goIndex} />
         )}
         screenOptions={{
           tabBarScrollEnabled: true,

@@ -1,15 +1,15 @@
 import { HoleCategoryScreen } from '@/pages/hole/category/HoleCategoryScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { TopTabHeader } from './components/TopTabHeader'
+import { ModeTabHeader, TopTabHeader } from './components/TabHeader'
 
 const HoleModeTab = createMaterialTopTabNavigator()
 
-export function HoleModeTabs(props) {
+export const HoleModeTabs = (props: { category: any }) => {
   const category = props.category
   return (
     <HoleModeTab.Navigator
-      initialRouteName={'index'}
-      tabBar={(props) => <TopTabHeader {...props} />}
+      initialRouteName={'latest'}
+      tabBar={(props) => <ModeTabHeader {...props} />}
       screenOptions={{
         tabBarScrollEnabled: false,
         swipeEnabled: false,

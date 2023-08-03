@@ -1,17 +1,15 @@
 import { LoadMore } from '@/components/LoadMore'
-import { FlatListProps, StatusBar, Text, View } from 'react-native'
+import { FlatListProps, StatusBar, View } from 'react-native'
 import { HoleInfo } from '@/pages/hole/components/HoleInfo'
 import { RefreshingFlatList } from '@/components/RefreshingFlatList'
 import { UseInfiniteQueryResult } from 'react-query'
 import { SkeletonLoading } from '@/components/Skeleton'
 import { Func } from '@/shared/types'
 import { useHoleDetailRoute } from '@/shared/hooks/route/useHoleDetailRoute'
-import { useMemo, useState } from 'react'
 import { Empty } from '@/components/image/Empty'
 import { flatInfiniteQueryData } from '@/swr/utils'
 import { useTheme } from 'react-native-paper'
 import { forwardRef } from 'react'
-import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
 // TODO 完善类型
 type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
@@ -30,7 +28,7 @@ function RefreshableHoleListInner(
     ListHeaderComponent,
     onScroll,
   }: Props,
-  ref
+  ref: any
 ) {
   const { go } = useHoleDetailRoute()
   const theme = useTheme()
@@ -40,7 +38,7 @@ function RefreshableHoleListInner(
 
   return (
     <>
-      <StatusBar backgroundColor={theme.colors.background}/>
+      <StatusBar backgroundColor={theme.colors.background} />
       {isSuccess ? (
         <RefreshingFlatList
           ref={ref}
