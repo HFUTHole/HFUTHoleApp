@@ -161,22 +161,20 @@ export const HoleInfoTitle: React.FC<{ data: Data }> = ({ data }) => {
         numberOfLines={2}
       >
         <View className={'flex-row space-x-2 items-center'}>
-          <View className={'rounded-md bg-black/10 px-2 py-0.5 self-center'}>
+          <View className={'rounded-md bg-black/5 px-2 py-0.5 self-center'}>
             <EmojiableText
-              body={data.category.category}
+              body={data.category.category.slice(2, 4)}
               variant={'titleMedium'}
               style={[styles.categoryText, { color: theme.colors.primary }]}
             />
           </View>
           <EmojiableText
-            body={data.category.category + ' · '}
+            body={data.category.category.slice(0, 2) + ' · '}
             variant={'titleMedium'}
             style={[styles.categoryText, { color: theme.colors.primary }]}
           />
         </View>
-        {
-          '给室友和同学宣传一下呀😭给室友和同学宣传一下呀😭给室友和同学宣传一下呀😭'
-        }
+        {data.body.slice(0, 14)}
       </Text>
     </View>
   )
