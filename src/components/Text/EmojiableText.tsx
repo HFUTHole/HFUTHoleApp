@@ -1,7 +1,7 @@
 import { EmojiList } from '@/assets/emoji'
 import { Emoji } from '@/components/emoji/Emoji'
 import { Text } from 'react-native-paper'
-import { View } from 'react-native'
+import { StyleProp, TextStyle, View } from 'react-native'
 import React from 'react'
 import { VariantProp } from 'react-native-paper/lib/typescript/src/components/Typography/types'
 
@@ -9,9 +9,18 @@ interface Props {
   body: string
   variant?: VariantProp<any>
   secondary?: boolean
+  style?: StyleProp<TextStyle>
+  numberOfLines?: number
 }
 
-export function EmojiableText({ body, variant, secondary }: Props) {
+export function EmojiableText({
+  body,
+  variant,
+  secondary,
+  style,
+  numberOfLines,
+  ...rest
+}: Props) {
   const renderBody = () => {
     const reg = /(\[.*?\])/g
     const parts = body.split(reg)
@@ -27,6 +36,8 @@ export function EmojiableText({ body, variant, secondary }: Props) {
             className={`${secondary && 'text-surfaceVariant'}`}
             variant={variant || 'bodyLarge'}
             key={index}
+            style={style}
+            numberOfLines={numberOfLines}
           >
             {part}
           </Text>

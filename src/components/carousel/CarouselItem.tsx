@@ -1,6 +1,8 @@
-import { StyleSheet, Dimensions, Image, Text, View } from 'react-native'
+import { StyleSheet, Dimensions, Image, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import React, { useEffect } from 'react'
 import Animated, {
+  SharedValue,
   interpolate,
   useAnimatedReaction,
   useAnimatedStyle,
@@ -15,7 +17,15 @@ const LARGE_IMAGE_WIDTH = width * 0.45
 const MEDIUM_IMAGE_WIDTH = LARGE_IMAGE_WIDTH * 0.75
 const SMALL_IMAGE_WIDTH = MEDIUM_IMAGE_WIDTH * 0.34
 
-const CarouselItem = ({ uri, text, scrollX, index, dataLength }) => {
+interface Props {
+  uri: string
+  text: string
+  scrollX: any
+  index: number
+  dataLength: number
+}
+
+const CarouselItem = ({ uri, text, scrollX, index, dataLength }: Props) => {
   const inputRange = [
     (index - 2) * SMALL_IMAGE_WIDTH,
     (index - 1) * SMALL_IMAGE_WIDTH,
@@ -30,14 +40,14 @@ const CarouselItem = ({ uri, text, scrollX, index, dataLength }) => {
     SMALL_IMAGE_WIDTH,
     MEDIUM_IMAGE_WIDTH,
     MEDIUM_IMAGE_WIDTH,
-    SMALL_IMAGE_WIDTH,
+    LARGE_IMAGE_WIDTH,
   ]
 
   const lastItemOutputRange = [
     SMALL_IMAGE_WIDTH,
     LARGE_IMAGE_WIDTH,
     LARGE_IMAGE_WIDTH,
-    SMALL_IMAGE_WIDTH,
+    LARGE_IMAGE_WIDTH,
   ]
 
   const outputRange = isLastItem
@@ -72,7 +82,7 @@ const CarouselItem = ({ uri, text, scrollX, index, dataLength }) => {
   return (
     <Animated.View style={[styles.view, animatedStyle]}>
       <Image source={{ uri }} style={styles.image} />
-      <View style={styles.textview}>
+      <View style={styles.textView}>
         <AnimatedText
           text={text}
           containerWidth={containerWidth}
@@ -84,7 +94,19 @@ const CarouselItem = ({ uri, text, scrollX, index, dataLength }) => {
   )
 }
 
-function AnimatedText({ text, containerWidth, enterWidth, exitWidth }) {
+interface AnimatedTextProps {
+  text: string
+  containerWidth: SharedValue<number>
+  enterWidth: number
+  exitWidth: number
+}
+
+function AnimatedText({
+  text,
+  containerWidth,
+  enterWidth,
+  exitWidth,
+}: AnimatedTextProps) {
   const visible = useSharedValue(false)
 
   useAnimatedReaction(
@@ -112,9 +134,9 @@ function AnimatedText({ text, containerWidth, enterWidth, exitWidth }) {
 
   return (
     <Animated.View
-      style={[styles.animatedview, animatedStyle]} // pass the animated style to the view
+      style={[styles.animatedView, animatedStyle]} // pass the animated style to the view
     >
-      <Text numberOfLines={2} style={styles.text}>
+      <Text numberOfLines={2} variant={'titleMedium'} style={styles.text}>
         {text}
       </Text>
     </Animated.View>
@@ -127,8 +149,8 @@ const styles = StyleSheet.create({
   view: {
     width: 250,
     marginRight: 8,
-    borderRadius: 15,
-    height: 200,
+    borderRadius: 16,
+    height: 160,
     overflow: 'hidden',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -137,9 +159,9 @@ const styles = StyleSheet.create({
     width: LARGE_IMAGE_WIDTH,
     height: 200,
   },
-  textview: {
+  textView: {
     position: 'absolute',
-    top: 120,
+    top: 80,
     left: 15,
     right: 15,
     bottom: 15,
@@ -147,14 +169,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
   },
-  animatedview: {
+  animatedView: {
     opacity: 0,
   },
   text: {
     color: 'white',
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 10,
-    fontSize: 17,
-    fontWeight: 'normal',
+    textShadowRadius: 20,
   },
 })
