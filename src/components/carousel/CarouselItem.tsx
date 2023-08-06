@@ -73,7 +73,7 @@ const CarouselItem = ({ uri, text, scrollX, index, dataLength }: Props) => {
   })
 
   const animatedStyle = useAnimatedStyle(() => {
-    const width = containerWidth.value
+    const width = interpolate(scrollX.value, inputRange, outputRange, 'clamp')
     return {
       width,
     }

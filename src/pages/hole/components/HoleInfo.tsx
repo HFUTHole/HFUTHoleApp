@@ -17,6 +17,7 @@ import BilibiliSvg from '@/assets/svg/home/bilibili.svg'
 import { Svg } from '@/components/svg/Svg'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
+import { Categories } from '../Category'
 
 type Data = IHole
 
@@ -144,9 +145,15 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
   )
 }
 
-//TODO: 实现有点蛋疼
-export const HoleInfoTitle: React.FC<{ data: Data }> = ({ data }) => {
+//TODO: 样式有点蛋疼
+export const HoleInfoTitle: React.FC<{ data: Data; categoryMode: string }> = ({
+  data,
+  categoryMode,
+}) => {
   const theme = useTheme()
+  const colors = Categories.find((category) => {
+    return category.name == data.category.category
+  })?.color
 
   return (
     <View>
@@ -160,63 +167,71 @@ export const HoleInfoTitle: React.FC<{ data: Data }> = ({ data }) => {
         ]}
         numberOfLines={2}
       >
-        <View className={'flex-row space-x-2 items-center'}>
-          <View className={'rounded-md bg-black/5 px-2 py-0.5 self-center'}>
+        {(categoryMode == 'category' || categoryMode == 'subcategory') && (
+          <View className={'flex-row space-x-2 items-center'}>
+            {categoryMode == 'category' && (
+              <View
+                className={'rounded-md px-2 py-0.5 self-center'}
+                style={{ backgroundColor: colors?.secondary }}
+              >
+                <EmojiableText
+                  body={data.category.category}
+                  variant={'titleMedium'}
+                  style={[styles.categoryText, { color: colors?.primary }]}
+                />
+              </View>
+            )}
             <EmojiableText
-              body={data.category.category.slice(2, 4)}
+              body={data.category.subcategory + ' · '}
               variant={'titleMedium'}
-              style={[styles.categoryText, { color: theme.colors.primary }]}
+              style={[styles.categoryText, { color: colors?.primary }]}
             />
           </View>
-          <EmojiableText
-            body={data.category.category.slice(0, 2) + ' · '}
-            variant={'titleMedium'}
-            style={[styles.categoryText, { color: theme.colors.primary }]}
-          />
-        </View>
-        {data.body.slice(0, 14)}
+        )}
+        {data.title}
       </Text>
     </View>
   )
 }
 
-export const HoleInfoBody: React.FC<{ data: Data }> = React.memo(({ data }) => {
-  const theme = useTheme()
+export const HoleInfoBody: React.FC<{ data: Data; categoryMode: string }> =
+  React.memo(({ data, categoryMode }) => {
+    const theme = useTheme()
 
-  const { goResult } = useHoleSearchRoute()
+    const { goResult } = useHoleSearchRoute()
 
-  return (
-    <View className={'flex space-y-2'}>
-      <HoleInfoTitle data={data} />
-      <View>
-        <EmojiableText
-          body={data.body}
-          variant={'bodyLarge'}
-          numberOfLines={3}
-          style={{ color: theme.colors.surfaceVariant, lineHeight: 25 }}
-        />
+    return (
+      <View className={'flex space-y-2'}>
+        <HoleInfoTitle data={data} categoryMode={categoryMode} />
+        <View>
+          <EmojiableText
+            body={data.body}
+            variant={'bodyLarge'}
+            numberOfLines={3}
+            style={{ color: theme.colors.surfaceVariant, lineHeight: 25 }}
+          />
+        </View>
+        {data.imgs.length && (
+          <View>
+            <ImageList imgs={data?.imgs.slice(0, 3)} />
+          </View>
+        )}
+        {data.tags.length && (
+          <View>
+            <Badges data={data.tags} onPress={(tag) => goResult(`#${tag}`)} />
+          </View>
+        )}
       </View>
-      {data.imgs.length && (
-        <View>
-          <ImageList imgs={data?.imgs} />
-        </View>
-      )}
-      {data.tags.length && (
-        <View>
-          <Badges data={data.tags} onPress={(tag) => goResult(`#${tag}`)} />
-        </View>
-      )}
-    </View>
-  )
-})
+    )
+  })
 
 interface Props extends IClassName {
   data: Data
   onPress?: Func
   header?: ReactNode
   body?: ReactNode
-  // bottom?: ReactNode
   showComment?: boolean
+  categoryMode?: 'category' | 'subcategory' | undefined
 }
 
 export const HoleInfo = React.memo(
@@ -225,9 +240,9 @@ export const HoleInfo = React.memo(
     onPress,
     header,
     body,
-    // bottom,
     className,
     showComment = true,
+    categoryMode = 'category',
   }: Props) => {
     const theme = useTheme()
 
@@ -236,7 +251,9 @@ export const HoleInfo = React.memo(
         <TouchableRipple onPress={onPress}>
           <View className={`flex-col space-y-4 p-4 ${className}`}>
             <View>{header || <HoleInfoHeader data={data} />}</View>
-            <View>{body || <HoleInfoBody data={data} />}</View>
+            <View>
+              {body || <HoleInfoBody data={data} categoryMode={categoryMode} />}
+            </View>
             <View>{data.vote && <HoleInfoVote data={data} />}</View>
             {showComment && data.comments?.length > 0 && (
               <>

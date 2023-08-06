@@ -52,6 +52,7 @@ export function HoleMain() {
         ref={listRef}
         {...query}
         onScroll={scrollHandler}
+        categoryMode={'category'}
       />
       <AnimatedHolePostFAB offset={PostFABOffset} />
       <AnimatedToTopFAB

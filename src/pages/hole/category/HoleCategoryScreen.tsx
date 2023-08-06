@@ -51,6 +51,7 @@ export function HoleCategoryScreen(props: { category: ArticleCategoryEnum }) {
         {...query}
         onScroll={scrollHandler}
         ListHeaderComponent={HoleCategoryHeader}
+        categoryMode={'subcategory'}
       />
       <AnimatedHolePostFAB offset={PostFABOffset} />
       <AnimatedToTopFAB

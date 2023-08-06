@@ -2,6 +2,7 @@ declare interface IHole {
   id: number
   createAt: string
   bilibili: string | null
+  title: string
   body: string
   imgs: string[]
   favoriteCounts: number
@@ -15,6 +16,7 @@ declare interface IHole {
   category: {
     id: number
     category: string
+    subcategory: string
   }
 }
 

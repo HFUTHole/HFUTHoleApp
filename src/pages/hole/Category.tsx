@@ -12,13 +12,41 @@ import { Text, TouchableRipple } from 'react-native-paper'
 import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 
 export const Categories = [
-  { name: ArticleCategoryEnum.hfutLife, svg: HFUTLifeSvg },
-  { name: ArticleCategoryEnum.taoSecondHand, svg: SecondHandSvg },
-  { name: ArticleCategoryEnum.lostAndFound, svg: LostAndFoundSvg },
-  { name: ArticleCategoryEnum.study, svg: StudySvg },
-  { name: ArticleCategoryEnum.cat, svg: CatSvg },
-  { name: ArticleCategoryEnum.love, svg: YourNameSvg },
-  { name: ArticleCategoryEnum.ACG, svg: BilibiliSvg },
+  {
+    name: ArticleCategoryEnum.hfutLife,
+    svg: HFUTLifeSvg,
+    color: { primary: '#619E68', secondary: '#E3F6E0' },
+  },
+  {
+    name: ArticleCategoryEnum.taoSecondHand,
+    svg: SecondHandSvg,
+    color: { primary: '#D07775', secondary: '#FFECEB' },
+  },
+  {
+    name: ArticleCategoryEnum.lostAndFound,
+    svg: LostAndFoundSvg,
+    color: { primary: '#CB7D4B', secondary: '#FFEDE4' },
+  },
+  {
+    name: ArticleCategoryEnum.study,
+    svg: StudySvg,
+    color: { primary: '#369F97', secondary: '#DCF6F2' },
+  },
+  {
+    name: ArticleCategoryEnum.cat,
+    svg: CatSvg,
+    color: { primary: '#BE7AAC', secondary: '#FFECF5' },
+  },
+  {
+    name: ArticleCategoryEnum.love,
+    svg: YourNameSvg,
+    color: { primary: '#619E68', secondary: '#E3F6E0' },
+  },
+  {
+    name: ArticleCategoryEnum.ACG,
+    svg: BilibiliSvg,
+    color: { primary: '#619E68', secondary: '#E3F6E0' },
+  },
 ]
 
 export function HomeCategories() {

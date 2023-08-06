@@ -16,6 +16,7 @@ type Props = UseInfiniteQueryResult<IHoleListResponse, unknown> & {
   invalidateQuery: Func
   ListHeaderComponent?: FlatListProps<any>['ListHeaderComponent']
   onScroll?: Func
+  categoryMode: string
 }
 
 function RefreshableHoleListInner(
@@ -27,6 +28,7 @@ function RefreshableHoleListInner(
     invalidateQuery,
     ListHeaderComponent,
     onScroll,
+    categoryMode,
   }: Props,
   ref: any
 ) {
@@ -62,7 +64,12 @@ function RefreshableHoleListInner(
             )
           }
           renderItem={({ item }) => (
-            <HoleInfo key={item.id} data={item} onPress={() => go(item.id)} />
+            <HoleInfo
+              key={item.id}
+              data={item}
+              onPress={() => go(item.id)}
+              categoryMode={categoryMode}
+            />
           )}
         />
       ) : (
