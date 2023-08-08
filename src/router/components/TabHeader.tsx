@@ -44,7 +44,7 @@ export function ModeTabHeader({ children, onRightPress, ...props }: Props) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[{ backgroundColor: theme.colors.background }]}
       >
-        <TopTabBar {...props} />
+        {/* <TopTabBar {...props} /> */}
       </ScrollView>
     </View>
   )

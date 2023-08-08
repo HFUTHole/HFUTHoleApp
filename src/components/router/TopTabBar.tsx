@@ -4,23 +4,27 @@ import { useTheme } from 'react-native-paper'
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
+  withSpring,
   withTiming,
 } from 'react-native-reanimated'
 import { useLinkTo } from '@react-navigation/native'
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 
 export function TopTabBar({
   state,
   descriptors,
   jumpTo,
 }: MaterialTopTabBarProps) {
-  const handlePress = useCallback((route: string) => {
-    jumpTo(route)
-  }, [])
+  const handlePress = useCallback(
+    (route: string) => {
+      jumpTo(route)
+    },
+    [jumpTo]
+  )
 
   return (
     <View
-      className={'flex-row space-x-3 px-6 py-4 items-center bg-transparent'}
+      className={'flex-row space-x-3 px-6 py-2 items-center bg-transparent'}
     >
       {state.routes.map((route, index) => {
         const options = descriptors[route.key].options
@@ -30,6 +34,7 @@ export function TopTabBar({
             <TabBarItem
               isFocused={state.index === index}
               name={options.title!}
+              Icon={options.tabBarIcon!}
             />
           </Pressable>
         )
@@ -41,16 +46,18 @@ export function TopTabBar({
 const TabBarItem = ({
   isFocused,
   name,
+  Icon,
 }: {
   isFocused: boolean
   name: string
+  Icon: (props: { focused: boolean; color: string }) => React.ReactNode
 }) => {
   const theme = useTheme()
 
   const Animation = {
     active: {
       color: '#000',
-      fontSize: 18,
+      fontSize: 24,
     },
     inactive: {
       color: theme.colors.surfaceVariant,
@@ -68,17 +75,21 @@ const TabBarItem = ({
     [isFocused]
   )
 
-  const style = useAnimatedStyle(() => {
+  const textStyle = useAnimatedStyle(() => {
     return {
-      fontSize: withTiming(fontSize.value),
+      lineHeight: 32,
+      fontSize: withSpring(fontSize.value),
       color: withTiming(color.value),
       fontWeight: isFocused ? 'bold' : 'normal',
     }
   })
 
   return (
-    <View>
-      <Animated.Text style={style}>{name}</Animated.Text>
+    <View className={'flex-row items-center space-x-1'}>
+      <Icon focused={isFocused} color="#000000" />
+      <Animated.View>
+        <Animated.Text style={textStyle}>{name}</Animated.Text>
+      </Animated.View>
     </View>
   )
 }

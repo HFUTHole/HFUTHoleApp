@@ -19,6 +19,9 @@ import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 import { HoleMain } from '@/pages/hole/main/HoleMain'
 import { HoleModeTabs } from './ModeTabs'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
+import AppDenoSvg from '@/assets/svg/app_deno.svg'
+import { Svg } from '@/components/svg/Svg'
+import Animated, { FadeIn, FadeOut, ZoomIn, ZoomOut } from 'react-native-reanimated'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
@@ -86,6 +89,19 @@ export const HoleNestedStacks = () => {
   )
 }
 
+export function TopTabBarIcon({ focused, color, svg, categoryColor }) {
+  return (
+    focused && (
+      <Animated.View
+        entering={ZoomIn.springify().duration(100).damping(20)}
+        exiting={ZoomOut.duration(250)}
+      >
+        <Svg SvgComponent={svg} size={30} color={categoryColor} />
+      </Animated.View>
+    )
+  )
+}
+
 export function TopTabs() {
   const theme = useTheme()
   const { go } = useHoleCategoryRoute()
@@ -110,14 +126,34 @@ export function TopTabs() {
         <Tab.Screen
           name={'main'}
           component={HoleMain}
-          options={{ title: '主页' }}
+          options={{
+            title: '小宇宙',
+            tabBarIcon: ({ focused, color }) => (
+              <TopTabBarIcon
+                focused={focused}
+                color={color}
+                svg={AppDenoSvg}
+                categoryColor={'#000000'}
+              />
+            ),
+          }}
         />
         {Categories.map((category) => (
           // Boards
           <Tab.Screen
             key={category.name}
             name={category.name}
-            options={{ title: category.name }}
+            options={{
+              title: category.name,
+              tabBarIcon: ({ focused, color }) => (
+                <TopTabBarIcon
+                  focused={focused}
+                  color={color}
+                  svg={category.svg}
+                  categoryColor={category.color.primary}
+                />
+              ),
+            }}
           >
             {(props) => <HoleModeTabs {...props} category={category.name} />}
           </Tab.Screen>

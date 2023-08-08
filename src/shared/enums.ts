@@ -21,12 +21,12 @@ export enum Role {
 
 export enum ArticleCategoryEnum {
   hfutLife = '肥工日常',
-  taoSecondHand = '淘二手',
+  littleCreature = '小动物',
+  loveStory = '情感分享',
+  hobby = '兴趣娱乐',
+  study = '学在工大',
   lostAndFound = '失物招领',
-  study = '学习交流',
-  cat = '肥工猫咖',
-  love = '你的名字',
-  ACG = 'ACG',
+  taoSecondHand = '淘二手',
 }
 
 export enum NotifyEventType {

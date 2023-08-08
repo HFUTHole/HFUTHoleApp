@@ -12,7 +12,7 @@ export const HoleModeTabs = (props: { category: any }) => {
       tabBar={(props) => <ModeTabHeader {...props} />}
       screenOptions={{
         tabBarScrollEnabled: false,
-        swipeEnabled: false,
+        swipeEnabled: true,
         lazy: true,
         lazyPreloadDistance: 0,
       }}

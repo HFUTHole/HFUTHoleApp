@@ -2,7 +2,7 @@ import { Image, Text, View } from 'react-native'
 
 export function HoleCategoryHeader() {
   return (
-    <View className={'rounded-lg overflow-hidden bg-black'}>
+    <View className={'rounded-2xl overflow-hidden bg-black'}>
       <Image
         source={{
           uri: 'https://c-ssl.duitang.com/uploads/blog/202106/15/20210615110214_81507.jpg',
