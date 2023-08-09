@@ -5,11 +5,10 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useDerivedValue,
-  useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 interface TopTabBarProps extends MaterialTopTabBarProps {
   jumpTo: (key: string) => void
@@ -70,7 +69,6 @@ const TabBarItem = ({
   const theme = useTheme()
   const showLabel = tabBarShowLabel
   const [offset, setOffset] = useState<number>(0)
-  const [isPressed, setPressed] = useState(false)
 
   const Animation = {
     active: {
@@ -92,10 +90,8 @@ const TabBarItem = ({
 
   const fontScale = useDerivedValue(
     () =>
-      isFocused || isPressed
-        ? Animation.active.fontScale
-        : Animation.inactive.fontScale,
-    [isFocused, isPressed]
+      isFocused ? Animation.active.fontScale : Animation.inactive.fontScale,
+    [isFocused]
   )
 
   const labelWidth = useDerivedValue(
@@ -109,7 +105,7 @@ const TabBarItem = ({
       lineHeight: 20,
       fontSize: 16,
       color: withTiming(color.value),
-      fontWeight: isFocused || isPressed ? 'bold' : 'normal',
+      fontWeight: isFocused ? 'bold' : 'normal',
     }
   })
 
@@ -118,7 +114,6 @@ const TabBarItem = ({
       width: withSpring(labelWidth.value, { damping: 30 }, () => {
         if (isFocused && offset % 1 === 0) {
           runOnJS(scrollToXHandler)(offset)
-          runOnJS(setPressed)(false)
         }
       }),
       height: 20,
@@ -132,10 +127,7 @@ const TabBarItem = ({
 
   return (
     <Pressable
-      onPress={() => {
-        onPress()
-        setPressed(true)
-      }}
+      onPress={onPress}
       className={'px-1'}
       onLayout={(event) => {
         const layout = event.nativeEvent.layout
