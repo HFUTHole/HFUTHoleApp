@@ -21,7 +21,8 @@ import { HoleModeTabs } from './ModeTabs'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import AppDenoSvg from '@/assets/svg/app_deno.svg'
 import { Svg } from '@/components/svg/Svg'
-import Animated, { FadeIn, FadeOut, ZoomIn, ZoomOut } from 'react-native-reanimated'
+import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated'
+import { Text } from 'react-native'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
@@ -93,8 +94,8 @@ export function TopTabBarIcon({ focused, color, svg, categoryColor }) {
   return (
     focused && (
       <Animated.View
-        entering={ZoomIn.springify().duration(100).damping(20)}
-        exiting={ZoomOut.duration(250)}
+        entering={ZoomIn.springify().damping(30)}
+        exiting={ZoomOut.duration(200)}
       >
         <Svg SvgComponent={svg} size={30} color={categoryColor} />
       </Animated.View>
@@ -127,7 +128,7 @@ export function TopTabs() {
           name={'main'}
           component={HoleMain}
           options={{
-            title: '小宇宙',
+            title: '主页',
             tabBarIcon: ({ focused, color }) => (
               <TopTabBarIcon
                 focused={focused}
@@ -136,6 +137,7 @@ export function TopTabs() {
                 categoryColor={'#000000'}
               />
             ),
+            tabBarShowLabel: false,
           }}
         />
         {Categories.map((category) => (
@@ -153,6 +155,7 @@ export function TopTabs() {
                   categoryColor={category.color.primary}
                 />
               ),
+              tabBarShowLabel: true,
             }}
           >
             {(props) => <HoleModeTabs {...props} category={category.name} />}

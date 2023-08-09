@@ -8,7 +8,7 @@ type Props = {
   active?: boolean
 } & SvgProps
 
-export function Svg({ active, SvgComponent, size, ...props }: Props) {
+export function Svg({ active, SvgComponent, size, style, ...props }: Props) {
   const theme = useTheme()
 
   return (
@@ -16,6 +16,7 @@ export function Svg({ active, SvgComponent, size, ...props }: Props) {
       color={active ? theme.colors.primary : theme.colors.surfaceVariant}
       width={size}
       height={size}
+      style={style}
       {...props}
     />
   )
