@@ -1,6 +1,6 @@
 import { Image, Text, View } from 'react-native'
 
-export function HoleCategoryHeader() {
+export function HoleCategoryHeader({ category }) {
   return (
     <View className={'rounded-2xl overflow-hidden bg-black'}>
       <Image
@@ -15,8 +15,8 @@ export function HoleCategoryHeader() {
           'absolute p-3 bg-black/20 left-0 right-0 top-0 bottom-0 flex justify-end'
         }
       >
-        <Text className={'text-white text-2xl'}>吃喝玩乐</Text>
-        <Text className={'text-white mt-2'}>学习已经很累了，吃点好的吧</Text>
+        <Text className={'text-white text-2xl'}>{category.name}</Text>
+        <Text className={'text-white mt-1'}>{category.description}</Text>
       </View>
     </View>
   )

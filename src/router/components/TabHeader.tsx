@@ -5,6 +5,8 @@ import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { createRef, useRef } from 'react'
 import { Func } from '@/shared/types'
 import { SearchIcon } from '@/components/icon'
+import { SubCategoryTabBar } from '@/components/router/SubCategoryTabBar'
+import { ScrollView as GestureHandlerScrollView } from 'react-native-gesture-handler'
 
 interface Props extends MaterialTopTabBarProps {
   children?: React.ReactNode
@@ -43,6 +45,34 @@ export function TopTabHeader({ children, onRightPress, ...props }: Props) {
   )
 }
 
+interface SubCategoryTabProps extends MaterialTopTabBarProps {
+  children?: React.ReactNode
+  onRightPress?: Func
+  categoryColors: any
+}
+
+export function SubCategoryTabHeader({
+  children,
+  onRightPress,
+  categoryColors,
+  ...props
+}: SubCategoryTabProps) {
+  const theme = useTheme()
+  return (
+    <View className={'flex-row'}>
+      <GestureHandlerScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={[
+          { backgroundColor: theme.colors.background, width: '100%' },
+        ]}
+      >
+        <SubCategoryTabBar categoryColors={categoryColors} {...props} />
+      </GestureHandlerScrollView>
+    </View>
+  )
+}
+
 export function ModeTabHeader({ children, onRightPress, ...props }: Props) {
   const theme = useTheme()
   return (
@@ -50,7 +80,9 @@ export function ModeTabHeader({ children, onRightPress, ...props }: Props) {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[{ backgroundColor: theme.colors.background }]}
+        contentContainerStyle={[
+          { backgroundColor: theme.colors.background, width: '100%' },
+        ]}
       >
         {/* <TopTabBar {...props} /> */}
       </ScrollView>

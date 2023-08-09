@@ -23,6 +23,7 @@ import AppDenoSvg from '@/assets/svg/app_deno.svg'
 import { Svg } from '@/components/svg/Svg'
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated'
 import { Text } from 'react-native'
+import { HoleSubCategoryTabs } from './SubCategoryTabs'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
@@ -158,7 +159,7 @@ export function TopTabs() {
               tabBarShowLabel: true,
             }}
           >
-            {(props) => <HoleModeTabs {...props} category={category.name} />}
+            {(props) => <HoleSubCategoryTabs {...props} category={category} />}
           </Tab.Screen>
         ))}
       </Tab.Navigator>

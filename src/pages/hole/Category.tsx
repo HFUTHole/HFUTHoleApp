@@ -5,6 +5,7 @@ import StudySvg from '@/assets/svg/home/study.svg'
 import CatSvg from '@/assets/svg/home/cat.svg'
 import YourNameSvg from '@/assets/svg/home/love.svg'
 import BilibiliSvg from '@/assets/svg/home/bilibili.svg'
+import HobbySvg from '@/assets/svg/home/hobby.svg'
 import { ArticleCategoryEnum } from '@/shared/enums'
 import { View } from 'react-native'
 import { Svg } from '@/components/svg/Svg'
@@ -29,7 +30,7 @@ export const Categories = [
   {
     name: ArticleCategoryEnum.loveStory,
     description: '分享一下你的情感/小丑故事',
-    color: { primary: '#BE7AAC', secondary: '#FFECF5' },
+    color: { primary: '#CA7792', secondary: '#FFEDF0' },
     svg: YourNameSvg,
   },
   {
@@ -38,7 +39,7 @@ export const Categories = [
       '在这里你可以分享音乐，书籍，电影，游戏，动漫, whatever you are interested!',
     children: ['游戏', '动漫', '音乐', '好书', '电影'],
     color: { primary: '#5297C3', secondary: '#DCF6F2' },
-    svg: BilibiliSvg,
+    svg: HobbySvg,
   },
   {
     name: ArticleCategoryEnum.study,

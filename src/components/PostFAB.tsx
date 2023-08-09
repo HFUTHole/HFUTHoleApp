@@ -1,12 +1,16 @@
 import { FAB, FABProps, useTheme } from 'react-native-paper'
 
-export function PostFAB(props: Partial<FABProps>) {
+interface PostFabProps {
+  bgColor: string
+}
+
+export function PostFAB(props: Partial<FABProps> & PostFabProps) {
   const theme = useTheme()
 
   return (
     <FAB
       style={{
-        backgroundColor: theme.colors.primary,
+        backgroundColor: props.bgColor,
       }}
       icon={'plus'}
       color={'white'}

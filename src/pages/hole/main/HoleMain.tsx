@@ -54,10 +54,14 @@ export function HoleMain() {
         onScroll={scrollHandler}
         categoryMode={'category'}
       />
-      <AnimatedHolePostFAB offset={PostFABOffset} />
+      <AnimatedHolePostFAB
+        offset={PostFABOffset}
+        bgColor={theme.colors.primary}
+      />
       <AnimatedToTopFAB
         visible={isToTopFABVisible}
         goToTop={scrollToTopHandler}
+        bgColor={theme.colors.primary}
       />
     </Page>
   )

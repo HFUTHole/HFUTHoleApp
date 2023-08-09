@@ -20,7 +20,7 @@ export enum Role {
 }
 
 export enum ArticleCategoryEnum {
-  hfutLife = '肥工日常',
+  hfutLife = '日常',
   littleCreature = '小动物',
   loveStory = '情感分享',
   hobby = '兴趣娱乐',
