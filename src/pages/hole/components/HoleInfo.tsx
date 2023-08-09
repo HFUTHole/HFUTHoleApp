@@ -139,7 +139,6 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
                 </View>
               ))}
             </View>
-
             <HoleBottomAction data={data as IHoleDetailResponse} />
           </View>
         </View>

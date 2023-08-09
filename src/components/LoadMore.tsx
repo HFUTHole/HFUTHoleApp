@@ -4,11 +4,11 @@ import { LoadingIndicator } from '@/components/LoadingIndicator'
 import { getQAQFont } from '@/shared/utils/utils'
 
 interface Props {
-  text: string
+  text?: string
   hasNextPage: boolean
 }
 
-export function LoadMore(props: Props) {
+export function LoadMore({ hasNextPage, text }: Props) {
   const theme = useTheme()
 
   return (
@@ -17,13 +17,11 @@ export function LoadMore(props: Props) {
         'w-screen px-5 justify-center flex flex-row items-center py-10'
       }
     >
-      {props.hasNextPage ? (
+      {hasNextPage ? (
         <LoadingIndicator />
       ) : (
         <Text style={{ color: theme.colors.surfaceVariant }}>
-          {`${props.text || '没有更多了哦'}${
-            props.text && getQAQFont('happy')
-          }`}
+          {text ? text + getQAQFont('happy') : '没有更多了哦'}
         </Text>
       )}
     </View>

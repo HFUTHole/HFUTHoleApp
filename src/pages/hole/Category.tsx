@@ -61,7 +61,7 @@ export const Categories = [
     children: ['屯', '翠', '宣'],
     color: { primary: '#D07775', secondary: '#FFECEB' },
     svg: SecondHandSvg,
-  },
+  }
 ]
 
 export function HomeCategories() {

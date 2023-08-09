@@ -3,7 +3,7 @@ import { Layout } from '@/layouts/layout'
 import { PaperProvider } from '@/shared/providers/paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { ReactQueryProvider } from '@/shared/providers/react-query'
-import { setupGlobalConfig } from '@/shared/config'
+// import { setupGlobalConfig } from '@/shared/config'
 import { NativeBaseProvider } from 'native-base'
 import { HolePostContextProvider } from '@/shared/context/hole'
 import { StatusBarContextProvider } from '@/shared/context/statusbar'
@@ -17,7 +17,7 @@ import { PortalProvider } from '@gorhom/portal'
 import { KeyboardContextProvider } from '@/shared/context/keyboard'
 import { BottomCommentContext } from '@/shared/context/hole/comment'
 
-setupGlobalConfig()
+// setupGlobalConfig()
 
 const App = () => {
   return (

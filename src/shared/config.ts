@@ -3,7 +3,6 @@ export const Config = {
     baseURL: 'http://129.211.26.121:8080/',
     imgBaseURL: 'http://129.211.26.121:8880/',
     spaceBaseURL: 'https://hfut-space.top/',
-    spaceLoginBaseURL: 'https://hfut-space.top/',
     timeout: 5000,
   },
 }
@@ -27,4 +26,4 @@ export const Limit = {
   },
 }
 
-export function setupGlobalConfig() {}
+// export function setupGlobalConfig() {}

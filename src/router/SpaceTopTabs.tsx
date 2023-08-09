@@ -14,8 +14,8 @@ import { CustomRanking } from '@/pages/space/score/custom-ranking/CustomRanking'
 import { ScoreHelpScreen } from '@/pages/space/service/help/Help'
 import { TopTabHeader } from '@/router/components/TabHeader'
 import { Header } from '@/components/Header'
-import { SpaceClassmateScreen } from '@/pages/space/classmate/SpaceClassmateScreen'
-import { CourseFailureQuery } from '@/pages/space/course-failure-query/CourseFailureQuery'
+import { SpaceClassmateScreen } from '@/pages/space/service/classmate/SpaceClassmateScreen'
+import { CourseFailureQuery } from '@/pages/space/service/course-failure-query/CourseFailureQuery'
 import { SpaceLoginScreen } from '@/pages/space/login/SpaceLoginScreen'
 
 const Tab = createMaterialTopTabNavigator()

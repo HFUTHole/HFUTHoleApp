@@ -2,121 +2,95 @@ import { useAppSelector } from '@/store/store'
 import { useEffect, useMemo, useRef } from 'react'
 import { formatSemester } from '@/pages/space/@utils/utils'
 import { StableWebView } from '@/components/StableWebView'
+import { Echarts, type EchartsInstance } from '@/components/echarts/Echarts'
+import { floatFixed } from '@/shared/utils/utils'
+import { RankType, ScoreType } from '@/store/reducer/spaceScore'
+
+const seriesMap: { key: keyof RankInfo; name: string }[] = [
+  { key: 'mine', name: '我的' },
+  { key: 'avg', name: '平均' },
+  { key: 'head', name: '前10%' },
+  { key: 'max', name: '最高' },
+]
+
+const getRankInfo = (
+  semester: Semester,
+  rankType: RankType,
+  scoreType: ScoreType
+) => {
+  const rankData =
+    rankType === 'compulsoryRank' ? semester.compulsoryRank : semester.totalRank
+  return scoreType === 'score' ? rankData.score : rankData.gpa
+}
 
 export const SemesterScoreChart = () => {
-  const { semesters } = useAppSelector((state) => state.spaceScore)
+  const { semesters, rankType, scoreType } = useAppSelector(
+    (state) => state.spaceScore
+  )
 
-  const html = useMemo(
-    () => `
-<html lang="zh-CN" style="height: 100%">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,viewport-fit=cover">
-</head>
-<body style="height: 100%; margin: 0">
-  <div id="container" style="height: 100%; width: 100%;"></div>
-
-  
-  <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
-  <script type="text/javascript">
-    var dom = document.getElementById('container');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    
-    var option;
-
-    option = {
-  xAxis: {
-    type: 'category',
-    data: [${semesters
-      .map((item) => `'${formatSemester(item.semester)}'`)
-      .reverse()
-      .toString()}]
-  },
-  legend: {
-      top: 'top', // 设置图例组件的位置在图表上方
-      textStyle: {
-        color: 'black' // 设置图例文本的颜色
-      }
-    },
-  tooltip: {
-    trigger: 'axis'
-  },
-  yAxis: {
-    type: 'value',
-    min: Math.min(${semesters
-      .map((item) => {
-        const { mine, max, head, avg } = item.compulsoryRank.score
-
-        return Math.min(mine, max, head, avg).toFixed(3)
-      })
-      .reverse()
-      .join(',')}, 100),
-    max: Math.max(${semesters
-      .map((item) => item.compulsoryRank.score.max.toFixed(3))
-      .reverse()
-      .join(',')}, 0)
-  },
-  
-  series: [
-    {
-      data: [${semesters
-        .map((item) => item.compulsoryRank.score.mine.toFixed(3))
+  const options = useMemo(() => {
+    const getSeriesData = (key: keyof RankInfo) =>
+      semesters
+        .map((semester) => {
+          const scoreData = getRankInfo(semester, rankType, scoreType)
+          return floatFixed(scoreData[key], 3)
+        })
         .reverse()
-        .toString()}],
-      type: 'line',
-      name: '我的',
-      areaStyle: {
-        opacity: 0.3
+    return {
+      xAxis: {
+        type: 'category',
+        data: semesters.map((item) => formatSemester(item.semester)).reverse(),
       },
-    },
-    {
-      data: [${semesters
-        .map((item) => item.compulsoryRank.score.avg.toFixed(3))
-        .reverse()
-        .toString()}],
-      type: 'line',
-      name: '平均',
-    },
-    {
-      data: [${semesters
-        .map((item) => item.compulsoryRank.score.head.toFixed(3))
-        .reverse()
-        .toString()}],
-      type: 'line',
-      name: '前10%',
-    },
-    {
-      data: [${semesters
-        .map((item) => item.compulsoryRank.score.max.toFixed(3))
-        .reverse()
-        .toString()}],
-      type: 'line',
-      name: '最高',
-    },
-  ]
-};
-
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
+      yAxis: {
+        type: 'value',
+        min: Math.min(
+          ...semesters.map((item) => {
+            const { mine, max, head, avg } = getRankInfo(
+              item,
+              rankType,
+              scoreType
+            )
+            return floatFixed(Math.min(mine, max, head, avg), 3)
+          })
+        ),
+        max: Math.max(
+          ...semesters.map((item) => {
+            const { mine, max, head, avg } = getRankInfo(
+              item,
+              rankType,
+              scoreType
+            )
+            return floatFixed(Math.max(mine, max, head, avg), 3)
+          })
+        ),
+      },
+      legend: {
+        top: 'top', // 设置图例组件的位置在图表上方
+        textStyle: {
+          color: 'black', // 设置图例文本的颜色
+        },
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      series: seriesMap.map((item) => {
+        const extra =
+          item.key === 'mine'
+            ? {
+                areaStyle: {
+                  opacity: 0.3,
+                },
+              }
+            : {}
+        return {
+          name: item.name,
+          data: getSeriesData(item.key),
+          type: 'line',
+          ...extra,
+        }
+      }),
     }
+  }, [rankType, scoreType, semesters])
 
-    window.addEventListener('resize', myChart.resize);
-  </script>
-</body>
-</html>
-  `,
-    [semesters]
-  )
-
-  return (
-    <StableWebView
-      source={{
-        html,
-      }}
-    />
-  )
+  return <Echarts options={options} />
 }

@@ -18,7 +18,7 @@ interface Props {
   fetchNextPage: Func
   onTopRefresh: Func
   emptyText: string
-  loadText: string
+  loadText?: string
   isError?: boolean
 }
 

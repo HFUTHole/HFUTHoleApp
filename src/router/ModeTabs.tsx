@@ -8,6 +8,7 @@ const HoleModeTab = createMaterialTopTabNavigator()
 export const HoleModeTabs = (props: { category: any; subcategory: string }) => {
   const category = props.category
   const subcategory = props.subcategory
+
   return (
     <HoleModeTab.Navigator
       initialRouteName={'latest'}

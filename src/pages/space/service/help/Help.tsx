@@ -8,7 +8,6 @@ interface RouteParams {
 
 export const ScoreHelpScreen = () => {
   const params = useParams<RouteParams>()
-  console.log(params)
 
   return <View></View>
 }

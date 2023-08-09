@@ -1,14 +1,14 @@
-import { ScheduleSheetContent } from '@/pages/space/day-schedule/components/ScheduleSheetContent'
+import { ScheduleSheetContent } from '@/pages/space/components/ScheduleSheetContent'
 import { View } from 'react-native'
 import { Text, TouchableRipple } from 'react-native-paper'
 import { BottomActionSheet } from '@/components/sheet/BottomActionSheet'
 import React, { forwardRef, MutableRefObject } from 'react'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import { CourseSchedule, Schedule } from '@/pages/space/@utils/types'
 import { useSpaceCourseRoute } from '@/shared/hooks/route/useSpaceCourseRoute'
+import type { UnitSchedule } from '@/pages/space/@utils/types'
 
 interface Props {
-  schedule: CourseSchedule | Schedule
+  schedule?: UnitSchedule
 }
 
 export const ScheduleSheet = forwardRef<BottomSheetModal, Props>(
@@ -22,9 +22,10 @@ export const ScheduleSheet = forwardRef<BottomSheetModal, Props>(
     }
 
     const goCourseFailureRatePage = () => {
-      route.goCourseFailureRatePage(schedule.courseName)
+      route.goCourseFailureRatePage(schedule?.courseName)
       closeSheet()
     }
+
     return (
       <BottomActionSheet
         ref={ref}
@@ -32,16 +33,20 @@ export const ScheduleSheet = forwardRef<BottomSheetModal, Props>(
         backgroundStyle={{ backgroundColor: 'white' }}
         footerText={'查看挂科率'}
       >
-        <ScheduleSheetContent schedule={schedule} />
-        <View className={'mx-4 rounded-lg overflow-hidden bg-[#80f]'}>
-          <TouchableRipple onPress={goCourseFailureRatePage}>
-            <View className={'p-4'}>
-              <Text className={'text-center text-white font-[800]'}>
-                查看挂科率
-              </Text>
+        {schedule ? (
+          <>
+            <ScheduleSheetContent schedule={schedule} />
+            <View className={'mx-4 rounded-lg overflow-hidden bg-[#80f]'}>
+              <TouchableRipple onPress={goCourseFailureRatePage}>
+                <View className={'p-4'}>
+                  <Text className={'text-center text-white font-[800]'}>
+                    查看挂科率
+                  </Text>
+                </View>
+              </TouchableRipple>
             </View>
-          </TouchableRipple>
-        </View>
+          </>
+        ) : null}
       </BottomActionSheet>
     )
   }

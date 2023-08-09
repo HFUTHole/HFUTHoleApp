@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { useSpaceCourseFailureQuery } from '@/swr/space/course/failure'
 import { DataTable, Text } from 'react-native-paper'
 import { formatSemester } from '@/pages/space/@utils/utils'
-import { CourseFailureRateQueryChart } from '@/pages/space/course-failure-query/Chart'
+import { CourseFailureRateQueryChart } from '@/pages/space/service/course-failure-query/Chart'
 
 export function CourseFailureQuery() {
   const { data, isLoading, courseName } = useSpaceCourseFailureQuery()

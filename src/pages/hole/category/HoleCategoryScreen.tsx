@@ -18,6 +18,7 @@ export function HoleCategoryScreen(props: {
 }) {
   const query = useHoleCategoryList(props.category.name)
   // const query = useHoleCategoryList(props.category, props.subcategory)
+
   const listRef = createRef()
 
   const CONTENT_OFFSET_THRESHOLD = 500

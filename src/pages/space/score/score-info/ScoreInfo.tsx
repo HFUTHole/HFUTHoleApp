@@ -88,22 +88,22 @@ export const ScoreInfo = () => {
       {
         key: 'mine',
         title: '我的成绩',
-        Icon: UserIcon,
+        Icon: <UserIcon size={12} color={'#ffffff'} />,
       },
       {
         key: 'avg',
         title: `${rankTitleMap[rankType]}平均`,
-        Icon: UserFriendsIcon,
+        Icon: <UserFriendsIcon size={12} color={'#ffffff'} />,
       },
       {
         key: 'head',
         title: `${rankTitleMap[rankType]}前10%`,
-        Icon: FireIcon,
+        Icon: <FireIcon size={12} color={'#ffffff'} />,
       },
       {
         key: 'max',
         title: `${rankTitleMap[rankType]}最高`,
-        Icon: FireIcon,
+        Icon: <FireIcon size={12} color={'#ffffff'} />,
       },
     ],
     [rankType]
@@ -172,9 +172,7 @@ export const ScoreInfo = () => {
                           {info.title}
                         </Text>
                         <View className="flex flex-row mx-auto space-x-1 self-start">
-                          <View>
-                            <info.Icon size={12} color={'#ffffff'} />
-                          </View>
+                          <View>{info.Icon}</View>
                           <Text className="text-white text-xs">
                             {scoreData[info.key].toFixed(2)}
                           </Text>

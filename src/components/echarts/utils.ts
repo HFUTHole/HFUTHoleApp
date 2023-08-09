@@ -13,10 +13,16 @@ export const toString = (obj: object) => {
 
 export const getJavascriptSource = (options: string) => {
   return `
-    var options = ${options || {}}
-    const chart = new ApexCharts(document.querySelector('#chart'), options)
+    const options = ${options}
 
-    chart.render()
+
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+
+    myChart.setOption(options);
 
     function parse (data) {
       return JSON.parse(data, function (key, value) {
@@ -38,25 +44,18 @@ export const getJavascriptSource = (options: string) => {
     }
 
     function processMessage(e) {
-      const message = parse(e.data)
-
-      switch (message.type) {
-        case 'updateSeries':
-          const { newSeries, animate } = message.data
-          chart.updateSeries(newSeries, animate)
-          break
-        case 'updateOptions':
-          const { newOptions, redrawPaths } = message.data
-          chart.updateSeries(newOptions, redrawPaths)
-          break
-        default:
-          break
-      }
+      myChart.setOption(parse(e.data))
     }
 
     window.document.addEventListener('message', processMessage);
 
     window.addEventListener('message', processMessage);
 
+    window.addEventListener('resize', myChart.resize);
   `
 }
+
+// let newDiv = document.createElement("div");
+// let newContent = document.createTextNode('aaaa');
+// newDiv.appendChild(newContent);
+// document.body.appendChild(newDiv)
