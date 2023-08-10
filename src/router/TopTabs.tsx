@@ -19,6 +19,11 @@ import { useHoleCategoryRoute } from '@/shared/hooks/route/useHoleCategoryRoute'
 import { HoleMain } from '@/pages/hole/main/HoleMain'
 import { HoleModeTabs } from './ModeTabs'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
+import AppDenoSvg from '@/assets/svg/app_deno.svg'
+import { Svg } from '@/components/svg/Svg'
+import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated'
+import { Text } from 'react-native'
+import { HoleSubCategoryTabs } from './SubCategoryTabs'
 
 const Tab = createMaterialTopTabNavigator()
 const HoleStack = createNativeStackNavigator()
@@ -86,6 +91,19 @@ export const HoleNestedStacks = () => {
   )
 }
 
+export function TopTabBarIcon({ focused, color, svg, categoryColor }) {
+  return (
+    focused && (
+      <Animated.View
+        entering={ZoomIn.springify().damping(30)}
+        exiting={ZoomOut.duration(200)}
+      >
+        <Svg SvgComponent={svg} size={30} color={categoryColor} />
+      </Animated.View>
+    )
+  )
+}
+
 export function TopTabs() {
   const theme = useTheme()
   const { go } = useHoleCategoryRoute()
@@ -110,16 +128,38 @@ export function TopTabs() {
         <Tab.Screen
           name={'main'}
           component={HoleMain}
-          options={{ title: '主页' }}
+          options={{
+            title: '主页',
+            tabBarIcon: ({ focused, color }) => (
+              <TopTabBarIcon
+                focused={focused}
+                color={color}
+                svg={AppDenoSvg}
+                categoryColor={'#000000'}
+              />
+            ),
+            tabBarShowLabel: false,
+          }}
         />
         {Categories.map((category) => (
           // Boards
           <Tab.Screen
             key={category.name}
             name={category.name}
-            options={{ title: category.name }}
+            options={{
+              title: category.name,
+              tabBarIcon: ({ focused, color }) => (
+                <TopTabBarIcon
+                  focused={focused}
+                  color={color}
+                  svg={category.svg}
+                  categoryColor={category.color.primary}
+                />
+              ),
+              tabBarShowLabel: true,
+            }}
           >
-            {(props) => <HoleModeTabs {...props} category={category.name} />}
+            {(props) => <HoleSubCategoryTabs {...props} category={category} />}
           </Tab.Screen>
         ))}
       </Tab.Navigator>

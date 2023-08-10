@@ -18,6 +18,7 @@ import { Svg } from '@/components/svg/Svg'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { Categories } from '../Category'
+import { HoleBottomAction } from './sheet/HoleBottomAction'
 
 type Data = IHole
 
@@ -93,9 +94,9 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
 
   return (
     <>
-      <View className={'my-2 space-y-2'}>
+      <View className={'my-1 space-y-1'}>
         <View className={'flex flex-row justify-between'}>
-          <View className={'flex flex-row items-center space-x-3'}>
+          <View className={'flex flex-row items-center space-x-2'}>
             <UserAvatar url={data.user.avatar} size={35} />
             <View>
               <Text
@@ -138,6 +139,7 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
                 </View>
               ))}
             </View>
+            <HoleBottomAction data={data as IHoleDetailResponse} />
           </View>
         </View>
       </View>
@@ -249,7 +251,7 @@ export const HoleInfo = React.memo(
     return (
       <View className={'bg-white rounded-2xl mt-4 overflow-hidden'}>
         <TouchableRipple onPress={onPress}>
-          <View className={`flex-col space-y-4 p-4 ${className}`}>
+          <View className={`flex-col space-y-3 px-4 py-2 ${className}`}>
             <View>{header || <HoleInfoHeader data={data} />}</View>
             <View>
               {body || <HoleInfoBody data={data} categoryMode={categoryMode} />}
@@ -263,7 +265,7 @@ export const HoleInfo = React.memo(
                     data.comments.map((comment) => (
                       <View
                         className={
-                          'flex flex-row space-x-2 items-center py-3 justify-between'
+                          'flex flex-row space-x-2 items-center py-2 justify-between'
                         }
                         key={comment.id}
                       >

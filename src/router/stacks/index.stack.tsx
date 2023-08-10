@@ -6,11 +6,13 @@ import { SpaceStacks } from '@/router/SpaceTopTabs'
 import { useBaseNotificationsQuery } from '@/swr/notify/useBaseNotifications'
 import { useEffect, useRef } from 'react'
 import { UserStacks } from '@/router/stacks/user.stacks'
+import { useTheme } from 'react-native-paper'
 
 const IndexStack = createNativeStackNavigator()
 
 export function IndexStacks() {
   const { refetch } = useBaseNotificationsQuery()
+  const theme = useTheme()
 
   const timer = useRef<ReturnType<typeof setInterval> | null>()
 
@@ -30,7 +32,11 @@ export function IndexStacks() {
   })
 
   return (
-    <IndexStack.Navigator screenOptions={{ headerShown: false }}>
+    <IndexStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <IndexStack.Screen name={'index'} component={BottomTabs} />
       <IndexStack.Screen name={'hole'} component={HoleNestedStacks} />
       <IndexStack.Screen name={'user-nested'} component={UserStacks} />

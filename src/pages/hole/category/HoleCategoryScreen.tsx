@@ -12,8 +12,13 @@ import { Page } from '@/components/Page'
 import { useHoleList } from '@/swr/hole'
 import { useStatusBarStyle } from '@/shared/hooks/useStatusBarStyle'
 
-export function HoleCategoryScreen(props: { category: ArticleCategoryEnum }) {
-  const query = useHoleCategoryList(props.category)
+export function HoleCategoryScreen(props: {
+  category: any
+  subcategory: string
+}) {
+  const query = useHoleCategoryList(props.category.name)
+  // const query = useHoleCategoryList(props.category, props.subcategory)
+
   const listRef = createRef()
 
   const CONTENT_OFFSET_THRESHOLD = 500
@@ -50,13 +55,17 @@ export function HoleCategoryScreen(props: { category: ArticleCategoryEnum }) {
         ref={listRef}
         {...query}
         onScroll={scrollHandler}
-        ListHeaderComponent={HoleCategoryHeader}
+        ListHeaderComponent={<HoleCategoryHeader category={props.category} />}
         categoryMode={'subcategory'}
       />
-      <AnimatedHolePostFAB offset={PostFABOffset} />
+      <AnimatedHolePostFAB
+        offset={PostFABOffset}
+        bgColor={props.category.color.primary}
+      />
       <AnimatedToTopFAB
         visible={isToTopFABVisible}
         goToTop={scrollToTopHandler}
+        bgColor={props.category.color.primary}
       />
     </Page>
   )

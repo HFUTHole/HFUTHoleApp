@@ -28,7 +28,8 @@ export function Carousel({ data }) {
       scrollEventThrottle={16}
       snapToAlignment={'start'}
       snapToInterval={SMALL_IMAGE_WIDTH}
-      decelerationRate={'fast'}
+      decelerationRate={'normal'}
+
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item, index }) => (
         <CarouselItem
