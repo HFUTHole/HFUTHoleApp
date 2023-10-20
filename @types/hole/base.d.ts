@@ -26,6 +26,7 @@ declare interface IHole {
     name: string
     description: string
   } | null
+  expressEmojis: ExpressEmoji[]
 }
 
 interface Comment {
@@ -42,4 +43,11 @@ interface User {
   createAt: string
   username: string
   avatar: string
+}
+
+interface ExpressEmoji {
+  id: string
+  createAt: string
+  emoji: string
+  users: User[]
 }

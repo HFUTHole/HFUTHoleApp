@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, type GestureResponderEvent } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
 import { Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { CommentIcon, LikeIcon } from '@/components/icon'
@@ -19,8 +19,7 @@ import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { HoleBottomAction } from './sheet/HoleBottomAction'
 import { Categories } from '@/shared/constants/category'
-import { EmojiActionCard } from '@/components/emoji/EmojiActionCard'
-import { EmojiCard } from '@/components/EmojiCard/EmojiCard'
+import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
 import { useBoolean } from 'ahooks'
 
 type Data = IHole

@@ -1,30 +1,16 @@
 import { View } from 'react-native'
-import { useRef } from 'react'
 import { AllEmoji } from './AllEmoji'
 import { RecentEmoji } from './RecentEmoji'
-import Animated, {
-  BounceInDown,
-  BounceInUp,
-  FadeInDown,
-  FadeInUp,
-  PinwheelIn,
-  PinwheelOut,
-  SlideInDown,
-  SlideInUp,
-  SlideOutUp,
-  StretchInX,
-  StretchOutY,
-  ZoomInDown,
-  ZoomInUp,
-} from 'react-native-reanimated'
+import Animated, { ZoomInDown, ZoomInUp } from 'react-native-reanimated'
 
-export const EmojiCard = () => {
-  const componentRef = useRef(null)
-
+export const EmojiCard = ({
+  onPress,
+}: {
+  onPress?: (emoji: string) => void
+}) => {
   return (
     <Animated.View entering={ZoomInDown} exiting={ZoomInUp}>
       <View
-        ref={componentRef}
         className={
           'absolute z-[2] top-[-20] left-4 right-4 bg-white rounded-lg p-2'
         }
@@ -36,8 +22,8 @@ export const EmojiCard = () => {
           elevation: 5,
         }}
       >
-        <RecentEmoji />
-        <AllEmoji />
+        <RecentEmoji onPress={onPress} />
+        <AllEmoji onPress={onPress} />
       </View>
     </Animated.View>
   )

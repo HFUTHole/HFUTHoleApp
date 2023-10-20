@@ -198,3 +198,16 @@ export function GetHoleCategoryRequest(params: {
     params,
   })
 }
+
+export function PostExpressEmojiRequest(data: {
+  emoji: string
+  holeId?: number
+  commentId?: string
+  replyId?: string
+}) {
+  return request({
+    method: 'POST',
+    url: '/hole/emoji/create',
+    data,
+  })
+}

@@ -1,12 +1,7 @@
-/**
- * @author prixii
- * @date 2023-09-19 19
- */
-
 import { EmojiList } from '@/assets/emoji'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View, GestureResponderEvent } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { Emoji } from '../emoji/Emoji'
+import { Emoji } from '@/components/emoji/Emoji'
 
 const EMOJI_PER_LINE = 6
 const ITEM_HEIGHT = 30
@@ -16,7 +11,13 @@ const handleEmojiPressed = () => {
   console.log('[emoji pressed]')
 }
 
-const Line = (group: number) => {
+const Line = ({
+  group,
+  onPress,
+}: {
+  group: number
+  onPress?: (emoji: string) => void
+}) => {
   const list = EmojiList.slice(
     group * EMOJI_PER_LINE - EMOJI_PER_LINE,
     group * EMOJI_PER_LINE
@@ -24,7 +25,7 @@ const Line = (group: number) => {
   return (
     <>
       {list.map((item) => (
-        <Pressable onPress={() => handleEmojiPressed()} key={item.name}>
+        <Pressable onPress={() => onPress?.(item.name)} key={item.name}>
           <Emoji key={item.name} asset={item.asset} size={ITEM_HEIGHT} />
         </Pressable>
       ))}
@@ -43,23 +44,11 @@ const BlankView = (props: { count: number }) => {
   )
 }
 
-const ListTile = (props: { group: number }) => {
-  return (
-    <>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: 14,
-          marginVertical: 8,
-        }}
-      >
-        {Line(props.group)}
-      </View>
-    </>
-  )
-}
-export const AllEmoji = () => {
+export const AllEmoji = ({
+  onPress,
+}: {
+  onPress?: (emoji: string) => void
+}) => {
   const totalGroupCount = (EmojiList.length + 6) / EMOJI_PER_LINE
 
   const groupId = []
@@ -79,7 +68,16 @@ export const AllEmoji = () => {
           index,
         })}
         renderItem={({ item: group }) => (
-          <ListTile group={group} key={group}></ListTile>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 14,
+              marginVertical: 8,
+            }}
+          >
+            <Line group={group} onPress={onPress} />
+          </View>
         )}
         initialNumToRender={5}
       />

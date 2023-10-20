@@ -13,7 +13,7 @@ import { HoleLatest } from '@/pages/hole/latest/HoleLatest'
 import React from 'react'
 import { HoleHot } from '@/pages/hole/hot/HoleHot'
 import { HoleCategoryScreen } from '@/pages/hole/category/HoleCategoryScreen'
-import { EmojiCard } from '@/components/EmojiCard/EmojiCard'
+import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
 import { PopoverCard } from '@/components/PopoverCard/PopoverCard'
 
 const Tab = createMaterialTopTabNavigator()
