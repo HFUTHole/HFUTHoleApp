@@ -1,4 +1,9 @@
-import { FlatList, TouchableNativeFeedback, View } from 'react-native'
+import {
+  FlatList,
+  GestureResponderEvent,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { useHoleComment } from '@/swr/hole'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
@@ -58,8 +63,9 @@ const RenderItemReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
 
 export const HoleDetailCommentItem: React.FC<{
   data: IHoleCommentListItem
+  onLongPress?: (e: GestureResponderEvent) => void
   page: number
-}> = ({ data, page }) => {
+}> = ({ data, page, onLongPress }) => {
   const { openInput } = useBottomCommentContext()
 
   const handleReply = (data: IHoleCommentListItem) => {
@@ -79,6 +85,7 @@ export const HoleDetailCommentItem: React.FC<{
         bottom={data.replies?.length > 0 && <RenderItemReplyList data={data} />}
         deleteLikeRequest={DeleteCommentLikeRequest}
         onLikeRequest={LikeCommentRequest}
+        onLongPress={onLongPress}
       />
     </View>
   )

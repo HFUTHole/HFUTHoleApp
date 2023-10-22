@@ -25,9 +25,7 @@ import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useBoolean } from 'ahooks'
 import { PopoverCard } from '@/components/PopoverCard/PopoverCard'
 import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
-import { PostExpressEmojiRequest } from '@/request/apis/hole'
-import { Toast } from '@/shared/utils/toast'
-import { useSwitch } from '@/shared/hooks/useSwitch'
+import { useExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -59,10 +57,14 @@ function InnerRefreshableHoleList<
   ListHeaderComponent,
   ...props
 }: RefreshableHoleListProps<T>) {
-  const [popoverVisible, showPopover, hidePopover] = useSwitch(false)
-  const [coordinateY, setCoordinateY] = useState(0)
-  const [selectHoleId, setSelectHoleId] = useState(-1)
   const { go } = useHoleDetailRoute()
+  const {
+    coordinateY,
+    popoverVisible,
+    hidePopover,
+    handleLongPress,
+    onEmojiPress,
+  } = useExpressEmojiDisplay('holeId')
 
   const { data: flatListData, isEmpty: isHoleListEmpty } =
     flatInfiniteQueryData(data)
@@ -90,29 +92,6 @@ function InnerRefreshableHoleList<
   const scrollToTopHandler = useCallback(() => {
     listRef.current!.scrollToOffset({ offset: 0, animated: true })
   }, [])
-
-  const handleLongPress = useCallback(
-    (e: GestureResponderEvent, id: number) => {
-      setCoordinateY(e.nativeEvent.pageY)
-      showPopover()
-      setSelectHoleId(id)
-    },
-    [showPopover]
-  )
-
-  const onEmojiPress = useCallback(
-    async (emoji: string) => {
-      hidePopover()
-      const data = await PostExpressEmojiRequest({
-        emoji,
-        holeId: selectHoleId,
-      })
-      Toast.success({
-        text1: data.msg,
-      })
-    },
-    [hidePopover, selectHoleId]
-  )
 
   return (
     <>
@@ -161,6 +140,7 @@ function InnerRefreshableHoleList<
                 go(item!.id)
               }}
               isScroll={isScroll}
+              onLongPress={(e) => handleLongPress(e, item.id)}
             />
           )}
           {...props}

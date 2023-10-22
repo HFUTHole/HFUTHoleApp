@@ -1,4 +1,9 @@
-import { Pressable, StyleSheet, View } from 'react-native'
+import {
+  GestureResponderEvent,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
 import { UserText } from '@/components/Text/User'
 import { TimeText } from '@/components/Text/Time'
@@ -19,6 +24,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { SecondaryText } from '@/components/Text/SecondaryText'
+import { ExpressEmojiDisplay } from '@/components/emoji/ExpressEmojiDisplay'
 
 type Data =
   | (Omit<IHoleCommentListItem, 'replies' | 'repliesCount'> &
@@ -34,6 +40,7 @@ interface Props {
   isReply?: boolean
   deleteLikeRequest: (data: { id: string }) => AwaitAble
   onLikeRequest: (data: { id: string }) => AwaitAble
+  onLongPress?: (e: GestureResponderEvent) => void
 }
 
 // TODO 解决 any 类型
@@ -44,6 +51,7 @@ export function CommentItem({
   isReply,
   deleteLikeRequest,
   onLikeRequest,
+  onLongPress,
 }: Props) {
   const mutation = useMutation({
     mutationFn: (isLiked: boolean) =>
@@ -53,7 +61,12 @@ export function CommentItem({
   })
 
   return (
-    <TouchableRipple onPress={() => onBodyPress?.(data)} className={'px-3'}>
+    <TouchableRipple
+      onPress={() => onBodyPress?.(data)}
+      delayLongPress={2000}
+      onLongPress={onLongPress}
+      className={'px-3'}
+    >
       <View
         className={`flex flex-row space-x-2 rounded-lg border-b-[1px] py-2 border-black/5`}
         key={data.id}
@@ -81,6 +94,7 @@ export function CommentItem({
               <View>
                 <ImageList imgs={data.imgs} />
                 <ReplyBody data={data as IHoleReplyListItem} />
+                <ExpressEmojiDisplay data={data.expressEmojis} />
               </View>
               <View className={'justify-between flex-row items-center'}>
                 <TimeText time={data.createAt} />

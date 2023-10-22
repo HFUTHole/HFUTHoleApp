@@ -11,7 +11,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
-import { PrimaryText } from '@/components/Text/PrimaryText'
+import { useExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
+import { PopoverCard } from '@/components/PopoverCard/PopoverCard'
+import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -65,6 +67,13 @@ export function HoleDetailCommentList() {
     isDataEmpty,
     isFetching,
   } = useHoleComment()
+  const {
+    popoverVisible,
+    coordinateY,
+    onEmojiPress,
+    handleLongPress,
+    hidePopover,
+  } = useExpressEmojiDisplay('commentId')
 
   const { data } = useHoleDetail()
 
@@ -84,6 +93,10 @@ export function HoleDetailCommentList() {
         </View>
       )}
 
+      <PopoverCard isVisible={popoverVisible} coordinateY={coordinateY}>
+        <EmojiCard onPress={onEmojiPress} />
+      </PopoverCard>
+
       <RefreshingFlatList
         onRefreshing={onRefresh}
         hasNextPage={hasNextPage}
@@ -98,8 +111,14 @@ export function HoleDetailCommentList() {
         )}
         data={flattenData}
         ListEmptyComponent={HoleDetailCommentEmpty}
+        onScroll={hidePopover}
         renderItem={({ item, index }) => (
-          <HoleDetailCommentItem data={item} page={index} key={item.id} />
+          <HoleDetailCommentItem
+            onLongPress={(e) => handleLongPress(e, item.id)}
+            data={item}
+            page={index}
+            key={item.id}
+          />
         )}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}

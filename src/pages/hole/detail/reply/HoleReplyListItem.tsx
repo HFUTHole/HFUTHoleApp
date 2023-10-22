@@ -1,13 +1,20 @@
-import { ListRenderItem, View } from 'react-native'
+import { GestureResponderEvent, ListRenderItem, View } from 'react-native'
 import { CommentItem } from '@/pages/hole/components/CommentItem'
 import { DeleteReplyLikeRequest, LikeReplyRequest } from '@/request/apis/hole'
 import { useBottomCommentContext } from '@/shared/context/hole/comment'
 import { useHoleReplyList } from '@/swr/hole/reply'
 
-export const HoleReplyListItem: ListRenderItem<IHoleReplyListItem> = ({
+interface HoleReplyListItemProps {
+  item: IHoleReplyListItem
+  index: number
+  onLongPress?: (e: GestureResponderEvent) => void
+}
+
+export const HoleReplyListItem = ({
   item,
   index,
-}) => {
+  onLongPress,
+}: HoleReplyListItemProps) => {
   const { setIsLiked, comment } = useHoleReplyList()
 
   const { openInput } = useBottomCommentContext()
@@ -21,6 +28,7 @@ export const HoleReplyListItem: ListRenderItem<IHoleReplyListItem> = ({
         deleteLikeRequest={DeleteReplyLikeRequest}
         onLikeRequest={LikeReplyRequest}
         onLikePress={() => setIsLiked(item, index)}
+        onLongPress={onLongPress}
         onBodyPress={(data) => {
           openInput({
             commentId: comment?.id,

@@ -7,6 +7,9 @@ import { CommentBottomInput } from '@/pages/hole/detail/components/CommentBottom
 import { HoleReplyListHeader } from '@/pages/hole/detail/reply/HoleReplyListHeader'
 import { HoleReplyListItem } from '@/pages/hole/detail/reply/HoleReplyListItem'
 import { CommentMaskModal } from '@/pages/hole/detail/components/CommentMaskModal'
+import { useExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
+import { PopoverCard } from '@/components/PopoverCard/PopoverCard'
+import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
 
 // TODO 重写回复区，尤其是展示特定的评论
 export function HoleReply() {
@@ -19,10 +22,20 @@ export function HoleReply() {
     flattenData: { data: flattenData, isEmpty: isDataEmpty },
     params,
   } = useHoleReplyList()
+  const {
+    popoverVisible,
+    coordinateY,
+    onEmojiPress,
+    handleLongPress,
+    hidePopover,
+  } = useExpressEmojiDisplay('replyId')
 
   return (
     <LoadingScreen isLoading={isLoading}>
       <View className={'bg-white h-full'}>
+        <PopoverCard isVisible={popoverVisible} coordinateY={coordinateY}>
+          <EmojiCard onPress={onEmojiPress} />
+        </PopoverCard>
         <RefreshingFlatList
           data={flattenData}
           refreshing={isLoading}
@@ -36,7 +49,12 @@ export function HoleReply() {
           )}
           onRefreshing={onRefresh}
           onTopRefresh={onTopRefresh}
-          renderItem={(props) => <HoleReplyListItem {...props} />}
+          renderItem={(props) => (
+            <HoleReplyListItem
+              {...props}
+              onLongPress={(e) => handleLongPress(e, props.item.id)}
+            />
+          )}
         />
         <CommentBottomInput
           data={{

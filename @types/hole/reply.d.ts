@@ -15,6 +15,7 @@ declare interface IHoleReplyListItem {
   replyUser: User
   imgs: string[]
   isNotification: boolean | null
+  expressEmojis: ExpressEmoji[]
 }
 
 interface User {

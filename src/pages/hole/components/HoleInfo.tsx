@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
 import { View, StyleSheet, type GestureResponderEvent } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
-import { Text, TouchableRipple, useTheme } from 'react-native-paper'
+import { Button, Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { CommentIcon, LikeIcon } from '@/components/icon'
 import { Badges } from '@/components/Badges'
 import { TimeText } from '@/components/Text/Time'
@@ -21,6 +21,7 @@ import { HoleBottomAction } from './sheet/HoleBottomAction'
 import { Categories } from '@/shared/constants/category'
 import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
 import { useBoolean } from 'ahooks'
+import { ExpressEmojiDisplay } from '../../../components/emoji/ExpressEmojiDisplay'
 
 type Data = IHole
 
@@ -223,6 +224,7 @@ interface Props extends IClassName {
   data: Data
   showComment?: boolean
   onPress?: Func
+  onLongPress?: (e: GestureResponderEvent) => void
   header?: ReactNode
   body?: ReactNode
   bottom?: ReactNode
@@ -232,6 +234,7 @@ interface Props extends IClassName {
 export const HoleInfo = ({
   data,
   onPress,
+  onLongPress,
   header,
   body,
   bottom,
@@ -240,27 +243,21 @@ export const HoleInfo = ({
   isScroll,
 }: Props) => {
   const theme = useTheme()
-  const [isOpenEmojiAction, openEmojiActions] = useBoolean(false)
-
-  useEffect(() => {
-    if (isScroll) {
-      openEmojiActions.setFalse()
-    }
-  }, [isScroll])
 
   return (
     <>
-      <View className={'absolute z-[2] left-0 right-0'}>
-        {isOpenEmojiAction && <EmojiCard />}
-      </View>
       <View className={'bg-white mt-2 rounded-2xl overflow-hidden z-[1]'}>
         <TouchableRipple
+          delayLongPress={2000}
           onPress={onPress}
-          onLongPress={openEmojiActions.setTrue}
+          onLongPress={onLongPress}
         >
           <View className={`flex-col space-y-3 px-4 py-2 ${className}`}>
             <View>{header || <HoleInfoHeader data={data} />}</View>
             <View>{body || <HoleInfoBody data={data} />}</View>
+            {data.expressEmojis.length ? (
+              <ExpressEmojiDisplay data={data.expressEmojis} />
+            ) : null}
             {data.vote && <HoleInfoVote data={data} />}
             <View>{bottom || <HoleInfoBottom data={data} />}</View>
             <View>

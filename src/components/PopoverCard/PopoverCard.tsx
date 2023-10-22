@@ -37,9 +37,9 @@ export const PopoverCard = ({
   return (
     <View
       pointerEvents={customPointerEvents}
-      className="absolute w-full h-full z-50"
+      className="absolute w-full h-full z-10"
     >
-      <View className="absolute w-full" style={positionStyle}>
+      <View className="absolute w-full left-1" style={positionStyle}>
         {isVisible && children}
       </View>
     </View>

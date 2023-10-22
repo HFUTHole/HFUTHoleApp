@@ -14,6 +14,7 @@ declare interface IHoleCommentListItem {
   imgs: string[]
   repliesCount: number
   isNotification?: boolean
+  expressEmojis: ExpressEmoji[]
 }
 
 interface User {
