@@ -11,7 +11,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
-import { useExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
+import { useCommentExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
 import { PopoverCard } from '@/components/PopoverCard/PopoverCard'
 import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
 
@@ -73,7 +73,7 @@ export function HoleDetailCommentList() {
     onEmojiPress,
     handleLongPress,
     hidePopover,
-  } = useExpressEmojiDisplay('commentId')
+  } = useCommentExpressEmojiDisplay()
 
   const { data } = useHoleDetail()
 

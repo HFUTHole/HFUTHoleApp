@@ -205,7 +205,7 @@ export function PostExpressEmojiRequest(data: {
   commentId?: string
   replyId?: string
 }) {
-  return request({
+  return request<{ msg: string }>({
     method: 'POST',
     url: '/hole/emoji/create',
     data,

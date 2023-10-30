@@ -7,25 +7,23 @@ import { Text } from 'react-native-paper'
 const MAX_DISPLAY_CONST = 7
 
 export const ExpressEmojiDisplay = ({ data }: { data: ExpressEmoji[] }) => {
-  const expressEmojis = useMemo(() => {
-    return data.map((expressEmoji) => {
-      const displayUsers =
-        expressEmoji.users.length > MAX_DISPLAY_CONST
-          ? expressEmoji.users.slice(0, MAX_DISPLAY_CONST)
-          : expressEmoji.users
-      const userString =
-        expressEmoji.users.length > MAX_DISPLAY_CONST
-          ? displayUsers.map((item) => item.username).toString() +
-            `...+${expressEmoji.users.length - MAX_DISPLAY_CONST}人`
-          : displayUsers.map((item) => item.username).toString()
-      return {
-        userString,
-        asset: EmojiList.find((item) => item.name === expressEmoji.emoji)!
-          .asset,
-        ...expressEmoji,
-      }
-    })
-  }, [data])
+  // 当调用 setQueryData 时 data 没有改变，这里不能用 useMemo
+  const expressEmojis = data.map((expressEmoji) => {
+    const displayUsers =
+      expressEmoji.users.length > MAX_DISPLAY_CONST
+        ? expressEmoji.users.slice(0, MAX_DISPLAY_CONST)
+        : expressEmoji.users
+    const userString =
+      expressEmoji.users.length > MAX_DISPLAY_CONST
+        ? displayUsers.map((item) => item.username).toString() +
+          `...+${expressEmoji.users.length - MAX_DISPLAY_CONST}人`
+        : displayUsers.map((item) => item.username).toString()
+    return {
+      userString,
+      asset: EmojiList.find((item) => item.name === expressEmoji.emoji)!.asset,
+      ...expressEmoji,
+    }
+  })
 
   return (
     <View className="flex flex-row flex-wrap space-x-3">

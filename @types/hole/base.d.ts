@@ -47,7 +47,6 @@ interface User {
 
 interface ExpressEmoji {
   id: string
-  createAt: string
   emoji: string
-  users: User[]
+  users: Omit<User, 'createAt'>[]
 }

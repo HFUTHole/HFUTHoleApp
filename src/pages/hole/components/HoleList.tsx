@@ -25,7 +25,7 @@ import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useBoolean } from 'ahooks'
 import { PopoverCard } from '@/components/PopoverCard/PopoverCard'
 import { EmojiCard } from '@/components/emoji/EmojiCard/EmojiCard'
-import { useExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
+import { useHoleExpressEmojiDisplay } from '@/shared/hooks/emoji/useExpressEmojiDisplay'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -64,7 +64,7 @@ function InnerRefreshableHoleList<
     hidePopover,
     handleLongPress,
     onEmojiPress,
-  } = useExpressEmojiDisplay('holeId')
+  } = useHoleExpressEmojiDisplay()
 
   const { data: flatListData, isEmpty: isHoleListEmpty } =
     flatInfiniteQueryData(data)
