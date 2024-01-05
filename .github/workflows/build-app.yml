@@ -1,0 +1,70 @@
+name: Build App
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: OS to build on. Ubuntu is faster, MacOS supports iOS builds, Windows is unsupported
+        options:
+          - macos-latest
+          - ubuntu-latest
+      platform:
+        type: choice
+        description: Platform to build for
+        options:
+          - android
+          - ios
+      profile:
+        type: choice
+        description: Build profile to use
+        options:
+          - development
+          - production
+jobs:
+  build:
+    runs-on: ${{ github.event.inputs.os }}
+    strategy:
+      matrix:
+        node: [18.x]
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-version: latest
+          eas-version: latest
+
+      - name: 🏗 Setup EAS local builds
+        run: bun i eas-cli-local-build-plugin -g
+
+      - name: 📦 Install dependencies
+        run: bun
+
+      - name: 👷 Build app
+        run: |
+          eas build --local \
+            --non-interactive \
+            --output=./app-build \
+            --platform=${{ github.event.inputs.platform }} \
+            --profile=${{ github.event.inputs.profile }}
+
+      - name: 📱 Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-${{ github.event.inputs.platform }}
+          path: app-build
