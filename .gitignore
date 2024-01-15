@@ -20,3 +20,5 @@ updates/
 .DS_Store
 !/src/components/snackbar/snackbar.tsx
 !/src/request/apis/auth.ts
+
+app.json

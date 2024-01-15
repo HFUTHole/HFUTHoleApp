@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
 import { View, StyleSheet } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'

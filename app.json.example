@@ -35,7 +35,7 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
       ],
-      "package": "snowingfox.hfut.book"
+      "package": "com.hfuthole.app"
     },
     "web": {
       "favicon": "./assets/splash.png"
@@ -43,12 +43,12 @@
     "extra": {
       "update-message": "",
       "eas": {
-        "projectId": "dba5ed50-696a-4891-ab2e-cd94660925e7"
+        "projectId": ""
       }
     },
     "owner": "snowingfox",
     "updates": {
-      "url": "http://42.192.127.54:8082/api/manifest",
+      "url": "http://localhost:3000/api/manifest",
       "enabled": true,
       "fallbackToCacheTimeout": 0
     }
