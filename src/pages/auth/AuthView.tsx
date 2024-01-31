@@ -25,15 +25,10 @@ export function AuthView(props: Props) {
     [props.snackbar],
   )
 
-  /**
-   * 对于IOS平台，需要额外渲染一个padding
-   */
-  const renderStyle = 'grid gap-5 ' + (Platform.OS === 'ios' ? 'px-4' : '')
-
   return (
     <SafeAreaView className={'flex-1 relative bg-white px-5'}>
       <View className={'bg-white flex-1 py-[10px]'}>
-        <View className={renderStyle}>
+        <View className={'grid gap-5'}>
           {props.logo || (
             <Avatar.Image
               source={props.image || require('../../../assets/splash.png')}

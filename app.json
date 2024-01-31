@@ -2,7 +2,7 @@
   "expo": {
     "name": "小肥书",
     "slug": "hfuthole",
-    "version": "0.0.2",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -35,7 +35,7 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
       ],
-      "package": "snowingfox.hfut.book"
+      "package": "com.hfuthole.app"
     },
     "web": {
       "favicon": "./assets/splash.png"
@@ -48,9 +48,12 @@
     },
     "owner": "snowingfox",
     "updates": {
-      "url": "http://42.192.127.54:8082/api/manifest",
+      "url": "http://xiaofeishu.eyunnet.com:3000/api/manifest",
       "enabled": true,
       "fallbackToCacheTimeout": 0
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

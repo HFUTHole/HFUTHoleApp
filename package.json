@@ -1,6 +1,6 @@
 {
   "name": "com.hfuthole.app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
@@ -8,8 +8,7 @@
     "ios": "expo start --ios",
     "web": "npx cross-env NODE_OPTIONS=--openssl-legacy-provider expo start --web",
     "build:android": "eas build -p android --profile prod",
-    "update": "eas update --channel production --message \"update\"",
-    "publish-update": "bash $PWD/scripts/publish.sh -s 'root@42.192.127.54'"
+    "publish-update": "sh scripts/hot-update.sh"
   },
   "dependencies": {
     "@backpackapp-io/react-native-toast": "^0.10.0",
