@@ -24,6 +24,7 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1",
       "bundleIdentifier": "snowingfox.hfut.book"
     },
     "android": {
@@ -35,7 +36,7 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
       ],
-      "package": "com.hfuthole.app"
+      "package": "snowingfox.hfut.book"
     },
     "web": {
       "favicon": "./assets/splash.png"

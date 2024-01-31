@@ -16,7 +16,9 @@ export function useAuthMutation<T extends FieldValues>(options: Options<T>) {
   const { login } = useAuth()
 
   const mutation = useMutation({
-    mutationFn: (data: T) => options.reqFunc(data),
+    mutationFn: (data: T) => {
+      return options.reqFunc(data)
+    },
     onError(error: AxiosError) {
       if (error.code) {
         options.setError('reqFailedError' as any, {

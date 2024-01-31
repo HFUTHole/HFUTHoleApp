@@ -31,12 +31,12 @@ instance.interceptors.response.use(
       text2: !msg
         ? '可能是服务器炸了，去问问管理员吧'
         : Array.isArray(msg)
-        ? msg.map((i) => `${i}`).join('\n')
-        : msg,
+          ? msg.map((i) => `${i}`).join('\n')
+          : msg,
     })
 
     throw error
-  }
+  },
 )
 
 export function request<T = any>(config: AxiosRequestConfig) {

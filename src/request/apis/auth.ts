@@ -8,7 +8,6 @@ import { Config } from '@/shared/config'
 
 const instance = axios.create({
   baseURL: Config.request.baseURL,
-  timeout: Config.request.timeout,
 })
 
 instance.interceptors.response.use((data) => data.data)
@@ -23,7 +22,7 @@ function request<T = any>(config: AxiosRequestConfig) {
 export function LoginRequest(data: LoginFormValidator) {
   return request<IAuthResponse>({
     url: '/auth/login',
-    method: 'post',
+    method: 'POST',
     data,
   })
 }
