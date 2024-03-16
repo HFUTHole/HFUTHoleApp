@@ -19,7 +19,7 @@ export const Link: React.FC<Props> = (props) => {
 
   return (
     <Text
-      className={`text-[#00AB55] text-center underline font-bold ${
+      className={`text-stress text-center font-bold ${
         props.size === 'xs' ? 'text-xs' : props.size === 'lg' ? 'text-lg' : ''
       }`}
       onPress={handleNavigation}

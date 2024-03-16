@@ -14,9 +14,7 @@ export function ForgetOnePassword() {
   }
   return (
     <Pressable onPress={onForgetOneHFUTPasswordPress}>
-      <Text
-        className={'text-primary font-bold text-xs underline self-end py-2'}
-      >
+      <Text className={'text-stress font-bold text-xs underline self-end py-2'}>
         忘记信息门户密码了？点我去找回
       </Text>
     </Pressable>

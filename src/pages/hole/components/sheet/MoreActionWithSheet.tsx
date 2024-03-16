@@ -2,7 +2,7 @@ import { Appbar, Text, TouchableRipple, useTheme } from 'react-native-paper'
 import React, { MutableRefObject, useMemo, useRef, useState } from 'react'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { BottomActionSheet } from '@/components/sheet/BottomActionSheet'
-import { GestureResponderEvent, View } from 'react-native'
+import { GestureResponderEvent, TouchableOpacity, View } from 'react-native'
 import {
   ReportAction,
   ReportActionProps,
@@ -53,7 +53,13 @@ export function MoreActionWithSheet(props: Props) {
 
   return (
     <>
-      <Appbar.Action icon={'dots-vertical'} onPress={openSheet} size={20} />
+      <TouchableOpacity onPress={openSheet}>
+        <Appbar.Action
+          icon={'dots-horizontal'}
+          size={20}
+          color={'rgba(0,0,0,.5)'}
+        />
+      </TouchableOpacity>
       <BottomActionSheet ref={sheetRef as MutableRefObject<BottomSheetModal>}>
         <View className={'flex p-4 space-y-4'}>
           {list.map((Item) => {

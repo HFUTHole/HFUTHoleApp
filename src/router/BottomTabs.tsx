@@ -6,6 +6,7 @@ import { Notify } from '@/pages/notify/Notify'
 import { TopTabs } from '@/router/TopTabs'
 import { SpaceTopTabs } from '@/router/SpaceTopTabs'
 import { User } from '@/pages/user/User'
+import { RecommendPost } from '@/pages/home/RecommendPost'
 
 const Tab = createBottomTabNavigator()
 const NotifyStack = createNativeStackNavigator()
@@ -28,7 +29,7 @@ export function BottomTabs() {
         })}
         tabBar={(props) => <BottomTabBar {...props} />}
       >
-        <Tab.Screen name={'home'} component={TopTabs} />
+        <Tab.Screen name={'home'} component={RecommendPost} />
         <Tab.Screen name={'space'} component={SpaceTopTabs} />
         <Tab.Screen name={'notify'} component={NotifyStacks} />
         <Tab.Screen name={'user'} component={User} />

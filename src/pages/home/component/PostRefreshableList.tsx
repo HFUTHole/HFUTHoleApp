@@ -15,9 +15,8 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
-import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useBoolean } from 'ahooks'
+import { PostCard } from '@/pages/home/component/PostCard'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -52,7 +51,7 @@ const Item = memo(({ item }: { item: IHole }) => {
   )
 })
 
-function InnerRefreshableHoleList<
+function InnerRefreshablePostList<
   T extends IHoleListResponse = IHoleListResponse,
 >({
   isSuccess,
@@ -128,4 +127,4 @@ function InnerRefreshableHoleList<
   )
 }
 
-export const RefreshableHoleList = forwardRef(InnerRefreshableHoleList)
+export const PostRefreshableList = forwardRef(InnerRefreshablePostList)

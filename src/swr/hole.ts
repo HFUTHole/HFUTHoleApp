@@ -51,6 +51,8 @@ export function useHoleList() {
   }
 }
 
+export const usePostList = useHoleList
+
 export function useHoleDetail() {
   const params = useParams<{ id: number; holeId?: number }>()
 
@@ -79,7 +81,7 @@ export function useHoleDetail() {
   }
 
   const setData = async <T = IHoleDetailResponse>(
-    updater: Updater<T | undefined, T>
+    updater: Updater<T | undefined, T>,
   ) => {
     await client.setQueryData<IHoleDetailResponse>(key, updater as any)
   }
@@ -123,14 +125,14 @@ export function useHoleComment() {
   const setTargetData = async (
     data: IHoleCommentListItem,
     pageIndex = 0,
-    func: (target: IHoleCommentListItem) => AwaitAble
+    func: (target: IHoleCommentListItem) => AwaitAble,
   ) => {
     await query.setData((oldData) => {
       const pageTarget = oldData?.pages?.[pageIndex]
 
       if (pageTarget) {
         const targetIndex = pageTarget.items.findIndex(
-          (item) => item.id === data.id
+          (item) => item.id === data.id,
         )
 
         if (targetIndex !== -1) {
@@ -159,7 +161,7 @@ export function useHoleComment() {
   const setReply = async (
     data: IHoleCommentListItem,
     pageIndex = 0,
-    body: string
+    body: string,
   ) => {
     await setTargetData(data, pageIndex, (target) => {
       target.replies.push({

@@ -25,7 +25,7 @@
     ],
     "ios": {
       "buildNumber": "1",
-      "bundleIdentifier": "snowingfox.hfut.book"
+      "bundleIdentifier": "snowingfox.book.app"
     },
     "android": {
       "versionCode": 1,
@@ -36,7 +36,7 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
       ],
-      "package": "snowingfox.hfut.book"
+      "package": "snowingfox.book.app"
     },
     "web": {
       "favicon": "./assets/splash.png"

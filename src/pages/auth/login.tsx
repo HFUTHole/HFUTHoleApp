@@ -12,6 +12,7 @@ import { Button } from '@/components/button'
 import { LoginFormValidator } from '@/shared/validators/auth'
 import { useAuthMutation } from './utils'
 import { useDebounce } from '@/shared/hooks/useDebounce'
+import { NativeInput, NativeTextInput } from '@/components/form/NativeInput'
 
 const LoginForm = () => {
   const {
@@ -49,10 +50,10 @@ const LoginForm = () => {
       )}
 
       <View>
-        <Input<LoginFormValidator>
+        <NativeTextInput
           control={control}
           name={'studentId'}
-          label={'学号'}
+          placeholder={'学号'}
         />
       </View>
 
@@ -60,32 +61,30 @@ const LoginForm = () => {
         <PasswordInput<LoginFormValidator>
           control={control}
           name={'password'}
-          label={'密码'}
+          placeholder={'密码'}
         />
       </View>
 
-      <View className={'flex flex-row justify-between items-center'}>
-        <Checkbox status={'checked'} />
-        <Link size={'xs'} to={'forget'}>
-          忘记密码？点我找回
-        </Link>
-      </View>
+      <View className={'flex flex-row justify-between items-center'}></View>
 
-      <View className={'mt-2'}>
+      <View className={'mt-2 space-y-4'}>
         <Button
           mode={'contained'}
-          className={`shadow-none w-full`}
+          className={`shadow-none w-full rounded-lg py-[2px]`}
+          theme={{ version: 2, isV3: false }}
           onPress={handleSubmit(onSubmit)}
           loading={mutation.isLoading}
         >
-          登录
+          <Text className={'text-base'}>登录</Text>
         </Button>
-      </View>
-
-      <View className={'pt-10'}>
-        <Link size={'normal'} to={'register'}>
-          还没有账号？点我注册
-        </Link>
+        <View className={'flex-row justify-between'}>
+          <Link size={'normal'} to={'forget'}>
+            忘记密码？点我找回
+          </Link>
+          <Link size={'normal'} to={'register'}>
+            还没有账号？点我注册
+          </Link>
+        </View>
       </View>
     </View>
   )
@@ -93,13 +92,7 @@ const LoginForm = () => {
 
 export function Login() {
   return (
-    <AuthView
-      title={'登录肥工小宇宙'}
-      secondary={'请输入你的账号密码'}
-      snackbar={
-        '欢迎来到肥工小宇宙，密码不是信息门户密码哦，如果还没有注册账号点下方的注册'
-      }
-    >
+    <AuthView title={'登录小肥书'} secondary={'请输入你的账号密码'}>
       <LoginForm />
     </AuthView>
   )

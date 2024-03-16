@@ -10,6 +10,8 @@ import { ForgetRequest } from '@/request/apis/auth'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { useAuthMutation } from './utils'
 import { ForgetOnePassword } from '@/pages/auth/ForgetOnePassword'
+import { NativeInput, NativeTextInput } from '@/components/form/NativeInput'
+import React from 'react'
 
 const ForgetForm = () => {
   const {
@@ -37,10 +39,10 @@ const ForgetForm = () => {
   return (
     <View className={'grid space-y-2'}>
       <View>
-        <Input<ForgetFormValidator>
+        <NativeTextInput<ForgetFormValidator>
           control={control}
           name={'studentId'}
-          label={'学号'}
+          placeholder={'学号'}
         />
       </View>
 
@@ -48,7 +50,7 @@ const ForgetForm = () => {
         <PasswordInput<ForgetFormValidator>
           control={control}
           name={'password'}
-          label={'密码'}
+          placeholder={'密码'}
         />
       </View>
 
@@ -56,7 +58,7 @@ const ForgetForm = () => {
         <PasswordInput<ForgetFormValidator>
           control={control}
           name={'hfutPassword'}
-          label={'请输入信息门户密码'}
+          placeholder={'请输入信息门户密码'}
         />
       </View>
 
@@ -67,7 +69,8 @@ const ForgetForm = () => {
       <View>
         <Button
           mode={'contained'}
-          className={'shadow-none w-full'}
+          className={`shadow-none w-full rounded-lg py-[2px]`}
+          theme={{ version: 2, isV3: false }}
           onPress={handleSubmit(onSubmit)}
           loading={mutation.isLoading}
         >
@@ -80,11 +83,7 @@ const ForgetForm = () => {
 
 export function Forget() {
   return (
-    <AuthView
-      title={'找回密码HFUTHole'}
-      secondary={'请输入你的账号密码'}
-      snackbar={'需要通过验证信息门户来重置密码'}
-    >
+    <AuthView title={'找回小肥书密码'} secondary={'需要信息门户密码作为校验'}>
       <ForgetForm />
     </AuthView>
   )

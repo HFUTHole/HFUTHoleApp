@@ -14,32 +14,11 @@ import React from 'react'
 import { HoleHot } from '@/pages/hole/hot/HoleHot'
 import { HoleCategoryScreen } from '@/pages/hole/category/HoleCategoryScreen'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { RecommendPost } from '@/pages/home/RecommendPost'
+import { View } from 'react-native'
+import { HomeHeader } from '@/pages/home/component/HomeHeader'
 
 const Tab = createMaterialTopTabNavigator()
-
-interface TopTabBarIconProps {
-  focused: boolean
-  color: string
-  svg: SvgComponentType
-  categoryColor: string
-}
-
-export function TopTabBarIcon(props: TopTabBarIconProps) {
-  const { focused, color, svg, categoryColor } = props
-
-  return (
-    <>
-      {focused && (
-        <Animated.View
-          entering={ZoomIn.springify().damping(30)}
-          exiting={ZoomOut.duration(200)}
-        >
-          <Svg SvgComponent={svg} size={30} color={categoryColor} />
-        </Animated.View>
-      )}
-    </>
-  )
-}
 
 type HoleTopTabItem = {
   name: string
@@ -51,20 +30,9 @@ type HoleTopTabItem = {
 
 const HoleTopTabs: HoleTopTabItem[] = [
   {
-    name: 'latest',
-    component: HoleLatest,
-    title: '主页',
-    svg: AppDenoSvg,
-  },
-  {
-    name: 'hot',
-    component: HoleHot,
-    title: '热门',
-  },
-  {
-    name: 'category',
-    component: HoleCategoryScreen,
-    title: '板块',
+    name: 'home',
+    title: '推荐',
+    component: RecommendPost,
   },
 ]
 
@@ -72,9 +40,10 @@ const TopTabBar: React.FC<MaterialTopTabBarProps> = (props) => {
   const route = useHoleSearchRoute()
 
   return (
-    <TopTabHeader {...props} onRightPress={route.goIndex}>
-      <SearchIcon />
-    </TopTabHeader>
+    <View>
+      <HomeHeader />
+      <TopTabHeader {...props} />
+    </View>
   )
 }
 

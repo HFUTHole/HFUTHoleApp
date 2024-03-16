@@ -110,7 +110,13 @@ module.exports = {
   content: ['./App.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
-      colors,
+      colors: {
+        ...colors,
+        primary: '#fb264a',
+        backdrop: '#f5f5f5',
+        stress: '#0d3f7c',
+        placeholder: '#88898b',
+      },
     },
   },
   plugins: [],

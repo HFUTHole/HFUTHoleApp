@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native'
+import { KeyboardAvoidingView, Pressable, View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/form/Input'
@@ -11,6 +11,7 @@ import { Snackbar } from '@/components/snackbar/snackbar'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { useAuthMutation } from './utils'
 import { ForgetOnePassword } from '@/pages/auth/ForgetOnePassword'
+import { NativeInput, NativeTextInput } from '@/components/form/NativeInput'
 
 const RegisterForm = () => {
   const {
@@ -47,17 +48,17 @@ const RegisterForm = () => {
         </View>
       )}
       <View>
-        <Input<RegisterFormValidator>
+        <NativeTextInput<RegisterFormValidator>
           control={control}
           name={'username'}
-          label={'取一个好听的名字吧≖‿≖✧'}
+          placeholder={'用户名'}
         />
       </View>
       <View>
-        <Input<RegisterFormValidator>
+        <NativeTextInput<RegisterFormValidator>
           control={control}
           name={'studentId'}
-          label={'学号'}
+          placeholder={'学号'}
         />
       </View>
 
@@ -65,7 +66,7 @@ const RegisterForm = () => {
         <PasswordInput<RegisterFormValidator>
           control={control}
           name={'password'}
-          label={'密码'}
+          placeholder={'密码'}
         />
       </View>
 
@@ -73,7 +74,7 @@ const RegisterForm = () => {
         <PasswordInput<RegisterFormValidator>
           control={control}
           name={'hfutPassword'}
-          label={'请输入信息门户密码'}
+          placeholder={'信息门户密码'}
         />
       </View>
 
@@ -84,7 +85,8 @@ const RegisterForm = () => {
       <View className={'mt-2'}>
         <Button
           mode={'contained'}
-          className={'shadow-none w-full'}
+          className={`shadow-none w-full rounded-lg py-[2px]`}
+          theme={{ version: 2, isV3: false }}
           onPress={handleSubmit(onSubmit)}
           loading={mutation.isLoading}
         >
@@ -97,14 +99,7 @@ const RegisterForm = () => {
 
 export function Register() {
   return (
-    <AuthView
-      title={'注册HFUTHole'}
-      secondary={'请输入你的账号密码'}
-      snackbar={[
-        '注册之前需要绑定一下你的信息门户账号来证明你是工大学子哦',
-        '新生学号可以去官网录取结果通知那里查询，信息门户密码默认为身份证后六位',
-      ]}
-    >
+    <AuthView title={'注册小肥书'} secondary={'请输入你的账号密码'}>
       <RegisterForm />
     </AuthView>
   )

@@ -6,7 +6,7 @@ import { MoreActionWithSheet } from '@/pages/hole/components/sheet/MoreActionWit
 import { copyToClipboard } from '@/shared/utils/keyboard'
 
 interface Props {
-  data: IHoleDetailResponse
+  data: IHole
 }
 
 export function HoleBottomAction({ data }: Props) {
@@ -20,7 +20,7 @@ export function HoleBottomAction({ data }: Props) {
         },
       },
     ],
-    []
+    [],
   )
 
   return (

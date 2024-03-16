@@ -7,12 +7,9 @@ import { Func } from '@/shared/types'
 import { SubCategoryTabBar } from '@/components/router/SubCategoryTabBar'
 import { ScrollView as GestureHandlerScrollView } from 'react-native-gesture-handler'
 
-interface Props extends MaterialTopTabBarProps {
-  children?: React.ReactNode
-  onRightPress?: Func
-}
+interface Props extends MaterialTopTabBarProps {}
 
-export function TopTabHeader({ children, onRightPress, ...props }: Props) {
+export function TopTabHeader({ ...props }: Props) {
   const theme = useTheme()
 
   return (
@@ -25,9 +22,6 @@ export function TopTabHeader({ children, onRightPress, ...props }: Props) {
       >
         <TopTabBar {...props} />
       </ScrollView>
-      <View className={'bg-background'}>
-        <IconButton icon={() => children} onPress={onRightPress} />
-      </View>
     </View>
   )
 }
