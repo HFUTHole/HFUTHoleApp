@@ -12,14 +12,18 @@ import { useEffect } from 'react'
 
 export interface SearchHeaderProps {
   placeholder?: string
+  autoFocus?: boolean
   onSubmit: (data: SearchValidator) => void
   onDeleteInput?: () => void
+  onChange?: (value: string) => void
 }
 
 export function SearchHeader({
   placeholder,
+  autoFocus = true,
   onSubmit,
   onDeleteInput,
+  onChange,
 }: SearchHeaderProps) {
   const theme = useTheme()
   const params = useParams<ISearchResultParams>()
@@ -28,12 +32,19 @@ export function SearchHeader({
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { dirtyFields },
   } = useForm<SearchValidator>({
     defaultValues: {
       keywords: params?.keywords || '',
     },
   })
+
+  const keywords = watch('keywords')
+
+  useEffect(() => {
+    onChange?.(keywords)
+  }, [keywords])
 
   const onError = (error: FieldErrors<SearchValidator>) => {
     Toast.error({
@@ -78,7 +89,7 @@ export function SearchHeader({
               placeholder={placeholder}
               maxLength={100}
               onSubmitEditing={onHandleSubmit}
-              autoFocus={true}
+              autoFocus={autoFocus}
             />
           </View>
           {dirtyFields.keywords && (

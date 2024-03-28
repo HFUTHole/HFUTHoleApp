@@ -1,6 +1,10 @@
-import { View, Image, Pressable, ScrollView } from 'react-native'
+import { useState } from 'react'
+import { View, Image, Pressable, ScrollView, TextInput } from 'react-native'
 import { Text } from 'react-native-paper'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SearchInput } from '@/components/form/Search'
+import { FieldErrors, useForm } from 'react-hook-form'
+import { SearchIcon } from '@/components/icon'
+import { SearchHeader } from '@/components/search/header'
 
 interface School {
   name: string
@@ -48,36 +52,55 @@ const SchoolCard = ({ onPress, school }: SchoolCard) => {
 }
 
 export function SelectSchoolScreen() {
+  const [keyword, setKeyword] = useState('')
+
   return (
-    <ScrollView>
-      <View>
-        <Text className="px-4 py-1 text-gray-500">热门学校</Text>
-        <View className="flex flex-row flex-wrap bg-white py-4">
-          {schools.map((school) => (
-            <Pressable key={school.name} className="w-1/4" onPress={() => {}}>
-              <View className="w-full justify-center">
-                <Image
-                  className="mx-auto h-10 w-10"
-                  source={{
-                    uri: school.img,
-                  }}
-                />
-                <Text className="px-4 py-1">{school.name}</Text>
+    <View>
+      <SearchHeader
+        onSubmit={() => {}}
+        onChange={setKeyword}
+        autoFocus={false}
+      />
+      <ScrollView>
+        {keyword === '' ? (
+          <View>
+            <View>
+              <Text className="px-4 py-1 text-gray-500">热门学校</Text>
+              <View className="flex flex-row flex-wrap bg-white py-4">
+                {schools.map((school, index) => (
+                  <Pressable key={index} className="w-1/4" onPress={() => {}}>
+                    <View className="w-full justify-center">
+                      <Image
+                        className="mx-auto h-10 w-10"
+                        source={{
+                          uri: school.img,
+                        }}
+                      />
+                      <Text className="px-4 py-1">{school.name}</Text>
+                    </View>
+                  </Pressable>
+                ))}
               </View>
-            </Pressable>
-          ))}
-        </View>
-      </View>
-      <View>
-        <Text className="px-4 py-1 text-gray-500">当前选择</Text>
-        <SchoolCard school={schools[0]} />
-      </View>
-      <View>
-        <Text className="px-4 py-1 text-gray-500">已开通学校</Text>
-        {schools.map((school) => (
-          <SchoolCard school={school} />
-        ))}
-      </View>
-    </ScrollView>
+            </View>
+            <View>
+              <Text className="px-4 py-1 text-gray-500">当前选择</Text>
+              <SchoolCard school={schools[0]} />
+            </View>
+            <View>
+              <Text className="px-4 py-1 text-gray-500">已开通学校</Text>
+              {schools.map((school, index) => (
+                <SchoolCard school={school} key={index} />
+              ))}
+            </View>
+          </View>
+        ) : (
+          <View>
+            {schools.map((school, index) => (
+              <SchoolCard school={school} key={index} />
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    </View>
   )
 }
