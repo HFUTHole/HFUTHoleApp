@@ -42,6 +42,11 @@ export function UserIcons() {
             onPress: route.goDraftScreen,
             svg: DraftSvg,
           },
+          {
+            title: '选择学校',
+            onPress: route.goSelectScreenScreen,
+            svg: PostSvg,
+          },
         ],
       },
       {
@@ -81,7 +86,7 @@ export function UserIcons() {
         ],
       },
     ],
-    [route]
+    [route],
   )
 
   return (

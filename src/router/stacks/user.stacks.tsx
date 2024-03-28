@@ -11,7 +11,7 @@ import { AboutScreen } from '@/pages/user/about/AboutScreen'
 import { SettingsScreen } from '@/pages/user/settings/SettingsScreen'
 import { UserCommentScreen } from '@/pages/user/comment/UserCommentScreen'
 import { HoleDraftScreen } from '@/pages/user/draft/HoleDraftScreen'
-import { useRoute } from '@react-navigation/native'
+import { SelectSchoolScreen } from '@/pages/user/select-school/SelectSchoolScreen'
 import { useParams } from '@/shared/hooks/useParams'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -72,6 +72,13 @@ const UserScreens: Screen[] = [
     component: HoleDraftScreen,
     options: {
       title: '草稿箱',
+    },
+  },
+  {
+    name: 'select-school',
+    component: SelectSchoolScreen,
+    options: {
+      title: '选择学校',
     },
   },
 ]

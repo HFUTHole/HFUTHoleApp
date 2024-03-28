@@ -37,6 +37,10 @@ export function useUserProfileRoute() {
     linkTo('/user-nested/draft')
   }
 
+  const goSelectScreenScreen = () => {
+    linkTo('/user-nested/select-school')
+  }
+
   // space
   const goSchoolCourseScreen = useCallback(() => {
     linkTo('/space-nested/school-course')
@@ -54,6 +58,7 @@ export function useUserProfileRoute() {
     goAboutScreen,
     goCommentScreen,
     goDraftScreen,
+    goSelectScreenScreen,
     goSchoolCourseScreen,
     goSchoolCalendarScreen,
   }
