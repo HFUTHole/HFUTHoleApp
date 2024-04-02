@@ -7,7 +7,7 @@ export const Image: React.FC<ImageProps> = (props) => {
   return (
     <ExpoImage
       {...props}
-      cachePolicy={'memory-disk'}
+      resizeMode={'cover'}
       className={clsx(['bg-onBackground rounded-lg', props.className])}
     />
   )

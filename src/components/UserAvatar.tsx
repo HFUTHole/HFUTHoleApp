@@ -14,7 +14,7 @@ export function UserAvatar({ mode = 'sm', ...props }: Props) {
 
   return (
     <Image
-      className={'rounded-full bg-red-200'}
+      className={'rounded-full'}
       style={{
         width: props.size || modeSize,
         height: props.size || modeSize,

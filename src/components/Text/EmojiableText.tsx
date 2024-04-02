@@ -19,24 +19,22 @@ enum TextType {
   Url,
 }
 
-interface Props {
+interface EmojiableTextProps {
   body: string
   variant?: VariantProp<any>
   secondary?: boolean
-  style?: StyleProp<TextStyle>
+  textStyle?: StyleProp<TextStyle>
   numberOfLines?: number
+  imageSize?: number
+  fontSize?: number
 }
 
 /**
  * @description 注意：重写了 numberOfLines 逻辑
  */
-export function EmojiableText({
-  body,
-  variant,
-  secondary,
-  style,
-  numberOfLines,
-}: Props) {
+export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
+  const { body, variant, textStyle, numberOfLines, imageSize = 22 } = props
+
   const parts = useMemo(() => {
     let parts = body
       .split('\n')
@@ -112,17 +110,17 @@ export function EmojiableText({
   return (
     <View className={'flex flex-row flex-wrap'}>
       {parts.map((part, index) => (
-        <View key={index} className="w-full flex flex-row">
+        <View key={index} className="w-full flex flex-row items-center">
           {part.map((item, i) => (
             <>
               {item.type === TextType.Emoji ? (
-                <Emoji asset={item.content} key={i} size={22} />
+                <Emoji asset={item.content} key={i} size={imageSize} />
               ) : item.type === TextType.Url ? (
                 <Text
                   onPress={() => Linking.openURL(item.content)}
                   variant={variant || 'bodyLarge'}
                   key={item.content}
-                  style={[style, { color: 'blue' }]}
+                  style={[{ color: 'blue' }, textStyle]}
                 >
                   {item.content}
                 </Text>
@@ -131,7 +129,7 @@ export function EmojiableText({
                   className={'text-black/75'}
                   variant={variant || 'bodyLarge'}
                   key={item.content}
-                  style={style}
+                  style={textStyle}
                 >
                   {item.content}
                 </Text>

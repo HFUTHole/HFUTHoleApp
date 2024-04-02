@@ -1,8 +1,9 @@
 import React from 'react'
 import { Func } from '@/shared/types'
 import { useTheme } from 'react-native-paper'
-import { Image } from '@/components/image/Image'
-import { Pressable } from 'react-native'
+import { Pressable, View } from 'react-native'
+import { Image } from 'expo-image'
+import { useUserProfile } from '@/swr/user/profile'
 
 export const ImageListItem = React.memo(
   ({
@@ -19,6 +20,9 @@ export const ImageListItem = React.memo(
   }) => {
     const theme = useTheme()
 
+    const { data } = useUserProfile()
+
+    console.log(img)
     return (
       <Pressable
         onPress={() => {
@@ -31,10 +35,8 @@ export const ImageListItem = React.memo(
           source={{
             uri: img,
           }}
-          className={'rounded-lg w-28 h-28'}
-          style={{
-            resizeMode: 'cover',
-          }}
+          className={'rounded-lg w-28 h-28 bg-background'}
+          resizeMode={'cover'}
         />
       </Pressable>
     )
