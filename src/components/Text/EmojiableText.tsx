@@ -3,8 +3,9 @@ import { Emoji } from '@/components/emoji/Emoji'
 import { Text } from 'react-native-paper'
 import { StyleProp, TextStyle, View } from 'react-native'
 import React, { useMemo } from 'react'
-import { VariantProp } from 'react-native-paper/lib/typescript/src/components/Typography/types'
 import * as Linking from 'expo-linking'
+import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types'
+import clsx from 'clsx'
 
 const urlRegexp = /(https?:\/\/[^\s]+)/g
 const emojiRegexp = /(\[.*?\])/g
@@ -69,7 +70,7 @@ export function EmojiableText({
                 })
             }
           })
-          .flat()
+          .flat(),
       )
 
     // 处理逻辑：太长的文本单独占用一行
@@ -127,7 +128,7 @@ export function EmojiableText({
                 </Text>
               ) : (
                 <Text
-                  className={`${secondary && 'text-surfaceVariant'}`}
+                  className={'text-black/75'}
                   variant={variant || 'bodyLarge'}
                   key={item.content}
                   style={style}

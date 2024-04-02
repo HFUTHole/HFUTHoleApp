@@ -9,7 +9,7 @@ export function TopCategories() {
 
   return (
     <View className={'rounded-lg bg-white flex-row flex-wrap py-2'}>
-      {Categories.map((item) => (
+      {Categories.slice(0, 10).map((item) => (
         <TouchableRipple
           key={item.route}
           className={'p-2 w-1/5'}

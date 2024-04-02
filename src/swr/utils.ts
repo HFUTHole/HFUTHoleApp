@@ -9,6 +9,10 @@ export const SWRKeys = {
     mutateCommentReply: 'hole.mutateCommentReply',
     getCommentReply: 'hole.getCommentReply',
     getCategoryHoleList: 'hole.getCategoryHoleList',
+    like: 'hole.like',
+  },
+  home: {
+    categories: 'home.categories',
   },
   notify: {
     base: 'notify.base',
@@ -44,7 +48,7 @@ export const SWRKeys = {
 }
 
 export const flatInfiniteQueryData = <T>(
-  data: InfiniteData<any> | undefined
+  data: InfiniteData<any> | undefined,
 ) => {
   const isListEmpty = data?.pages[0].items.length === 0
 

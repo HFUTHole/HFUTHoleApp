@@ -1,5 +1,5 @@
 import { useUserProfile } from '@/swr/user/profile'
-import { Image } from 'react-native'
+import { Image } from '@/components/image/Image'
 
 interface Props {
   url?: string
@@ -14,7 +14,7 @@ export function UserAvatar({ mode = 'sm', ...props }: Props) {
 
   return (
     <Image
-      className={'rounded-full bg-background'}
+      className={'rounded-full bg-red-200'}
       style={{
         width: props.size || modeSize,
         height: props.size || modeSize,

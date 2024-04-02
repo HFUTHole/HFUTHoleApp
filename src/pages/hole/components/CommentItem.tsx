@@ -1,24 +1,16 @@
-import { Pressable, StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
 import { UserText } from '@/components/Text/User'
 import { TimeText } from '@/components/Text/Time'
-import React, { ReactNode, useCallback, useState } from 'react'
-import { AwaitAble, AwaitFunc } from '@/shared/types'
+import React, { ReactNode } from 'react'
+import { AwaitAble } from '@/shared/types'
 import { useMutation, UseMutationResult } from 'react-query'
 import { ReplyBody } from '@/components/reply/body'
 import { ImageList } from '@/components/image/ImageList'
 import { ReportType } from '@/shared/validators/report'
 import { CommentReplyBottomAction } from '@/pages/hole/components/sheet/CommentReplyBottomAction'
 import { TouchableRipple, useTheme } from 'react-native-paper'
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  withSpring,
-} from 'react-native-reanimated'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { SecondaryText } from '@/components/Text/SecondaryText'
+import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 
 type Data =
   | (Omit<IHoleCommentListItem, 'replies' | 'repliesCount'> &
@@ -86,7 +78,7 @@ export function CommentItem({
                 <TimeText time={data.createAt} />
                 <CommentItemIsLike mutation={mutation} data={data} />
               </View>
-              <View>{bottom}</View>
+              {bottom && <View className={'py-2'}>{bottom}</View>}
             </View>
           </View>
         </View>
@@ -99,75 +91,5 @@ const CommentItemIsLike: React.FC<{
   data: Data
   mutation: UseMutationResult<unknown, unknown, boolean, unknown>
 }> = ({ mutation, data }) => {
-  const theme = useTheme()
-  const [liked, setLiked] = useState(data.isLiked)
-  const [favoriteCount, setFavoriteCount] = useState(data.favoriteCounts)
-
-  const likedInput = useDerivedValue(() => withSpring(liked ? 1 : 0), [liked])
-
-  const outlineStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: interpolate(
-            likedInput.value,
-            [0, 1],
-            [1, 0],
-            Extrapolate.CLAMP
-          ),
-        },
-      ],
-    }
-  })
-
-  const fillStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: likedInput.value,
-        },
-      ],
-      opacity: likedInput.value,
-    }
-  })
-
-  const onLikeIconPress = useCallback(() => {
-    setLiked((prev) => !prev)
-    setFavoriteCount((prev) => (liked ? prev - 1 : prev + 1))
-    mutation.mutate(liked, {
-      onError() {
-        setFavoriteCount((prev) => prev - 1)
-      },
-    })
-  }, [liked, mutation])
-
-  return (
-    <Pressable onPress={onLikeIconPress}>
-      <View className={'flex-row items-center p-2 mb-[-6]'}>
-        <View className={'relative p-2 flex-row'}>
-          <Animated.View
-            className={'flex-row space-x-1 items-center'}
-            style={[StyleSheet.absoluteFillObject, outlineStyle]}
-          >
-            <MaterialCommunityIcons
-              name={'heart-outline'}
-              size={16}
-              color={theme.colors.surfaceVariant}
-            />
-          </Animated.View>
-          <Animated.View
-            className={'flex-row space-x-1 items-center'}
-            style={[StyleSheet.absoluteFillObject, fillStyle]}
-          >
-            <MaterialCommunityIcons
-              name={'heart'}
-              size={16}
-              color={theme.colors.error}
-            />
-          </Animated.View>
-        </View>
-        <SecondaryText variant={'bodySmall'}>{favoriteCount}</SecondaryText>
-      </View>
-    </Pressable>
-  )
+  return <AnimatedLikeButton data={data} mutation={mutation} />
 }

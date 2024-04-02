@@ -1,7 +1,8 @@
 import React from 'react'
-import { Image, Pressable } from 'react-native'
 import { Func } from '@/shared/types'
 import { useTheme } from 'react-native-paper'
+import { Image } from '@/components/image/Image'
+import { Pressable } from 'react-native'
 
 export const ImageListItem = React.memo(
   ({
@@ -30,13 +31,12 @@ export const ImageListItem = React.memo(
           source={{
             uri: img,
           }}
-          className={'rounded-lg w-full h-28'}
+          className={'rounded-lg w-28 h-28'}
           style={{
             resizeMode: 'cover',
-            backgroundColor: theme.colors.onBackground,
           }}
         />
       </Pressable>
     )
-  }
+  },
 )

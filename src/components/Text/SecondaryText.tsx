@@ -1,4 +1,5 @@
 import { Text, TextProps, useTheme } from 'react-native-paper'
+import clsx from 'clsx'
 
 export function SecondaryText(props: TextProps<any>) {
   const theme = useTheme()
@@ -6,7 +7,7 @@ export function SecondaryText(props: TextProps<any>) {
   return (
     <Text
       {...props}
-      className={props.className}
+      className={clsx(props.className)}
       style={{
         color: theme.colors.surfaceVariant,
         ...((props.style as object) || {}),

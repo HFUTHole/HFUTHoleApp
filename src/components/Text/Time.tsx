@@ -7,13 +7,11 @@ type Props = {
 } & Partial<TextProps<any>>
 
 export function TimeText({ time, ...props }: Props) {
-  const theme = useTheme()
-
   return (
     <Text
       className={'text-xs'}
       style={{
-        color: theme.colors.surface,
+        color: 'rgba(51,51,51,0.6)',
       }}
       {...props}
     >

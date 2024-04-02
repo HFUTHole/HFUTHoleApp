@@ -1,10 +1,8 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
 import { View, StyleSheet } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
 import { Text, TouchableRipple, useTheme } from 'react-native-paper'
-import { CommentIcon, LikeIcon } from '@/components/icon'
-import { Badges } from '@/components/Badges'
 import { TimeText } from '@/components/Text/Time'
 import { ImageList } from '@/components/image/ImageList'
 import { useMutation } from 'react-query'
@@ -16,12 +14,10 @@ import { EmojiableText } from '@/components/Text/EmojiableText'
 import BilibiliSvg from '@/assets/svg/home/bilibili.svg'
 import { Svg } from '@/components/svg/Svg'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
-import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { HoleBottomAction } from './sheet/HoleBottomAction'
 import { Categories } from '@/shared/constants/category'
-import { EmojiCard } from '@/components/EmojiCard/EmojiCard'
-import { useBoolean } from 'ahooks'
-import { TagIcon } from '@/components/svg/SvgIcons'
+import { Icons, TagIcon } from '@/components/svg/SvgIcons'
+import { HoleLikeButton } from '@/pages/hole/components/HoleLikeButton'
 
 type Data = IHole
 
@@ -182,38 +178,40 @@ export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
           {...(isDetail && { numberOfLines: 3 })}
         />
       </View>
-      {data.imgs.length && (
+      {data.imgs.length ? (
         <View>
           <ImageList imgs={data?.imgs.slice(0, 3)} />
         </View>
+      ) : (
+        <></>
       )}
-      {data.tags.length && (
-        <View className={'flex-row space-x-2'}>
-          {data.tags.map((tag) => (
-            <View>
-              <Tag key={tag.id} data={tag.body} />
-            </View>
-          ))}
-        </View>
-      )}
+      {/*{data.tags.length ? (*/}
+      {/*  <View className={'flex-row space-x-2'}>*/}
+      {/*    <Badges data={data.tags} />*/}
+      {/*  </View>*/}
+      {/*) : (*/}
+      {/*  <></>*/}
+      {/*)}*/}
     </View>
   )
 }
 
 export const HoleInfoBottom: React.FC<{ data: Data }> = ({ data }) => {
-  const theme = useTheme()
-
-  const renderList = [
-    {
-      value: data.favoriteCounts,
-      element: LikeIcon,
-    },
-    {
-      value: data.commentCounts,
-      element: CommentIcon,
-    },
-  ]
-  return <View className={'flex flex-row space-x-3'}></View>
+  return (
+    <View className={'flex-row justify-between'}>
+      <View className={'flex-1 flex-row justify-center space-x-1'}>
+        <Icons.ShareIcon size={16} />
+        <Text className={'text-black/70 text-xs'}>分享</Text>
+      </View>
+      <View className={'flex-1 flex-row justify-center space-x-1'}>
+        <Icons.CommentIcon size={16} />
+        <Text className={'text-black/70 text-xs'}>{data.commentCounts}</Text>
+      </View>
+      <View className={'flex-1 flex-row justify-center'}>
+        <HoleLikeButton data={data} size={16} />
+      </View>
+    </View>
+  )
 }
 
 interface Props extends IClassName {
@@ -237,51 +235,51 @@ export const HoleInfo = ({
   const theme = useTheme()
 
   return (
-    <>
-      <View>
-        <View className={'space-y-2'}>
+    <View className={'bg-white rounded-2xl overflow-hidden z-[1]'}>
+      <TouchableRipple onPress={onPress}>
+        <View className={'space-y-2 p-3'}>
           {header || <HoleInfoHeader data={data} />}
           {body || <HoleInfoBody data={data} />}
           {data.vote && <HoleInfoVote data={data} />}
-          {bottom || <HoleInfoBottom data={data} />}
-          <View>
-            {showComment && data.comments?.length > 0 && (
-              <>
-                <View className={'border-b-[1px] border-black/10'}></View>
-                <View className={'grid'}>
-                  {data.comments?.length > 0 &&
-                    data.comments.map((comment) => (
-                      <View
-                        className={
-                          'flex flex-row space-x-2 items-center py-2 justify-between'
-                        }
-                        key={comment.id}
-                      >
-                        <Text
-                          className={'font-bold self-start max-w-[30%]'}
-                          variant={'bodyMedium'}
-                          ellipsizeMode={'tail'}
-                          numberOfLines={1}
-                          style={{ color: theme.colors.onSurfaceVariant }}
-                        >
-                          {comment.user.username}
-                        </Text>
-                        <View className={'flex-1'}>
-                          <EmojiableText
-                            body={sliceHoleInfoCommentBody(comment.body)}
-                            variant={'bodyMedium'}
-                            style={{ color: theme.colors.surfaceVariant }}
-                          />
-                        </View>
-                      </View>
-                    ))}
-                </View>
-              </>
-            )}
-          </View>
+          <View>{bottom || <HoleInfoBottom data={data} />}</View>
+          {/*<View>*/}
+          {/*  {showComment && data.comments?.length > 0 && (*/}
+          {/*    <>*/}
+          {/*      <View className={'border-b-[1px] border-black/10'}></View>*/}
+          {/*      <View className={'grid'}>*/}
+          {/*        {data.comments?.length > 0 &&*/}
+          {/*          data.comments.map((comment) => (*/}
+          {/*            <View*/}
+          {/*              className={*/}
+          {/*                'flex flex-row space-x-2 items-center py-2 justify-between'*/}
+          {/*              }*/}
+          {/*              key={comment.id}*/}
+          {/*            >*/}
+          {/*              <Text*/}
+          {/*                className={'font-bold self-start max-w-[30%]'}*/}
+          {/*                variant={'bodyMedium'}*/}
+          {/*                ellipsizeMode={'tail'}*/}
+          {/*                numberOfLines={1}*/}
+          {/*                style={{ color: theme.colors.onSurfaceVariant }}*/}
+          {/*              >*/}
+          {/*                {comment.user.username}*/}
+          {/*              </Text>*/}
+          {/*              <View className={'flex-1'}>*/}
+          {/*                <EmojiableText*/}
+          {/*                  body={sliceHoleInfoCommentBody(comment.body)}*/}
+          {/*                  variant={'bodyMedium'}*/}
+          {/*                  style={{ color: theme.colors.surfaceVariant }}*/}
+          {/*                />*/}
+          {/*              </View>*/}
+          {/*            </View>*/}
+          {/*          ))}*/}
+          {/*      </View>*/}
+          {/*    </>*/}
+          {/*  )}*/}
+          {/*</View>*/}
         </View>
-      </View>
-    </>
+      </TouchableRipple>
+    </View>
   )
 }
 

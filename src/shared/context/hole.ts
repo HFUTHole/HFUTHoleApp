@@ -16,14 +16,14 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   const [bilibili, setBilibili] = useState<string | null>(null)
 
   const [category, setCategory] = useState<HoleClassification>(
-    HoleClassification.hfutLife
+    HoleClassification.life,
   )
   const [subCategory, setSubCategory] = useState<string>(
-    getCategoryByName(category).children[0]
+    getCategoryByName(category).children[0],
   )
   const subCategories = useMemo(
     () => getCategoryByName(category).children,
-    [category]
+    [category],
   )
 
   const [votes, setVotes] = useState<HolePostVoteClassValidator>({

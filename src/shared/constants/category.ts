@@ -14,7 +14,7 @@ import SecondHandSvg from '@/assets/svg/home/secondHand.svg'
 export const Categories = [
   {
     route: 'hfut-life',
-    name: HoleClassification.hfutLife,
+    name: HoleClassification.life,
     description: '学习已经很苦了 😩，来看看水贴娱乐放松一下吧 🎉🎈',
     children: ['工大广场', '身边趣事', '镜头下的工大', '今天win了吗'],
     color: { primary: '#619E68', secondary: '#E3F6E0' },

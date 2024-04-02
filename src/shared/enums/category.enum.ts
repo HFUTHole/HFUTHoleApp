@@ -1,5 +1,5 @@
 export enum HoleClassification {
-  hfutLife = '日常',
+  life = '日常',
   littleCreature = '小动物',
   loveStory = '情感分享',
   partner = '找搭子',

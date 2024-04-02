@@ -1,6 +1,6 @@
 export const Config = {
   request: {
-    baseURL: 'http://hfut-uni.top:8080/',
+    baseURL: 'http://192.168.69.69:8000/',
     imgBaseURL: 'http://hfut-uni.top:8880/',
     spaceBaseURL: 'https://hfut-space.top/',
     timeout: 5000,

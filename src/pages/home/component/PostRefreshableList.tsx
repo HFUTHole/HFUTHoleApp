@@ -16,7 +16,7 @@ import React, {
   useState,
 } from 'react'
 import { useBoolean } from 'ahooks'
-import { PostCard } from '@/pages/home/component/PostCard'
+import clsx from 'clsx'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -92,6 +92,7 @@ function InnerRefreshablePostList<
     <>
       {isSuccess ? (
         <RefreshingFlatList
+          showsVerticalScrollIndicator={false}
           ref={listRef as MutableRefObject<FlatList>}
           onScroll={(event) => {
             scrollHandler(event)
@@ -117,7 +118,17 @@ function InnerRefreshablePostList<
               </View>
             )
           }
-          renderItem={({ item }) => <Item key={item.id} item={item} />}
+          renderItem={({ item, index }) => (
+            <View
+              className={clsx([
+                {
+                  'mt-2': index > 0,
+                },
+              ])}
+            >
+              <Item key={item.id} item={item} />
+            </View>
+          )}
           {...props}
         />
       ) : (

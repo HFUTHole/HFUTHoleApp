@@ -198,3 +198,10 @@ export function GetHoleCategoryRequest(params: {
     params,
   })
 }
+
+export function GetHoleCategoryList() {
+  return request<ICategoryListResponse>({
+    method: 'GET',
+    url: '/post/categories',
+  })
+}
