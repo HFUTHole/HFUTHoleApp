@@ -7,11 +7,11 @@ import { useTheme } from 'react-native-paper'
 interface Props {
   onEmojiSelect: (emoji: EmojiItem) => AwaitAble<void>
   expandArea?: boolean
+  emojiSize?: number
 }
 
 export function EmojiArea(props: Props) {
-  const theme = useTheme()
-
+  const { emojiSize = 28 } = props
   return (
     <>
       {props.expandArea ? (
@@ -27,7 +27,7 @@ export function EmojiArea(props: Props) {
                   key={emoji.name}
                 >
                   <View className={'flex mx-3 justify-center items-center'}>
-                    <Emoji asset={emoji.asset} />
+                    <Emoji asset={emoji.asset} size={emojiSize} />
                   </View>
                 </Pressable>
               )
@@ -41,7 +41,7 @@ export function EmojiArea(props: Props) {
             renderItem={({ item: emoji }) => (
               <Pressable onPress={() => props.onEmojiSelect(emoji)}>
                 <View className={'flex justify-center items-center mx-3'}>
-                  <Emoji asset={emoji.asset} size={28} />
+                  <Emoji asset={emoji.asset} size={emojiSize} />
                 </View>
               </Pressable>
             )}

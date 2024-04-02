@@ -37,5 +37,5 @@ interface Reply {
   body: string
   favoriteCounts: number
   user: User
-  replyUser: any
+  replyUser: User
 }

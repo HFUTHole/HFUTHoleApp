@@ -139,7 +139,10 @@ export function PostHoleCommentReplyRequest(data: {
 }
 
 export function GetHoleReplyRequest(
-  params: PaginateAble<{ id: string; replyId?: string }>,
+  params: PaginateAble<{
+    id: string
+    replyId?: string
+  }>,
 ) {
   return request<IHoleReplyListResponse>({
     method: 'GET',

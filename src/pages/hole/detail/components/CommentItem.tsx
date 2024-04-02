@@ -1,8 +1,14 @@
-import { FlatList, Text, TouchableNativeFeedback, View } from 'react-native'
-import { useTheme } from 'react-native-paper'
+import {
+  FlatList,
+  Text,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { TouchableRipple, useTheme } from 'react-native-paper'
 import { useHoleComment } from '@/swr/hole'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { PrimaryText } from '@/components/Text/PrimaryText'
 import { RightIcon } from '@/components/icon'
 import { useNavigation } from '@react-navigation/native'
@@ -17,72 +23,98 @@ import { useBottomCommentContext } from '@/shared/context/hole/comment'
 import { UserAvatar } from '@/components/UserAvatar'
 import { EmojiableText } from '@/components/Text/EmojiableText'
 import { TimeText } from '@/components/Text/Time'
-import { If, Then } from 'react-if'
+import { Else, If, Then } from 'react-if'
+import { useBoolean } from 'ahooks'
+import { useCommentReplies } from '@/swr/hole/reply'
+import { flatInfiniteQueryData } from '@/swr/utils'
 
 const RenderItemReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
   data,
 }) => {
-  const theme = useTheme()
-  const navigate = useNavigation()
-  const holeId = useHoleDetailId()
+  const { openInput } = useBottomCommentContext()
+  const [isExpand, isExpandActions] = useBoolean(false)
 
-  // TODO 统一管理
-  const navigateToReply = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    navigate.navigate('reply', {
-      commentId: data.id,
-      id: holeId,
-      comment: data,
-    })
+  const {
+    fetchNextPage,
+    data: replyData,
+    isLoading,
+  } = useCommentReplies({
+    commentId: data.id,
+    enabled: isExpand,
+    replyId: data.replies?.[0].id,
+  })
+
+  const onExpandCommentAreaPress = () => {
+    if (isExpand) {
+    } else {
+      isExpandActions.setTrue()
+    }
   }
+
+  const replies = [
+    ...(data?.replies || []),
+    ...(flatInfiniteQueryData(replyData).data || []),
+  ] as Reply[]
+
+  useEffect(() => {}, [data])
 
   return (
     <>
-      {/*<View*/}
-      {/*  className={'rounded-md p-3 grid space-y-2'}*/}
-      {/*  style={{ backgroundColor: theme.colors.background }}*/}
-      {/*>*/}
-      {/*  {data.replies.map((reply) => (*/}
-      {/*    <View className={'flex flex-row flex-wrap'} key={reply.id}>*/}
-      {/*      <PrimaryText children={`${reply?.user?.username}：`} />*/}
-      {/*      <ReplyBody data={reply as IHoleReplyListItem} />*/}
-      {/*    </View>*/}
-      {/*  ))}*/}
-      {/*  <TouchableNativeFeedback onPress={navigateToReply}>*/}
-      {/*    <View className={'w-full py-1 flex flex-row items-center'}>*/}
-      {/*      <PrimaryText className={'text-xs'}>*/}
-      {/*        共有{data.repliesCount}条评论*/}
-      {/*      </PrimaryText>*/}
-      {/*      <RightIcon size={16} />*/}
-      {/*    </View>*/}
-      {/*  </TouchableNativeFeedback>*/}
-      {/*</View>*/}
       <View>
-        {data.replies.map((data) => (
-          <View className={'flex-row space-x-2 py-1'}>
-            <UserAvatar url={data.user.avatar} size={20} />
-            <View className={'space-y-1'}>
-              <View className={'flex-row h-[20px] items-center'}>
-                <Text className={'text-black/70'}>{data.user.username}</Text>
-                <If condition={!!data.replyUser}>
-                  <Then>
-                    <Text className={'text-black/70 px-1'}>回复</Text>
-                    <Text className={'text-black/70'}>
-                      {data.user.username}
-                    </Text>
-                  </Then>
-                </If>
+        {replies.map((reply) => (
+          <TouchableRipple
+            onPress={() => {
+              openInput({
+                commentId: data.id,
+                replyId: reply.id,
+                body: reply.body,
+                user: reply.user,
+              })
+            }}
+          >
+            <View className={'flex-row space-x-2 py-1'}>
+              <UserAvatar url={reply.user.avatar} size={20} />
+              <View className={'space-y-1'}>
+                <View className={'flex-row h-[20px] items-center'}>
+                  <Text className={'text-[#33333399]'}>
+                    {reply.user.username}
+                  </Text>
+                  <If condition={!!reply.replyUser}>
+                    <Then>
+                      <Text className={'text-[#33333399] px-1'}>回复</Text>
+                      <Text className={'text-[#33333399]'}>
+                        {reply.replyUser?.username}
+                      </Text>
+                    </Then>
+                  </If>
+                </View>
+                <View>
+                  <EmojiableText body={reply.body} />
+                </View>
+                <Text>
+                  <TimeText time={reply.createAt} />
+                </Text>
               </View>
-              <View>
-                <EmojiableText body={data.body} />
-              </View>
-              <Text>
-                <TimeText time={data.createAt} />
-              </Text>
             </View>
-          </View>
+          </TouchableRipple>
         ))}
+        <View className={'mt-2 flex-row space-x-2 items-center'}>
+          <View
+            className={'rounded-full h-[0.5px]'}
+            style={{
+              width: 20,
+              backgroundColor: 'rgba(51,51,51,0.4)',
+            }}
+          />
+          <TouchableOpacity onPress={onExpandCommentAreaPress}>
+            <Text className={'text-[#33333399] text-xs'}>
+              <If condition={isExpand}>
+                <Then>收起</Then>
+                <Else>展开{data.repliesCount}条回复</Else>
+              </If>
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   )

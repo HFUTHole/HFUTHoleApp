@@ -79,5 +79,5 @@ export const [useBottomCommentContext, BottomCommentContext] = createStore(
       data,
       reqFunc,
     }
-  }
+  },
 )

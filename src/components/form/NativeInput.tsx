@@ -50,8 +50,6 @@ export const NativeInput = <T extends object = PlainObject>({
               textAlignVertical: 'center',
               ...(props.style as object),
             }}
-            autoFocus={false}
-            focusable={false}
           />
         </>
       )}

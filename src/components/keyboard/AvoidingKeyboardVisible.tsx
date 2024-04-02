@@ -1,5 +1,5 @@
 import useKeyboardHeight from '@/shared/hooks/useKeyboardHeight'
-import { View } from 'react-native'
+import { KeyboardAvoidingView, TextInput, View } from 'react-native'
 import React from 'react'
 
 interface Props {
@@ -10,13 +10,8 @@ export function AvoidingKeyboardVisible(props: Props) {
   const height = useKeyboardHeight()
 
   return (
-    <View
-      className={'flex-1'}
-      style={{
-        bottom: height,
-      }}
-    >
-      {props.children}
-    </View>
+    <KeyboardAvoidingView className={'flex-1'} behavior={'height'}>
+      <View className={'flex-1 bg-black'}></View>
+    </KeyboardAvoidingView>
   )
 }

@@ -11,7 +11,7 @@ export function TimeText({ time, ...props }: Props) {
     <Text
       className={'text-xs'}
       style={{
-        color: 'rgba(51,51,51,0.6)',
+        color: '#33333399',
       }}
       {...props}
     >
