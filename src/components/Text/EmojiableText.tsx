@@ -1,8 +1,8 @@
 import { EmojiList } from '@/assets/emoji'
 import { Emoji } from '@/components/emoji/Emoji'
 import { Text } from 'react-native-paper'
-import { StyleProp, TextStyle, View } from 'react-native'
-import React, { useMemo } from 'react'
+import { StyleProp, TextStyle, View, Pressable } from 'react-native'
+import React, { useCallback, useMemo, useState } from 'react'
 import * as Linking from 'expo-linking'
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types'
 import clsx from 'clsx'
@@ -34,8 +34,9 @@ interface EmojiableTextProps {
  */
 export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
   const { body, variant, textStyle, numberOfLines, imageSize = 22 } = props
+  const [expanded, setExpanded] = useState(false)
 
-  const parts = useMemo(() => {
+  const bodyParts = useMemo(() => {
     let parts = body
       .split('\n')
       .map<{ type: TextType; content: any }[]>((part) =>
@@ -97,47 +98,67 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
       }
     }
 
-    if (numberOfLines !== undefined) {
-      parts = parts.slice(0, numberOfLines)
-      parts[parts.length - 1].push({
-        type: TextType.Text,
-        content: '...',
-      })
-    }
     return parts
   }, [body, numberOfLines])
 
+  const parts = useMemo(() => {
+    let bodyPartsCopy = [...bodyParts]
+
+    if (numberOfLines !== undefined && !expanded) {
+      bodyPartsCopy = bodyPartsCopy.slice(0, numberOfLines)
+      const lastPart = [...bodyPartsCopy[bodyPartsCopy.length - 1]]
+      lastPart.push({
+        type: TextType.Text,
+        content: '...',
+      })
+      bodyPartsCopy[bodyPartsCopy.length - 1] = lastPart
+    }
+
+    return bodyPartsCopy
+  }, [numberOfLines, expanded, bodyParts])
+
+  const toggleExpand = useCallback(() => {
+    setExpanded((expanded) => !expanded)
+  }, [])
+
   return (
-    <View className={'flex flex-row flex-wrap'}>
-      {parts.map((part, index) => (
-        <View key={index} className="w-full flex flex-row items-center">
-          {part.map((item, i) => (
-            <>
-              {item.type === TextType.Emoji ? (
-                <Emoji asset={item.content} key={i} size={imageSize} />
-              ) : item.type === TextType.Url ? (
-                <Text
-                  onPress={() => Linking.openURL(item.content)}
-                  variant={variant || 'bodyLarge'}
-                  key={item.content}
-                  style={[{ color: 'blue' }, textStyle]}
-                >
-                  {item.content}
-                </Text>
-              ) : (
-                <Text
-                  className={'text-black/75'}
-                  variant={variant || 'bodyLarge'}
-                  key={item.content}
-                  style={textStyle}
-                >
-                  {item.content}
-                </Text>
-              )}
-            </>
-          ))}
-        </View>
-      ))}
+    <View>
+      <View className="flex flex-row flex-wrap">
+        {parts.map((part, index) => (
+          <View key={index} className="w-full flex flex-row items-center">
+            {part.map((item, i) => (
+              <>
+                {item.type === TextType.Emoji ? (
+                  <Emoji asset={item.content} key={i} size={imageSize} />
+                ) : item.type === TextType.Url ? (
+                  <Text
+                    onPress={() => Linking.openURL(item.content)}
+                    variant={variant || 'bodyLarge'}
+                    key={item.content}
+                    style={[{ color: 'blue' }, textStyle]}
+                  >
+                    {item.content}
+                  </Text>
+                ) : (
+                  <Text
+                    className={'text-black/75'}
+                    variant={variant || 'bodyLarge'}
+                    key={item.content}
+                    style={textStyle}
+                  >
+                    {item.content}
+                  </Text>
+                )}
+              </>
+            ))}
+          </View>
+        ))}
+      </View>
+      {numberOfLines !== undefined && bodyParts.length > numberOfLines && (
+        <Pressable className="my-2" onPress={toggleExpand}>
+          <Text className="text-blue-500">{expanded ? '收起' : '展开'}</Text>
+        </Pressable>
+      )}
     </View>
   )
 }

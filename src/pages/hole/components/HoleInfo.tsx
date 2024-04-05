@@ -168,7 +168,7 @@ export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
   data,
   isDetail = false,
 }) => {
-  const { goResult } = useHoleSearchRoute()
+  // const { goResult } = useHoleSearchRoute()
 
   return (
     <View className={'flex space-y-2'}>
