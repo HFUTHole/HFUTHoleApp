@@ -10,7 +10,7 @@ export const HoleSearchStacks = () => {
     <PageWithSafeArea>
       <HoleStack.Navigator
         screenOptions={{
-          header: () => <HoleSearchHeader />,
+          headerShown: false,
         }}
       >
         <HoleStack.Screen name={'index'} component={HoleSearch} />

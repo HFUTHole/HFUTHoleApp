@@ -9,7 +9,7 @@ declare interface INotifySystemListItem {
   title: string
   body: string
   isRead: boolean
-  hole: Hole
+  post: Hole
   comment: any
   reply: any
 }

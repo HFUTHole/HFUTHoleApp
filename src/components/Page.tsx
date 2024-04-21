@@ -7,9 +7,10 @@ export function Page(props: ViewProps) {
   const theme = useTheme()
 
   return (
-    <View
+    <SafeAreaView
       {...props}
-      className={clsx('min-h-full w-full px-3', props.className)}
+      edges={['top']}
+      className={clsx('flex-1 w-full px-3', props.className)}
       style={{
         backgroundColor: theme.colors.background,
       }}

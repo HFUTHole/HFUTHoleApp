@@ -73,14 +73,11 @@ export function SearchHeader({
       >
         <View
           className={
-            'flex flex-[5] flex-row space-x-2 rounded-full items-center px-2 py-1'
+            'flex bg-onBackground flex-[5] flex-row space-x-2 rounded-full items-center px-2 py-1'
           }
-          style={{
-            backgroundColor: theme.colors.onBackground,
-          }}
         >
           <SearchIcon size={16} />
-          <View className={'h-6 flex-1'}>
+          <View className={'h-6 flex-1 justify-center'}>
             <SearchInput
               name={'keywords'}
               control={control}

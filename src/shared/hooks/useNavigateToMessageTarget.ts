@@ -12,7 +12,7 @@ export function useNavigateToMessageTarget() {
   const { go: goReplyList } = useReplyListRoute()
 
   const onMessagePress = (data?: MessageAbleItem) => {
-    if (!data?.hole) {
+    if (!data?.post) {
       return
     }
 
@@ -27,13 +27,13 @@ export function useNavigateToMessageTarget() {
       goReplyList({
         commentId: data.comment?.id,
         replyId: data.reply?.id,
-        holeId: data.hole?.id,
+        holeId: data.post?.id,
         isMessageFrom: true,
       })
       return
     }
 
-    go(data!.hole!.id, {
+    go(data!.post!.id, {
       commentId: data!.comment?.id,
     })
   }

@@ -20,7 +20,11 @@ export function ReplyBody({ data }: Props) {
             <PrimaryText>@{data.replyUser.username}：</PrimaryText>
           </View>
         )}
-        <EmojiableText body={data.body} variant={'bodyMedium'} />
+        <EmojiableText
+          numberOfLines={4}
+          body={data.body}
+          variant={'bodyMedium'}
+        />
       </View>
     </>
   )

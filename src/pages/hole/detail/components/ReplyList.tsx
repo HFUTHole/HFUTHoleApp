@@ -60,7 +60,11 @@ const ReplyListItem: React.FC<{
               </If>
             </View>
             <View>
-              <EmojiableText body={reply.body} fontSize={12} />
+              <EmojiableText
+                numberOfLines={3}
+                body={reply.body}
+                fontSize={12}
+              />
             </View>
             <View className={'items-center flex-row justify-between'}>
               <View className={'flex-1'}>

@@ -16,7 +16,7 @@ declare interface INotifyInteractionListItem {
   type: NotifyEventType
   body: string
   creator: IUser
-  hole?: Hole
+  post?: Hole
   comment?: IHoleCommentListItem
   reply?: IHoleReplyListItem
 }

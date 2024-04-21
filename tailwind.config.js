@@ -117,6 +117,7 @@ module.exports = {
         backdrop: '#f5f5f5',
         stress: '#0d3f7c',
         placeholder: '#88898b',
+        textPrimary: '#333333CC',
       },
     },
   },

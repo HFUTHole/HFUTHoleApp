@@ -1,7 +1,14 @@
 import { EmojiList } from '@/assets/emoji'
 import { Emoji } from '@/components/emoji/Emoji'
 import { Text } from 'react-native-paper'
-import { StyleProp, TextStyle, View, Pressable } from 'react-native'
+import {
+  StyleProp,
+  TextStyle,
+  View,
+  Pressable,
+  TouchableOpacity,
+  Alert,
+} from 'react-native'
 import React, { useCallback, useMemo, useState } from 'react'
 import * as Linking from 'expo-linking'
 import { VariantProp } from 'react-native-paper/lib/typescript/components/Typography/types'
@@ -35,7 +42,6 @@ interface EmojiableTextProps {
 export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
   const { body, variant, textStyle, numberOfLines, imageSize = 22 } = props
   const [expanded, setExpanded] = useState(false)
-
   const bodyParts = useMemo(() => {
     let parts = body
       .split('\n')
@@ -125,14 +131,35 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     <View>
       <View className="flex flex-row flex-wrap">
         {parts.map((part, index) => (
-          <View key={index} className="w-full flex flex-row items-center">
+          <View
+            key={index}
+            className="w-full flex flex-row
+"
+          >
             {part.map((item, i) => (
               <>
                 {item.type === TextType.Emoji ? (
                   <Emoji asset={item.content} key={i} size={imageSize} />
                 ) : item.type === TextType.Url ? (
                   <Text
-                    onPress={() => Linking.openURL(item.content)}
+                    onPress={() =>
+                      Alert.alert(
+                        '确定要打开该链接吗？可能有危险哦',
+                        '即将前往浏览器打开该链接，请注意甄别链接！如有问题请举报',
+                        [
+                          {
+                            text: '确定',
+                            onPress: () => {
+                              Linking.openURL(item.content)
+                            },
+                          },
+                          {
+                            text: '取消',
+                          },
+                        ],
+                        {},
+                      )
+                    }
                     key={item.content}
                     style={[{ color: 'blue' }, textStyle]}
                   >
@@ -140,7 +167,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                   </Text>
                 ) : (
                   <Text
-                    className={'text-black/75'}
+                    className={'text-black'}
                     key={item.content}
                     style={textStyle}
                   >
@@ -151,12 +178,14 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
             ))}
           </View>
         ))}
+        {numberOfLines !== undefined && bodyParts.length > numberOfLines && (
+          <TouchableOpacity className="py-2 pr-2" onPress={toggleExpand}>
+            <Text className="text-textSecondary text-xs">
+              {expanded ? '收起' : '展开'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
-      {numberOfLines !== undefined && bodyParts.length > numberOfLines && (
-        <Pressable className="my-2" onPress={toggleExpand}>
-          <Text className="text-blue-500">{expanded ? '收起' : '展开'}</Text>
-        </Pressable>
-      )}
     </View>
   )
 }

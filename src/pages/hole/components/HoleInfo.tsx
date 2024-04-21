@@ -177,7 +177,7 @@ export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
             lineHeight: 20,
             fontSize: 14,
           }}
-          {...(isDetail && { numberOfLines: 3 })}
+          numberOfLines={3}
         />
       </View>
       {data.imgs.length ? (

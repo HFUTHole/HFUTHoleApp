@@ -10,7 +10,7 @@ declare interface IUserCommentListItem {
   favoriteCounts: number
   imgs: any[]
   user: User
-  hole: Hole | null
+  post: Hole | null
   comment: null
   reply: null
 }
