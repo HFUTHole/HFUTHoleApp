@@ -38,4 +38,5 @@ interface Reply {
   favoriteCounts: number
   user: User
   replyUser: User
+  isLiked: boolean
 }
