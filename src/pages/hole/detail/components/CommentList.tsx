@@ -12,6 +12,7 @@ import { View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
 import { PrimaryText } from '@/components/Text/PrimaryText'
+import { TimeText } from '@/components/Text/Time'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -47,7 +48,14 @@ const HoleTopDetail = React.memo(() => {
         data={data!}
         header={<></>}
         body={<DetailBody />}
-        bottom={<LikeHole />}
+        bottom={
+          <TimeText
+            style={{
+              fontSize: 10,
+            }}
+            time={data!.createAt}
+          ></TimeText>
+        }
         showComment={false}
       />
       <Separator />

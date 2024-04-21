@@ -133,7 +133,6 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                 ) : item.type === TextType.Url ? (
                   <Text
                     onPress={() => Linking.openURL(item.content)}
-                    variant={variant || 'bodyLarge'}
                     key={item.content}
                     style={[{ color: 'blue' }, textStyle]}
                   >
@@ -142,7 +141,6 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                 ) : (
                   <Text
                     className={'text-black/75'}
-                    variant={variant || 'bodyLarge'}
                     key={item.content}
                     style={textStyle}
                   >

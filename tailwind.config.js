@@ -72,6 +72,7 @@ const colors = {
   onSecondary: SECONDARY.lighter,
   secondaryContainer: SECONDARY.light,
   onSecondaryContainer: SECONDARY.light,
+  textSecondary: '#33333399',
   tertiary: 'rgb(56, 101, 104)',
   onTertiary: 'rgb(255, 255, 255)',
   tertiaryContainer: 'rgb(188, 235, 238)',

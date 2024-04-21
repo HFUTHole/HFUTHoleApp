@@ -87,11 +87,12 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
     <>
       <View className={'my-1 space-y-1'}>
         <View className={'flex flex-row justify-between'}>
-          <View className={'flex flex-row items-center space-x-2'}>
+          <View className={'flex flex-row items-center space-x-4'}>
             <UserAvatar url={data.user.avatar} size={35} />
             <View>
-              <Text className={'text-sm text-black'}>{data.user.username}</Text>
-              <TimeText time={data.createAt} />
+              <Text className={'text-[16px] text-black'}>
+                {data.user.username}
+              </Text>
             </View>
           </View>
 
@@ -102,11 +103,6 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
                   <Svg SvgComponent={BilibiliSvg} size={20} />
                 </View>
               )}
-              <View>
-                <SecondaryText style={{ color: theme.colors.surfaceVariant }}>
-                  #{data.id}
-                </SecondaryText>
-              </View>
             </View>
             <HoleBottomAction data={data as IHoleDetailResponse} />
           </View>
@@ -176,8 +172,11 @@ export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
       <View>
         <EmojiableText
           body={data.body}
-          variant={'bodyMedium'}
-          style={{ color: 'rgba(0, 0, 0, .75)', lineHeight: 25 }}
+          textStyle={{
+            color: 'rgba(0, 0, 0, .75)',
+            lineHeight: 20,
+            fontSize: 14,
+          }}
           {...(isDetail && { numberOfLines: 3 })}
         />
       </View>
