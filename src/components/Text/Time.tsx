@@ -9,11 +9,12 @@ type Props = {
 export function TimeText({ time, ...props }: Props) {
   return (
     <Text
-      className={'text-xs'}
-      style={{
-        color: '#33333399',
-      }}
+      className={'text-xs text-tertiary-label'}
       {...props}
+      style={{
+        fontSize: 12,
+        ...(props.style as object),
+      }}
     >
       {formatDate(time)}
     </Text>

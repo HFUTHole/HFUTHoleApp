@@ -26,7 +26,7 @@ export function HoleDetailCommentHeader() {
       }
       setMode(param)
     },
-    [mode]
+    [mode],
   )
 
   const toggleOrder = useCallback(() => {
@@ -69,7 +69,9 @@ export function HoleDetailCommentHeader() {
       </View>
       {data!.commentCounts > 0 && (
         <View className={'px-3'}>
-          <SecondaryText>共有{data!.commentCounts}条评论</SecondaryText>
+          <Text className={'text-xs text-tertiary-label'}>
+            共有{data!.commentCounts}条评论
+          </Text>
         </View>
       )}
     </>

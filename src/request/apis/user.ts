@@ -41,3 +41,31 @@ export function GetUserCommentListRequest() {
     url: '/user/comments',
   })
 }
+
+interface FollowUserParams {
+  userId: number
+}
+
+export function followUserRequest(data: FollowUserParams) {
+  return request({
+    method: 'POST',
+    url: '/user/follow',
+    data,
+  })
+}
+
+export function unfollowUserRequest(data: FollowUserParams) {
+  return request({
+    method: 'DELETE',
+    url: '/user/follow',
+    data,
+  })
+}
+
+export function isUserFollowedRequest(params: FollowUserParams) {
+  return request<{ isFollowed: boolean }>({
+    method: 'GET',
+    url: '/user/isFollowed',
+    params,
+  })
+}

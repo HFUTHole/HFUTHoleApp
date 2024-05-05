@@ -9,7 +9,7 @@ export function Separator() {
 
   return (
     <View
-      className={'h-2 w-full'}
+      className={'h-[1px] w-full'}
       style={{ backgroundColor: theme.colors.background }}
     />
   )

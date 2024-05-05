@@ -1,20 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { UseMutationResult } from 'react-query'
 import { useTheme } from 'react-native-paper'
-import Animated, {
-  BounceIn,
-  BounceOut,
-  Extrapolate,
-  FadeIn,
-  FadeOut,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  withSpring,
-} from 'react-native-reanimated'
-import { Pressable, View, StyleSheet, Text } from 'react-native'
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated'
+import { Pressable, Text, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { SecondaryText } from '@/components/Text/SecondaryText'
+import * as Haptics from 'expo-haptics'
+import { ImpactFeedbackStyle } from 'expo-haptics'
 
 export type AnimatedLikeButtonDataType = {
   isLiked: boolean
@@ -35,38 +26,10 @@ export const AnimatedLikeButton: React.FC<AnimatedLikeButtonProps> = (
   const [liked, setLiked] = useState(data.isLiked)
   const [favoriteCount, setFavoriteCount] = useState(data.favoriteCounts)
 
-  const likedInput = useDerivedValue(() => withSpring(liked ? 1 : 0), [liked])
-
-  const outlineStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: interpolate(
-            likedInput.value,
-            [0, 1],
-            [1, 0],
-            Extrapolate.CLAMP,
-          ),
-        },
-      ],
-    }
-  })
-
-  const fillStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: likedInput.value,
-        },
-      ],
-      opacity: likedInput.value,
-    }
-  })
-
   const onLikeIconPress = useCallback(() => {
+    Haptics.impactAsync(ImpactFeedbackStyle.Light)
     setLiked((prev) => !prev)
     setFavoriteCount((prev) => (liked ? prev - 1 : prev + 1))
-    console.log(liked)
     mutation.mutate(liked, {
       onError() {
         setFavoriteCount((prev) => prev - 1)

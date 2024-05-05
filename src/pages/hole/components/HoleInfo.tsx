@@ -1,8 +1,8 @@
 import React, { ReactNode, useState } from 'react'
 import { Func, IClassName, InferArrayItem } from '@/shared/types'
-import { View, StyleSheet, Platform } from 'react-native'
+import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native'
 import { UserAvatar } from '@/components/UserAvatar'
-import { Text, TouchableRipple, useTheme } from 'react-native-paper'
+import { Button, Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { TimeText } from '@/components/Text/Time'
 import { ImageList } from '@/components/image/ImageList'
 import { useMutation } from 'react-query'
@@ -21,6 +21,8 @@ import { HoleLikeButton } from '@/pages/hole/components/HoleLikeButton'
 import { Image } from 'expo-image'
 import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { HoleInfoBottomCommentArea } from '@/pages/hole/components/HoleInfoBottomCommentArea'
+import { FollowButton } from '@/components/user/FollowButton'
+import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDetailImageCarousel'
 
 type Data = IHole
 
@@ -81,8 +83,6 @@ const HoleInfoVote: React.FC<{ data: Data }> = ({ data }) => {
 }
 
 export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
-  const theme = useTheme()
-
   return (
     <>
       <View className={'my-1 space-y-1'}>
@@ -96,14 +96,8 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
             </View>
           </View>
 
-          <View className={'flex flex-row justify-end space-x-5'}>
-            <View className={'flex flex-row space-x-2 items-center'}>
-              {data.bilibili && (
-                <View>
-                  <Svg SvgComponent={BilibiliSvg} size={20} />
-                </View>
-              )}
-            </View>
+          <View className={'flex flex-row justify-end items-center space-x-5'}>
+            <FollowButton followingId={data.user.id} />
             <HoleBottomAction data={data as IHoleDetailResponse} />
           </View>
         </View>
@@ -160,16 +154,16 @@ const Tag: React.FC<{ data: string }> = ({ data }) => {
   )
 }
 
-export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
-  data,
-  isDetail = false,
-}) => {
-  // const { goResult } = useHoleSearchRoute()
-
+export const HoleInfoTitleWithBody: React.FC<{
+  data: Data
+  numberOfLines?: number
+  enableBodyCanExpanded?: boolean
+}> = (props) => {
+  const { data, enableBodyCanExpanded = true, numberOfLines = 3 } = props
   return (
-    <View className={'flex space-y-2'}>
+    <>
       <Text className={'text-base font-bold text-black'}>{data.title}</Text>
-      <View>
+      <View className={'mt-2 '}>
         <EmojiableText
           body={data.body}
           textStyle={{
@@ -177,16 +171,46 @@ export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
             lineHeight: 20,
             fontSize: 14,
           }}
-          numberOfLines={3}
+          numberOfLines={numberOfLines}
+          enableBodyCanExpanded={enableBodyCanExpanded}
         />
       </View>
+    </>
+  )
+}
+
+export const HoleInfoBody: React.FC<{
+  data: Data
+  isDetail?: boolean
+  renderImage?: boolean
+}> = (props) => {
+  const { data, isDetail = false } = props
+  // const { goResult } = useHoleSearchRoute()
+
+  return (
+    <View className={'flex space-y-2'}>
+      {/*{data.imgs.length ? (*/}
+      {/*  <View>*/}
+      {/*    <HoleDetailImageCarousel*/}
+      {/*      height={200}*/}
+      {/*      data={data}*/}
+      {/*      imageProps={{ resizeMode: 'contain' }}*/}
+      {/*    />*/}
+      {/*  </View>*/}
+      {/*) : (*/}
+      {/*  <></>*/}
+      {/*)}*/}
+      <View className={'px-3'}>
+        <HoleInfoTitleWithBody data={data} />
+      </View>
       {data.imgs.length ? (
-        <View>
-          <ImageList imgs={data?.imgs.slice(0, 3)} />
+        <View className={'px-1'}>
+          <ImageList imgs={data.imgs.slice(0, 3)} />
         </View>
       ) : (
         <></>
       )}
+
       {/*{data.tags.length ? (*/}
       {/*  <View className={'flex-row space-x-2'}>*/}
       {/*    <Badges data={data.tags} />*/}
@@ -201,16 +225,16 @@ export const HoleInfoBody: React.FC<{ data: Data; isDetail?: boolean }> = ({
 export const HoleInfoBottom: React.FC<{ data: Data }> = ({ data }) => {
   return (
     <View className={'flex-row justify-between'}>
-      <View className={'flex-1 flex-row justify-center space-x-1'}>
-        <Icons.ShareIcon size={16} />
+      <View className={'flex-1 flex-row justify-center items-center space-x-1'}>
+        <Icons.ShareIcon size={20} />
         <Text className={'text-black/70 text-xs'}>分享</Text>
       </View>
-      <View className={'flex-1 flex-row justify-center space-x-1'}>
-        <Icons.CommentIcon size={16} />
+      <View className={'flex-1 flex-row justify-center items-center space-x-1'}>
+        <Icons.CommentIcon size={20} />
         <Text className={'text-black/70 text-xs'}>{data.commentCounts}</Text>
       </View>
-      <View className={'flex-1 flex-row justify-center'}>
-        <HoleLikeButton data={data} size={16} />
+      <View className={'flex-1 flex-row justify-center items-center'}>
+        <HoleLikeButton data={data} size={20} />
       </View>
     </View>
   )
@@ -239,12 +263,22 @@ export const HoleInfo = ({
   return (
     <View className={'bg-white rounded-2xl overflow-hidden z-[1]'}>
       <TouchableRipple onPress={onPress}>
-        <View className={'space-y-2 p-3'}>
-          {header || <HoleInfoHeader data={data} />}
+        <View className={'space-y-2 py-3'}>
+          {header || (
+            <View className={'px-3'}>
+              <HoleInfoHeader data={data} />
+            </View>
+          )}
           {body || <HoleInfoBody data={data} />}
-          {data.vote && <HoleInfoVote data={data} />}
-          <View>{bottom || <HoleInfoBottom data={data} />}</View>
-          <View>
+          {data.vote && (
+            <View className={'px-3'}>
+              <HoleInfoVote data={data} />
+            </View>
+          )}
+          <View className={'px-3'}>
+            {bottom || <HoleInfoBottom data={data} />}
+          </View>
+          <View className={'px-3'}>
             {showComment && data.comments?.length > 0 && (
               <HoleInfoBottomCommentArea data={data} />
             )}

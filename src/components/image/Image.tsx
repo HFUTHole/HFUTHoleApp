@@ -6,9 +6,9 @@ import clsx from 'clsx'
 export const Image: React.FC<ImageProps> = (props) => {
   return (
     <ExpoImage
-      {...props}
       resizeMode={'cover'}
-      className={clsx(['bg-onBackground rounded-lg', props.className])}
+      {...props}
+      className={clsx(['bg-onBackground', props.className])}
     />
   )
 }

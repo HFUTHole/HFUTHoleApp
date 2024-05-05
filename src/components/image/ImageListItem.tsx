@@ -22,7 +22,6 @@ export const ImageListItem = React.memo(
 
     const { data } = useUserProfile()
 
-    console.log(img)
     return (
       <Pressable
         onPress={() => {
@@ -35,7 +34,7 @@ export const ImageListItem = React.memo(
           source={{
             uri: img,
           }}
-          className={'rounded-lg w-28 h-28 bg-background'}
+          className={'rounded-lg flex-1 h-fit bg-background'}
           resizeMode={'cover'}
         />
       </Pressable>

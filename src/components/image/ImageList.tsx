@@ -28,9 +28,9 @@ export const ImageList: React.FC<{
               close={close}
             />
           </Modal>
-          <View className={'flex flex-row flex-wrap'}>
+          <View className={'flex flex-row flex-wrap px-2'}>
             {imgs?.map((img, index) => (
-              <View className={'w-[50%] h-32'} key={index}>
+              <View className={'w-[33.3%] h-32'} key={index}>
                 <ImageListItem
                   img={img}
                   i={index}

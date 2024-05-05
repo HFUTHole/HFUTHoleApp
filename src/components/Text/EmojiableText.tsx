@@ -34,13 +34,25 @@ interface EmojiableTextProps {
   numberOfLines?: number
   imageSize?: number
   fontSize?: number
+  enableBodyCanExpanded?: boolean
 }
 
 /**
  * @description 注意：重写了 numberOfLines 逻辑
  */
 export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
-  const { body, variant, textStyle, numberOfLines, imageSize = 22 } = props
+  const {
+    body,
+    variant,
+    textStyle,
+    imageSize = 22,
+    enableBodyCanExpanded = true,
+  } = props
+
+  const numberOfLines = useMemo(() => {
+    return enableBodyCanExpanded ? Infinity : props.numberOfLines
+  }, [props.numberOfLines, enableBodyCanExpanded])
+
   const [expanded, setExpanded] = useState(false)
   const bodyParts = useMemo(() => {
     let parts = body

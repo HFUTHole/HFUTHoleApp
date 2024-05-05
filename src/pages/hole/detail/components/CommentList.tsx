@@ -1,7 +1,9 @@
 import { useHoleComment, useHoleDetail } from '@/swr/hole'
 import { RefreshingFlatList } from '@/components/RefreshingFlatList'
-import { HoleInfo, HoleInfoBody } from '@/pages/hole/components/HoleInfo'
-import { LikeHole } from '@/pages/hole/detail/LikeHole'
+import {
+  HoleInfo,
+  HoleInfoTitleWithBody,
+} from '@/pages/hole/components/HoleInfo'
 import { Separator } from '@/components/Separator'
 import { HoleDetailCommentHeader } from '@/pages/hole/detail/components/CommentHeader'
 import { LoadMore } from '@/components/LoadMore'
@@ -11,16 +13,43 @@ import React from 'react'
 import { View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
-import { PrimaryText } from '@/components/Text/PrimaryText'
 import { TimeText } from '@/components/Text/Time'
+import { If, Then } from 'react-if'
+import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDetailImageCarousel'
+import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
+import clsx from 'clsx'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
+  const hasImages = (data?.imgs.length || 0) > 0
+  const hasTags = (data?.tags.length || 0) > 0
 
   return (
-    <View className={'space-y-2'}>
-      <View>
-        <HoleInfoBody data={data!} />
+    <View>
+      <If condition={hasImages}>
+        <Then>
+          <HoleDetailImageCarousel data={data!} />
+        </Then>
+      </If>
+      <View
+        className={clsx([
+          'px-[2.5vw]',
+          {
+            'py-4': !hasImages,
+          },
+        ])}
+      >
+        <HoleInfoTitleWithBody data={data!} />
+        <If condition={hasTags}>
+          <Then>
+            <View className={'mt-2'}>
+              <HoleDetailTags data={data!} />
+            </View>
+          </Then>
+        </If>
+        <View className={'py-4'}>
+          <TimeText time={data!.createAt}></TimeText>
+        </View>
       </View>
     </View>
   )
@@ -44,20 +73,7 @@ const HoleTopDetail = React.memo(() => {
 
   return (
     <View>
-      <HoleInfo
-        data={data!}
-        header={<></>}
-        body={<DetailBody />}
-        bottom={
-          <TimeText
-            style={{
-              fontSize: 10,
-            }}
-            time={data!.createAt}
-          ></TimeText>
-        }
-        showComment={false}
-      />
+      <DetailBody />
       <Separator />
       <HoleDetailCommentHeader />
     </View>
