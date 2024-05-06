@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { useWindowDimensions, View } from 'react-native'
+import { Text, useWindowDimensions, View } from 'react-native'
 import {
   TabView as NativeTabView,
   SceneMap,
@@ -25,7 +25,7 @@ export const TabView = ({ tabs, ...props }: TabViewProps) => {
   const renderScene = useMemo(
     () =>
       SceneMap(Object.fromEntries(tabs.map((tab) => [tab.key, tab.component]))),
-    [tabs]
+    [tabs],
   )
 
   return (
@@ -42,21 +42,8 @@ export function TabViewBar(props: RNTabViewProps<any>) {
   const theme = useTheme()
 
   return (
-    <TabBar
-      {...props}
-      indicatorStyle={{ backgroundColor: theme.colors.primary }}
-      inactiveColor={theme.colors.surfaceVariant}
-      activeColor={theme.colors.primary}
-      style={{
-        backgroundColor: 'white',
-        borderTopWidth: 1,
-        borderTopColor: '#f0f0f0',
-        borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
-        shadowColor: 'white',
-      }}
-      scrollEnabled={true}
-      bounces={true}
-    />
+    <View className={'flex-1 bg-red-200'}>
+      <Text>1111</Text>
+    </View>
   )
 }

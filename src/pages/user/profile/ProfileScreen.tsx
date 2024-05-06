@@ -1,4 +1,4 @@
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useUserFavoriteHoleList, useUserPostedHoleList } from '@/swr/user/hole'
 import { useUserProfile } from '@/swr/user/profile'
@@ -9,12 +9,21 @@ import { Text, TouchableRipple, useTheme } from 'react-native-paper'
 import { PrimaryText } from '@/components/Text/PrimaryText'
 import { UserLevelBar } from '@/pages/user/components/UserLevelBar'
 import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
+import BottomSheet, {
+  BottomSheetFlatList,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet'
+import { useRef } from 'react'
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
+import { Image } from 'expo-image'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { TabBar } from 'react-native-tab-view'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
   return (
     <View style={{ flex: 1 }}>
-      <RefreshableHoleList {...query} />
+      <RefreshableHoleList {...query} FlatListComponent={BottomSheetFlatList} />
     </View>
   )
 }
@@ -42,48 +51,48 @@ const tabs: ITabViewTabs[] = [
 ]
 
 export function ProfileScreen() {
-  const { isLoading } = useUserPostedHoleList()
-  const { data: userData, levelPercent } = useUserProfile()
+  const { data, levelPercent } = useUserProfile()
 
-  const route = useUserProfileRoute()
+  const bottomSheetRef = useRef<BottomSheetMethods>()
 
   return (
-    <LoadingScreen isLoading={isLoading}>
-      <View className="flex-1 w-full">
+    <LoadingScreen isLoading={false}>
+      <View className={'absolute w-full h-[40%]'}>
         <Image
-          className={'w-full h-40'}
+          className={'absolute w-full h-[100%]'}
           source={{
-            uri: 'https://c-ssl.duitang.com/uploads/blog/202204/04/20220404145925_9b996.jpg',
-          }}
-          style={{
-            resizeMode: 'cover',
+            uri: 'https://sns-webpic-qc.xhscdn.com/202405061210/5fb8885e657bd26fb99c354b679db747/1040g008312dl9l8d68005pf9j681969uhp7c0eo!nc_n_webp_mw_1',
           }}
         />
-        <View className={'w-full bg-white px-4 pb-2'}>
-          <View className={'flex flex-row justify-between items-center '}>
-            <View className={'top-[-20px]'}>
-              <MyAvatar size={80} />
+        <View className={'absolute w-full h-[100%] z-[1] bg-black/20'} />
+      </View>
+      <SafeAreaView className={'flex-1'}>
+        <View className={'px-[2.5vw] space-y-4'}>
+          <View className={'flex-row items-center'}>
+            <MyAvatar size={100} />
+            <View className={'ml-4 justify-center space-y-1'}>
+              <Text className={'text-white font-bold text-[20px]'}>
+                {data?.username}
+              </Text>
+              <Text className={'text-xs text-white/70'}>
+                小肥书UID：{data?.id}
+              </Text>
             </View>
-            <TouchableRipple
-              className={
-                'border-primary border-[1px] items-center justify-center rounded-lg h-10 px-14'
-              }
-              onPress={route.goEditScreen}
-            >
-              <PrimaryText>编辑资料</PrimaryText>
-            </TouchableRipple>
           </View>
-          <View className={'flex space-y-2'}>
-            <View>
-              <Text variant={'titleLarge'}>{userData?.username}</Text>
-            </View>
-            <View className={'w-1/3'}>
-              <UserLevelBar percent={levelPercent} {...userData?.level} />
-            </View>
+          <View>
+            <Text className={'text-white text-xs'}>还没有简介哦</Text>
           </View>
         </View>
-        <TabView renderTabBar={TabViewBar} tabs={tabs} />
-      </View>
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={['70%', '85%']}
+          handleIndicatorStyle={{
+            display: 'none',
+          }}
+        >
+          <TabView renderTabBar={TabBar} tabs={tabs} />
+        </BottomSheet>
+      </SafeAreaView>
     </LoadingScreen>
   )
 }

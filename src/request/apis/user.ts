@@ -11,7 +11,7 @@ export function GetUserProfileRequest() {
 export function GetUserFavoriteHoleListRequest(params: PaginateAble) {
   return request<IHoleListResponse>({
     method: 'GET',
-    url: '/user/hole/favorite',
+    url: '/user/post/favorite',
     params,
   })
 }
@@ -19,7 +19,7 @@ export function GetUserFavoriteHoleListRequest(params: PaginateAble) {
 export function GetUserPostedHoleListRequest(params: PaginateAble) {
   return request<IHoleListResponse>({
     method: 'GET',
-    url: '/user/hole/list',
+    url: '/user/post/list',
     params,
   })
 }

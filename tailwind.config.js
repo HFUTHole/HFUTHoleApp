@@ -120,6 +120,7 @@ module.exports = {
         textPrimary: '#333333CC',
         'tertiary-label': '#33333398',
         'quaternary-label': '#3333334d',
+        'primary-label': '#333',
         link: '#13386c',
         'active-background': '#00000008',
         'active-bg-border': '#00000014',
