@@ -236,3 +236,89 @@ export function useHoleSearchResult() {
     invalidateQuery,
   }
 }
+
+export function useTagHotPostList() {
+  const route = useRoute()
+  const params = route.params as { tag: string }
+
+    const key = [params.tag]
+
+  const query = useInfiniteQuery<any>(
+    key, () => Promise.resolve([]),    {
+      getNextPageParam: (lastPages) => {
+        const nextPage = lastPages.meta.currentPage + 1
+
+        if (
+          nextPage > lastPages.meta.totalPages ||
+          lastPages.items.length === 0
+        ) {
+          return
+        }
+
+        return nextPage
+      },
+    }
+  )
+
+  const client = useQueryClient()
+
+  const invalidateQuery = async (onlyFirstGroup = true) => {
+    client.setQueryData<InfiniteData<IHoleListResponse>>(key, (oldData) => {
+      if (onlyFirstGroup) {
+        oldData!.pages = oldData!.pages.slice(0, 1)
+      }
+      return oldData!
+    })
+    await client.invalidateQueries(key, {
+      refetchPage: (lastPage, index) => index === 0,
+    })
+  }
+
+  return {
+    ...query,
+    invalidateQuery,
+  }
+}
+
+export function useTagNewPostList() {
+  const route = useRoute()
+  const params = route.params as { tag: string }
+
+    const key = [params.tag]
+
+  const query = useInfiniteQuery<any>(
+    key, () => Promise.resolve([]),    {
+      getNextPageParam: (lastPages) => {
+        const nextPage = lastPages.meta.currentPage + 1
+
+        if (
+          nextPage > lastPages.meta.totalPages ||
+          lastPages.items.length === 0
+        ) {
+          return
+        }
+
+        return nextPage
+      },
+    }
+  )
+
+  const client = useQueryClient()
+
+  const invalidateQuery = async (onlyFirstGroup = true) => {
+    client.setQueryData<InfiniteData<IHoleListResponse>>(key, (oldData) => {
+      if (onlyFirstGroup) {
+        oldData!.pages = oldData!.pages.slice(0, 1)
+      }
+      return oldData!
+    })
+    await client.invalidateQueries(key, {
+      refetchPage: (lastPage, index) => index === 0,
+    })
+  }
+
+  return {
+    ...query,
+    invalidateQuery,
+  }
+}

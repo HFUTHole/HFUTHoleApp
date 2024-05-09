@@ -12,14 +12,14 @@ const Material = Animated.createAnimatedComponent(MaterialIcon)
 
 const withIconProps = (
   WrappedIconComponent: React.ComponentType<IconProps>,
-  name: string
+  name: string,
 ) => {
   return (
     props: Omit<IconProps, 'name'> & {
       name?: string
       active?: boolean
       activeColor?: string
-    }
+    },
   ) => {
     const theme = useTheme()
 
@@ -113,3 +113,5 @@ export const GradeIcon = withFontAV5Icon('tag')
 export const ClassIcon = withFontAV5Icon('users-class')
 
 export const FaClockIcon = withFontAV5Icon('clock')
+
+export const StarIcon = withFontAV5Icon('star')
