@@ -1,7 +1,7 @@
 import { Pressable, View } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useUserFavoriteHoleList, useUserPostedHoleList } from '@/swr/user/hole'
-import { useUserProfile } from '@/swr/user/profile'
+import { useOtherUserData, useUserProfile } from '@/swr/user/profile'
 import { type ITabViewTabs, TabView, TabViewBar } from '@/components/TabView'
 import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { MyAvatar, UserAvatar } from '@/components/UserAvatar'
@@ -25,6 +25,8 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'
 import { useUserCommentsListQuery } from '@/swr/user/comment'
+import { FollowButton } from '@/components/user/FollowButton'
+import { useParams } from '@/shared/hooks/useParams'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
@@ -59,8 +61,8 @@ const tabs: ITabViewTabs[] = [
 
 const ProfileScreenHeader: React.FC<{
   scrollTimeline: SharedValue<number>
-}> = ({ scrollTimeline }) => {
-  const { data } = useUserProfile()
+  data: IUser
+}> = ({ data, scrollTimeline }) => {
   const navigation = useNavigation()
   // Header 背景透明度
   const animatedOpacity = useAnimatedStyle(() => {
@@ -164,12 +166,11 @@ const ProfileBio = () => {
   )
 }
 
-export function ProfileScreen() {
-  const { data, levelPercent } = useUserProfile()
+export function OtherUserProfileScreen() {
+  const { userId } = useParams<{ userId: number }>()
+  const { data, levelPercent } = useOtherUserData(userId)
 
   const { data: commentData } = useUserCommentsListQuery()
-
-  const userProfileRoute = useUserProfileRoute()
 
   const bottomSheetRef = useRef<BottomSheetMethods>()
 
@@ -193,7 +194,7 @@ export function ProfileScreen() {
 
   return (
     <LoadingScreen isLoading={false}>
-      <ProfileScreenHeader scrollTimeline={scrollTimeline} />
+      <ProfileScreenHeader data={data!} scrollTimeline={scrollTimeline} />
       <Animated.View
         className={'absolute w-full top-[0]'}
         style={[animatedBgImgHeight]}
@@ -213,7 +214,7 @@ export function ProfileScreen() {
         className={'absolute w-100 h-100 z-[1] top-[-40] left-[16]'}
         style={[syncedTranslateY]}
       >
-        <MyAvatar size={100} />
+        <UserAvatar url={data?.avatar} size={100} />
       </Animated.View>
       <Animated.View
         className={'absolute w-100 h-100 z-[1] top-[-25] right-[16]'}
@@ -241,9 +242,7 @@ export function ProfileScreen() {
           }}
         >
           <Animated.View className={'px-[2.5vw] space-y-4 mb-4 '} style={{}}>
-            <View
-              className={'flex-row justify-around align-center ml-[120] py-2'}
-            >
+            <View className={'flex-row justify-around align-center ml-[120]'}>
               <View
                 className={
                   'flex-col align-center flex-1 border-r-[1px] border-black/5'
@@ -291,17 +290,7 @@ export function ProfileScreen() {
                 </Text>
               </View>
               <View>
-                <Button
-                  mode="outlined"
-                  textColor="black"
-                  onPress={() => {
-                    userProfileRoute.goEditScreen()
-                  }}
-                  className={`shadow-none w-full py-0 rounded-full`}
-                  theme={{ version: 2, isV3: false }}
-                >
-                  编辑资料
-                </Button>
+                <FollowButton followingId={data?.id!} />
               </View>
             </View>
             <View className={'flex-row justify-start'}>

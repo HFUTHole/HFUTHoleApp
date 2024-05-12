@@ -4,7 +4,7 @@ import { Apis } from '@/request/apis'
 
 export function useHomeCategoriesSWR() {
   const query = useBaseQuery({
-    queryKey: [SWRKeys.home.categories],
+    queryKey: [SWRKeys.home.followList],
     queryFn: Apis.hole.GetHoleCategoryList,
   })
 

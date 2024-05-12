@@ -88,7 +88,11 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
       <View className={'my-1 space-y-1'}>
         <View className={'flex flex-row justify-between'}>
           <View className={'flex flex-row items-center space-x-4'}>
-            <UserAvatar url={data.user.avatar} size={35} />
+            <UserAvatar
+              userId={data.user.id}
+              url={data.user.avatar}
+              size={35}
+            />
             <View>
               <Text className={'text-[16px] text-black'}>
                 {data.user.username}

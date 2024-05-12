@@ -21,6 +21,7 @@ import { useId, useMemo } from 'react'
 import { HoleListMode } from '@/shared/enums'
 import { useRoute } from '@react-navigation/native'
 import { useBaseInfiniteQuery } from '@/swr/useBaseInfiniteQuery'
+import { useImmer } from 'use-immer'
 
 // TODO 重构逻辑
 export function useHoleList() {
@@ -116,74 +117,24 @@ export function useHoleComment() {
     },
   })
 
-  const { data: flattenData } = useMemo(() => {
-    return flatInfiniteQueryData<IHoleCommentListItem>(query.data)
-  }, [query.data])
+  const addComments = (comments: IHoleCommentListItem[]) => {
+    query.setData((input) => {
+      input?.pages[0].items.unshift(...comments)
+      return input!
+    })
+  }
+
+  const { data: flattenData } = flatInfiniteQueryData<IHoleCommentListItem>(
+    query.data,
+  )
 
   const isDataEmpty = flattenData?.length > 0
-
-  const setTargetData = async (
-    data: IHoleCommentListItem,
-    pageIndex = 0,
-    func: (target: IHoleCommentListItem) => AwaitAble,
-  ) => {
-    await query.setData((oldData) => {
-      const pageTarget = oldData?.pages?.[pageIndex]
-
-      if (pageTarget) {
-        const targetIndex = pageTarget.items.findIndex(
-          (item) => item.id === data.id,
-        )
-
-        if (targetIndex !== -1) {
-          const target = pageTarget.items[targetIndex]
-
-          func(target)
-        }
-      }
-
-      return oldData!
-    })
-  }
-
-  const setIsLiked = async (data: IHoleCommentListItem, pageIndex = 0) => {
-    await setTargetData(data, pageIndex, (target) => {
-      target.isLiked = !target.isLiked
-
-      if (target.isLiked) {
-        target.favoriteCounts++
-      } else {
-        target.favoriteCounts--
-      }
-    })
-  }
-
-  const setReply = async (
-    data: IHoleCommentListItem,
-    pageIndex = 0,
-    body: string,
-  ) => {
-    await setTargetData(data, pageIndex, (target) => {
-      target.replies.push({
-        createAt: '',
-        favoriteCounts: 0,
-        replyUser: null,
-        id,
-        body,
-        user: user.data!,
-      })
-
-      target.repliesCount++
-    })
-  }
 
   return {
     ...query,
     isDataEmpty,
-    setIsLiked,
-    setTargetData,
-    setReply,
     flattenData,
+    addComments,
     key,
   }
 }

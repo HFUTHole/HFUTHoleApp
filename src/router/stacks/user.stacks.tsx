@@ -15,6 +15,7 @@ import { SelectSchoolScreen } from '@/pages/user/select-school/SelectSchoolScree
 import { useParams } from '@/shared/hooks/useParams'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { OtherUserProfileScreen } from '@/pages/user/profile/OtherUserProfile'
 
 const UserStack = createNativeStackNavigator()
 
@@ -28,6 +29,13 @@ const UserScreens: Screen[] = [
   {
     name: 'profile',
     component: ProfileScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'other-profile',
+    component: OtherUserProfileScreen,
     options: {
       headerShown: false,
     },

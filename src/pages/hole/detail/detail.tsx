@@ -3,6 +3,7 @@ import { LoadingScreen } from '@/components/LoadingScreen'
 import { HoleDetailComment } from '@/pages/hole/detail/components/Comment'
 import { StatusBar, View } from 'react-native'
 import { CommentMaskModal } from '@/pages/hole/detail/components/CommentMaskModal'
+import { CommentEventBusProvider } from '@/shared/context/comment/eventBus'
 
 export function HoleDetail() {
   const { isSuccess: isCommentSuccess } = useHoleComment()
@@ -14,10 +15,12 @@ export function HoleDetail() {
   return (
     <>
       <LoadingScreen isLoading={!isAllSuccess}>
-        <View className={'bg-white'}>
-          <HoleDetailComment />
-        </View>
-        <CommentMaskModal />
+        <CommentEventBusProvider>
+          <View className={'bg-white'}>
+            <HoleDetailComment />
+          </View>
+          <CommentMaskModal />
+        </CommentEventBusProvider>
       </LoadingScreen>
     </>
   )

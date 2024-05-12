@@ -14,6 +14,7 @@ import { AxiosError } from 'axios'
 import { getQAQFont } from '@/shared/utils/utils'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { ForgetOnePassword } from '@/pages/auth/ForgetOnePassword'
+import { NativeTextInput } from '@/components/form/NativeInput'
 
 export function SpaceLoginScreen() {
   const {
@@ -76,10 +77,10 @@ export function SpaceLoginScreen() {
         )}
 
         <View>
-          <Input<LoginFormValidator>
+          <NativeTextInput<LoginFormValidator>
             control={control}
             name={'studentId'}
-            label={'学号'}
+            placeholder={'学号'}
           />
         </View>
 
@@ -87,7 +88,7 @@ export function SpaceLoginScreen() {
           <PasswordInput<LoginFormValidator>
             control={control}
             name={'password'}
-            label={'请输入信息门户密码'}
+            placeholder={'请输入信息门户密码'}
           />
         </View>
 

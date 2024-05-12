@@ -208,3 +208,11 @@ export function GetHoleCategoryList() {
     url: '/post/categories',
   })
 }
+
+export function getHomeFollowList(params: PaginateAble) {
+  return request<IHoleListResponse>({
+    method: 'GET',
+    url: '/post/list/follow',
+    params,
+  })
+}

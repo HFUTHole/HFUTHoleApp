@@ -127,7 +127,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
       const lastPart = [...bodyPartsCopy[bodyPartsCopy.length - 1]]
       lastPart.push({
         type: TextType.Text,
-        content: '...',
+        content: '',
       })
       bodyPartsCopy[bodyPartsCopy.length - 1] = lastPart
     }

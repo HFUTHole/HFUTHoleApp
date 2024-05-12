@@ -63,6 +63,9 @@ import { hideKeyboard } from '@/shared/utils/keyboard'
 import { UploadHoleImgRequest } from '@/request/apis/hole'
 import { Portal } from 'react-native-paper'
 import { If, Then } from 'react-if'
+import { useHoleComment } from '@/swr/hole'
+import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export function CommentMaskModal() {
   const route = useRoute()
@@ -82,6 +85,10 @@ export function CommentMaskModal() {
     showInput,
   } = useBottomCommentContext()
 
+  const { scrollEvent } = useCommentEventBusContext()
+
+  const { addComments } = useHoleComment()
+
   const mutation = useMutation({
     mutationFn: reqFunc,
     onSuccess(response: { incExperience: number }, vars) {
@@ -92,6 +99,8 @@ export function CommentMaskModal() {
       })
       hideKeyboard()
       closeInput(true)
+      addComments([response])
+      scrollEvent.emit(0)
     },
   })
 
@@ -204,7 +213,7 @@ export function CommentMaskModal() {
                       <EmojiArea
                         onEmojiSelect={onEmojiSelect}
                         expandArea={showEmojiArea}
-                        emojiSize={22}
+                        emojiSize={25}
                       />
                     </View>
                   </View>

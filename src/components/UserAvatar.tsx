@@ -1,7 +1,11 @@
 import { useUserProfile } from '@/swr/user/profile'
 import { Image } from '@/components/image/Image'
+import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
+import { Pressable } from 'react-native'
 
 interface Props {
+  userId?: number
+
   url?: string
 
   size?: number
@@ -9,20 +13,31 @@ interface Props {
   mode?: 'sm' | 'md' | 'lg'
 }
 
-export function UserAvatar({ mode = 'sm', ...props }: Props) {
+export function UserAvatar({ mode = 'sm', userId, ...props }: Props) {
   const modeSize = mode === 'sm' ? 30 : mode === 'md' ? 40 : 55
-
+  const userRoute = useUserProfileRoute()
+  const { data: userData } = useUserProfile()
   return (
-    <Image
-      className={'rounded-full'}
-      style={{
-        width: props.size || modeSize,
-        height: props.size || modeSize,
+    <Pressable
+      onPress={() => {
+        if (userId && userData?.id !== userId) {
+          userRoute.goOtherUserProfileScreen(userId)
+        } else if (userData?.id === userId) {
+          userRoute.goTo()
+        }
       }}
-      source={{
-        uri: props.url,
-      }}
-    />
+    >
+      <Image
+        className={'rounded-full'}
+        style={{
+          width: props.size || modeSize,
+          height: props.size || modeSize,
+        }}
+        source={{
+          uri: props.url,
+        }}
+      />
+    </Pressable>
   )
 }
 

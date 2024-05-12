@@ -9,8 +9,8 @@ import { HoleDetailCommentHeader } from '@/pages/hole/detail/components/CommentH
 import { LoadMore } from '@/components/LoadMore'
 import { HoleDetailCommentItem } from '@/pages/hole/detail/components/CommentItem'
 import { BilibiliPlayer } from '@/components/player/BilibiliPlayer'
-import React from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { FlatList, View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
 import { TimeText } from '@/components/Text/Time'
@@ -18,6 +18,7 @@ import { If, Then } from 'react-if'
 import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDetailImageCarousel'
 import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 import clsx from 'clsx'
+import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -92,6 +93,16 @@ export function HoleDetailCommentList() {
 
   const { data } = useHoleDetail()
 
+  const { scrollEvent } = useCommentEventBusContext()
+
+  const flatListRef = useRef<FlatList | null>(null)
+
+  scrollEvent.useSubscription((index) => {
+    flatListRef.current?.scrollToIndex({
+      index,
+    })
+  })
+
   const onRefresh = async () => {
     await fetchNextPage()
   }
@@ -109,6 +120,7 @@ export function HoleDetailCommentList() {
       )}
 
       <RefreshingFlatList
+        ref={flatListRef}
         onRefreshing={onRefresh}
         hasNextPage={hasNextPage}
         onTopRefresh={onTopRefresh}

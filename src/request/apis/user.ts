@@ -1,14 +1,25 @@
 import { request } from '@/request/request'
 import { PaginateAble } from '@/shared/types'
 
-export function GetUserProfileRequest() {
+export function GetUserProfileRequest(params?: { userId: number }) {
   return request<IUserProfile>({
     method: 'GET',
     url: '/user/profile',
+    params,
   })
 }
 
-export function GetUserFavoriteHoleListRequest(params: PaginateAble) {
+export function getAnotherUserProfileRequest(params?: { userId: number }) {
+  return request<IUserProfile>({
+    method: 'GET',
+    url: '/user/other-profile',
+    params,
+  })
+}
+
+export function GetUserFavoriteHoleListRequest(
+  params: PaginateAble & { userId?: number },
+) {
   return request<IHoleListResponse>({
     method: 'GET',
     url: '/user/post/favorite',
@@ -16,7 +27,9 @@ export function GetUserFavoriteHoleListRequest(params: PaginateAble) {
   })
 }
 
-export function GetUserPostedHoleListRequest(params: PaginateAble) {
+export function GetUserPostedHoleListRequest(
+  params: PaginateAble & { userId?: number },
+) {
   return request<IHoleListResponse>({
     method: 'GET',
     url: '/user/post/list',

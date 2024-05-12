@@ -4,15 +4,19 @@ import {
   GetUserFavoriteHoleListRequest,
   GetUserPostedHoleListRequest,
 } from '@/request/apis/user'
+import { useParams } from '@/shared/hooks/useParams'
 
 export function useUserFavoriteHoleList() {
-  const key = SWRKeys.user.favoriteHoleList
+  const { userId } = useParams<{ userId: number }>()
+
+  const key = [SWRKeys.user.favoriteHoleList, userId]
 
   const query = useInfiniteQuery(
     key,
     ({ pageParam = 1 }) =>
       GetUserFavoriteHoleListRequest({
         limit: 10,
+        userId,
         page: pageParam,
       }),
     {
@@ -28,7 +32,7 @@ export function useUserFavoriteHoleList() {
 
         return nextPage
       },
-    }
+    },
   )
 
   const client = useQueryClient()
@@ -53,13 +57,15 @@ export function useUserFavoriteHoleList() {
 }
 
 export function useUserPostedHoleList() {
-  const key = SWRKeys.user.postedHoleList
+  const { userId = undefined } = useParams<{ userId: number }>()
+  const key = [SWRKeys.user.postedHoleList, userId]
 
   const query = useInfiniteQuery(
     key,
     ({ pageParam = 1 }) =>
       GetUserPostedHoleListRequest({
         limit: 10,
+        userId,
         page: pageParam,
       }),
     {
@@ -75,7 +81,7 @@ export function useUserPostedHoleList() {
 
         return nextPage
       },
-    }
+    },
   )
 
   const client = useQueryClient()

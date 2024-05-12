@@ -13,6 +13,7 @@ export const SWRKeys = {
   },
   home: {
     categories: 'home.categories',
+    followList: 'home.followList',
   },
   notify: {
     base: 'notify.base',

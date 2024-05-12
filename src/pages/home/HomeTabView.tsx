@@ -18,6 +18,7 @@ import Animated, {
 import { Categories } from '@/shared/constants/category'
 import clsx from 'clsx'
 import { MenuIcon } from '@/components/icon'
+import { FollowedPostList } from '@/pages/home/FollowedPostList'
 
 export interface HomeTabViewProps {}
 
@@ -125,17 +126,17 @@ const HomeTabBar: React.FC<{
 
   return (
     <Animated.View
-      className={'rounded-full px-4 py-2'}
+      className={clsx(['rounded-full px-4 py-2', {}])}
       style={[
         {
-          backgroundColor: activated ? 'rgba(0,0,0,0.03)' : 'transparent',
+          backgroundColor: activated ? 'rgba(0,0,0,0.05)' : 'transparent',
         },
       ]}
     >
       <Animated.Text
         className={clsx([
           {
-            'font-bold': activated,
+            'font-bold text-primary/50': activated,
           },
         ])}
         style={[textStyle]}
@@ -152,8 +153,7 @@ export const HomeTabView: React.FC<HomeTabViewProps> = () => {
   const [index, setIndex] = React.useState(1)
 
   const sceneMap = {
-    follow: PostList,
-    recommend: PostList,
+    follow: FollowedPostList,
     latest: PostList,
   } as const
 
@@ -162,7 +162,6 @@ export const HomeTabView: React.FC<HomeTabViewProps> = () => {
   const [routes] = React.useState([
     { key: 'follow', title: '关注' },
     { key: 'latest', title: '最新' },
-    { key: 'recommend', title: '推荐' },
   ])
 
   return (
