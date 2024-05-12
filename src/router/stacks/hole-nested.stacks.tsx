@@ -23,15 +23,7 @@ export const HoleNestedStacks = () => {
         <HoleStack.Screen name={'search'} component={HoleSearchStacks} />
         <HoleStack.Screen name={'detail'} component={HoleDetailStacks} />
         <HoleStack.Screen name={'category'} component={HoleCategoryStacks} />
-        <HoleStack.Screen
-          name={'tag'}
-          component={TagScreen}
-          options={{
-            header: Header,
-            title: '话题',
-            headerShown: true,
-          }}
-        />
+        <HoleStack.Screen name={'tag'} component={TagScreen} />
       </HoleStack.Navigator>
     </HoleDetailCommentContextProvider>
   )

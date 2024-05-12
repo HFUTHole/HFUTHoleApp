@@ -44,6 +44,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 // }
 
 import Animated, {
+  FadeIn,
+  FadeOut,
   SlideInDown,
   SlideInUp,
   SlideOutDown,
@@ -65,7 +67,8 @@ import { Portal } from 'react-native-paper'
 import { If, Then } from 'react-if'
 import { useHoleComment } from '@/swr/hole'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Apis } from '@/request/apis'
+import { useCommentReplies } from '@/swr/hole/reply'
 
 export function CommentMaskModal() {
   const route = useRoute()
@@ -99,8 +102,13 @@ export function CommentMaskModal() {
       })
       hideKeyboard()
       closeInput(true)
-      addComments([response])
-      scrollEvent.emit(0)
+      console.log(data)
+      if (!data?.commentId && !data?.replyId) {
+        addComments([response as any])
+        scrollEvent.emit(0)
+      } else if (data?.commentId) {
+        //TODO 回复评论
+      }
     },
   })
 
@@ -139,8 +147,8 @@ export function CommentMaskModal() {
               }}
             >
               <Animated.View
-                entering={SlideInDown}
-                exiting={SlideOutDown}
+                entering={FadeIn}
+                exiting={FadeOut}
                 className={'flex-1 bg-black/50'}
               />
             </Pressable>

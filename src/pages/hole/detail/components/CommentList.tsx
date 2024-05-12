@@ -19,6 +19,7 @@ import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDeta
 import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 import clsx from 'clsx'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
+import { useParams } from '@/shared/hooks/useParams'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -89,6 +90,7 @@ export function HoleDetailCommentList() {
     invalidateQuery,
     isDataEmpty,
     isFetching,
+    params,
   } = useHoleComment()
 
   const { data } = useHoleDetail()
@@ -96,6 +98,14 @@ export function HoleDetailCommentList() {
   const { scrollEvent } = useCommentEventBusContext()
 
   const flatListRef = useRef<FlatList | null>(null)
+
+  useEffect(() => {
+    if (params.commentId) {
+      flatListRef.current?.scrollToIndex({
+        index: 0,
+      })
+    }
+  }, [params, flatListRef.current])
 
   scrollEvent.useSubscription((index) => {
     flatListRef.current?.scrollToIndex({

@@ -58,6 +58,7 @@ export function GetHoleDetailCommentsRequest(
       mode: HoleDetailCommentMode
       order: HoleDetailCommentOrderMode
       commentId?: string
+      replyId?: string
     } & Id
   >,
 ) {

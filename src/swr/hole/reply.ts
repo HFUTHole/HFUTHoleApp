@@ -14,7 +14,8 @@ import { Apis } from '@/request/apis'
 
 interface Options {
   commentId: string
-  enabled: boolean
+
+  enabled?: boolean
 
   /*
    * 过滤已经存在的回复
@@ -49,8 +50,17 @@ export const useCommentReplies = (options: Options) => {
     refetchOnMount: true,
   })
 
+  const addReply = (item: IHoleReplyListItem) => {
+    query.setData((oldData) => {
+      const pageLen = oldData?.pages.length || 0
+      oldData?.pages[pageLen].items.push(item)
+      return oldData!
+    })
+  }
+
   return {
     ...query,
+    addReply,
   }
 }
 

@@ -83,8 +83,8 @@ export const useCustomScheduleSheet = ({
             courseInfo.schedule[currentWeekIndex].findIndex((week) =>
               week.some(
                 (schedule) =>
-                  schedule.lessonIndex === customSchedule!.lessonIndex
-              )
+                  schedule.lessonIndex === customSchedule!.lessonIndex,
+              ),
             ) + 1,
         },
       }
@@ -103,7 +103,6 @@ export const useCustomScheduleSheet = ({
         },
       }
     }
-    console.log(payload)
     mutation.mutate(payload)
   })
 
@@ -113,7 +112,7 @@ export const useCustomScheduleSheet = ({
     setTimeRange(
       weekLayoutIndex[0] < 0
         ? [0, 0]
-        : [weekLayoutIndex[1] - 1, weekLayoutIndex[1] - 1]
+        : [weekLayoutIndex[1] - 1, weekLayoutIndex[1] - 1],
     )
     setActiveColor('red')
     reset()
@@ -134,10 +133,10 @@ export const useCustomScheduleSheet = ({
     setActiveColor(customSchedule.color as Colors)
     setTimeRange([
       LESSON_INDEX_TO_TIME.findIndex(
-        (item) => item.startTime === customSchedule.startTime
+        (item) => item.startTime === customSchedule.startTime,
       ),
       LESSON_INDEX_TO_TIME.findIndex(
-        (item) => item.endTime === customSchedule.endTime
+        (item) => item.endTime === customSchedule.endTime,
       ),
     ])
   }, [customSchedule, setValue])

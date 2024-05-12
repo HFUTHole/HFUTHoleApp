@@ -10,6 +10,8 @@ export const SWRKeys = {
     getCommentReply: 'hole.getCommentReply',
     getCategoryHoleList: 'hole.getCategoryHoleList',
     like: 'hole.like',
+    tagDetail: 'hole.tagDetail',
+    tagList: 'hole.tagList',
   },
   home: {
     categories: 'home.categories',

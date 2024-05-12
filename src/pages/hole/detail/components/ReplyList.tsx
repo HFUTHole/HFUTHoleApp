@@ -46,10 +46,10 @@ const ReplyListItem: React.FC<{
         }}
       >
         <View className={'flex-row space-x-2 py-1'}>
-          <UserAvatar url={reply.user.avatar} size={20} />
+          <UserAvatar url={reply.user?.avatar} size={20} />
           <View className={'flex-1 space-y-1'}>
             <View className={'flex-row h-[20px] items-center'}>
-              <Text className={'text-[#33333399]'}>{reply.user.username}</Text>
+              <Text className={'text-[#33333399]'}>{reply.user?.username}</Text>
               <If condition={!!reply.replyUser}>
                 <Then>
                   <Text className={'text-[#33333399] px-1'}>回复</Text>

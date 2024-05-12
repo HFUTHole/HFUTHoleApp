@@ -96,12 +96,23 @@ export function useHoleDetail() {
 }
 
 export function useHoleComment() {
-  const params = useParams<{ id: number; commentId?: string }>()
+  const params = useParams<{
+    id: number
+    commentId?: string
+    replyId?: string
+  }>()
   const { mode, order } = useHoleDetailCommentContext()
   const user = useUserProfile()
   const id = useId()
 
-  const key = [SWRKeys.hole.comments, params.id, params?.commentId, mode, order]
+  const key = [
+    SWRKeys.hole.comments,
+    params.id,
+    params?.commentId,
+    params?.replyId,
+    mode,
+    order,
+  ]
 
   const query = useBaseInfiniteQuery<IHoleCommentListResponse>({
     queryKey: key,
@@ -113,6 +124,7 @@ export function useHoleComment() {
         mode,
         order,
         commentId: params.commentId,
+        replyId: params.replyId,
       })
     },
   })
@@ -136,6 +148,7 @@ export function useHoleComment() {
     flattenData,
     addComments,
     key,
+    params,
   }
 }
 

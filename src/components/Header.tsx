@@ -23,3 +23,21 @@ export const Header = (props: Props) => {
     </View>
   )
 }
+
+export const BackHeader = (props: { title?: string }) => {
+  const navigation = useNavigation()
+
+  return (
+    <View className={'bg-white flex-row flex items-center justify-between'}>
+      <View>
+        <IconButton
+          onPress={() => navigation.goBack()}
+          icon={() => <ArrowLeftIcon size={25} color={'#000'} />}
+        />
+      </View>
+      <View className={'absolute left-0 right-0 justify-center flex-row'}>
+        <Text variant={'titleMedium'}>{props.title}</Text>
+      </View>
+    </View>
+  )
+}

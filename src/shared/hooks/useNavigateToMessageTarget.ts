@@ -24,12 +24,16 @@ export function useNavigateToMessageTarget() {
         return
       }
 
-      goReplyList({
+      go(data.post?.id, {
         commentId: data.comment?.id,
         replyId: data.reply?.id,
-        holeId: data.post?.id,
-        isMessageFrom: true,
       })
+      // goReplyList({
+      //   commentId: data.comment?.id,
+      //   replyId: data.reply?.id,
+      //   holeId: data.post?.id,
+      //   isMessageFrom: true,
+      // })
       return
     }
 

@@ -51,7 +51,7 @@ export function MessageListItem({ data, onPress }: Props) {
                   .with(NotifyEventType.like, () => {
                     return (
                       <Text className={'flex-row flex-wrap text-textPrimary'}>
-                        {`攒了你的${match(data.target)
+                        {`赞了你的${match(data.target)
                           .with(InteractionNotifyTargetType.reply, () => '回复')
                           .with(
                             InteractionNotifyTargetType.comment,

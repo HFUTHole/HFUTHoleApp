@@ -6,16 +6,14 @@ const EMOJI_PER_LINE = 7
 const ITEM_HEIGHT = 30
 
 // TODO 自行修改逻辑
-const handleEmojiPressed = () => {
-  console.log('[emoji pressed]')
-}
+const handleEmojiPressed = () => {}
 
 // TODO 这里直接从EmojiList里面取了几个，请自行修改选取emoji的逻辑
 export const RecentEmoji = () => {
   const Line = (group: number) => {
     const list = EmojiList.slice(
       group * EMOJI_PER_LINE - EMOJI_PER_LINE,
-      group * EMOJI_PER_LINE
+      group * EMOJI_PER_LINE,
     )
     return (
       <>

@@ -35,6 +35,10 @@ type PickedFlatListProps<T> = Partial<
     | 'ListHeaderComponent'
     | 'showsHorizontalScrollIndicator'
     | 'showsVerticalScrollIndicator'
+    | 'renderItem'
+    | 'contentContainerStyle'
+    | 'style'
+    | 'columnWrapperStyle'
   >
 >
 

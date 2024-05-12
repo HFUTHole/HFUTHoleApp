@@ -8,7 +8,6 @@ import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { useCallback } from 'react'
 import { MenuIcon } from '@/components/icon'
 import { useHoleDetail } from '@/swr/hole'
-import { SecondaryText } from '@/components/Text/SecondaryText'
 
 export function HoleDetailCommentHeader() {
   const theme = useTheme()
