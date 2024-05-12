@@ -25,7 +25,11 @@
     ],
     "ios": {
       "buildNumber": "1",
-      "bundleIdentifier": "snowingfox.book.app"
+      "bundleIdentifier": "snowingfox.book.app",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos.",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos."
+      }
     },
     "android": {
       "versionCode": 1,
@@ -34,27 +38,29 @@
       },
       "permissions": [
         "WRITE_EXTERNAL_STORAGE",
-        "READ_EXTERNAL_STORAGE"
+        "READ_EXTERNAL_STORAGE",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
       ],
       "package": "snowingfox.book.app"
     },
     "web": {
       "favicon": "./assets/splash.png"
     },
-    "extra": {
-      "update-message": "",
-      "eas": {
-        "projectId": "dba5ed50-696a-4891-ab2e-cd94660925e7"
-      }
-    },
     "owner": "snowingfox",
     "updates": {
-      "url": "http://xiaofeishu.eyunnet.com:3000/api/manifest",
+      "url": "",
       "enabled": true,
       "fallbackToCacheTimeout": 0
     },
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dba5ed50-696a-4891-ab2e-cd94660925e7"
+      }
     }
   }
 }
