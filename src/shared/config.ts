@@ -1,6 +1,6 @@
 export const Config = {
   request: {
-    baseURL: 'https://xiaofeishu.eyunnet.com/',
+    baseURL: 'http://172.21.64.3:8000',
     imgBaseURL: 'http://hfut-uni.top:8880/',
     spaceBaseURL: 'https://hfut-space.top/',
     timeout: 5000,
