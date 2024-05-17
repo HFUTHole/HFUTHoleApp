@@ -13,9 +13,8 @@ export function RefreshingInteractiveNotifications() {
   const { data, hasNextPage, fetchNextPage, invalidateQuery } =
     useInteractiveNotificationsQuery()
 
-  const { data: listData } = useMemo(
-    () => flatInfiniteQueryData<INotifyInteractionListItem>(data!),
-    [data]
+  const { data: listData } = flatInfiniteQueryData<INotifyInteractionListItem>(
+    data!,
   )
 
   return (

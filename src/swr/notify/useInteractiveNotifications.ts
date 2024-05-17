@@ -10,7 +10,6 @@ export function useInteractiveNotificationsQuery() {
         limit: 10,
         page: pageParam,
       }),
-    staleTime: 1,
   })
 
   return {

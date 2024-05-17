@@ -3,7 +3,6 @@ import { HoleDetail } from '@/pages/hole/detail/detail'
 import { HoleReply } from '@/pages/hole/detail/reply/HoleReply'
 import React from 'react'
 import { HoleStack } from './hole-nested.stacks'
-import { PageWithSafeArea } from '@/layouts/layout'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export const HoleDetailStacks = () => {

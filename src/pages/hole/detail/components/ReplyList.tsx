@@ -14,6 +14,7 @@ import { LoadingIndicator } from '@/components/LoadingIndicator'
 import { useMutation, UseMutationResult } from 'react-query'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { DeleteReplyLikeRequest, LikeReplyRequest } from '@/request/apis/hole'
+import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 
 const ReplyListItem: React.FC<{
   reply: Reply
@@ -84,27 +85,43 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
 }) => {
   const [isExpand, isExpandActions] = useBoolean(false)
 
+  const { addReplyEvent } = useCommentEventBusContext()
+
   const {
     fetchNextPage,
     data: replyData,
     isLoading,
     hasNextPage,
+    addReply,
+    refetch,
   } = useCommentReplies({
-    commentId: data.id,
+    commentId: data?.id,
     enabled: isExpand,
-    replyId: data.replies?.[0].id,
+    replyId: data?.replies?.[0]?.id,
   })
 
-  const replies = useMemo<Reply[]>(() => {
-    if (!isExpand) {
-      return data?.replies || []
+  addReplyEvent.useSubscription((payload) => {
+    const { commentId, parentReplyId } = payload
+
+    if (commentId !== data.id) {
+      return
     }
 
-    return [
-      ...(data?.replies || []),
-      ...(flatInfiniteQueryData(replyData).data || []),
-    ] as Reply[]
-  }, [data?.replies, replyData, isExpand])
+    if (!replyData?.pages?.length) {
+      refetch()
+      isExpandActions.setTrue()
+      return
+    }
+
+    addReply(payload.data, parentReplyId)
+  })
+
+  const replies = !isExpand
+    ? data.replies || []
+    : ([
+        ...(data?.replies || []),
+        ...(flatInfiniteQueryData(replyData).data || []),
+      ] as Reply[])
 
   const onExpandCommentAreaPress = () => {
     if (isExpand) {
@@ -122,49 +139,53 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
 
   return (
     <>
-      <View>
-        {replies.map((reply, index) => (
-          <ReplyListItem reply={reply} comment={data} key={reply.id} />
-        ))}
-        <View className={'mt-2 flex-row space-x-2 items-center'}>
-          <View
-            className={'rounded-full h-[0.5px]'}
-            style={{
-              width: 20,
-              backgroundColor: 'rgba(51,51,51,0.4)',
-            }}
-          />
-          <View className={'flex-row items-center'}>
-            <If condition={isLoading}>
-              <Then>
-                <LoadingIndicator color={'rgba(51,51,51,0.4)'} size={12} />
-              </Then>
-              <Else>
-                <TouchableOpacity onPress={onExpandCommentAreaPress}>
-                  <Text className={'text-textSecondary text-xs'}>
-                    <If condition={isExpand}>
-                      <Then>
-                        <If condition={hasNextPage}>
-                          <Then>展开更多回复</Then>
-                          <Else>收起</Else>
+      <If condition={replies.length > 0}>
+        <Then>
+          <View>
+            {replies.map((reply, index) => (
+              <ReplyListItem reply={reply} comment={data} key={reply.id} />
+            ))}
+            <View className={'mt-2 flex-row space-x-2 items-center'}>
+              <View
+                className={'rounded-full h-[0.5px]'}
+                style={{
+                  width: 20,
+                  backgroundColor: 'rgba(51,51,51,0.4)',
+                }}
+              />
+              <View className={'flex-row items-center'}>
+                <If condition={isLoading}>
+                  <Then>
+                    <LoadingIndicator color={'rgba(51,51,51,0.4)'} size={12} />
+                  </Then>
+                  <Else>
+                    <TouchableOpacity onPress={onExpandCommentAreaPress}>
+                      <Text className={'text-textSecondary text-xs'}>
+                        <If condition={isExpand}>
+                          <Then>
+                            <If condition={hasNextPage}>
+                              <Then>展开更多回复</Then>
+                              <Else>收起</Else>
+                            </If>
+                          </Then>
+                          <Else>展开{data.repliesCount}条回复</Else>
                         </If>
-                      </Then>
-                      <Else>展开{data.repliesCount}条回复</Else>
-                    </If>
-                  </Text>
+                      </Text>
+                    </TouchableOpacity>
+                  </Else>
+                </If>
+                <TouchableOpacity onPress={isExpandActions.setFalse}>
+                  <If condition={isExpand && hasNextPage}>
+                    <Then>
+                      <Text className={'text-textSecondary text-xs'}>收起</Text>
+                    </Then>
+                  </If>
                 </TouchableOpacity>
-              </Else>
-            </If>
-            <TouchableOpacity onPress={isExpandActions.setFalse}>
-              <If condition={isExpand && hasNextPage}>
-                <Then>
-                  <Text className={'text-textSecondary text-xs'}>收起</Text>
-                </Then>
-              </If>
-            </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
+        </Then>
+      </If>
     </>
   )
 }

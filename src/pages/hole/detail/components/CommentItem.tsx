@@ -28,7 +28,7 @@ export const HoleDetailCommentItem: React.FC<{
       <CommentItem
         data={data}
         onBodyPress={handleReply as any}
-        bottom={data.replies?.length > 0 && <ReplyList data={data} />}
+        bottom={<ReplyList data={data} />}
         deleteLikeRequest={DeleteCommentLikeRequest}
         onLikeRequest={LikeCommentRequest}
       />
