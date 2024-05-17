@@ -1,5 +1,4 @@
 import { useBottomCommentContext } from '@/shared/context/hole/comment'
-import { CommentInputForm } from '@/pages/hole/detail/components/CommentInputForm'
 import React, { useState } from 'react'
 import {
   Keyboard,
@@ -88,7 +87,7 @@ export function CommentMaskModal() {
     showInput,
   } = useBottomCommentContext()
 
-  const { scrollEvent } = useCommentEventBusContext()
+  const { scrollEvent, addReplyEvent } = useCommentEventBusContext()
 
   const { addComments } = useHoleComment()
 
@@ -102,12 +101,16 @@ export function CommentMaskModal() {
       })
       hideKeyboard()
       closeInput(true)
-      console.log(data)
       if (!data?.commentId && !data?.replyId) {
         addComments([response as any])
         scrollEvent.emit(0)
       } else if (data?.commentId) {
         //TODO 回复评论
+        addReplyEvent.emit({
+          commentId: data.commentId,
+          parentReplyId: data.replyId,
+          data: response as any,
+        })
       }
     },
   })

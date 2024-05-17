@@ -29,7 +29,7 @@ export const AnimatedLikeButton: React.FC<AnimatedLikeButtonProps> = (
   const onLikeIconPress = useCallback(() => {
     Haptics.impactAsync(ImpactFeedbackStyle.Light)
     setLiked((prev) => !prev)
-    setFavoriteCount((prev) => (liked ? prev - 1 : prev + 1))
+    setFavoriteCount((prev) => Math.max(liked ? prev - 1 : prev + 1, 0))
     mutation.mutate(liked, {
       onError() {
         setFavoriteCount((prev) => prev - 1)

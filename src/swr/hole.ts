@@ -116,6 +116,7 @@ export function useHoleComment() {
 
   const query = useBaseInfiniteQuery<IHoleCommentListResponse>({
     queryKey: key,
+    refetchOnWindowFocus: true,
     queryFn: ({ pageParam = 1 }) => {
       return GetHoleDetailCommentsRequest({
         limit: 10,

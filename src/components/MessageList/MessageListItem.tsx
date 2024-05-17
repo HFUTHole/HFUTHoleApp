@@ -46,7 +46,7 @@ export function MessageListItem({ data, onPress }: Props) {
           <View className={'flex-1 flex-wrap'}>
             <Text className={'text-lg'}>{user?.username}</Text>
             <View className={'space-y-1'}>
-              <View className={''}>
+              <View className={'w-[60%]'}>
                 {match(data.type)
                   .with(NotifyEventType.like, () => {
                     return (
@@ -66,7 +66,6 @@ export function MessageListItem({ data, onPress }: Props) {
                     return <EmojiableText body={data.body || ''} />
                   })}
               </View>
-
               <View>
                 <TimeText time={data.createAt} />
               </View>
@@ -79,7 +78,7 @@ export function MessageListItem({ data, onPress }: Props) {
               source={{
                 uri: data.post?.imgs[0],
               }}
-              className={'w-20 h-20 rounded-md'}
+              className={'w-16 h-16 rounded-md'}
             />
           ) : (
             <></>

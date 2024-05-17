@@ -78,7 +78,7 @@ export function CommentItem({
                 <TimeText time={data.createAt} />
                 <CommentItemIsLike mutation={mutation} data={data} />
               </View>
-              {bottom && <View className={'py-2'}>{bottom}</View>}
+              {bottom}
             </View>
           </View>
         </View>

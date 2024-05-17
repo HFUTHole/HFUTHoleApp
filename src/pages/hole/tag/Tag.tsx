@@ -1,5 +1,4 @@
-import { View, ScrollView, Pressable } from 'react-native'
-import { Text, TouchableRipple } from 'react-native-paper'
+import { View, ScrollView, Pressable, Text } from 'react-native'
 import { StarIcon } from '@/components/icon'
 import { useMemo, useState } from 'react'
 import { TabView } from '@/components/TabView'
@@ -25,9 +24,11 @@ function PostHeader() {
   return (
     <>
       <View className="px-4 py-4">
-        <Text variant="headlineSmall">{`# ${tag}`}</Text>
-        <View className="flex justify-between items-center flex-row">
-          <Text>{`${data?.views}浏览`}</Text>
+        <Text className={'text-lg text-primary-label'}># {data?.body}</Text>
+        <View className="flex justify-between items-center flex-row pt-4">
+          <Text
+            className={'text-sm text-tertiary-label'}
+          >{`${data?.views}浏览`}</Text>
         </View>
       </View>
       <View className="h-[1px] bg-gray-400/40 mb-2"></View>
@@ -45,27 +46,27 @@ export function TagScreen() {
       <SafeAreaView className="flex-1 w-full bg-white">
         <BackHeader title={'话题'} />
 
-        <ScrollView>
-          <PostHeader />
-          <RefreshableHoleList
-            {...query}
-            contentContainerStyle={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: 5,
-            }}
-            renderItem={({ item: data }) => {
-              const item = data as unknown as IHole
-
-              return (
-                <View className={'w-[47vw]'}>
-                  <TagHoleInfo data={data} />
-                </View>
-              )
-            }}
-          />
-        </ScrollView>
+        <RefreshableHoleList
+          {...query}
+          ListHeaderComponent={
+            <View className={'w-screen'}>
+              <PostHeader />
+            </View>
+          }
+          contentContainerStyle={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 5,
+          }}
+          renderItem={({ item: data }) => {
+            return (
+              <View className={'w-[47vw] mx-auto'}>
+                <TagHoleInfo data={data} />
+              </View>
+            )
+          }}
+        />
       </SafeAreaView>
     </LoadingScreen>
   )

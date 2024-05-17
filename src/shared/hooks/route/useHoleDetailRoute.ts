@@ -21,7 +21,23 @@ export function useHoleDetailRoute() {
     })
   }
 
+  const goTagDetail = (
+    id: number,
+    params?: { commentId?: string; replyId?: string },
+  ) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    navigation.navigate('hole', {
+      screen: 'tag-detail',
+      params: {
+        id,
+        ...params,
+      },
+    })
+  }
+
   return {
     go,
+    goTagDetail,
   }
 }

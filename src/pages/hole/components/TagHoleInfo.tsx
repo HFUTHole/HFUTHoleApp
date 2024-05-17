@@ -21,7 +21,7 @@ interface TagHoleInfoProps {
 }
 
 export function TagHoleInfo({ data }: TagHoleInfoProps) {
-  const { go } = useHoleDetailRoute()
+  const { goTagDetail } = useHoleDetailRoute()
   const image = data.imgs.length ? data.imgs[0] : null
   const mutation = useMutation({
     mutationKey: ['hole.tag.like'],
@@ -31,11 +31,16 @@ export function TagHoleInfo({ data }: TagHoleInfoProps) {
   })
 
   return (
-    <Pressable className="w-full" onPress={() => go(data.id)}>
+    <Pressable
+      className="w-full"
+      onPress={() => {
+        goTagDetail(data.id)
+      }}
+    >
       <View className={'bg-white rounded-lg border-[1px] border-black/5'}>
         {image && (
           <View className="w-full rounded-t-lg overflow-hidden">
-            <Image className="w-full h-52" source={{ uri: image }} />
+            <Image className="w-full h-60" source={{ uri: image }} />
           </View>
         )}
 
@@ -56,7 +61,7 @@ export function TagHoleInfo({ data }: TagHoleInfoProps) {
           </View>
           <View className="flex flex-row justify-between">
             <View className={'flex flex-row items-center space-x-2'}>
-              <UserAvatar url={data.user.avatar} size={24} />
+              <UserAvatar url={data.user.avatar} size={16} />
               <View>
                 <Text className="text-sm text-gray-600">
                   {data.user.username}

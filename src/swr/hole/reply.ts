@@ -32,7 +32,7 @@ export const useCommentReplies = (options: Options) => {
     queryKey: key,
     queryFn: ({ pageParam = 1 }) => {
       return Apis.hole.GetHoleReplyRequest({
-        limit: 10,
+        limit: 5,
         page: pageParam,
         id: commentId,
         replyId,
@@ -50,10 +50,30 @@ export const useCommentReplies = (options: Options) => {
     refetchOnMount: true,
   })
 
-  const addReply = (item: IHoleReplyListItem) => {
+  const addReply = (item: IHoleReplyListItem, parentReplyId?: string) => {
     query.setData((oldData) => {
-      const pageLen = oldData?.pages.length || 0
-      oldData?.pages[pageLen].items.push(item)
+      let pageLen = oldData?.pages.length || 1
+
+      if (parentReplyId) {
+        let replyIdx = 0
+        const parentReplyIdx = oldData?.pages.findIndex((replies) => {
+          const idx = replies?.items.findIndex(
+            (item) => item.id === parentReplyId,
+          )
+          const isExist = idx > -1
+
+          if (isExist) {
+            replyIdx = idx
+          }
+
+          return isExist
+        })
+
+        oldData?.pages[parentReplyIdx!].items.splice(replyIdx + 1, 0, item)
+      } else {
+        oldData?.pages[pageLen - 1].items.push(item)
+      }
+
       return oldData!
     })
   }

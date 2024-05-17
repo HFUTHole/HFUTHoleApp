@@ -91,6 +91,7 @@ export function HoleDetailCommentList() {
     isDataEmpty,
     isFetching,
     params,
+    isFetched,
   } = useHoleComment()
 
   const { data } = useHoleDetail()
@@ -122,35 +123,37 @@ export function HoleDetailCommentList() {
   }
 
   return (
-    <>
-      {data?.bilibili && (
-        <View className={'px-2'}>
-          <BilibiliPlayer bvid={data!.bilibili!} />
-        </View>
-      )}
+    <If condition={isFetched}>
+      <Then>
+        {data?.bilibili && (
+          <View className={'px-2'}>
+            <BilibiliPlayer bvid={data!.bilibili!} />
+          </View>
+        )}
 
-      <RefreshingFlatList
-        ref={flatListRef}
-        onRefreshing={onRefresh}
-        hasNextPage={hasNextPage}
-        onTopRefresh={onTopRefresh}
-        refreshing={isFetching}
-        ListHeaderComponent={HoleTopDetail}
-        ListFooterComponent={() => (
-          <LoadMore
-            text={isDataEmpty ? '没有更多评论了哦' : ''}
-            hasNextPage={hasNextPage!}
-          />
-        )}
-        data={flattenData}
-        ListEmptyComponent={HoleDetailCommentEmpty}
-        renderItem={({ item, index }) => (
-          <HoleDetailCommentItem data={item} page={index} key={item.id} />
-        )}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
-        overScrollMode={'never'}
-      />
-    </>
+        <RefreshingFlatList
+          ref={flatListRef}
+          onRefreshing={onRefresh}
+          hasNextPage={hasNextPage}
+          onTopRefresh={onTopRefresh}
+          refreshing={isFetching}
+          ListHeaderComponent={HoleTopDetail}
+          ListFooterComponent={() => (
+            <LoadMore
+              text={isDataEmpty ? '没有更多评论了哦' : ''}
+              hasNextPage={hasNextPage!}
+            />
+          )}
+          data={flattenData}
+          ListEmptyComponent={HoleDetailCommentEmpty}
+          renderItem={({ item, index }) => (
+            <HoleDetailCommentItem data={item} page={index} key={item.id} />
+          )}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          overScrollMode={'never'}
+        />
+      </Then>
+    </If>
   )
 }
