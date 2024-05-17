@@ -49,7 +49,7 @@
     "web": {
       "favicon": "./assets/splash.png"
     },
-    "owner": "snowingfox",
+    "owner": "xfs",
     "updates": {
       "url": "https://xiaofeishu.eyunnet.com/app-hot-update",
       "enabled": true,
