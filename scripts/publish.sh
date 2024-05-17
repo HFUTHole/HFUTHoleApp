@@ -14,7 +14,7 @@ export SSHPASS
 timestamp=$(date +%s)
 directory=$runtime_version"/"$timestamp
 
-npx expo export --experimental-bundle
+npx expo export --experimental-bundle -p android -p ios
 
 mkdir -p updates/$directory/
 
