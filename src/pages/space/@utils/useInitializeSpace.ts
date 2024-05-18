@@ -1,4 +1,4 @@
-import { useSpaceUserInfo, useUserCardBase } from '@/swr/space/user'
+import { useSpaceUserInfo } from '@/swr/space/user'
 import { useSemesters } from '@/swr/space/chore'
 import { useCurrentSemester } from '@/shared/context/space/semester'
 import { useMount } from 'ahooks'
@@ -12,7 +12,6 @@ export const useInitializeSpace = () => {
   const { data } = useSemesters()
 
   useSpaceUserInfo()
-  // useUserCardBase()
 
   // 解决重新登陆时，CurrentSemesterContextProvider 被卸载的问题
   useMount(() => {

@@ -1,7 +1,6 @@
 import { ScreenWrapper } from '@/components/ScrollWrapper'
 import { RefreshIndicatorControl } from '@/components/RefreshIndicatorControl'
-import { FC, PropsWithChildren, ReactNode } from 'react'
-import { useSpaceCourse } from '@/swr/space/course'
+import { ReactNode } from 'react'
 import { useSpaceAuth } from '@/pages/space/@utils/useSpaceAuth'
 
 interface ScheduleScrollWrapperProps {

@@ -1,6 +1,6 @@
 import type { Schedule } from '@/pages/space/@utils/types'
 import { useMemo } from 'react'
-import { useAppSelector, useAppDispatch } from '@/store/store'
+import { useAppSelector } from '@/store/store'
 import { getCourseDate } from '@/pages/space/@utils/utils'
 import { CARD_COLORS_KEYS } from '@/pages/space/@utils/constant'
 import { useMount } from 'ahooks'
@@ -14,7 +14,6 @@ const defaultVisibleDate = '01月01号'
 
 export const useDaySchedule = () => {
   const { selectedSemesterId, currentSemesterId } = useCurrentSemester()
-  const dispatch = useAppDispatch()
   const { daySchedule, courseInfo } = useAppSelector(
     (state) => state.spaceCourse
   )
