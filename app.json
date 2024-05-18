@@ -51,7 +51,7 @@
     },
     "owner": "xfs",
     "updates": {
-      "url": "https://xiaofeishu.eyunnet.com/app-hot-update",
+      "url": "https://xiaofeishu.eyunnet.com/app-hot-update/api/manifest",
       "enabled": true,
       "fallbackToCacheTimeout": 0
     },
