@@ -62,7 +62,7 @@ const ReplyListItem: React.FC<{
             </View>
             <View>
               <EmojiableText
-                numberOfLines={3}
+                numberOfLines={2}
                 body={reply.body}
                 fontSize={12}
               />

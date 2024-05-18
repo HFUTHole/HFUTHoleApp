@@ -41,7 +41,7 @@ const DetailBody = React.memo(() => {
           },
         ])}
       >
-        <HoleInfoTitleWithBody data={data!} />
+        <HoleInfoTitleWithBody data={data!} enableBodyCanExpanded={false}/>
         <If condition={hasTags}>
           <Then>
             <View className={'mt-2'}>

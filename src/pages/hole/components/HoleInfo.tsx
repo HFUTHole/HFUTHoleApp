@@ -205,7 +205,7 @@ export const HoleInfoBody: React.FC<{
       {/*  <></>*/}
       {/*)}*/}
       <View className={'px-3'}>
-        <HoleInfoTitleWithBody data={data} />
+        <HoleInfoTitleWithBody data={data} numberOfLines={5} enableBodyCanExpanded={true}/>
       </View>
       {data.imgs.length ? (
         <View className={'px-1'}>
