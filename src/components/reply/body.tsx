@@ -22,7 +22,7 @@ export function ReplyBody({ data }: Props) {
         )}
         <EmojiableText
           numberOfLines={5}
-          enableBodyCanExpanded={true}
+          hideOverflow={true}
           body={data.body}
           variant={'bodyMedium'}
         />

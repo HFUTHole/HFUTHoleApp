@@ -24,6 +24,8 @@ export const HoleInfoBottomCommentArea: React.FC<
             <EmojiableText
               variant={'bodyMedium'}
               numberOfLines={2}
+              hideOverflow={true}
+              isExpandable={false}
               body={item.body}
               imageSize={20}
             />
