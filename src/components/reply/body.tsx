@@ -21,8 +21,8 @@ export function ReplyBody({ data }: Props) {
           </View>
         )}
         <EmojiableText
-          numberOfLines={4}
-          enableBodyCanExpanded={true}
+          numberOfLines={5}
+          hideOverflow={true}
           body={data.body}
           variant={'bodyMedium'}
         />

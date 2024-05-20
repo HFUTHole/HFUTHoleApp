@@ -161,9 +161,9 @@ const Tag: React.FC<{ data: string }> = ({ data }) => {
 export const HoleInfoTitleWithBody: React.FC<{
   data: Data
   numberOfLines?: number
-  enableBodyCanExpanded?: boolean
+  hideOverflow?: boolean
 }> = (props) => {
-  const { data, enableBodyCanExpanded = true, numberOfLines = 3 } = props
+  const { data, hideOverflow = true, numberOfLines = 3 } = props
   return (
     <>
       <Text className={'text-base font-bold text-black'}>{data.title}</Text>
@@ -176,7 +176,7 @@ export const HoleInfoTitleWithBody: React.FC<{
             fontSize: 14,
           }}
           numberOfLines={numberOfLines}
-          enableBodyCanExpanded={enableBodyCanExpanded}
+          hideOverflow={hideOverflow}
         />
       </View>
     </>
@@ -205,7 +205,7 @@ export const HoleInfoBody: React.FC<{
       {/*  <></>*/}
       {/*)}*/}
       <View className={'px-3'}>
-        <HoleInfoTitleWithBody data={data} />
+        <HoleInfoTitleWithBody data={data} numberOfLines={5} hideOverflow={true}/>
       </View>
       {data.imgs.length ? (
         <View className={'px-1'}>

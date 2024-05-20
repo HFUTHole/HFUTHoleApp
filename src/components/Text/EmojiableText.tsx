@@ -40,7 +40,11 @@ interface EmojiableTextProps {
   numberOfLines?: number
   imageSize?: number
   fontSize?: number
-  enableBodyCanExpanded?: boolean
+  // Note: 由原先的 `enableBodyCanExpanded` 改为 `hideOverflow` 以更好描述功能
+  // 现在 hideOverflow 为 true 时，numberOfLines 有效; isExpandable 为 true 时，显示展开/收起按钮
+  // 设置 hideOverflow 为 true 且禁用 isExpandable 时，仅折叠文本，不展开
+  hideOverflow?: boolean
+  isExpandable?: boolean
 }
 
 const splitIntoLines = (text: string) => text.split('\n')
@@ -77,12 +81,13 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     variant,
     textStyle,
     imageSize = 22,
-    enableBodyCanExpanded = true,
+    hideOverflow = true,
+    isExpandable = true,
   } = props
 
   const numberOfLines = useMemo(() => {
-    return enableBodyCanExpanded ? props.numberOfLines : Infinity
-  }, [props.numberOfLines, enableBodyCanExpanded])
+    return hideOverflow ? ( props.numberOfLines ?? Infinity) : Infinity
+  }, [props.numberOfLines, hideOverflow])
 
   const [expanded, setExpanded] = useState(false)
 
@@ -171,7 +176,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     if (
       !numberOfLines ||
       numberOfLines === Infinity ||
-      !enableBodyCanExpanded
+      !hideOverflow
     ) {
       displayHeight.value = null
       return
@@ -301,7 +306,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
           ))}
         </View>
       </Animated.View>
-      {exceedHeight && (
+      {isExpandable && exceedHeight && (
         <TouchableOpacity className="py-2 pr-2" onPress={toggleExpand}>
           <Text className="text-textSecondary text-xs">
             {expanded ? '收起' : '展开'}
