@@ -1,8 +1,12 @@
-import { Platform } from 'react-native'
+import { KeyboardAvoidingViewProps, Platform } from 'react-native'
 
 export class App {
   static get OS() {
     return Platform.OS
+  }
+
+  static get keyboardAvoidingBehavior(): KeyboardAvoidingViewProps['behavior'] {
+    return App.isIOS ? 'padding' : 'height'
   }
 
   static get isIOS() {

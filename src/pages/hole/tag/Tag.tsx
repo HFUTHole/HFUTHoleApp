@@ -15,6 +15,7 @@ import { LoadingScreen } from '@/components/LoadingScreen'
 import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { useParams } from '@/shared/hooks/useParams'
 import { useTagParams } from '@/pages/hole/tag/useTagParams'
+import { If, Then } from 'react-if'
 
 function PostHeader() {
   const { tag } = useTagParams()
@@ -25,10 +26,17 @@ function PostHeader() {
     <>
       <View className="px-4 py-4">
         <Text className={'text-lg text-primary-label'}># {data?.body}</Text>
-        <View className="flex justify-between items-center flex-row pt-4">
+        <View className="flex pt-4">
           <Text
             className={'text-sm text-tertiary-label'}
           >{`${data?.views}浏览`}</Text>
+          <If condition={data?.desc}>
+            <Then>
+              <Text className={'text-sm text-tertiary-label mt-2'}>
+                【官方话题】{data?.desc}
+              </Text>
+            </Then>
+          </If>
         </View>
       </View>
       <View className="h-[1px] bg-gray-400/40 mb-2"></View>
@@ -45,7 +53,6 @@ export function TagScreen() {
     <LoadingScreen isLoading={query.isLoading}>
       <SafeAreaView className="flex-1 w-full bg-white">
         <BackHeader title={'话题'} />
-
         <RefreshableHoleList
           {...query}
           ListHeaderComponent={

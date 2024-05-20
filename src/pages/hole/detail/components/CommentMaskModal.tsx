@@ -68,6 +68,7 @@ import { useHoleComment } from '@/swr/hole'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 import { Apis } from '@/request/apis'
 import { useCommentReplies } from '@/swr/hole/reply'
+import { App } from '@/shared/utils/App'
 
 export function CommentMaskModal() {
   const route = useRoute()
@@ -141,7 +142,7 @@ export function CommentMaskModal() {
         <Then>
           <KeyboardAvoidingView
             className={'flex-1 flex-row z-[2] items-end'}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={App.keyboardAvoidingBehavior}
           >
             <Pressable
               className={'absolute flex-1 left-0 right-0 top-0 bottom-0 z-[1]'}

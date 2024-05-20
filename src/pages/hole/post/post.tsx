@@ -9,12 +9,9 @@ export function HolePost() {
   const theme = useTheme()
 
   return (
-    <SafeAreaView className={'flex-1 bg-background'}>
+    <SafeAreaView className={'flex-1 bg-white'} edges={['bottom', 'top']}>
       <HolePostContextProvider>
-        <View
-          className={'h-screen'}
-          style={{ backgroundColor: theme.colors.background }}
-        >
+        <View className={'h-screen'}>
           <HolePostBody />
         </View>
       </HolePostContextProvider>

@@ -42,7 +42,6 @@ export class PostHoleValidator {
     each: true,
     message: `每个选项最长只能是${Limit.holeVoteOptionLength}个字符哦`,
   })
-  @ArrayMaxSize(5, { message: '最多只能创建五个标签哦' })
   @IsArray()
   @IsOptional()
   tags: string[] = []
@@ -63,16 +62,4 @@ export class PostHoleValidator {
   @IsString()
   @IsOptional()
   bilibili?: string
-
-  @IsEnum(ArticleCategoryEnum, { message: '帖子分类不正确' })
-  @IsOptional()
-  category?: ArticleCategoryEnum
-
-  @IsEnum(HoleClassification)
-  @IsOptional()
-  classification?: HoleClassification
-
-  @IsString()
-  @IsOptional()
-  subClassification?: string
 }

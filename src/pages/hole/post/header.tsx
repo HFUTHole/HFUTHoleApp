@@ -14,8 +14,7 @@ export function HolePostHeader() {
     imgs,
     votes,
     bilibili,
-    category,
-    subCategory,
+    tags,
   } = useHolePostContext()
 
   const mutation = useMutation({
@@ -30,6 +29,7 @@ export function HolePostHeader() {
         ...data,
         bilibili,
         imgs: resultImage,
+        tags,
         ...(votes.items.length > 0
           ? {
               vote: {
@@ -37,8 +37,6 @@ export function HolePostHeader() {
               },
             }
           : ({} as any)),
-        classification: category,
-        subClassification: subCategory,
       })
     },
     onSuccess(data) {

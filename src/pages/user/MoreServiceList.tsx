@@ -18,7 +18,7 @@ export function MoreServiceList() {
     },
     {
       icon: AboutSvg,
-      title: '关于小宇宙',
+      title: '关于小肥书',
       onPress: route.goAboutScreen,
     },
   ]
