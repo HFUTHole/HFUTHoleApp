@@ -37,6 +37,7 @@ export function HolePostForm() {
           control={control}
           multiline={true}
           placeholder={'说点什么吧...'}
+          textAlignVertical='top'
           style={{
             height: ScreenHeight * 0.5,
             flex: 1,
