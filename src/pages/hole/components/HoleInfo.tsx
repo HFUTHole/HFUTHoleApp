@@ -23,6 +23,8 @@ import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { HoleInfoBottomCommentArea } from '@/pages/hole/components/HoleInfoBottomCommentArea'
 import { FollowButton } from '@/components/user/FollowButton'
 import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDetailImageCarousel'
+import { If, Then } from 'react-if'
+import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 
 type Data = IHole
 
@@ -166,8 +168,12 @@ export const HoleInfoTitleWithBody: React.FC<{
   const { data, hideOverflow = true, numberOfLines = 3 } = props
   return (
     <>
-      <Text className={'text-base font-bold text-black'}>{data.title}</Text>
-      <View className={'mt-2 '}>
+      <If condition={data.title}>
+        <Then>
+          <Text className={'text-base font-bold text-black'}>{data.title}</Text>
+        </Then>
+      </If>
+      <View className={'mt-2'}>
         <EmojiableText
           body={data.body}
           textStyle={{
@@ -176,7 +182,11 @@ export const HoleInfoTitleWithBody: React.FC<{
             fontSize: 14,
           }}
           numberOfLines={numberOfLines}
+<<<<<<< HEAD
           hideOverflow={hideOverflow}
+=======
+          hideOverflow={false}
+>>>>>>> master
         />
       </View>
     </>
@@ -205,7 +215,18 @@ export const HoleInfoBody: React.FC<{
       {/*  <></>*/}
       {/*)}*/}
       <View className={'px-3'}>
-        <HoleInfoTitleWithBody data={data} numberOfLines={5} hideOverflow={true}/>
+        <HoleInfoTitleWithBody
+          data={data}
+          numberOfLines={5}
+          hideOverflow={true}
+        />
+        <If condition={data.tags?.length}>
+          <Then>
+            <View className={'mt-2'}>
+              <HoleDetailTags data={data!} />
+            </View>
+          </Then>
+        </If>
       </View>
       {data.imgs.length ? (
         <View className={'px-1'}>

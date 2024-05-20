@@ -95,6 +95,13 @@ function InnerRefreshableHoleList<
 
   return (
     <>
+      <View className={'absolute z-[100] bottom-20 right-2'}>
+        <AnimatedHolePostFAB offset={PostFABOffset} />
+        <AnimatedToTopFAB
+          visible={isToTopFABVisible}
+          goToTop={scrollToTopHandler}
+        />
+      </View>
       {isSuccess ? (
         <RefreshingFlatList
           ref={listRef as MutableRefObject<FlatList>}

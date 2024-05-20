@@ -43,8 +43,7 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION"
       ],
-      "package": "snowingfox.book.app",
-      "abiFilters": ["arm64-v8a"]
+      "package": "snowingfox.book.app"
     },
     "web": {
       "favicon": "./assets/splash.png"
@@ -52,8 +51,7 @@
     "owner": "xfs",
     "updates": {
       "url": "https://xiaofeishu.eyunnet.com/app-hot-update/api/manifest",
-      "enabled": true,
-      "fallbackToCacheTimeout": 0
+      "enabled": true
     },
     "runtimeVersion": {
       "policy": "appVersion"

@@ -3,7 +3,9 @@ import { Pressable, Text, View } from 'react-native'
 import { useHoleRoute } from '@/shared/hooks/route/useHoleRoute'
 
 interface HoleDetailTagsProps {
-  data: IHoleDetailResponse
+  data: {
+    tags: { body: string }[]
+  }
 }
 
 export const HoleDetailTags: React.FC<HoleDetailTagsProps> = (props) => {

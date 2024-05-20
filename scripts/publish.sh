@@ -3,13 +3,15 @@ do
     # shellcheck disable=SC2220
     case "${flag}" in
         s) server=${OPTARG};;
-        v) runtime_version=${OPTARG};;
-        m) update_message=${OPTARG};;
     esac
 done
 
-read -s -p "Password for $server: " SSHPASS 
+read -s -p "Password for $server: " SSHPASS
 export SSHPASS
+
+runtime_version=$(jq -r '.expo.version' "$0../"+ 'app.json')
+
+echo $runtime_version
 
 timestamp=$(date +%s)
 directory=$runtime_version"/"$timestamp

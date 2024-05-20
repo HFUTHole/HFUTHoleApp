@@ -17,6 +17,8 @@ import React, {
 } from 'react'
 import { useBoolean } from 'ahooks'
 import clsx from 'clsx'
+import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
+import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -90,6 +92,13 @@ function InnerRefreshablePostList<
 
   return (
     <>
+      <View className={'absolute z-[1] bottom-20 right-2'}>
+        <AnimatedHolePostFAB offset={PostFABOffset} />
+        <AnimatedToTopFAB
+          visible={isToTopFABVisible}
+          goToTop={scrollToTopHandler}
+        />
+      </View>
       {isSuccess ? (
         <RefreshingFlatList
           showsVerticalScrollIndicator={false}

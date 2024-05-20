@@ -22,7 +22,7 @@ export const Header = () => {
     (index: number) => {
       dispatch(setDaySchedule({ ...daySchedule, dayIdx: index }))
     },
-    [dispatch, daySchedule]
+    [dispatch, daySchedule],
   )
 
   return (
@@ -60,7 +60,7 @@ const VisibleWeekItem = ({ active, day, weekday }: ScheduleVisibleWeek) => {
   const color = useDerivedValue(() => (active ? '#fff' : '#94a3b8'), [active])
   const backgroundColor = useDerivedValue(
     () => (active ? '#4981F9' : '#EDEFF3'),
-    [active]
+    [active],
   )
 
   const boxStyle = useAnimatedStyle(() => {

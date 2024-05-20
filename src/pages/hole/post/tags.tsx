@@ -47,15 +47,8 @@ export function HolePostAddTags() {
 
   const handleTagsInput = useDebounce(
     () => {
-      if (tags.length > Limit.holeTagsMaxLength) {
-        setError('tag', {
-          message: `标签最多只能有${Limit.holeTagsMaxLength}个哦`,
-          type: InputError.MaximumExceeded,
-        })
-      } else {
-        if (errors?.tag?.type === InputError.MaximumExceeded) {
-          clearErrors('tag')
-        }
+      if (errors?.tag?.type === InputError.MaximumExceeded) {
+        clearErrors('tag')
       }
 
       const tagValue = getValues('tag')
@@ -77,7 +70,7 @@ export function HolePostAddTags() {
         }
       }
     },
-    { wait: 100 }
+    { wait: 100 },
   )
 
   const handleTagClose = useDebounce(
@@ -86,7 +79,7 @@ export function HolePostAddTags() {
         draft.splice(index, 1)
       })
     },
-    { wait: 50 }
+    { wait: 50 },
   )
 
   const closeDialog = () => {
