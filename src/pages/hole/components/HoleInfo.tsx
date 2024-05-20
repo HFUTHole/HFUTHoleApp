@@ -30,7 +30,7 @@ type Data = IHole
 
 type VoteItem = InferArrayItem<Data['vote']['items']>
 
-const HoleInfoVote: React.FC<{ data: Data }> = ({ data }) => {
+export const HoleInfoVote: React.FC<{ data: Data }> = ({ data }) => {
   const [onSuccess, setOnSuccess] = useState<Func>()
 
   const mutation = useMutation({
@@ -279,8 +279,6 @@ export const HoleInfo = ({
   bottom,
   showComment = true,
 }: Props) => {
-  const theme = useTheme()
-
   return (
     <View className={'bg-white rounded-2xl overflow-hidden z-[1]'}>
       <TouchableRipple onPress={onPress}>
