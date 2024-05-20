@@ -1,10 +1,4 @@
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-  View,
-} from 'react-native'
+import { Alert, KeyboardAvoidingView, TextInput, View } from 'react-native'
 import { BottomActions } from '@/pages/hole/post/BottomActions'
 import { useState } from 'react'
 import { HolePostHeader } from '@/pages/hole/post/header'
@@ -15,16 +9,18 @@ import { App } from '@/shared/utils/App'
 export function HolePostBody() {
   return (
     <KeyboardAvoidingView
-      className={'flex-1 '}
+      className={'flex-1'}
       behavior={App.keyboardAvoidingBehavior}
     >
-      <View className={'flex-1'}>
-        <PostLeaveDialog />
-        <View className={'px-2 flex-1'}>
-          <View>
-            <HolePostHeader />
+      <View className={'flex-1 justify-between'}>
+        <View className={'flex-1'}>
+          <PostLeaveDialog />
+          <View className={'px-2'}>
+            <View>
+              <HolePostHeader />
+            </View>
+            <HolePostForm />
           </View>
-          <HolePostForm />
         </View>
       </View>
       <BottomActions />

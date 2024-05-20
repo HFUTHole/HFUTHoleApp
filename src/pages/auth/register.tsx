@@ -99,7 +99,7 @@ const RegisterForm = () => {
 
 export function Register() {
   return (
-    <AuthView title={'注册小肥书'} secondary={'请输入你的账号密码'}>
+    <AuthView title={'注册小肥书1'} secondary={'请输入你的账号密码'}>
       <RegisterForm />
     </AuthView>
   )
