@@ -6,6 +6,9 @@ import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { useMutation } from 'react-query'
 import { match } from 'ts-pattern'
 import { Image } from '@/components/image/Image'
+import { EmojiableText } from '@/components/Text/EmojiableText'
+import { If, Then } from 'react-if'
+import { TimeText } from '@/components/Text/Time'
 
 export interface TagHoleInfoData {
   id: number
@@ -52,20 +55,28 @@ export function TagHoleInfo({ data }: TagHoleInfoProps) {
               ))
               .otherwise(() => (
                 <>
-                  <Text className="text-base font-bold">{data.title}</Text>
-                  <Text className={'mt-2'} numberOfLines={5}>
-                    {data.body}
-                  </Text>
+                  <If condition={data.title}>
+                    <Then>
+                      <Text className="text-base font-bold mb-2">
+                        {data.title}
+                      </Text>
+                    </Then>
+                  </If>
+                  <EmojiableText body={data.body} numberOfLines={5} />
                 </>
               ))}
           </View>
           <View className="flex flex-row justify-between">
             <View className={'flex flex-row items-center space-x-2'}>
-              <UserAvatar url={data.user.avatar} size={16} />
+              <UserAvatar url={data.user.avatar} size={25} />
               <View>
-                <Text className="text-sm text-gray-600">
+                <Text className="text-sm text-primary-label">
                   {data.user.username}
                 </Text>
+                <TimeText
+                  time={data.createAt}
+                  className="text-xs text-primary-label"
+                />
               </View>
             </View>
             <AnimatedLikeButton data={data} mutation={mutation} size={18} />

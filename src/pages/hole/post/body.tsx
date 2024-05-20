@@ -1,4 +1,10 @@
-import { Alert, KeyboardAvoidingView, TextInput, View } from 'react-native'
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  View,
+} from 'react-native'
 import { BottomActions } from '@/pages/hole/post/BottomActions'
 import { useState } from 'react'
 import { HolePostHeader } from '@/pages/hole/post/header'

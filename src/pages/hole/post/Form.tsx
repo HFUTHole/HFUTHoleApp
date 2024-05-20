@@ -1,6 +1,6 @@
 import useKeyboardHeight from '@/shared/hooks/useKeyboardHeight'
 
-import { getQAQFont, WindowHeight } from '@/shared/utils/utils'
+import { getQAQFont, ScreenHeight, WindowHeight } from '@/shared/utils/utils'
 import { NativeInput } from '@/components/form/NativeInput'
 import { View } from 'react-native'
 import { FormImage } from '@/components/form/FormImage'
@@ -37,6 +37,10 @@ export function HolePostForm() {
           control={control}
           multiline={true}
           placeholder={'说点什么吧...'}
+          style={{
+            height: ScreenHeight * 0.5,
+            flex: 1,
+          }}
         />
       </View>
       <View>

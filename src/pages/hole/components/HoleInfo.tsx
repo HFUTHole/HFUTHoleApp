@@ -173,7 +173,7 @@ export const HoleInfoTitleWithBody: React.FC<{
           <Text className={'text-base font-bold text-black'}>{data.title}</Text>
         </Then>
       </If>
-      <View className={'mt-2 space-y-2'}>
+      <View className={'mt-2'}>
         <EmojiableText
           body={data.body}
           textStyle={{
@@ -184,13 +184,6 @@ export const HoleInfoTitleWithBody: React.FC<{
           numberOfLines={numberOfLines}
           hideOverflow={false}
         />
-        <If condition={data.tags?.length}>
-          <Then>
-            <View>
-              <HoleDetailTags data={data!} />
-            </View>
-          </Then>
-        </If>
       </View>
     </>
   )
@@ -223,6 +216,13 @@ export const HoleInfoBody: React.FC<{
           numberOfLines={5}
           hideOverflow={true}
         />
+        <If condition={data.tags?.length}>
+          <Then>
+            <View className={'mt-2'}>
+              <HoleDetailTags data={data!} />
+            </View>
+          </Then>
+        </If>
       </View>
       {data.imgs.length ? (
         <View className={'px-1'}>
