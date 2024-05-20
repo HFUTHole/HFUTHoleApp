@@ -182,11 +182,7 @@ export const HoleInfoTitleWithBody: React.FC<{
             fontSize: 14,
           }}
           numberOfLines={numberOfLines}
-<<<<<<< HEAD
           hideOverflow={hideOverflow}
-=======
-          hideOverflow={false}
->>>>>>> master
         />
       </View>
     </>
