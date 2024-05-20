@@ -19,6 +19,8 @@ import { HolePostBilibili } from '@/pages/hole/post/HolePostBilibili'
 import { useImagePicker } from '@/shared/hooks/useImagePicker'
 import { Categories } from '@/shared/constants/category'
 import { useImmer } from 'use-immer'
+import clsx from 'clsx'
+import { App } from '@/shared/utils/App'
 
 const SelectTags: React.FC = () => {
   const { setTags: setRootTags } = useHolePostContext()
@@ -102,7 +104,15 @@ export function BottomActions() {
           </View>
         </View>
       </View>
-      <EmojiArea onEmojiSelect={onEmojiSelect} expandArea={expand} />
+      <View
+        className={clsx([
+          {
+            'min-h-[13vh]': App.isIOS,
+          },
+        ])}
+      >
+        <EmojiArea onEmojiSelect={onEmojiSelect} expandArea={expand} />
+      </View>
     </View>
   )
 }

@@ -17,7 +17,7 @@ export function HolePostForm() {
   } = useHolePostContext()
 
   return (
-    <View className={'space-y-2 py-2 flex-1'}>
+    <View className={'space-y-2 py-2 flex-1  min-h-[50vh]'}>
       <View className={'border-b-[1px] border-b-black/5'}>
         <NativeInput
           name={'title'}

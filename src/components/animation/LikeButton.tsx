@@ -24,7 +24,9 @@ export const AnimatedLikeButton: React.FC<AnimatedLikeButtonProps> = (
   const { mutation, data, size = 16 } = props
   const theme = useTheme()
   const [liked, setLiked] = useState(data.isLiked)
-  const [favoriteCount, setFavoriteCount] = useState(data.favoriteCounts)
+  const [favoriteCount, setFavoriteCount] = useState(
+    Math.max(data.favoriteCounts, 0),
+  )
 
   const onLikeIconPress = useCallback(() => {
     Haptics.impactAsync(ImpactFeedbackStyle.Light)
