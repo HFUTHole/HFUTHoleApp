@@ -1,4 +1,10 @@
-import { View } from 'react-native'
+import {
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { HolePostAddTags } from '@/pages/hole/post/tags'
 import { useHolePostContext } from '@/shared/context/hole'
@@ -10,8 +16,41 @@ import { EmojiIcon } from '@/components/icon'
 import { Badges } from '@/components/Badges'
 import { EmojiArea } from '@/components/emoji/EmojiArea'
 import { HolePostBilibili } from '@/pages/hole/post/HolePostBilibili'
-import { PostCategorySelector } from '@/pages/hole/post/PostCategorySelector'
 import { useImagePicker } from '@/shared/hooks/useImagePicker'
+import { Categories } from '@/shared/constants/category'
+import { useImmer } from 'use-immer'
+import clsx from 'clsx'
+import { App } from '@/shared/utils/App'
+
+const SelectTags: React.FC = () => {
+  const { setTags: setRootTags } = useHolePostContext()
+  const [tags, setTags] = useImmer(Categories.map((item) => item.name))
+
+  return (
+    <ScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      keyboardShouldPersistTaps={'always'}
+      className={'flex-row space-x-2 p-2'}
+    >
+      {tags.map((tag, index) => (
+        <TouchableOpacity
+          key={tag}
+          onPress={() => {
+            setTags((draft) => {
+              setRootTags((prev) => prev.concat(tag))
+              return draft.filter((item) => item !== tag)
+            })
+          }}
+        >
+          <View className={'bg-background py-2 px-2 rounded-full'}>
+            <Text className={'text-xs text-tertiary-label'}>#{tag}</Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  )
+}
 
 // TODO @实现
 export function BottomActions() {
@@ -47,8 +86,9 @@ export function BottomActions() {
   return (
     <View className={'pt-2 border-t-[1px] border-t-black/5'}>
       <View className={'px-2'}>
-        <PostCategorySelector />
         <Badges data={tags} />
+        <SelectTags />
+
         <View className={'flex flex-row justify-between items-center'}>
           <View className={'flex flex-row'}>
             <IconButton
@@ -64,8 +104,15 @@ export function BottomActions() {
           </View>
         </View>
       </View>
-
-      <EmojiArea onEmojiSelect={onEmojiSelect} expandArea={expand} />
+      <View
+        className={clsx([
+          {
+            'min-h-[13vh]': App.isIOS,
+          },
+        ])}
+      >
+        <EmojiArea onEmojiSelect={onEmojiSelect} expandArea={expand} />
+      </View>
     </View>
   )
 }

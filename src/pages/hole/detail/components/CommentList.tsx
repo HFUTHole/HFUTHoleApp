@@ -1,8 +1,8 @@
 import { useHoleComment, useHoleDetail } from '@/swr/hole'
 import { RefreshingFlatList } from '@/components/RefreshingFlatList'
 import {
-  HoleInfo,
   HoleInfoTitleWithBody,
+  HoleInfoVote,
 } from '@/pages/hole/components/HoleInfo'
 import { Separator } from '@/components/Separator'
 import { HoleDetailCommentHeader } from '@/pages/hole/detail/components/CommentHeader'
@@ -19,7 +19,6 @@ import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDeta
 import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 import clsx from 'clsx'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
-import { useParams } from '@/shared/hooks/useParams'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -41,11 +40,18 @@ const DetailBody = React.memo(() => {
           },
         ])}
       >
-        <HoleInfoTitleWithBody data={data!} />
+        <HoleInfoTitleWithBody data={data!} hideOverflow={false} />
         <If condition={hasTags}>
           <Then>
             <View className={'mt-2'}>
               <HoleDetailTags data={data!} />
+            </View>
+          </Then>
+        </If>
+        <If condition={!!data?.vote}>
+          <Then>
+            <View className={'mt-2'}>
+              <HoleInfoVote data={data} />
             </View>
           </Then>
         </If>

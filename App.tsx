@@ -15,6 +15,7 @@ import { BottomCommentContext } from '@/shared/context/hole/comment'
 import { Layout } from '@/layouts/layout'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as Updates from 'expo-updates'
+import { Config } from '@/shared/config'
 
 const App = () => {
   async function onFetchUpdateAsync() {
@@ -26,7 +27,7 @@ const App = () => {
         await Updates.reloadAsync()
       }
     } catch (error) {
-      // alert(`Error fetching latest Expo update: ${error}`)
+      alert(`Error fetching latest Expo update: ${error}`)
     }
   }
 

@@ -23,12 +23,14 @@ import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { HoleInfoBottomCommentArea } from '@/pages/hole/components/HoleInfoBottomCommentArea'
 import { FollowButton } from '@/components/user/FollowButton'
 import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDetailImageCarousel'
+import { If, Then } from 'react-if'
+import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 
 type Data = IHole
 
 type VoteItem = InferArrayItem<Data['vote']['items']>
 
-const HoleInfoVote: React.FC<{ data: Data }> = ({ data }) => {
+export const HoleInfoVote: React.FC<{ data: Data }> = ({ data }) => {
   const [onSuccess, setOnSuccess] = useState<Func>()
 
   const mutation = useMutation({
@@ -161,13 +163,17 @@ const Tag: React.FC<{ data: string }> = ({ data }) => {
 export const HoleInfoTitleWithBody: React.FC<{
   data: Data
   numberOfLines?: number
-  enableBodyCanExpanded?: boolean
+  hideOverflow?: boolean
 }> = (props) => {
-  const { data, enableBodyCanExpanded = true, numberOfLines = 3 } = props
+  const { data, hideOverflow = true, numberOfLines = 3 } = props
   return (
     <>
-      <Text className={'text-base font-bold text-black'}>{data.title}</Text>
-      <View className={'mt-2 '}>
+      <If condition={data.title}>
+        <Then>
+          <Text className={'text-base font-bold text-black'}>{data.title}</Text>
+        </Then>
+      </If>
+      <View className={'mt-2'}>
         <EmojiableText
           body={data.body}
           textStyle={{
@@ -176,7 +182,7 @@ export const HoleInfoTitleWithBody: React.FC<{
             fontSize: 14,
           }}
           numberOfLines={numberOfLines}
-          enableBodyCanExpanded={enableBodyCanExpanded}
+          hideOverflow={hideOverflow}
         />
       </View>
     </>
@@ -205,7 +211,18 @@ export const HoleInfoBody: React.FC<{
       {/*  <></>*/}
       {/*)}*/}
       <View className={'px-3'}>
-        <HoleInfoTitleWithBody data={data} />
+        <HoleInfoTitleWithBody
+          data={data}
+          numberOfLines={5}
+          hideOverflow={true}
+        />
+        <If condition={data.tags?.length}>
+          <Then>
+            <View className={'mt-2'}>
+              <HoleDetailTags data={data!} />
+            </View>
+          </Then>
+        </If>
       </View>
       {data.imgs.length ? (
         <View className={'px-1'}>
@@ -262,8 +279,6 @@ export const HoleInfo = ({
   bottom,
   showComment = true,
 }: Props) => {
-  const theme = useTheme()
-
   return (
     <View className={'bg-white rounded-2xl overflow-hidden z-[1]'}>
       <TouchableRipple onPress={onPress}>

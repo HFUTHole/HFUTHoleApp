@@ -8,6 +8,9 @@ import { useWeekSchedule } from '@/pages/space/week-schedule/useWeekSchedule'
 import { useChangeWeek } from '@/pages/space/@utils/useWeekChange'
 import { useCurrentSemester } from '@/shared/context/space/semester'
 import { useSemesters } from '@/swr/space/chore'
+import { useCallback, useEffect } from 'react'
+import { dispatch } from '@/store/store'
+import { changeSchedule } from '@/store/reducer/spaceCourse'
 
 export const WeekSchedule = () => {
   const { isFetching, refetch } = useSpaceCourse()
@@ -18,8 +21,18 @@ export const WeekSchedule = () => {
   } = useWeekSchedule()
   const { weekLayout } = useWeekSchedule()
   const { onPrev, onNext } = useChangeWeek('weekSchedule')
-  const { selectedSemesterId, setSelectedSemesterId } = useCurrentSemester()
+  const { selectedSemesterId, currentSemesterId, setSelectedSemesterId } =
+    useCurrentSemester()
   const { data: semesters } = useSemesters()
+
+  const handleSemesterChange = useCallback((semesterId: number) => {
+    setSelectedSemesterId(semesterId)
+    if (semesterId === currentSemesterId) {
+      dispatch(changeSchedule())
+    } else {
+      dispatch(changeSchedule({ day: 0, week: 0 }))
+    }
+  }, [])
 
   return (
     <WeekScheduleModule
@@ -39,7 +52,7 @@ export const WeekSchedule = () => {
           onNext={onNext}
           currentSemesterId={selectedSemesterId}
           semesters={semesters}
-          onSemesterChange={setSelectedSemesterId}
+          onSemesterChange={handleSemesterChange}
         />
       }
     />

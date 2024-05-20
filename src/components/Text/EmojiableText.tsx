@@ -40,7 +40,11 @@ interface EmojiableTextProps {
   numberOfLines?: number
   imageSize?: number
   fontSize?: number
-  enableBodyCanExpanded?: boolean
+  // Note: 由原先的 `enableBodyCanExpanded` 改为 `hideOverflow` 以更好描述功能
+  // 现在 hideOverflow 为 true 时，numberOfLines 有效; isExpandable 为 true 时，显示展开/收起按钮
+  // 设置 hideOverflow 为 true 且禁用 isExpandable 时，仅折叠文本，不展开
+  hideOverflow?: boolean
+  isExpandable?: boolean
 }
 
 const splitIntoLines = (text: string) => text.split('\n')
@@ -77,12 +81,13 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     variant,
     textStyle,
     imageSize = 22,
-    enableBodyCanExpanded = true,
+    hideOverflow = true,
+    isExpandable = true,
   } = props
 
   const numberOfLines = useMemo(() => {
-    return enableBodyCanExpanded ? props.numberOfLines : Infinity
-  }, [props.numberOfLines, enableBodyCanExpanded])
+    return hideOverflow ? ( props.numberOfLines ?? Infinity) : Infinity
+  }, [props.numberOfLines, hideOverflow])
 
   const [expanded, setExpanded] = useState(false)
 
@@ -130,8 +135,11 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
   // 通过 onLayout 事件获取组件的 Layout 数据。
   // 每一个 part 的 onLayout 事件触发时，计算每行的高度。
   // 如果 一个 item 的 x 为 0，我们认为是新的一行，记录该行的高度。
-  // 子组件的 onLayout 事件应当在父组件的 onLayout 事件触发前触发。
-  // （只有子组件的 Layout 计算完成后，父组件的 Layout 才能计算）
+  //
+  //  NOTE: 似乎不再适用，经测试，在新版本的 expo 中，子组件的 onLayout 事件会在父组件的 onLayout 事件触发后触发。
+  //  🤡 ~~ 子组件的 onLayout 事件应当在父组件的 onLayout 事件触发前触发。~~
+  //  🤡 ~~（只有子组件的 Layout 计算完成后，父组件的 Layout 才能计算）~~
+  //  现在将 父组件 的 onLayout 通过 setTimeout(~, 0) 推迟执行。
   //
   // ## 多行 Text:
   // 如果一个 Text Item 过长，其会自动换行。
@@ -171,7 +179,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     if (
       !numberOfLines ||
       numberOfLines === Infinity ||
-      !enableBodyCanExpanded
+      !hideOverflow
     ) {
       displayHeight.value = null
       return
@@ -226,7 +234,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
       <Animated.View className="overflow-hidden" style={[animatedMaxHeight]}>
         <View
           className="flex flex-row flex-wrap overflow-hidden"
-          onLayout={() => calculateHeight()}
+          onLayout={() => setTimeout(() => calculateHeight(), 0)}
         >
           {parts.map((part, index) => (
             // items-stretch 保证每行内不同 item 的高度一致
@@ -301,7 +309,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
           ))}
         </View>
       </Animated.View>
-      {exceedHeight && (
+      {isExpandable && exceedHeight && (
         <TouchableOpacity className="py-2 pr-2" onPress={toggleExpand}>
           <Text className="text-textSecondary text-xs">
             {expanded ? '收起' : '展开'}

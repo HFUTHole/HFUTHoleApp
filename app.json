@@ -48,11 +48,10 @@
     "web": {
       "favicon": "./assets/splash.png"
     },
-    "owner": "snowingfox",
+    "owner": "xfs",
     "updates": {
-      "url": "https://xiaofeishu.eyunnet.com/app-hot-update",
-      "enabled": true,
-      "fallbackToCacheTimeout": 0
+      "url": "https://xiaofeishu.eyunnet.com/app-hot-update/api/manifest",
+      "enabled": true
     },
     "runtimeVersion": {
       "policy": "appVersion"

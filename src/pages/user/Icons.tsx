@@ -19,7 +19,7 @@ export function UserIcons() {
   const List = useMemo(
     () => [
       {
-        title: '小宇宙',
+        title: '小肥书',
         icon: AppDenoSvg,
         children: [
           // {

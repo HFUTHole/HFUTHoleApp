@@ -25,8 +25,8 @@ const ReplyListItem: React.FC<{
 
   const mutation = useMutation({
     mutationKey: [reply.id, reply.isLiked],
-    mutationFn: () => {
-      const fn = reply.isLiked ? DeleteReplyLikeRequest : LikeReplyRequest
+    mutationFn: (liked: boolean) => {
+      const fn = liked ? DeleteReplyLikeRequest : LikeReplyRequest
 
       return fn({
         id: reply.id,
@@ -62,7 +62,7 @@ const ReplyListItem: React.FC<{
             </View>
             <View>
               <EmojiableText
-                numberOfLines={3}
+                numberOfLines={2}
                 body={reply.body}
                 fontSize={12}
               />
@@ -160,7 +160,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                   </Then>
                   <Else>
                     <TouchableOpacity onPress={onExpandCommentAreaPress}>
-                      <Text className={'text-textSecondary text-xs'}>
+                      <Text className={'text-textSecondary text-sm'}>
                         <If condition={isExpand}>
                           <Then>
                             <If condition={hasNextPage}>
@@ -177,7 +177,9 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                 <TouchableOpacity onPress={isExpandActions.setFalse}>
                   <If condition={isExpand && hasNextPage}>
                     <Then>
-                      <Text className={'text-textSecondary text-xs'}>收起</Text>
+                      <Text className={'ml-4 text-textSecondary text-sm'}>
+                        收起
+                      </Text>
                     </Then>
                   </If>
                 </TouchableOpacity>

@@ -18,13 +18,6 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   const [category, setCategory] = useState<HoleClassification>(
     HoleClassification.life,
   )
-  const [subCategory, setSubCategory] = useState<string>(
-    getCategoryByName(category).children[0],
-  )
-  const subCategories = useMemo(
-    () => getCategoryByName(category).children,
-    [category],
-  )
 
   const [votes, setVotes] = useState<HolePostVoteClassValidator>({
     items: [],
@@ -36,10 +29,6 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   } = useForm<PostHoleValidator>({
     resolver: classValidatorResolver(PostHoleValidator),
   })
-
-  useEffect(() => {
-    setSubCategory(getCategoryByName(category).children[0])
-  }, [category])
 
   return {
     form,
@@ -53,8 +42,5 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
     setBilibili,
     category,
     setCategory,
-    subCategory,
-    setSubCategory,
-    subCategories,
   }
 })
