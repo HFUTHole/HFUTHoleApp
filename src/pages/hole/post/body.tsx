@@ -14,22 +14,20 @@ import { App } from '@/shared/utils/App'
 
 export function HolePostBody() {
   return (
-    <View className={'flex-1 justify-between'}>
+    <KeyboardAvoidingView
+      className={'flex-1 '}
+      behavior={App.keyboardAvoidingBehavior}
+    >
       <View className={'flex-1'}>
         <PostLeaveDialog />
-        <View className={'px-2'}>
+        <View className={'px-2 flex-1'}>
           <View>
             <HolePostHeader />
           </View>
           <HolePostForm />
         </View>
       </View>
-      <KeyboardAvoidingView
-        className={''}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-      >
-        <BottomActions />
-      </KeyboardAvoidingView>
-    </View>
+      <BottomActions />
+    </KeyboardAvoidingView>
   )
 }

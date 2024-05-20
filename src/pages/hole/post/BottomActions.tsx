@@ -16,7 +16,6 @@ import { EmojiIcon } from '@/components/icon'
 import { Badges } from '@/components/Badges'
 import { EmojiArea } from '@/components/emoji/EmojiArea'
 import { HolePostBilibili } from '@/pages/hole/post/HolePostBilibili'
-import { PostCategorySelector } from '@/pages/hole/post/PostCategorySelector'
 import { useImagePicker } from '@/shared/hooks/useImagePicker'
 import { Categories } from '@/shared/constants/category'
 import { useImmer } from 'use-immer'
@@ -103,10 +102,7 @@ export function BottomActions() {
           </View>
         </View>
       </View>
-
-      <View className={'min-h-[120px]'}>
-        <EmojiArea onEmojiSelect={onEmojiSelect} expandArea={expand} />
-      </View>
+      <EmojiArea onEmojiSelect={onEmojiSelect} expandArea={expand} />
     </View>
   )
 }
