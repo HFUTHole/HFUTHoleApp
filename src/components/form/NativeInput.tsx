@@ -25,6 +25,7 @@ export const NativeInput = <T extends object = PlainObject>({
   control,
   rules,
   transparent,
+  textAlignVertical,
   ...props
 }: Props<T>) => {
   const theme = useTheme()
@@ -42,12 +43,12 @@ export const NativeInput = <T extends object = PlainObject>({
             value={field.value}
             placeholderTextColor={theme.colors.surfaceVariant}
             cursorColor={theme.colors.primary}
-            textAlignVertical={'top'}
+            textAlignVertical={textAlignVertical ?? 'center'}
             ref={inputRef as MutableRefObject<TextInput>}
             {...props}
             style={{
               fontSize: 16,
-              textAlignVertical: 'center',
+              textAlignVertical: textAlignVertical ?? 'center',
               ...(props.style as object),
             }}
           />
