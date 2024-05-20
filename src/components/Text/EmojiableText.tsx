@@ -157,6 +157,10 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
   ) => {
     // 假定 Text 每行的高度都是一样的
     const line = layout.lines.length
+    // 判空
+    if (lineHeights.current[i] === undefined) {
+      lineHeights.current[i] = []
+    }
     if (!lineHeights.current[i][j]) {
       lineHeights.current[i][j] = { height: 0, line }
     } else {
@@ -194,7 +198,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     const filtered = lineHeights.current.map((item) => item.filter(Boolean))
     for (let i = 0; i < filtered.length; i++) {
       for (let j = 0; j < filtered[i].length; j++) {
-        if (!filtered[i][j]) {
+        if (!filtered[i]?.[j]) {
           continue
         }
         const { line: curLines, height: curHeight } = filtered[i][j]
@@ -248,6 +252,10 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                   onLayout={(e) => {
                     const { height, x } = e.nativeEvent.layout
                     // 如果 一个 item 的 x 为 0，我们则认为是新的一行，记录该行的高度。
+                    // 判空
+                    if (lineHeights.current[index] === undefined) {
+                      lineHeights.current[index] = []
+                    }
                     if (x === 0) {
                       if (!lineHeights.current[index][i]) {
                         lineHeights.current[index][i] = { height, line: 1 }
