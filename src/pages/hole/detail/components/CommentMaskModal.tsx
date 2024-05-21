@@ -120,10 +120,21 @@ export function CommentMaskModal() {
     selectionLimit: 2,
   })
 
+  // 光标选择位置
+  const [cursor, setCursor] = useState({start: 0, end: 0})
+  // 是否在将 cursor 位置更新到输入框
+  const [shouldUpdateCursor, setShouldUpdateCursor] = useState(false)
+
   const onEmojiSelect = (emoji: EmojiItem) => {
-    setValue('body', `${getValues('body') || ''}${emoji.name}`, {
+    // setValue('body', `${getValues('body') || ''}${emoji.name}`, {
+    //   shouldDirty: true,
+    // })
+    const body = getValues('body') || ''
+    setValue('body', `${body.slice(0, cursor.start)}${emoji.name}${body.slice(cursor.end)}`, {
       shouldDirty: true,
     })
+    setCursor({ start: cursor.start + emoji.name.length, end: cursor.start + emoji.name.length })
+    setShouldUpdateCursor(true)
   }
 
   const onSubmit = async (data: { body: string }) => {
@@ -171,6 +182,14 @@ export function CommentMaskModal() {
                             name={'body'}
                             multiline={true}
                             autoFocus={true}
+                            selection={shouldUpdateCursor ? cursor : undefined}
+                            onSelectionChange={(e) => {
+                              if (shouldUpdateCursor) {
+                                setShouldUpdateCursor(false)
+                              } else {
+                                setCursor(e.nativeEvent.selection)
+                              }
+                            }}
                             style={{
                               minHeight: 16 * 2,
                               maxHeight: 16 * 4,

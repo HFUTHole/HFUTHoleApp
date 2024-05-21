@@ -6,13 +6,17 @@ import { View } from 'react-native'
 import { FormImage } from '@/components/form/FormImage'
 import { useHolePostContext } from '@/shared/context/hole'
 import { useTheme } from 'react-native-paper'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 
 export function HolePostForm() {
   const {
     imgs,
     setImgs,
+    cursor,
+    shouldUpdateCursor,
+    setShouldUpdateCursor,
+    setCursor,
     form: { control },
   } = useHolePostContext()
 
@@ -38,6 +42,15 @@ export function HolePostForm() {
           multiline={true}
           placeholder={'说点什么吧...'}
           textAlignVertical='top'
+          selection={shouldUpdateCursor ? cursor : undefined}
+          onSelectionChange={(e) => {
+            if (shouldUpdateCursor) {
+              setShouldUpdateCursor(false)
+            }
+            else {
+              setCursor(e.nativeEvent.selection);
+            }
+          }}
           style={{
             height: ScreenHeight * 0.5,
             flex: 1,
