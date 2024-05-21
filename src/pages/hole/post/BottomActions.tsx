@@ -1,4 +1,5 @@
 import {
+  Keyboard,
   Pressable,
   ScrollView,
   Text,
@@ -83,6 +84,14 @@ export function BottomActions() {
     setValue('body', `${getValues('body') || ''}${emoji.name}`)
   }, [])
 
+  const closeEmoji = () => {
+    setExpand(false)
+  };
+  
+  // 打开 emoji 时关闭键盘
+  Keyboard.addListener('keyboardWillShow', closeEmoji)
+  Keyboard.addListener('keyboardDidShow', closeEmoji)
+
   return (
     <View className={'pt-2 border-t-[1px] border-t-black/5'}>
       <View className={'px-2'}>
@@ -93,7 +102,13 @@ export function BottomActions() {
           <View className={'flex flex-row'}>
             <IconButton
               icon={() => <EmojiIcon />}
-              onPress={() => setExpand((prev) => !prev)}
+              onPress={() => {
+                if (!expand) {
+                  // 展开 emoji 时关闭键盘
+                  Keyboard.dismiss()
+                }
+                setExpand((prev) => !prev)
+              }}
             />
             <IconButton icon={'image'} onPress={onImageSelect} />
           </View>
