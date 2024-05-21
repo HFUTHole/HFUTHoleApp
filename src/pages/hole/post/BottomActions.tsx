@@ -1,4 +1,5 @@
 import {
+  Keyboard,
   Pressable,
   ScrollView,
   Text,
@@ -57,6 +58,9 @@ export function BottomActions() {
   const {
     setImgs,
     tags,
+    cursor,
+    setCursor,
+    setShouldUpdateCursor,
     form: { setValue, getValues },
   } = useHolePostContext()
 
@@ -80,8 +84,20 @@ export function BottomActions() {
   const [expand, setExpand] = useState(false)
 
   const onEmojiSelect = useCallback((emoji: EmojiItem) => {
-    setValue('body', `${getValues('body') || ''}${emoji.name}`)
-  }, [])
+    // setValue('body', `${getValues('body') || ''}${emoji.name}`)
+    const body = getValues('body') || ''
+    setValue('body', `${body.slice(0, cursor.start)}${emoji.name}${body.slice(cursor.end)}`)
+    setCursor({ start: cursor.start + emoji.name.length, end: cursor.start + emoji.name.length })
+    setShouldUpdateCursor(true)
+  }, [cursor])
+
+  const closeEmoji = () => {
+    setExpand(false)
+  };
+  
+  // 打开键盘时关闭emoji
+  Keyboard.addListener('keyboardWillShow', closeEmoji)
+  Keyboard.addListener('keyboardDidShow', closeEmoji)
 
   return (
     <View className={'pt-2 border-t-[1px] border-t-black/5'}>
@@ -93,7 +109,13 @@ export function BottomActions() {
           <View className={'flex flex-row'}>
             <IconButton
               icon={() => <EmojiIcon />}
-              onPress={() => setExpand((prev) => !prev)}
+              onPress={() => {
+                if (!expand) {
+                  // 展开 emoji 时关闭键盘
+                  Keyboard.dismiss()
+                }
+                setExpand((prev) => !prev)
+              }}
             />
             <IconButton icon={'image'} onPress={onImageSelect} />
           </View>

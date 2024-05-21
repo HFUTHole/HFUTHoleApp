@@ -23,6 +23,11 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
     items: [],
   })
 
+  // 光标选择位置
+  const [cursor, setCursor] = useState({start: 0, end: 0})
+  // 是否在将 cursor 位置更新到输入框
+  const [shouldUpdateCursor, setShouldUpdateCursor] = useState(false)
+
   const {
     formState: { errors },
     ...form
@@ -42,5 +47,9 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
     setBilibili,
     category,
     setCategory,
+    cursor,
+    setCursor,
+    shouldUpdateCursor,
+    setShouldUpdateCursor,
   }
 })
