@@ -95,7 +95,7 @@ export function BottomActions() {
     setExpand(false)
   };
   
-  // 打开 emoji 时关闭键盘
+  // 打开键盘时关闭emoji
   Keyboard.addListener('keyboardWillShow', closeEmoji)
   Keyboard.addListener('keyboardDidShow', closeEmoji)
 
