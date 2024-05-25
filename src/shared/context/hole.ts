@@ -12,6 +12,7 @@ import { getCategoryByName } from '@/shared/constants/category'
 export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   // TODO write a array useImmer with splice
   const [tags, setTags] = useImmer<string[]>([])
+  const [additionalTags, setAdditionalTags] = useImmer<string[]>([])
   const [imgs, setImgs] = useImmer<ImagePickerResult['assets']>([])
   const [bilibili, setBilibili] = useState<string | null>(null)
 
@@ -39,6 +40,8 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
     form,
     tags,
     setTags,
+    additionalTags,
+    setAdditionalTags,
     imgs,
     setImgs,
     votes,

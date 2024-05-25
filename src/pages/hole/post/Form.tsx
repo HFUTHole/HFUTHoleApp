@@ -20,8 +20,21 @@ export function HolePostForm() {
     shouldUpdateCursor,
     setShouldUpdateCursor,
     setCursor,
+    additionalTags,
+    setAdditionalTags,
     form: { control },
   } = useHolePostContext()
+
+  const updateTags = useCallback(
+    (body: string) => {
+      const reg = /(?<= |^)(#[^#\s]+)(?= |$)/gm
+      const matchedAllIterator = Array.from(body.matchAll(reg))
+      const newTags = matchedAllIterator.map((matched) => matched[1])
+      setAdditionalTags(Array.from(new Set(newTags))
+        .filter((item) => item.length > 1))
+    },
+    [additionalTags, setAdditionalTags],
+  )
 
   return (
     <View className={'space-y-2 py-2 flex-1  min-h-[50vh]'}>
@@ -86,6 +99,9 @@ export function HolePostForm() {
           style={{
             height: ScreenHeight * 0.5,
             flex: 1,
+          }}
+          onChange={(event) => {
+            updateTags(event.nativeEvent.text)
           }}
         />
       </View>

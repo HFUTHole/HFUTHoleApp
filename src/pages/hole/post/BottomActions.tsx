@@ -58,6 +58,7 @@ export function BottomActions() {
   const {
     setImgs,
     tags,
+    additionalTags,
     cursor,
     setCursor,
     setShouldUpdateCursor,
@@ -102,7 +103,7 @@ export function BottomActions() {
   return (
     <View className={'pt-2 border-t-[1px] border-t-black/5'}>
       <View className={'px-2'}>
-        <Badges data={tags} />
+        <Badges data={tags.concat(additionalTags)} />
         <SelectTags />
 
         <View className={'flex flex-row justify-between items-center'}>
