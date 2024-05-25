@@ -15,7 +15,6 @@ import { BottomCommentContext } from '@/shared/context/hole/comment'
 import { Layout } from '@/layouts/layout'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as Updates from 'expo-updates'
-import { Config } from '@/shared/config'
 
 const App = () => {
   async function onFetchUpdateAsync() {

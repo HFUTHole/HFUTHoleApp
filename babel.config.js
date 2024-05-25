@@ -1,7 +1,10 @@
+const ReactCompilerConfig = {}
+
 module.exports = function (api) {
   api.cache(true)
 
   const plugins = [
+    ['babel-plugin-react-compiler', ReactCompilerConfig], // must run first!
     ['nativewind/babel'],
     ['react-native-reanimated/plugin'],
     [

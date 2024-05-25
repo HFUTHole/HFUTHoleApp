@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native'
+import { Pressable, TouchableOpacity, View } from 'react-native'
 import { AngleLeftIcon, ArrowLeftIcon } from '@/components/icon'
 import { IconButton, Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -11,12 +11,13 @@ export const Header = (props: Props) => {
 
   return (
     <View className={'bg-white flex-row flex items-center justify-between'}>
-      <View>
-        <IconButton
+      <TouchableOpacity>
+        <ArrowLeftIcon
+          size={25}
           onPress={() => navigation.goBack()}
-          icon={() => <ArrowLeftIcon size={25} color={'#000'} />}
+          color={'#000'}
         />
-      </View>
+      </TouchableOpacity>
       <View className={'absolute left-0 right-0 justify-center flex-row'}>
         <Text variant={'titleMedium'}>{props.options.title}</Text>
       </View>

@@ -82,13 +82,13 @@ const UserScreens: Screen[] = [
       title: '草稿箱',
     },
   },
-  {
-    name: 'select-school',
-    component: SelectSchoolScreen,
-    options: {
-      title: '选择学校',
-    },
-  },
+  // {
+  //   name: 'select-school',
+  //   component: SelectSchoolScreen,
+  //   options: {
+  //     title: '选择学校',
+  //   },
+  // },
 ]
 
 const excludeSafeAreaScreens = ['profile']
