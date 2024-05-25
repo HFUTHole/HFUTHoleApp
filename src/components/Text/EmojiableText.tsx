@@ -295,7 +295,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                         handleTextLayoutChange(e.nativeEvent, index, i)
                       }
                       key={item.content}
-                      style={[{ color: 'blue' }, textStyle]}
+                      style={[textStyle, {color: 'rgb(0, 122, 255)', textDecorationLine: 'underline'}]}
                     >
                       {item.content}
                     </Text>

@@ -15,6 +15,7 @@ export function HolePostHeader() {
     votes,
     bilibili,
     tags,
+    additionalTags,
   } = useHolePostContext()
 
   const mutation = useMutation({
@@ -29,7 +30,7 @@ export function HolePostHeader() {
         ...data,
         bilibili,
         imgs: resultImage,
-        tags,
+        tags: tags.concat(additionalTags),
         ...(votes.items.length > 0
           ? {
               vote: {

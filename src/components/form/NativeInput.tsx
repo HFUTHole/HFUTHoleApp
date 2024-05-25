@@ -8,8 +8,8 @@ import {
   get,
   UseControllerProps,
 } from 'react-hook-form'
-import { TextInput, TextInputProps, View } from 'react-native'
-import React, { MutableRefObject, useEffect, useRef } from 'react'
+import { TextInput, TextInputProps, View, Text } from 'react-native'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 
 type Props<T extends FieldValues> = {
@@ -115,6 +115,130 @@ export const NativeTextInput = <T extends object = PlainObject>({
           )}
         </>
       )}
+    />
+  )
+}
+
+export interface TextInputHighlightRule {
+  match: RegExp
+  style: object
+}
+
+const HighlightInput = <T extends object = PlainObject>({
+  highlightRules,
+  value,
+  textAlignVertical,
+  onChangeText,
+  ...props
+}: {
+  highlightRules: TextInputHighlightRule[]
+} & TextInputProps) => {
+  const theme = useTheme()
+  const inputRef = useRef<TextInput>()
+
+  const [highlightedText, setHighlightedText] = useState<React.JSX.Element[]>([])
+
+  const highlight = (inputText: string) => {
+    const highlightedText = []
+    let highlightMap: [string, object | null][] = [[inputText, null]]
+    for (const rule of highlightRules) {
+      const newHighlightMap: [string, object | null][] = []
+      for (const [text, style] of highlightMap) {
+        if (style === null) {
+          const matches = text.matchAll(rule.match)
+          let index = 0
+          for (const match of matches) {
+            newHighlightMap.push([text.slice(index, match.index), null])
+            newHighlightMap.push([match[0], rule.style])
+            index = match.index + match[0].length
+          }
+          newHighlightMap.push([text.slice(index), null])
+        } else {
+          newHighlightMap.push([text, style])
+        }
+      }
+      highlightMap = newHighlightMap
+    }
+    for (const [i, [text, style]] of highlightMap.entries()) {
+      if (style) {
+        highlightedText.push(
+          <Text key={i} style={style}>
+            {text}
+          </Text>,
+        )
+      } else {
+        highlightedText.push(<Text key={i}>{text}</Text>)
+      }
+    }
+    setHighlightedText(highlightedText)
+  }
+
+  useEffect(() => {
+    highlight(value ?? '')
+  }, [value])
+
+  return (
+    <>
+      <TextInput
+        onChangeText={onChangeText}
+        placeholderTextColor={theme.colors.surfaceVariant}
+        cursorColor={theme.colors.primary}
+        textAlignVertical={textAlignVertical ?? 'center'}
+        // ref={inputRef as MutableRefObject<TextInput>}
+        {...props}
+        style={{
+          fontSize: 16,
+          textAlignVertical: textAlignVertical ?? 'center',
+          ...(props.style as object),
+        }}
+      >
+        {highlightedText}
+      </TextInput>
+    </>
+  )
+}
+
+export const NativeHighlightInput = <T extends object = PlainObject>({
+  name,
+  control,
+  rules,
+  transparent,
+  textAlignVertical,
+  highlightRules,
+  ...props
+}: Props<T> & {
+  highlightRules: TextInputHighlightRule[]
+}) => {
+  const theme = useTheme()
+  const inputRef = useRef<TextInput>()
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({ field }) => {
+        // highlight(field.value ?? '')
+        return (
+          <>
+            <HighlightInput
+              onChangeText={field.onChange}
+              value={field.value}
+              placeholderTextColor={theme.colors.surfaceVariant}
+              cursorColor={theme.colors.primary}
+              textAlignVertical={textAlignVertical ?? 'center'}
+              highlightRules={highlightRules}
+              // ref={inputRef as MutableRefObject<TextInput>}
+              {...props}
+              style={{
+                fontSize: 16,
+                textAlignVertical: textAlignVertical ?? 'center',
+                ...(props.style as object),
+              }}
+            />
+          </>
+        )
+      }}
     />
   )
 }
