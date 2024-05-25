@@ -29,7 +29,7 @@ export function HolePostForm() {
     (body: string) => {
       const reg = /(?<= |^)(#[^#\s]+)(?= |$)/gm
       const matchedAllIterator = Array.from(body.matchAll(reg))
-      const newTags = matchedAllIterator.map((matched) => matched[1])
+      const newTags = matchedAllIterator.map((matched) => matched[1].slice(1))
       setAdditionalTags(Array.from(new Set(newTags))
         .filter((item) => item.length > 1))
     },
