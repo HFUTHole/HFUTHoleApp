@@ -119,12 +119,12 @@ const ConflictCard = ({
 
   const scheduleLongest = useMemo(
     () => getLongestSchedule(schedules),
-    [schedules]
+    [schedules],
   )
 
   const { cardStyle, textStyle } = useMemo(
     () => generateCardStyle(scheduleLongest.color as Colors, true),
-    [scheduleLongest.color]
+    [scheduleLongest.color],
   )
 
   return (
@@ -174,12 +174,12 @@ export const ScheduleCard = ({
 }: ScheduleItemCardProps) => {
   const { cardStyle, textStyle } = useMemo(
     () => generateCardStyle(schedule.color as Colors, true),
-    [schedule.color]
+    [schedule.color],
   )
 
   const handlePress = useCallback(
     () => openSheet(schedule),
-    [openSheet, schedule]
+    [openSheet, schedule],
   )
 
   return (

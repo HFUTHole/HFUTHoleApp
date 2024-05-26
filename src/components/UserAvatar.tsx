@@ -2,6 +2,7 @@ import { useUserProfile } from '@/swr/user/profile'
 import { Image } from '@/components/image/Image'
 import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
 import { Pressable } from 'react-native'
+import { Config } from '@/shared/config'
 
 interface Props {
   userId?: number
@@ -17,6 +18,7 @@ export function UserAvatar({ mode = 'sm', userId, ...props }: Props) {
   const modeSize = mode === 'sm' ? 30 : mode === 'md' ? 40 : 55
   const userRoute = useUserProfileRoute()
   const { data: userData } = useUserProfile()
+
   return (
     <Pressable
       onPress={() => {

@@ -10,6 +10,7 @@ import { IconButton } from '@/components/IconButton'
 import { EmojiableText } from '@/components/Text/EmojiableText'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { If } from 'react-if'
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 
 interface CommentImageProps {
   data: IHoleCommentListItem | IHoleReplyListItem
@@ -46,11 +47,19 @@ export const CommentImage: React.FC<CommentImageProps> = (props) => {
                     }}
                   />
                 </SafeAreaView>
-                <Image
-                  className={'w-full h-[80vh] bg-black'}
-                  source={{ uri }}
-                  resizeMode={'contain'}
-                />
+                <ReactNativeZoomableView
+                  maxZoom={30}
+                  minZoom={0.5}
+                  zoomStep={0.5}
+                  initialZoom={1}
+                  bindToBorders={true}
+                >
+                  <Image
+                    className={'w-full h-[80vh] bg-black'}
+                    source={{ uri }}
+                    resizeMode={'contain'}
+                  />
+                </ReactNativeZoomableView>
                 <View className={'px-[2.5vw] flex-row'}>
                   <View className={'flex-row items-center'}>
                     <Text className={'text-white text-base'}>

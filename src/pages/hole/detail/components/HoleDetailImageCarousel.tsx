@@ -39,7 +39,12 @@ export const HoleDetailImageCarousel: React.FC<HoleDetailImageCarouselProps> = (
           renderItem={({ item: uri }) => {
             return (
               <Pressable className={'flex-1'}>
-                <Image className={'flex-1'} source={{ uri }} {...imageProps} />
+                <Image
+                  className={'flex-1'}
+                  source={{ uri }}
+                  resizeMode={'contain'}
+                  {...imageProps}
+                />
               </Pressable>
             )
           }}
