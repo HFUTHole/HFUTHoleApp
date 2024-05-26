@@ -19,7 +19,7 @@ export const Limit = {
   reportReasonMinLength: 10,
   hole: {
     maxInfoCommentBodyLength: 30,
-    titleMaxLength: 15,
+    titleMaxLength: 20,
   },
   img: {
     imgMaxSize: 4, // MB

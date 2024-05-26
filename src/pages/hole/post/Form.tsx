@@ -5,7 +5,7 @@ import {
   NativeHighlightInput,
   NativeInput,
 } from '@/components/form/NativeInput'
-import { View } from 'react-native'
+import { Keyboard, View } from 'react-native'
 import { FormImage } from '@/components/form/FormImage'
 import { useHolePostContext } from '@/shared/context/hole'
 import { useTheme } from 'react-native-paper'
@@ -14,9 +14,6 @@ import { useFocusEffect } from '@react-navigation/native'
 
 export function HolePostForm() {
   const {
-    imgs,
-    setImgs,
-    cursor,
     shouldUpdateCursor,
     setShouldUpdateCursor,
     setCursor,
@@ -98,15 +95,15 @@ export function HolePostForm() {
             }
           }}
           style={{
-            height: ScreenHeight * 0.5,
-            flex: 1,
+            height: Keyboard.isVisible()
+              ? ScreenHeight * 0.2
+              : ScreenHeight * 0.4,
           }}
           onChange={(event) => {
             updateTags(event.nativeEvent.text)
           }}
         />
       </View>
-      <View></View>
     </View>
   )
 }
