@@ -9,6 +9,7 @@ import { ArrowLeftIcon } from '@/components/icon'
 import { IconButton } from '@/components/IconButton'
 import { EmojiableText } from '@/components/Text/EmojiableText'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
+import { If } from 'react-if'
 
 interface CommentImageProps {
   data: IHoleCommentListItem | IHoleReplyListItem
@@ -69,9 +70,11 @@ export const CommentImage: React.FC<CommentImageProps> = (props) => {
           </Pressable>
         )}
       </Portal>
-      <Pressable onPress={visibleActions.toggle}>
-        <Image className={'w-32 h-32 rounded-lg'} source={{ uri }} />
-      </Pressable>
+      <If condition={!!data?.imgs?.length}>
+        <Pressable onPress={visibleActions.toggle}>
+          <Image className={'w-32 h-32 rounded-lg'} source={{ uri }} />
+        </Pressable>
+      </If>
     </>
   )
 }
