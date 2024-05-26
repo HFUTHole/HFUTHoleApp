@@ -69,6 +69,8 @@ export const NativeTextInput = <T extends object = PlainObject>({
   const inputRef = useRef<TextInput>()
   const error = get(control._formState.errors, name)
 
+  console.log(error)
+
   useEffect(() => {
     if (props.autoFocus) {
       setTimeout(() => {
@@ -136,7 +138,9 @@ const HighlightInput = <T extends object = PlainObject>({
   const theme = useTheme()
   const inputRef = useRef<TextInput>()
 
-  const [highlightedText, setHighlightedText] = useState<React.JSX.Element[]>([])
+  const [highlightedText, setHighlightedText] = useState<React.JSX.Element[]>(
+    [],
+  )
 
   const highlight = (inputText: string) => {
     const highlightedText = []

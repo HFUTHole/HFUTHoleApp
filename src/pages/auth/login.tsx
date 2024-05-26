@@ -37,6 +37,7 @@ const LoginForm = () => {
     })
   })
 
+  console.log(errors)
   return (
     <View className={'grid space-y-3'}>
       {errors?.reqFailedError && (
