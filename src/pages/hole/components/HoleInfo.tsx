@@ -99,11 +99,41 @@ export const HoleInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
               <Text className={'text-[16px] text-black'}>
                 {data.user.username}
               </Text>
+              <Text className={'text-primary-label text-sm'}>#{data.id}</Text>
             </View>
           </View>
 
           <View className={'flex flex-row justify-end items-center space-x-5'}>
             <FollowButton followingId={data.user.id} />
+            <HoleBottomAction data={data as IHoleDetailResponse} />
+          </View>
+        </View>
+      </View>
+    </>
+  )
+}
+
+export const HomeListInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
+  return (
+    <>
+      <View className={'my-1 space-y-1'}>
+        <View className={'flex flex-row justify-between'}>
+          <View className={'flex flex-row items-center space-x-4'}>
+            <UserAvatar
+              userId={data.user.id}
+              url={data.user.avatar}
+              size={35}
+            />
+            <View>
+              <Text className={'text-[16px] text-black'}>
+                {data.user.username}
+              </Text>
+              <TimeText time={data.createAt} />
+            </View>
+          </View>
+
+          <View className={'flex flex-row justify-end items-center space-x-5'}>
+            <Text className={'text-primary-label'}>#{data.id}</Text>
             <HoleBottomAction data={data as IHoleDetailResponse} />
           </View>
         </View>
@@ -285,7 +315,7 @@ export const HoleInfo = ({
         <View className={'space-y-2 py-3'}>
           {header || (
             <View className={'px-3'}>
-              <HoleInfoHeader data={data} />
+              <HomeListInfoHeader data={data} />
             </View>
           )}
           {body || <HoleInfoBody data={data} />}

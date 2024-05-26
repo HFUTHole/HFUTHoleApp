@@ -15,6 +15,9 @@ import { useMutation, UseMutationResult } from 'react-query'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { DeleteReplyLikeRequest, LikeReplyRequest } from '@/request/apis/hole'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
+import * as repl from 'repl'
+import { Image } from '@/components/image/Image'
+import { CommentImage } from '@/pages/hole/detail/components/CommentImage'
 
 const ReplyListItem: React.FC<{
   reply: Reply
@@ -66,6 +69,9 @@ const ReplyListItem: React.FC<{
                 body={reply.body}
                 fontSize={12}
               />
+              <View className={'mt-2'}>
+                <CommentImage data={reply as IHoleReplyListItem} />
+              </View>
             </View>
             <View className={'items-center flex-row justify-between'}>
               <View className={'flex-1'}>

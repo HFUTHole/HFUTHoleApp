@@ -61,7 +61,7 @@ export const ScoreInfo = () => {
       semesters
         .find((semester) => semester.semesterId === params.semesterId)!
         .scores.find((item) => item.lessonId === params.lessonId)!.name,
-    [params, semesters]
+    [params, semesters],
   )
 
   const scoreData = useMemo(() => {
@@ -80,7 +80,7 @@ export const ScoreInfo = () => {
           } else {
             return floatFixed(value)
           }
-        }) as SingleScoreDetail
+        }) as SingleScoreDetail,
     )
   }, [data, rankType])!
 
@@ -107,16 +107,16 @@ export const ScoreInfo = () => {
         Icon: <FireIcon size={12} color={'#ffffff'} />,
       },
     ],
-    [rankType]
+    [rankType],
   )
 
   const handleScoreTypeChange = useCallback(
     (key: ScoreType) => setScoreType(key),
-    []
+    [],
   )
   const handleRankTypeChange = useCallback(
     (key: RankType) => setRankType(key),
-    []
+    [],
   )
 
   return (
@@ -125,7 +125,7 @@ export const ScoreInfo = () => {
       isError={isError}
       displayOriginalPageOnError={true}
     >
-      <View className={'px-3 min-h-screen bg-background'}>
+      <View className={'px-3 flex-1 bg-background'}>
         <ScreenWrapper
           contentContainerStyle={{
             minHeight: '100%',

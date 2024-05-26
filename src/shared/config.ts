@@ -1,7 +1,7 @@
 export const Config = {
   request: {
     baseURL: 'https://xiaofeishu.eyunnet.com/',
-    imgBaseURL: 'http://hfut-uni.top:8880/',
+    imgBaseURL: 'https://static.xiaofeishu.lnyynet.com',
     spaceBaseURL: 'https://hfut-space.top/',
     timeout: 5000,
   },
@@ -20,6 +20,9 @@ export const Limit = {
   hole: {
     maxInfoCommentBodyLength: 30,
     titleMaxLength: 15,
+  },
+  img: {
+    imgMaxSize: 4, // MB
   },
   user: {
     minUsernameLength: 1,

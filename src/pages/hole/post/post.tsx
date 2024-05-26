@@ -6,8 +6,6 @@ import { useTheme } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export function HolePost() {
-  const theme = useTheme()
-
   return (
     <SafeAreaView className={'flex-1 bg-white'} edges={['top']}>
       <SafeAreaView className={'flex-1 bg-white'} edges={['bottom']}>

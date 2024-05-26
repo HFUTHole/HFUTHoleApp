@@ -22,10 +22,11 @@ import { Categories } from '@/shared/constants/category'
 import { useImmer } from 'use-immer'
 import clsx from 'clsx'
 import { App } from '@/shared/utils/App'
+import { FormImage } from '@/components/form/FormImage'
 
 const SelectTags: React.FC = () => {
   const { setTags: setRootTags } = useHolePostContext()
-  const [tags, setTags] = useImmer(Categories.map((item) => item.name))
+  const [tags, setTags] = useImmer(Categories.slice(1).map((item) => item.name))
 
   return (
     <ScrollView
@@ -56,6 +57,7 @@ const SelectTags: React.FC = () => {
 // TODO @实现
 export function BottomActions() {
   const {
+    imgs,
     setImgs,
     tags,
     additionalTags,
@@ -84,18 +86,27 @@ export function BottomActions() {
 
   const [expand, setExpand] = useState(false)
 
-  const onEmojiSelect = useCallback((emoji: EmojiItem) => {
-    // setValue('body', `${getValues('body') || ''}${emoji.name}`)
-    const body = getValues('body') || ''
-    setValue('body', `${body.slice(0, cursor.start)}${emoji.name}${body.slice(cursor.end)}`)
-    setCursor({ start: cursor.start + emoji.name.length, end: cursor.start + emoji.name.length })
-    setShouldUpdateCursor(true)
-  }, [cursor])
+  const onEmojiSelect = useCallback(
+    (emoji: EmojiItem) => {
+      // setValue('body', `${getValues('body') || ''}${emoji.name}`)
+      const body = getValues('body') || ''
+      setValue(
+        'body',
+        `${body.slice(0, cursor.start)}${emoji.name}${body.slice(cursor.end)}`,
+      )
+      setCursor({
+        start: cursor.start + emoji.name.length,
+        end: cursor.start + emoji.name.length,
+      })
+      setShouldUpdateCursor(true)
+    },
+    [cursor],
+  )
 
   const closeEmoji = () => {
     setExpand(false)
-  };
-  
+  }
+
   // 打开键盘时关闭emoji
   Keyboard.addListener('keyboardWillShow', closeEmoji)
   Keyboard.addListener('keyboardDidShow', closeEmoji)
@@ -103,8 +114,18 @@ export function BottomActions() {
   return (
     <View className={'pt-2 border-t-[1px] border-t-black/5'}>
       <View className={'px-2'}>
-        <Badges data={tags.concat(additionalTags)} />
-        <SelectTags />
+        <FormImage
+          imgs={imgs}
+          onCloseable={(index) =>
+            setImgs((draft) => {
+              draft!.splice(index, 1)
+            })
+          }
+        />
+        <View className={'mt-2'}>
+          <Badges data={tags.concat(additionalTags)} />
+          <SelectTags />
+        </View>
 
         <View className={'flex flex-row justify-between items-center'}>
           <View className={'flex flex-row'}>

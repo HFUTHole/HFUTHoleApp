@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { ImagePickerResult } from 'expo-image-picker'
 import { HolePostVoteClassValidator } from '@/shared/validators/hole/post'
 import { HoleClassification } from '@/shared/enums/category.enum'
-import { getCategoryByName } from '@/shared/constants/category'
+import { Categories, getCategoryByName } from '@/shared/constants/category'
 
 export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   // TODO write a array useImmer with splice
@@ -25,7 +25,7 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
   })
 
   // 光标选择位置
-  const [cursor, setCursor] = useState({start: 0, end: 0})
+  const [cursor, setCursor] = useState({ start: 0, end: 0 })
   // 是否在将 cursor 位置更新到输入框
   const [shouldUpdateCursor, setShouldUpdateCursor] = useState(false)
 
@@ -36,6 +36,13 @@ export const [useHolePostContext, HolePostContextProvider] = createStore(() => {
     resolver: classValidatorResolver(PostHoleValidator),
   })
 
+  useEffect(() => {
+    setTags((draft) => {
+      return draft.concat(Categories[0].name)
+    })
+  }, [])
+
+  console.log(tags)
   return {
     form,
     tags,

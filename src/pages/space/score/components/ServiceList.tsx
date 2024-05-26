@@ -1,16 +1,17 @@
-import FailureFate from '@/assets/svg/space/failure_rate.svg'
-import CustomRanking from '@/assets/svg/space/custom_ranking.svg'
-import Help from '@/assets/svg/space/help.svg'
-import { Pressable, View } from 'react-native'
-import ChartSvg from '@/assets/svg/chart.svg'
-import { Svg } from '@/components/svg/Svg'
+import { View } from 'react-native'
 import { Text, TouchableRipple } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import {
+  ChartBarSquareIcon,
+  QuestionMarkCircleIcon,
+  RectangleStackIcon,
+} from 'react-native-heroicons/outline'
+import { DocumentMagnifyingGlassIcon } from 'react-native-heroicons/outline'
 
 const serviceList = [
   {
     title: '成绩概览',
-    svg: ChartSvg,
+    svg: ChartBarSquareIcon,
     route: 'space-nested',
     routeOption: {
       screen: 'score-overview',
@@ -18,7 +19,7 @@ const serviceList = [
   },
   {
     title: '挂科率查询',
-    svg: FailureFate,
+    svg: DocumentMagnifyingGlassIcon,
     route: 'space-nested',
     routeOption: {
       screen: 'course-failure-search-query',
@@ -26,7 +27,7 @@ const serviceList = [
   },
   {
     title: '成绩帮助',
-    svg: Help,
+    svg: QuestionMarkCircleIcon,
     route: 'space-nested',
     routeOption: {
       screen: 'help',
@@ -37,7 +38,7 @@ const serviceList = [
   },
   {
     title: '自定义排名',
-    svg: CustomRanking,
+    svg: RectangleStackIcon,
     route: 'space-nested',
     routeOption: {
       screen: 'custom-ranking',
@@ -57,7 +58,7 @@ export const ServiceList = () => {
             onPress={() => navigate(service.route, service.routeOption)}
           >
             <View className="flex justify-center items-center space-y-2 py-2">
-              <Svg SvgComponent={service.svg} size={30} />
+              <service.svg color={'#333'} />
               <Text className={'text-xs text-black/80'}>{service.title}</Text>
             </View>
           </TouchableRipple>

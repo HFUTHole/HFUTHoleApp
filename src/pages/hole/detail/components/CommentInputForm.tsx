@@ -12,12 +12,9 @@ import { UploadHoleImgRequest } from '@/request/apis/hole'
 import Toast from 'react-native-toast-message'
 import { useSelectImage } from '@/shared/hooks/useSelectImage'
 import { FormImage } from '@/components/form/FormImage'
-import { useHoleDetailId } from '@/shared/hooks/useHoleDetailId'
 import { useBottomCommentContext } from '@/shared/context/hole/comment'
 import { AvoidingKeyboardVisible } from '@/components/keyboard/AvoidingKeyboardVisible'
-import { useHoleComment } from '@/swr/hole'
 import { useUserProfile } from '@/swr/user/profile'
-import { App } from '@/shared/utils/App'
 
 interface Props {
   onCommentSuccess: () => void

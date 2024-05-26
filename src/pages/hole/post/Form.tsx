@@ -30,8 +30,9 @@ export function HolePostForm() {
       const reg = /(?<= |^)(#[^#\s]+)(?= |$)/gm
       const matchedAllIterator = Array.from(body.matchAll(reg))
       const newTags = matchedAllIterator.map((matched) => matched[1].slice(1))
-      setAdditionalTags(Array.from(new Set(newTags))
-        .filter((item) => item.length > 1))
+      setAdditionalTags(
+        Array.from(new Set(newTags)).filter((item) => item.length > 1),
+      )
     },
     [additionalTags, setAdditionalTags],
   )
@@ -105,16 +106,7 @@ export function HolePostForm() {
           }}
         />
       </View>
-      <View>
-        <FormImage
-          imgs={imgs}
-          onCloseable={(index) =>
-            setImgs((draft) => {
-              draft!.splice(index, 1)
-            })
-          }
-        />
-      </View>
+      <View></View>
     </View>
   )
 }

@@ -19,6 +19,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import * as Clipboard from 'expo-clipboard'
+import { Toast } from '@/shared/utils/toast'
 
 const urlRegexp = /(https?:\/\/[^\s]+)/g
 const emojiRegexp = /(\[.*?\])/g
@@ -86,7 +87,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
   } = props
 
   const numberOfLines = useMemo(() => {
-    return hideOverflow ? ( props.numberOfLines ?? Infinity) : Infinity
+    return hideOverflow ? props.numberOfLines ?? Infinity : Infinity
   }, [props.numberOfLines, hideOverflow])
 
   const [expanded, setExpanded] = useState(false)
@@ -180,11 +181,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
 
   // 根据 numberOfLines 和 lineHeights 计算实际要显示的高度
   const calculateHeight = () => {
-    if (
-      !numberOfLines ||
-      numberOfLines === Infinity ||
-      !hideOverflow
-    ) {
+    if (!numberOfLines || numberOfLines === Infinity || !hideOverflow) {
       displayHeight.value = null
       return
     }
@@ -274,14 +271,17 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                     <Text
                       onPress={() =>
                         Alert.alert(
-                          '确定要复制该链接吗？',
-                          '',
+                          '复制链接',
+                          `是否复制：${item.content}`,
                           [
                             {
                               text: '确定',
                               onPress: () => {
                                 // copy to clipboard
                                 Clipboard.setStringAsync(item.content)
+                                Toast.success({
+                                  text1: '复制成功',
+                                })
                               },
                             },
                             {
@@ -295,7 +295,13 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
                         handleTextLayoutChange(e.nativeEvent, index, i)
                       }
                       key={item.content}
-                      style={[textStyle, {color: 'rgb(0, 122, 255)', textDecorationLine: 'underline'}]}
+                      style={[
+                        textStyle,
+                        {
+                          color: 'rgb(0, 122, 255)',
+                          textDecorationLine: 'underline',
+                        },
+                      ]}
                     >
                       {item.content}
                     </Text>
@@ -319,7 +325,7 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
       </Animated.View>
       {isExpandable && exceedHeight && (
         <TouchableOpacity className="py-2 pr-2" onPress={toggleExpand}>
-          <Text className="text-textSecondary text-xs">
+          <Text className="text-tertiary-label">
             {expanded ? '收起' : '展开'}
           </Text>
         </TouchableOpacity>

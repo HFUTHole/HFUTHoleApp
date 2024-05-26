@@ -11,7 +11,7 @@ export const DaySchedule = () => {
   useInitializeSpace()
 
   return (
-    <View className={'flex-1'}>
+    <View className={'flex-1 bg-background'}>
       <ScheduleScrollWrapper isFetching={isFetching} onRefresh={refetch}>
         <Header />
         <ScheduleList />

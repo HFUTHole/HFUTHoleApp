@@ -5,6 +5,7 @@ import Toast from 'react-native-toast-message'
 import { useHolePostContext } from '@/shared/context/hole'
 import { BackAndButtonHeader } from '@/components/header/BackAndButtonHeader'
 import { useNavigation } from '@react-navigation/native'
+import { AxiosError } from 'axios'
 
 export function HolePostHeader() {
   const navigation = useNavigation()
@@ -20,25 +21,29 @@ export function HolePostHeader() {
 
   const mutation = useMutation({
     mutationFn: async (data: PostHoleValidator) => {
-      const resultImage = await UploadHoleImgRequest(imgs)
+      try {
+        const resultImage = await UploadHoleImgRequest(imgs)
 
-      if (!data.title?.length) {
-        delete data.title
+        if (!data.title?.length) {
+          delete data.title
+        }
+
+        return PostHoleRequest({
+          ...data,
+          bilibili,
+          imgs: resultImage,
+          tags: tags.concat(additionalTags),
+          ...(votes.items.length > 0
+            ? {
+                vote: {
+                  items: votes.items.map((i) => i.value),
+                },
+              }
+            : ({} as any)),
+        })
+      } catch (err) {
+        console.log((err as AxiosError).response)
       }
-
-      return PostHoleRequest({
-        ...data,
-        bilibili,
-        imgs: resultImage,
-        tags: tags.concat(additionalTags),
-        ...(votes.items.length > 0
-          ? {
-              vote: {
-                items: votes.items.map((i) => i.value),
-              },
-            }
-          : ({} as any)),
-      })
     },
     onSuccess(data) {
       Toast.show({

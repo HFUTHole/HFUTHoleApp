@@ -11,6 +11,7 @@ import { ReportType } from '@/shared/validators/report'
 import { CommentReplyBottomAction } from '@/pages/hole/components/sheet/CommentReplyBottomAction'
 import { TouchableRipple, useTheme } from 'react-native-paper'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
+import { CommentImage } from '@/pages/hole/detail/components/CommentImage'
 
 type Data =
   | (Omit<IHoleCommentListItem, 'replies' | 'repliesCount'> &
@@ -71,14 +72,16 @@ export function CommentItem({
             <View className={'w-1/12'} />
             <View className={'w-10/12 grid space-y-1'}>
               <View>
-                <ImageList imgs={data.imgs} />
                 <ReplyBody data={data as IHoleReplyListItem} />
+                <View className={'mt-2'}>
+                  <CommentImage data={data as IHoleReplyListItem} />
+                </View>
               </View>
               <View className={'justify-between flex-row items-center'}>
                 <TimeText time={data.createAt} />
                 <CommentItemIsLike mutation={mutation} data={data} />
               </View>
-              {bottom}
+              <View>{bottom}</View>
             </View>
           </View>
         </View>

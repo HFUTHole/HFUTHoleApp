@@ -24,8 +24,6 @@ export function ScreenWrapper({
   contentContainerStyle,
   ...rest
 }: ScreenWrapperProps) {
-  const theme = useTheme()
-
   const insets = useSafeAreaInsets()
 
   const containerStyle = [
