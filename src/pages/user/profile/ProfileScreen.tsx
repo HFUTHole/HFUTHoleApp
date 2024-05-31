@@ -37,7 +37,7 @@ import { FlashList, MasonryFlashList } from '@shopify/flash-list'
 /**
  * 适合用于底部弹出的瀑布流列表
  */
-const BottomSheetMasonryList = memo((props: any) => {
+export const BottomSheetMasonryList = memo((props: any) => {
   const { data } = props
   return (
     <View className="flex-1">
@@ -55,7 +55,7 @@ const BottomSheetMasonryList = memo((props: any) => {
 /**
  * 个人主页的帖子列表
  */
-const ProfileHoleList = (props: any) => {
+export const ProfileHoleList = (props: any) => {
   return (
     <View className="flex-1">
       <RefreshableHoleList
@@ -244,7 +244,7 @@ const ProfileBio = () => {
   )
 }
 
-const LevelBanner = ({ level }: { level: number }) => {
+export const LevelBanner = ({ level }: { level: number }) => {
   return (
     <View className={'flex-row space-x-0 items-end rounded-sm overflow-hidden'}>
       <View className={'bg-[#fff] font-bold h-[10px] px-0 py-0 align-bottom'}>
@@ -342,8 +342,6 @@ export function ProfileScreen() {
       transform: [{ translateY: scrollTimeline.value - infoHeight.value }],
     }
   })
-
-  const startPanPos = useSharedValue(0)
 
   return (
     <LoadingScreen isLoading={false}>

@@ -91,7 +91,7 @@ const UserScreens: Screen[] = [
   // },
 ]
 
-const excludeSafeAreaScreens = ['profile']
+const excludeSafeAreaScreens = ['profile', 'other-profile']
 
 export const UserStacks = () => {
   const { screen } = useParams<{ screen: string }>()

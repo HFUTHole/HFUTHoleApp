@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'react-native-paper'
-import { TouchableOpacity } from 'react-native'
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native'
 import { useUserProfile } from '@/swr/user/profile'
 import { useIsFollowedQuery } from '@/swr/user/follow'
 import clsx from 'clsx'
@@ -10,7 +10,9 @@ import { Apis } from '@/request/apis'
 import { If, Then } from 'react-if'
 
 interface FollowButtonProps {
-  followingId: number
+  followingId: number,
+  style?: StyleProp<ViewStyle> | string,
+  textStyle?: StyleProp<ViewStyle> | string,
 }
 
 export const FollowButton: React.FC<FollowButtonProps> = (props) => {
@@ -49,8 +51,10 @@ export const FollowButton: React.FC<FollowButtonProps> = (props) => {
               'bg-active-background border-[1px] border-active-bg-border':
                 isFollowed,
             },
+            typeof props.style === 'string' ? props.style : '',
           ])}
           onPress={onFollowButtonPress}
+          style={[typeof props.style === 'string' ? {} : props.style]}
         >
           <Text
             className={clsx([
@@ -58,7 +62,9 @@ export const FollowButton: React.FC<FollowButtonProps> = (props) => {
               {
                 'text-black': isFollowed,
               },
+              typeof props.style === 'string' ? props.style : '',
             ])}
+            style={[typeof props.style === 'string' ? {} : props.style]}
           >
             {isFollowed ? '取关' : '关注'}
           </Text>

@@ -41,7 +41,7 @@ export function useUserProfileRoute() {
     linkTo('/user-nested/select-school')
   }
 
-  const goOtherUserProfileScreen = (userId: number) => {
+  const goOtherUserProfileScreen = useCallback((userId: number) => {
     // @ts-ignore
     navigation.navigate('user-nested', {
       screen: 'other-profile',
@@ -49,7 +49,7 @@ export function useUserProfileRoute() {
         userId,
       },
     })
-  }
+  }, [navigation])
 
   // space
   const goSchoolCourseScreen = useCallback(() => {
