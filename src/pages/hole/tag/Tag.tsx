@@ -16,6 +16,7 @@ import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { useParams } from '@/shared/hooks/useParams'
 import { useTagParams } from '@/pages/hole/tag/useTagParams'
 import { If, Then } from 'react-if'
+import { MasonryFlashList } from '@shopify/flash-list'
 
 function PostHeader() {
   const { tag } = useTagParams()
@@ -60,6 +61,14 @@ export function TagScreen() {
               <PostHeader />
             </View>
           }
+          FlatListComponent={(props: any) => (
+            <MasonryFlashList
+              numColumns={2}
+              estimatedItemSize={255}
+              data={props.data}
+              {...props}
+            />
+          )}
           contentContainerStyle={{
             flexDirection: 'row',
             flexWrap: 'wrap',
@@ -68,7 +77,7 @@ export function TagScreen() {
           }}
           renderItem={({ item: data }) => {
             return (
-              <View className={'w-[47vw] mx-auto'}>
+              <View className={'w-[47vw] mx-auto my-[5px]'}>
                 <TagHoleInfo data={data} />
               </View>
             )
