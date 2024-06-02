@@ -5,6 +5,13 @@ export function useHoleRoute() {
   const linkTo = useLinkTo()
 
   const goTag = (params: { tag: string }) => {
+    if (params.tag === '淘二手') {
+      // @ts-ignore
+      navigation.navigate('market', {
+        screen: 'market-index',
+      })
+      return;
+    }
     // @ts-ignore
     navigation.navigate('hole', {
       screen: 'tag',

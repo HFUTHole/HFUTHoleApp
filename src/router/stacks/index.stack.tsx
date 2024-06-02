@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react'
 import { UserStacks } from '@/router/stacks/user.stacks'
 import { useTheme } from 'react-native-paper'
 import { HoleNestedStacks } from '@/router/stacks/hole-nested.stacks'
+import { MarketStacks } from './market.stack'
 
 const IndexStack = createNativeStackNavigator()
 
@@ -42,6 +43,7 @@ export function IndexStacks() {
       <IndexStack.Screen name={'user-nested'} component={UserStacks} />
       <IndexStack.Screen name={'notify-nested'} component={NotifyStacks} />
       <IndexStack.Screen name={'space-nested'} component={SpaceStacks} />
+      <IndexStack.Screen name={'market'} component={MarketStacks} />
     </IndexStack.Navigator>
   )
 }
