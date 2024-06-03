@@ -10,6 +10,7 @@ import { useParams } from '@/shared/hooks/useParams'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MarketScreen } from '@/pages/market/MarketScreen'
+import { MarketFavoriteScreen } from '@/pages/market/MarketFavoriteScreen'
 
 const MarketStack = createNativeStackNavigator()
 
@@ -24,12 +25,19 @@ const MarketScreens: Screen[] = [
     name: 'market-index',
     component: MarketScreen,
     options: {
-		title: '淘二手'
+      title: '淘二手',
+    },
+  },
+  {
+    name: 'market-favorite',
+    component: MarketFavoriteScreen,
+    options: {
+      title: '我的收藏',
     },
   },
 ]
 
-const excludeSafeAreaScreens = ['profile', 'other-profile']
+const excludeSafeAreaScreens: string[] = []
 
 export const MarketStacks = () => {
   const { screen } = useParams<{ screen: string }>()

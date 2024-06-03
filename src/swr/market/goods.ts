@@ -112,7 +112,7 @@ const itemsData = {
         body: '卖一个我最喜欢的小熊熊',
         price: 1.22,
         area: '屯溪路',
-        status: 0,
+        status: 1,
         imgs: [
           'https://sns-webpic-qc.xhscdn.com/202406022027/feed2f53990553b6c6d19c1864cb3e33/1000g0082hi95a3kj40605n6djfk4e5bp2to3qro!nc_n_webp_mw_1',
         ],
@@ -200,6 +200,59 @@ export function useMarketGoodsList() {
       return oldData!
     })
     await client.invalidateQueries('market.goods.list', {
+      refetchPage: (lastPage, index) => index === 0,
+    })
+  }
+
+  return {
+    ...query,
+    invalidateQuery,
+  }
+}
+
+
+export function useMarketFavoriteGoodsList() {
+
+  const query = useInfiniteQuery(
+    'market.goods.fav-list',
+    ({ pageParam = 1 }) =>
+      Promise.resolve({
+        ...itemsData.data,
+        meta: {
+          totalItems: 7*5,
+          itemCount: 7,
+          itemsPerPage: 7,
+          totalPages: 5,
+          currentPage: pageParam,
+        },
+      }),
+    {
+      getNextPageParam: (lastPages) => {
+        const nextPage = lastPages.meta.currentPage + 1
+
+        if (
+          nextPage > lastPages.meta.totalPages ||
+          lastPages.items.length === 0
+        ) {
+          return
+        }
+
+        return nextPage
+      },
+    },
+  )
+
+  const client = useQueryClient()
+
+  const invalidateQuery = async (onlyFirstGroup = true) => {
+    client.setQueryData<InfiniteData<IHoleListResponse>>('market.goods.fav-list', (oldData) => {
+      if (onlyFirstGroup) {
+        // 确保刷新时只更换第一组数据，其他组的数据全都销毁
+        oldData!.pages = oldData!.pages.slice(0, 1)
+      }
+      return oldData!
+    })
+    await client.invalidateQueries('market.goods.fav-list', {
       refetchPage: (lastPage, index) => index === 0,
     })
   }
