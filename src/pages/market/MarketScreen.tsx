@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text, TextInput } from 'react-native-paper'
+import { Text, TextInput, TouchableRipple } from 'react-native-paper'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { Controller, useForm } from 'react-hook-form'
 import { SvgXml } from 'react-native-svg'
@@ -13,6 +13,7 @@ import { RefreshableHoleList } from '../hole/components/HoleList'
 import { GoodsItemCard } from './components/GoodsCard'
 import { RefreshableGoodsList } from './GoodsList'
 import { useMarketGoodsList } from '@/swr/market/goods'
+import { CarouselAction } from './components/CarouselAction'
 
 const goodsCategories = [
   {
@@ -67,76 +68,137 @@ const goodsCategories = [
   },
 ]
 
-const GoodsCategoriesList = ({ limit = 8 }: { limit?: number }) => {
+const GoodsCategoriesCard = ({
+  item,
+}: {
+  item: {
+    id: number
+    name: string
+    icon: string
+  }
+}) => {
+  return (
+    <View className="bg-white items-center justify-center w-full px-1 my-1 rounded-xl overflow-hidden">
+      <TouchableRipple onPress={() => {}} className="h-[72px] w-full">
+        <View className="h-full w-full items-center justify-center space-y-1">
+          <Image
+            source={{ uri: item.icon }}
+            className="w-6 h-6"
+            resizeMode="contain"
+          />
+          <Text className="text-center text-sm">{item.name}</Text>
+        </View>
+      </TouchableRipple>
+    </View>
+  )
+}
+
+const GoodsCategoriesList = () => {
   return (
     <View className="px-3 flex-1">
       <FlashList
-        data={goodsCategories.slice(0, limit)}
+        data={goodsCategories}
         numColumns={4}
         estimatedItemSize={96}
         renderItem={({ item }) => (
-          <View
-            className="items-center justify-center w-full px-1 my-1"
-            key={item.id}
-          >
-            <View className="bg-white h-[80px] rounded-xl shadow-sm shadow-slate-400 w-full items-center justify-center space-y-1">
-              <Image
-                source={{ uri: item.icon }}
-                className="w-6 h-6"
-                resizeMode="contain"
-              />
-              <Text className="text-center text-sm">{item.name}</Text>
-            </View>
-          </View>
+          <GoodsCategoriesCard key={item.id} item={item} />
         )}
       />
     </View>
   )
 }
 
-const GoodsListHeader = () => {
-  const campusList = [
-    {
-      id: 1,
-      name: '宣城',
-      img: 'https://www.hfut.edu.cn/__local/2/25/BA/7FA4000B62199F34C20447925CE_ACC8019A_1CB89.jpg',
-    },
-    {
-      id: 2,
-      name: '翡翠湖',
-      img: 'https://www.hfut.edu.cn/__local/B/FA/01/F77000BC061104139926540683E_EDA200B6_BFFA.jpg',
-    },
-    {
-      id: 3,
-      name: '屯溪路',
-      img: 'https://www.hfut.edu.cn/__local/8/5B/FC/0653252EDB9250398B11A620B6F_3CA66AE0_18F22.jpg',
-    },
-  ]
+const CollapsedGoodsCategoriesList = () => {
   return (
-    <>
-      <View>
-        <GoodsCategoriesList />
-        {/* 三个校区 */}
-        <View className="flex-row justify-between items-center px-4 py-4 space-x-2 flex-1">
-          {campusList.map((item) => (
-            <View
-              key={item.id}
-              className="flex-1 bg-white p-2 rounded-xl flex-1 shadow-sm shadow-slate-400"
-            >
-              <View className="flex-1 justify-center items-center">
-                <Image
-                  source={{ uri: item.img }}
-                  className="w-[96px] h-[96px] rounded-xl"
-                />
-              </View>
-              <View className="my-2">
-                <Text className="text-center text-sm">{item.name}校区</Text>
-              </View>
-            </View>
-          ))}
+    <CarouselAction
+      data={goodsCategories}
+      height={72}
+      renderItem={(item) => <GoodsCategoriesCard item={item} />}
+    />
+  )
+}
+
+const campusList = [
+  {
+    id: 1,
+    name: '宣城',
+    img: 'https://www.hfut.edu.cn/__local/2/25/BA/7FA4000B62199F34C20447925CE_ACC8019A_1CB89.jpg',
+  },
+  {
+    id: 2,
+    name: '翡翠湖',
+    img: 'https://www.hfut.edu.cn/__local/B/FA/01/F77000BC061104139926540683E_EDA200B6_BFFA.jpg',
+  },
+  {
+    id: 3,
+    name: '屯溪路',
+    img: 'https://www.hfut.edu.cn/__local/8/5B/FC/0653252EDB9250398B11A620B6F_3CA66AE0_18F22.jpg',
+  },
+]
+const actions = [
+  // 我的商品，我的收藏
+  {
+    id: 1,
+    name: '我的商品',
+    icon: `<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1509" strokeWidth="1.5" stroke="#333">
+    <path d="M298.666667 341.333333h384v42.666667H298.666667v-42.666667z m0 128h298.666666v42.666667H298.666667v-42.666667z m0 128h298.666666v42.666667H298.666667v-42.666667z m0-469.376C298.666667 104.405333 317.824 85.333333 341.12 85.333333h341.76C706.304 85.333333 725.333333 104.490667 725.333333 127.957333v42.752A42.645333 42.645333 0 0 1 682.88 213.333333H341.12C317.696 213.333333 298.666667 194.176 298.666667 170.709333V127.957333zM170.666667 938.666667h682.666666c23.68 0 42.666667-19.157333 42.666667-42.773334V170.773333C896 147.093333 876.842667 128 853.205333 128h-63.296v42.666667h63.296c0.128 0.106667 0.170667 725.333333 0.128 725.333333H170.666667V170.773333C170.752 170.709333 236.16 170.666667 236.16 170.666667V128H170.752A42.752 42.752 0 0 0 128 170.773333v725.12A42.666667 42.666667 0 0 0 170.666667 938.666667z m170.666666-768h341.333334V128H341.333333v42.666667z" fill="#111" p-id="1510"></path>
+    </svg>`,
+  },
+  {
+    id: 2,
+    name: '我的收藏',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="#333" className="size-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+  </svg>
+  `,
+  },
+]
+const GoodsListHeader = () => {
+  return (
+    <View className="flex-1">
+      <View className="flex-1 px-4 mb-4">
+        <View className="px-1 bg-white rounded-md py-2">
+          <CarouselAction
+            data={actions}
+            height={60}
+            renderItem={(item) => (
+              <TouchableOpacity
+                className="items-center justify-center bg-white rounded-xl w-[64px] py-2 space-y-1"
+                onPress={() => {}}
+              >
+                <SvgXml xml={item.icon} className="w-6 h-6" />
+                <Text>{item.name}</Text>
+              </TouchableOpacity>
+            )}
+          />
         </View>
       </View>
-    </>
+      <View className="flex-1 px-4 mb-2">
+        <View className="bg-white rounded-md  py-2">
+          <CollapsedGoodsCategoriesList />
+        </View>
+      </View>
+
+      {/* 三个校区 */}
+      <View className="flex-row justify-between items-center px-4 py-2 space-x-2 flex-1">
+        {campusList.map((item) => (
+          <View
+            key={item.id}
+            className="flex-1 bg-white p-2 rounded-xl flex-1 shadow-sm shadow-slate-400"
+          >
+            <View className="flex-1 justify-center items-center">
+              <Image
+                source={{ uri: item.img }}
+                className="w-[96px] h-[96px] rounded-xl"
+              />
+            </View>
+            <View className="my-2">
+              <Text className="text-center text-sm">{item.name}校区</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </View>
   )
 }
 
@@ -144,6 +206,7 @@ const MarketGoodsFlashList = memo((props: any) => (
   <FlashList
     {...props}
     ListHeaderComponent={GoodsListHeader}
+    ListHeaderComponentStyle={{ flex: 1 }}
     numColumns={2}
     estimatedItemSize={202}
     style={[]}
@@ -209,6 +272,9 @@ export const MarketScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
+        {/* <View className="flex-row justify-between items-center px-4 py-4 space-x-2 flex-1">
+          <CarouselAction data={[1,2,3,4]}/>
+        </View> */}
         <RefreshableGoodsList
           FlatListComponent={MarketGoodsFlashList}
           renderItem={({ item, index }) => (
@@ -234,7 +300,7 @@ export const MarketScreen = () => {
         )}
       >
         <View className="bg-white rounded-t-3xl flex-1">
-          <GoodsCategoriesList limit={goodsCategories.length} />
+          <GoodsCategoriesList />
         </View>
       </BottomSheet>
     </LoadingScreen>
