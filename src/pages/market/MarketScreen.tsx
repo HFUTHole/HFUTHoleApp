@@ -8,7 +8,11 @@ import { FlashList } from '@shopify/flash-list'
 import clsx from 'clsx'
 import { UserAvatar } from '@/components/UserAvatar'
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
-import { useState } from 'react'
+import { memo, useState } from 'react'
+import { RefreshableHoleList } from '../hole/components/HoleList'
+import { GoodsItemCard } from './components/GoodsCard'
+import { RefreshableGoodsList } from './GoodsList'
+import { useMarketGoodsList } from '@/swr/market/goods'
 
 const goodsCategories = [
   {
@@ -63,184 +67,16 @@ const goodsCategories = [
   },
 ]
 
-const itemsData = {
-  data: {
-    items: [
-      {
-        id: 'c1f9e910-d608-4fd4-b6db-acb0597bddc8',
-        createAt: '2024-06-02T04:36:06.767Z',
-        body: '出一个iPad 2024最新版',
-        price: 9999,
-        area: '宣城',
-        status: 0,
-        imgs: [
-          'http://sns-webpic-qc.xhscdn.com/202406022035/4e895de6be26da24c6e15482871e7028/1040g008313bam29pg4005njv44h08a0npiumoio!nd_dft_wlteh_webp_3',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-      {
-        id: '3d73e80b-a542-45d8-8447-290148b5a761',
-        createAt: '2024-06-02T04:33:29.026Z',
-        body: '出一个超级可爱的书包',
-        price: 245,
-        area: '宣城',
-        status: 0,
-        imgs: [
-          'https://sns-webpic-qc.xhscdn.com/202406022031/7ee23ab8a05a272bec5f43bd774cdfc4/1040g2sg311hcodromq005okato48dd0gslh62k0!nc_n_webp_mw_1',
-          'https://sns-webpic-qc.xhscdn.com/202406022031/55d221b558e8bdf95f9fa71c220af49c/1040g2sg311hcodromq0g5okato48dd0gt5vacqg!nd_dft_wlteh_webp_3',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-      {
-        id: '99c24868-9309-4c9a-a937-e671fabf8902',
-        createAt: '2024-06-02T04:30:40.506Z',
-        body: '出一张4090',
-        price: 9999,
-        area: '翡翠湖',
-        status: 0,
-        imgs: [
-          'https://sns-webpic-qc.xhscdn.com/202406022029/8d7b23cacf63b300a156577c3ac378eb/1040g008312he8mu770005nqng0vg88n5k21a09o!nc_n_webp_mw_1',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-      {
-        id: '53256ccc-6b74-49f4-9134-7871921cd009',
-        createAt: '2024-06-02T04:30:34.544Z',
-        body: '出一张4090',
-        price: 1.22,
-        area: '翡翠湖',
-        status: 0,
-        imgs: [
-          'https://sns-webpic-qc.xhscdn.com/202406022029/8d7b23cacf63b300a156577c3ac378eb/1040g008312he8mu770005nqng0vg88n5k21a09o!nc_n_webp_mw_1',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-      {
-        id: '385d4a18-f227-4c4f-8b33-e17f3b813bb6',
-        createAt: '2024-06-02T04:29:38.657Z',
-        body: '石膏娃娃～库洛米，石膏娃娃涂鸦，存钱罐，治愈又解压。受欢迎的库洛米，也太好看了吧～',
-        price: 1.22,
-        area: '屯溪路',
-        status: 0,
-        imgs: [
-          'https://sns-webpic-qc.xhscdn.com/202406022029/6be74878c7a7f7c95fdb2a99bfdaec73/1000g00824bd9g5afq0005ojnajpocg829t0ofl8!nc_n_webp_mw_1',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-      {
-        id: '2051ecea-4226-4730-b650-f949ad70f790',
-        createAt: '2024-06-02T04:28:30.221Z',
-        body: '卖一个我最喜欢的小熊熊',
-        price: 1.22,
-        area: '屯溪路',
-        status: 0,
-        imgs: [
-          'https://sns-webpic-qc.xhscdn.com/202406022027/feed2f53990553b6c6d19c1864cb3e33/1000g0082hi95a3kj40605n6djfk4e5bp2to3qro!nc_n_webp_mw_1',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-      {
-        id: 'a30c7e84-3373-4ec9-a719-3fc2aa70c85f',
-        createAt: '2024-06-02T04:24:35.213Z',
-        body: '一个迷你相机！！！',
-        price: 1.22,
-        area: '宣城',
-        status: 0,
-        imgs: [
-          'https://sns-webpic-qc.xhscdn.com/202406022023/306ab6f185b32910b9695194fe302c5f/1040g008311p77n6n7c6g4b8g8j64cabem38bisg!nc_n_webp_mw_1',
-        ],
-        creator: {
-          id: 2,
-          createAt: '2024-05-17T03:39:17.693Z',
-          username: 'aaabbbss',
-          role: 'admin',
-          avatar:
-            'https://api.dicebear.com/5.x/bottts-neutral/jpg?seed=aaabbbss',
-        },
-      },
-    ],
-    meta: {
-      totalItems: 7,
-      itemCount: 7,
-      itemsPerPage: 10,
-      totalPages: 1,
-      currentPage: 1,
-    },
-  },
-  msg: '获取成功',
-  code: 200,
-}
-
-// 商品项目
-interface GoodsItem {
-  id: string
-  createAt: string
-  body: string
-  price: number
-  area: string
-  status: number
-  imgs: string[]
-  creator: {
-    id: number
-    createAt: string
-    username: string
-    role: string
-    avatar: string
-  }
-}
-
 const GoodsCategoriesList = ({ limit = 8 }: { limit?: number }) => {
   return (
-    <View className="px-1 flex-1">
+    <View className="px-3 flex-1">
       <FlashList
         data={goodsCategories.slice(0, limit)}
         numColumns={4}
         estimatedItemSize={96}
         renderItem={({ item }) => (
           <View
-            className="items-center justify-center w-full px-2 my-2"
+            className="items-center justify-center w-full px-1 my-1"
             key={item.id}
           >
             <View className="bg-white h-[80px] rounded-xl shadow-sm shadow-slate-400 w-full items-center justify-center space-y-1">
@@ -304,61 +140,15 @@ const GoodsListHeader = () => {
   )
 }
 
-const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
-  item,
-  index,
-}) => {
-  const locationIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#8C8C8C" className="size-6">
-	<path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-	<path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-  </svg>
-  `
-
-  return (
-    <View
-      className={clsx(
-        'bg-white p-2 rounded-xl flex-1 my-2 shadow-sm shadow-slate-400',
-        index % 2 === 0 ? 'ml-3 mr-2' : 'ml-2 mr-3',
-      )}
-    >
-      <View className="flex-1">
-        <Image
-          source={{ uri: item.imgs[0] }}
-          className=" w-full h-[160px] mr-2 rounded-xl"
-        />
-      </View>
-      <View className="my-2">
-        <Text className="font-bold" numberOfLines={1}>
-          {item.body}
-        </Text>
-      </View>
-
-      <View className="flex-row justify-between items-center">
-        <View className="flex-row items-center">
-          <View className="flex-row items-center space-x-2">
-            <Text className="text-sm text-gray-600">
-              来自 {item.creator.username}
-            </Text>
-            {/* <UserAvatar
-              url={item.creator.avatar}
-              // userId={item.creator.id}
-              size={24}
-            /> */}
-          </View>
-        </View>
-      </View>
-      <View className="flex-row justify-between items-center mt-2">
-        <View>
-          <Text className="text-sky-500 font-bold">¥{item.price}</Text>
-        </View>
-        <View className="flex-row items-center space-x-1">
-          <SvgXml xml={locationIcon} className="w-4 h-4" />
-          <Text>{item.area}</Text>
-        </View>
-      </View>
-    </View>
-  )
-}
+const MarketGoodsFlashList = memo((props: any) => (
+  <FlashList
+    {...props}
+    ListHeaderComponent={GoodsListHeader}
+    numColumns={2}
+    estimatedItemSize={202}
+    style={[]}
+  />
+))
 
 export const MarketScreen = () => {
   const {
@@ -376,6 +166,8 @@ export const MarketScreen = () => {
   		<path stroke-linecap="round" stroke-linejoin="round" 
 			d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
 	</svg>`
+
+  const marketGoodsListQuery = useMarketGoodsList()
 
   return (
     <LoadingScreen isLoading={false}>
@@ -417,14 +209,12 @@ export const MarketScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <FlashList
-          data={itemsData.data.items}
-          ListHeaderComponent={GoodsListHeader}
-          numColumns={2}
-          estimatedItemSize={202}
+        <RefreshableGoodsList
+          FlatListComponent={MarketGoodsFlashList}
           renderItem={({ item, index }) => (
-            <GoodsItemCard item={item} index={index} />
+            <GoodsItemCard item={item as any} index={index} />
           )}
+          {...marketGoodsListQuery}
         />
       </View>
       {/* 显示所有类别 */}

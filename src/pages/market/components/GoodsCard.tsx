@@ -1,0 +1,79 @@
+import { View, TouchableOpacity, Image } from 'react-native'
+import { Text } from 'react-native-paper'
+import { SvgXml } from 'react-native-svg'
+import clsx from 'clsx'
+import { UserAvatar } from '@/components/UserAvatar'
+
+// 商品项目
+export interface GoodsItem {
+	id: string
+	createAt: string
+	body: string
+	price: number
+	area: string
+	status: number
+	imgs: string[]
+	creator: {
+	  id: number
+	  createAt: string
+	  username: string
+	  role: string
+	  avatar: string
+	}
+  }
+
+export const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
+	item,
+	index,
+  }) => {
+	const locationIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#8C8C8C" className="size-6">
+	  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+	  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+	</svg>
+	`
+  
+	return (
+	  <View
+		className={clsx(
+		  'bg-white p-2 rounded-xl flex-1 my-2 shadow-sm shadow-slate-400',
+		  index % 2 === 0 ? 'ml-3 mr-2' : 'ml-2 mr-3',
+		)}
+	  >
+		<View className="flex-1">
+		  <Image
+			source={{ uri: item.imgs[0] }}
+			className=" w-full h-[160px] mr-2 rounded-xl"
+		  />
+		</View>
+		<View className="my-2">
+		  <Text className="font-bold" numberOfLines={1}>
+			{item.body}
+		  </Text>
+		</View>
+  
+		<View className="flex-row justify-between items-center">
+		  <View className="flex-row items-center">
+			<View className="flex-row items-center space-x-2">
+			  <Text className="text-sm text-gray-600">
+				来自 {item.creator.username}
+			  </Text>
+			  {/* <UserAvatar
+				url={item.creator.avatar}
+				// userId={item.creator.id}
+				size={24}
+			  /> */}
+			</View>
+		  </View>
+		</View>
+		<View className="flex-row justify-between items-center mt-2">
+		  <View>
+			<Text className="text-sky-500 font-bold">¥{item.price}</Text>
+		  </View>
+		  <View className="flex-row items-center space-x-1">
+			<SvgXml xml={locationIcon} className="w-4 h-4" />
+			<Text>{item.area}</Text>
+		  </View>
+		</View>
+	  </View>
+	)
+  }
