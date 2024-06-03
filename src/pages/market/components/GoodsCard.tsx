@@ -54,14 +54,14 @@ export const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
       <View className="flex-row justify-between items-center">
         <View className="flex-row items-center">
           <View className="flex-row items-center space-x-2">
-            <Text className="text-sm text-gray-600">
-              来自 {item.creator.username}
-            </Text>
-            {/* <UserAvatar
+            <UserAvatar
 				url={item.creator.avatar}
-				// userId={item.creator.id}
-				size={24}
-			  /> */}
+				userId={item.creator.id}
+				size={20}
+			  />
+            <Text className="text-sm text-gray-600">
+              {item.creator.username}
+            </Text>
           </View>
         </View>
       </View>
