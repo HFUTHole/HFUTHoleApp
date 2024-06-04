@@ -84,7 +84,7 @@ const GoodsCategoriesCard = ({
         <View className="h-full w-full items-center justify-center space-y-1">
           <Image
             source={{ uri: item.icon }}
-            className="w-6 h-6"
+            className="w-5 h-5"
             resizeMode="contain"
           />
           <Text className="text-center text-sm">{item.name}</Text>

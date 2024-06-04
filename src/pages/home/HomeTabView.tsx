@@ -41,8 +41,10 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
   const layout = useWindowDimensions()
   const prevIndex = useRef(props.navigationState.index)
   const scrollViewRef = useRef<ScrollView>(null)
+  const indicatorOffset = useSharedValue(0)
+  const indicatorWidth = useSharedValue(0)
+
   // const indicatorLeft = useSharedValue(0)
-  // const indicatorWidth = useSharedValue(30)
 
   useEffect(() => {
     const { index } = props.navigationState
@@ -54,15 +56,29 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
 
     prevIndex.current = index
     scrollViewRef.current?.scrollTo({ x: scrollX, animated: true })
+
+    const targetTab = tabLayouts.current[index]
+    if (targetTab) {
+      indicatorWidth.value = targetTab.width * 0.8
+      indicatorOffset.value = targetTab.x + targetTab.width * 0.1
+    }
   }, [props.navigationState.index, layout.width])
 
-  // const indicatorStyle = useAnimatedStyle(() => {
-  //   return {
-  //     left: withTiming(indicatorLeft.value),
-  //     width: withTiming(indicatorWidth.value),
-  //   }
-  // })
-  
+  const indicatorStyle = useAnimatedStyle(() => {
+    return {
+      width: withTiming(indicatorWidth.value),
+      transform: [
+        {
+          translateX: withSpring(indicatorOffset.value),
+        },
+        {
+          translateY: 15,
+        },
+      ],
+      left: 0,
+    }
+  })
+
   const { goIndex } = useHoleSearchRoute()
 
   return (
@@ -72,17 +88,21 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
       </TouchableOpacity>
       <ScrollView
         ref={scrollViewRef}
-        className={'overflow-visible space-x-2 flex-1'}
+        className={'overflow-visible flex-1 mb-2 ml-7'}
         horizontal={true}
         contentContainerStyle={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          flex: 1
+          flex: 1,
         }}
         showsHorizontalScrollIndicator={false}
       >
-        {props.navigationState.routes.map((item, index) => {
+        <Animated.View
+          className={'absolute h-[3px] bg-[#FB264A] rounded-full'}
+          style={[indicatorStyle]}
+        />
+        {props.navigationState.routes.map((item, index, arr) => {
           const isActivated = props.navigationState.index === index
 
           return (
@@ -92,6 +112,7 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
               }}
               onLayout={(event) => {
                 const { width, x } = event.nativeEvent.layout
+
                 const isExist = tabLayouts.current.find(
                   (item) => item.index == index,
                 )
@@ -109,9 +130,10 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
                   isExist.index = index
                 }
               }}
-              className={clsx([
-                'justify-center',
-              ])}
+              className={clsx({
+                'justify-center': true,
+                'mr-10': index !== arr.length - 1,
+              })}
             >
               <HomeTabBar key={item.key} activated={isActivated} data={item} />
             </TouchableOpacity>
@@ -125,16 +147,16 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
         {/*/>*/}
       </ScrollView>
       <Pressable
-          className={'h-full rounded-full px-3 flex-row items-center'}
-          onPress={() => {
-            goIndex()
-          }}
-        >
-            <SearchIcon color={'#939496'} size={24} />
-          {/* <View className={'flex-row items-center flex-1 '}>
+        className={'h-full rounded-full px-3 flex-row items-center'}
+        onPress={() => {
+          goIndex()
+        }}
+      >
+        <SearchIcon color={'#939496'} size={24} />
+        {/* <View className={'flex-row items-center flex-1 '}>
             <Text className={'text-[#939496]'}>搜索...</Text>
           </View> */}
-        </Pressable>
+      </Pressable>
     </View>
   )
 }
@@ -153,21 +175,7 @@ const HomeTabBar: React.FC<{
   })
 
   return (
-    <Animated.View
-      // className={clsx(['rounded-full px-4 py-2', {}])}
-      // style={[
-      //   {
-      //     backgroundColor: activated ? 'rgba(0,0,0,0.05)' : 'transparent',
-      //   },
-      // ]}
-      className={clsx([
-        'mx-4 my-1 py-1 border-b-2 border-transparent',
-        {
-          'border-primary': activated,
-        },
-      ])
-      }
-    >
+    <Animated.View className={'my-1 py-1 items-center'}>
       <Animated.Text
         className={clsx([
           {
