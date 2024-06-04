@@ -6,7 +6,13 @@ import {
   TabView,
 } from 'react-native-tab-view'
 import { View } from 'native-base'
-import { ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native'
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  useWindowDimensions,
+  Pressable,
+} from 'react-native'
 import { PostList } from '@/pages/home/component/PostList'
 import Animated, {
   useAnimatedStyle,
@@ -17,8 +23,11 @@ import Animated, {
 } from 'react-native-reanimated'
 import { Categories } from '@/shared/constants/category'
 import clsx from 'clsx'
-import { MenuIcon } from '@/components/icon'
+import { MenuIcon, SearchIcon } from '@/components/icon'
 import { FollowedPostList } from '@/pages/home/FollowedPostList'
+import { MyAvatar } from '@/components/UserAvatar'
+import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
+import { MarketScreen } from '../market/MarketScreen'
 
 export interface HomeTabViewProps {}
 
@@ -53,13 +62,24 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
   //     width: withTiming(indicatorWidth.value),
   //   }
   // })
+  
+  const { goIndex } = useHoleSearchRoute()
 
   return (
-    <View className={'bg-white py-2 px-2'}>
+    <View className={'flex-row items-center bg-white py-2 px-2'}>
+      <TouchableOpacity onPress={() => {}}>
+        <MyAvatar size={35} />
+      </TouchableOpacity>
       <ScrollView
         ref={scrollViewRef}
-        className={'overflow-visible space-x-2'}
+        className={'overflow-visible space-x-2 flex-1'}
         horizontal={true}
+        contentContainerStyle={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1
+        }}
         showsHorizontalScrollIndicator={false}
       >
         {props.navigationState.routes.map((item, index) => {
@@ -91,9 +111,6 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
               }}
               className={clsx([
                 'justify-center',
-                {
-                  'pr-6': index === props.navigationState.routes.length - 1,
-                },
               ])}
             >
               <HomeTabBar key={item.key} activated={isActivated} data={item} />
@@ -107,6 +124,17 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
         {/*  }*/}
         {/*/>*/}
       </ScrollView>
+      <Pressable
+          className={'h-full rounded-full px-3 flex-row items-center'}
+          onPress={() => {
+            goIndex()
+          }}
+        >
+            <SearchIcon color={'#939496'} size={24} />
+          {/* <View className={'flex-row items-center flex-1 '}>
+            <Text className={'text-[#939496]'}>搜索...</Text>
+          </View> */}
+        </Pressable>
     </View>
   )
 }
@@ -126,12 +154,19 @@ const HomeTabBar: React.FC<{
 
   return (
     <Animated.View
-      className={clsx(['rounded-full px-4 py-2', {}])}
-      style={[
+      // className={clsx(['rounded-full px-4 py-2', {}])}
+      // style={[
+      //   {
+      //     backgroundColor: activated ? 'rgba(0,0,0,0.05)' : 'transparent',
+      //   },
+      // ]}
+      className={clsx([
+        'mx-4 my-1 py-1 border-b-2 border-transparent',
         {
-          backgroundColor: activated ? 'rgba(0,0,0,0.05)' : 'transparent',
+          'border-primary': activated,
         },
-      ]}
+      ])
+      }
     >
       <Animated.Text
         className={clsx([
@@ -155,6 +190,7 @@ export const HomeTabView: React.FC<HomeTabViewProps> = () => {
   const sceneMap = {
     follow: FollowedPostList,
     latest: PostList,
+    market: MarketScreen,
   } as const
 
   const RenderScene = SceneMap(sceneMap)
@@ -162,6 +198,7 @@ export const HomeTabView: React.FC<HomeTabViewProps> = () => {
   const [routes] = React.useState([
     { key: 'follow', title: '关注' },
     { key: 'latest', title: '最新' },
+    { key: 'market', title: '淘二手' },
   ])
 
   return (
