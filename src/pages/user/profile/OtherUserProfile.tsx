@@ -136,7 +136,7 @@ const ProfileScreenTabBar = (props: any) => {
           elevation: 0,
         }}
         indicatorStyle={{
-          backgroundColor: '#5B9BD5',
+          backgroundColor: '#171821',
         }}
         renderLabel={({ route, focused }) => (
           <Text

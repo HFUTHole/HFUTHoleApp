@@ -203,7 +203,7 @@ const ProfileScreenTabBar = (props: any) => {
           animatedBackgroundOpacity,
         ]}
         indicatorStyle={{
-          backgroundColor: '#5B9BD5',
+          backgroundColor: '#171821',
         }}
         renderLabel={({ route, focused }) => (
           <Text
