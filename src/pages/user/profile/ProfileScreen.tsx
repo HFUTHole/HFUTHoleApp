@@ -29,10 +29,9 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'
 import { useUserCommentsListQuery } from '@/swr/user/comment'
-import { LinearGradient } from 'expo-linear-gradient'
 import { TagHoleInfo } from '@/pages/hole/components/TagHoleInfo'
 import { FlashList, MasonryFlashList } from '@shopify/flash-list'
-
+import { LinearGradient } from 'expo-linear-gradient'
 
 /**
  * 适合用于底部弹出的瀑布流列表
@@ -75,23 +74,17 @@ export const ProfileHoleList = (props: any) => {
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const UserFavList = () => {
   const query = useUserPostedHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const UserFavoriteHoleList = () => {
   const query = useUserFavoriteHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const tabs: ITabViewTabs[] = [
@@ -230,7 +223,7 @@ const ProfileBio = () => {
           className={'text-white/75 text-s'}
           numberOfLines={viewMore ? undefined : 1}
         >
-          还没有简介哦 
+          还没有简介哦
         </Text>
       </View>
       <View>
@@ -246,28 +239,8 @@ const ProfileBio = () => {
 
 export const LevelBanner = ({ level }: { level: number }) => {
   return (
-    <View className={'flex-row space-x-0 items-end rounded-sm overflow-hidden'}>
-      <View className={'bg-[#fff] font-bold h-[10px] px-0 py-0 align-bottom'}>
-        <Text
-          className={
-            'text-[#333] font-bold text-[12px] leading-[12px] px-0 py-0'
-          }
-        >
-          LV
-        </Text>
-      </View>
-      <View className={'bg-[#fff] font-bold h-[12px] px-0 py-0 align-bottom'}>
-        <Text
-          className={
-            'text-[#333] font-bold text-[14px] leading-[14px] px-0 py-0'
-          }
-          style={{
-            fontFamily: '',
-          }}
-        >
-          {level}
-        </Text>
-      </View>
+    <View>
+      <Text className={'text-white/75'}>Lv.{level}</Text>
     </View>
   )
 }
@@ -350,7 +323,9 @@ export function ProfileScreen() {
         className={'absolute w-full top-[0]'}
         style={[animatedBgImgHeight]}
       >
-        {/* <View className={'absolute w-full h-[100%] top-[0] z-[1] bg-black/20'}></View> */}
+        <View
+          className={'absolute w-full h-[100%] top-[0] z-[1] bg-black/20'}
+        ></View>
         <LinearGradient
           className={'absolute w-full h-[100%] top-[0] z-[1]'}
           colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.8)']}
@@ -358,8 +333,7 @@ export function ProfileScreen() {
         <Image
           className={'absolute w-full h-[100%] top-[0]'}
           source={{
-            // TODO: 替换占位图
-            uri: 'https://xc.hfut.edu.cn/_upload/article/images/e3/c5/c149c3ed4cb1ae3f27b65d6c4dfd/dceea027-fc59-405a-ae15-5dfa296ddaa1.jpg',
+            uri: 'https://c-ssl.duitang.com/uploads/blog/202206/18/20220618182459_fd9d9.png',
           }}
           contentPosition={'center'}
           cachePolicy={'disk'}
@@ -497,19 +471,19 @@ export function ProfileScreen() {
               }}
               horizontal={true}
             >
-              {blocks.map((block) => (
-                <View
-                  key={block.id}
-                  className={
-                    'px-2 py-1 bg-white/20 rounded-sm min-w-[80px] flex-column items-start justify-center space-y-2'
-                  }
-                >
-                  <Text className={'text-white/80'}>{block.name}</Text>
-                  <Text className={'text-white/80 text-xs'}>
-                    {block.description}
-                  </Text>
-                </View>
-              ))}
+              {/*{blocks.map((block) => (*/}
+              {/*  <View*/}
+              {/*    key={block.id}*/}
+              {/*    className={*/}
+              {/*      'px-3 py-2 bg-white/20 rounded-3xl min-w-[80px] flex-column items-start justify-center'*/}
+              {/*    }*/}
+              {/*  >*/}
+              {/*    <Text className={'text-white/80 text-sm'}>{block.name}</Text>*/}
+              {/*    <Text className={'text-white/70 text-xs'}>*/}
+              {/*      {block.description}*/}
+              {/*    </Text>*/}
+              {/*  </View>*/}
+              {/*))}*/}
             </ScrollView>
           </View>
         </View>

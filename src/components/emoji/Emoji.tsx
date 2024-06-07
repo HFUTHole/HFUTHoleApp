@@ -1,5 +1,5 @@
-import { Image, View } from 'react-native'
 import { ImageSourcePropType } from 'react-native/Libraries/Image/Image'
+import { Image } from 'expo-image'
 
 interface Props {
   asset: ImageSourcePropType

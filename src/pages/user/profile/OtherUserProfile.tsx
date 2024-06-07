@@ -33,16 +33,12 @@ import { LinearGradient } from 'expo-linear-gradient'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const UserFavoriteHoleList = () => {
   const query = useUserFavoriteHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const tabs: ITabViewTabs[] = [
@@ -228,7 +224,7 @@ export function OtherUserProfileScreen() {
           className={'absolute w-full h-[100%] top-[0]'}
           source={{
             // TODO: 替换占位图
-            uri: 'https://xc.hfut.edu.cn/_upload/article/images/e3/c5/c149c3ed4cb1ae3f27b65d6c4dfd/dceea027-fc59-405a-ae15-5dfa296ddaa1.jpg',
+            uri: 'https://c-ssl.duitang.com/uploads/blog/202206/18/20220618182459_fd9d9.png',
           }}
           contentPosition={'center'}
           cachePolicy={'disk'}
@@ -278,11 +274,12 @@ export function OtherUserProfileScreen() {
             padding: 2,
           }}
         >
-          <Animated.View className={'px-[2.5vw] space-y-4 mb-4 mx-2'} style={{}}>
+          <Animated.View
+            className={'px-[2.5vw] space-y-4 mb-4 mx-2'}
+            style={{}}
+          >
             <View
-              className={
-                'flex-row justify-start align-center space-x-3 mt-2'
-              }
+              className={'flex-row justify-start align-center space-x-3 mt-2'}
             >
               <View className={'flex-row items-center space-x-1'}>
                 <Text className={'text-center text-black font-bold text-xl'}>

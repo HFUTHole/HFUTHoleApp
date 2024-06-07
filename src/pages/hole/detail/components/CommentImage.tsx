@@ -8,7 +8,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from '@/components/icon'
 import { IconButton } from '@/components/IconButton'
 import { EmojiableText } from '@/components/Text/EmojiableText'
-import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { If } from 'react-if'
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 
