@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   NavigationState,
   SceneMap,
@@ -12,9 +12,11 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   Pressable,
+  Animated as ReactNativeAnimated,
 } from 'react-native'
 import { PostList } from '@/pages/home/component/PostList'
 import Animated, {
+  interpolate,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -59,27 +61,27 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
 
     const targetTab = tabLayouts.current[index]
     if (targetTab) {
-      indicatorWidth.value = targetTab.width * 0.8
-      indicatorOffset.value = targetTab.x + targetTab.width * 0.1
     }
   }, [props.navigationState.index, layout.width])
 
-  const indicatorStyle = useAnimatedStyle(() => {
-    return {
-      width: withTiming(indicatorWidth.value),
-      transform: [
-        {
-          translateX: withSpring(indicatorOffset.value),
-        },
-        {
-          translateY: 15,
-        },
-      ],
-      left: 0,
-    }
-  })
-
   const { goIndex } = useHoleSearchRoute()
+
+  const [animatedTranslateX, setAnimatedTranslateX] = useState<
+    ReactNativeAnimated.AnimatedInterpolation<number>
+  >(
+    props.position.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [123.92727203369141, 123.92727203369141, 123.92727203369141],
+    }),
+  )
+  const [animatedWidth, setAnimatedWidth] = useState<
+    ReactNativeAnimated.AnimatedInterpolation<number>
+  >(
+    props.position.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [0.256, 0.256, 0.256],
+    }),
+  )
 
   return (
     <View className={'flex-row items-center bg-white py-2 px-2'}>
@@ -98,9 +100,25 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
         }}
         showsHorizontalScrollIndicator={false}
       >
-        <Animated.View
-          className={'absolute h-[3px] bg-[#FB264A] rounded-full'}
-          style={[indicatorStyle]}
+        <ReactNativeAnimated.View
+          className={'absolute h-[3px] w-[100px] l-0 bg-[#FB264A] rounded-full'}
+          style={[
+            {
+              transform: [
+                {
+                  translateX: animatedTranslateX,
+                },
+                {
+                  scaleX: animatedWidth,
+                },
+                {
+                  translateY: 16,
+                },
+              ],
+              transformOrigin: 'left center',
+              left: 0,
+            },
+          ]}
         />
         {props.navigationState.routes.map((item, index, arr) => {
           const isActivated = props.navigationState.index === index
@@ -124,6 +142,28 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
                     x,
                   })
                   tabLayouts.current.sort((a, b) => a.index - b.index)
+                  if (tabLayouts.current.length === arr.length) {
+                    setAnimatedTranslateX(
+                      props.position.interpolate({
+                        inputRange: tabLayouts.current.map(
+                          (item) => item.index,
+                        ),
+                        outputRange: tabLayouts.current.map(
+                          (item) => item.x + 0.1 * item.width,
+                        ),
+                      }),
+                    )
+                    setAnimatedWidth(
+                      props.position.interpolate({
+                        inputRange: tabLayouts.current.map(
+                          (item) => item.index,
+                        ),
+                        outputRange: tabLayouts.current.map(
+                          (item) => (item.width / 100) * 0.8,
+                        ),
+                      }),
+                    )
+                  }
                 } else {
                   isExist.x = x
                   isExist.width = width
@@ -135,7 +175,13 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
                 'mr-10': index !== arr.length - 1,
               })}
             >
-              <HomeTabBar key={item.key} activated={isActivated} data={item} />
+              <HomeTabBar
+                key={item.key}
+                data={item}
+                position={props.position}
+                index={index}
+                tabsCount={arr.length}
+              />
             </TouchableOpacity>
           )
         })}
@@ -147,12 +193,14 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
         {/*/>*/}
       </ScrollView>
       <Pressable
-        className={'h-full rounded-full px-3 flex-row items-center'}
+        className={'h-full rounded-full px-3 flex-row items-center '}
         onPress={() => {
           goIndex()
         }}
       >
-        <SearchIcon color={'#939496'} size={24} />
+        <View className="min-w-[24px]">
+          <SearchIcon color={'#939496'} size={24} />
+        </View>
         {/* <View className={'flex-row items-center flex-1 '}>
             <Text className={'text-[#939496]'}>搜索...</Text>
           </View> */}
@@ -162,30 +210,32 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
 }
 
 const HomeTabBar: React.FC<{
-  activated: boolean
   data: { key: string; title: string }
+  position: ReactNativeAnimated.AnimatedInterpolation<number>
+  index: number
+  tabsCount: number
 }> = (props) => {
-  const { activated, data } = props
+  const { data, position, index, tabsCount } = props
 
-  const textStyle = useAnimatedStyle(() => {
-    return {
-      fontSize: 16,
-      color: activated ? '#333' : 'rgba(51,51,51,0.6)',
-    }
+  const inputRange = Array.from({ length: tabsCount }, (_, i) => i)
+
+  const opacity = position.interpolate({
+    inputRange,
+    outputRange: inputRange.map((inputIndex) =>
+      inputIndex === index ? 1 : 0.6,
+    ),
   })
 
   return (
     <Animated.View className={'my-1 py-1 items-center'}>
-      <Animated.Text
-        className={clsx([
-          {
-            'font-bold text-primary/50': activated,
-          },
-        ])}
-        style={[textStyle]}
+      <ReactNativeAnimated.Text
+        className={'font-bold text-primary/50 text-[16px] text-[#333]'}
+        style={{
+          opacity,
+        }}
       >
         {data.title}
-      </Animated.Text>
+      </ReactNativeAnimated.Text>
     </Animated.View>
   )
 }
