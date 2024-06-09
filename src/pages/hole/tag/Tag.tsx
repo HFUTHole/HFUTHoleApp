@@ -77,7 +77,7 @@ export function TagScreen() {
           }}
           renderItem={({ item: data }) => {
             return (
-              <View className={'w-[47vw] mx-auto my-[5px]'}>
+              <View className={'w-[48vw] mx-auto my-[5px]'}>
                 <TagHoleInfo data={data} />
               </View>
             )

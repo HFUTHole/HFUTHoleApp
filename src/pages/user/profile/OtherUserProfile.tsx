@@ -1,4 +1,4 @@
-import { Pressable, StatusBar, View } from 'react-native'
+import { Pressable, StatusBar, TouchableOpacity, View } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useUserFavoriteHoleList, useUserPostedHoleList } from '@/swr/user/hole'
 import { useOtherUserData, useUserProfile } from '@/swr/user/profile'
@@ -30,6 +30,7 @@ import { FollowButton } from '@/components/user/FollowButton'
 import { useParams } from '@/shared/hooks/useParams'
 import { LevelBanner, ProfileHoleList } from './ProfileScreen'
 import { LinearGradient } from 'expo-linear-gradient'
+import { Noop } from '@/shared/constants/func'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
@@ -122,7 +123,7 @@ const ProfileScreenHeader: React.FC<{
   )
 }
 
-const ProfileScreenTabBar = (props: any) => {
+export const ProfileScreenTabBar = (props: any) => {
   return (
     <View className={'bg-white'}>
       <TabBar
@@ -148,12 +149,10 @@ const ProfileScreenTabBar = (props: any) => {
   )
 }
 
-// 简介
 const ProfileBio = () => {
   const [viewMore, setViewMore] = useState(true)
   return (
     <View className={'flex-row space-x-2'}>
-      {/* <Text className={'text-black text-xs'}>还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦</Text> */}
       <View className={'flex-1'}>
         <Text
           className={'text-black text-sm'}
@@ -162,13 +161,7 @@ const ProfileBio = () => {
           还没有简介哦
         </Text>
       </View>
-      <View>
-        {/* <Pressable onPress={() => setViewMore(!viewMore)}>
-          <Text className={'text-[#5B9BD5] text-xs px-2 '}>
-            {viewMore ? '收起' : '详情'}
-          </Text>
-        </Pressable> */}
-      </View>
+      <View></View>
     </View>
   )
 }
@@ -337,11 +330,10 @@ export function OtherUserProfileScreen() {
             <View>
               <FollowButton
                 followingId={data?.id!}
-                style={'rounded py-[5px]'}
+                className={'py-2.5 rounded'}
               />
             </View>
           </Animated.View>
-          {/* <TabView renderTabBar={TabBar} tabs={tabs} /> */}
           <TabView
             renderTabBar={ProfileScreenTabBar}
             tabs={tabs}

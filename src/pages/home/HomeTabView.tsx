@@ -101,7 +101,7 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
         showsHorizontalScrollIndicator={false}
       >
         <ReactNativeAnimated.View
-          className={'absolute h-[3px] w-[100px] l-0 bg-[#FB264A] rounded-full'}
+          className={'absolute h-[3px] w-[100px] l-0 bg-primary rounded-full'}
           style={[
             {
               transform: [

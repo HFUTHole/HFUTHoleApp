@@ -1,7 +1,7 @@
 import { useUserProfile } from '@/swr/user/profile'
 import { Image } from '@/components/image/Image'
 import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
-import { Pressable } from 'react-native'
+import { Pressable, TouchableOpacity } from 'react-native'
 import { Config } from '@/shared/config'
 
 interface Props {
@@ -20,7 +20,7 @@ export function UserAvatar({ mode = 'sm', userId, ...props }: Props) {
   const { data: userData } = useUserProfile()
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={() => {
         if (userId && userData?.id !== userId) {
           userRoute.goOtherUserProfileScreen(userId)
@@ -39,12 +39,12 @@ export function UserAvatar({ mode = 'sm', userId, ...props }: Props) {
           uri: props.url,
         }}
       />
-    </Pressable>
+    </TouchableOpacity>
   )
 }
 
 export function MyAvatar(props: Omit<Props, 'url'>) {
   const { data } = useUserProfile()
 
-  return <UserAvatar url={data?.avatar} {...props} />
+  return <UserAvatar url={data?.avatar} userId={data?.id} {...props} />
 }

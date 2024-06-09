@@ -1,16 +1,9 @@
-import React, {
-  ForwardedRef,
-  forwardRef,
-  MutableRefObject,
-  useEffect,
-  useState,
-} from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 import type { FlatListProps } from 'react-native'
 import { Func } from '@/shared/types'
 import { useDebounceFn } from 'ahooks'
 import { RefreshIndicatorControl } from '@/components/RefreshIndicatorControl'
-import Animated from 'react-native-reanimated'
 
 type Props<T> = {
   onRefreshing?: Func
@@ -22,7 +15,7 @@ type Props<T> = {
 
 function RefreshingFlatListInner<T = any>(
   { FlatListComponent = FlatList, ...props }: Props<T>,
-  ref: React.Ref<FlatList>
+  ref: React.Ref<FlatList>,
 ) {
   const [refreshing, setRefreshing] = useState(!!props.refreshing)
 
@@ -42,7 +35,7 @@ function RefreshingFlatListInner<T = any>(
       await fetchNextPageFn?.()
       setRefreshing(false)
     },
-    { wait: 200 }
+    { wait: 200 },
   )
 
   return (
@@ -67,7 +60,7 @@ function RefreshingFlatListInner<T = any>(
 }
 
 export const RefreshingFlatList = forwardRef(RefreshingFlatListInner) as <
-  T = any
+  T = any,
 >(
-  props: Props<T> & { ref?: React.Ref<FlatList> }
+  props: Props<T> & { ref?: React.Ref<FlatList> },
 ) => React.JSX.Element

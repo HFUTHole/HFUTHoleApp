@@ -9,6 +9,7 @@ import { Image } from '@/components/image/Image'
 import { EmojiableText } from '@/components/Text/EmojiableText'
 import { If, Then } from 'react-if'
 import { TimeText } from '@/components/Text/Time'
+import { Apis } from '@/request/apis'
 
 export interface TagHoleInfoData {
   id: number
@@ -29,7 +30,14 @@ export function TagHoleInfo({ data }: TagHoleInfoProps) {
   const mutation = useMutation({
     mutationKey: ['hole.tag.like'],
     mutationFn: (isLiked: boolean) => {
-      return () => {}
+      return () =>
+        isLiked
+          ? Apis.hole.PostLikeHoleRequest({
+              id: data.id,
+            })
+          : Apis.hole.DeleteLikeHoleRequest({
+              id: data.id,
+            })
     },
   })
 

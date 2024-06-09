@@ -32,6 +32,7 @@ import { useUserCommentsListQuery } from '@/swr/user/comment'
 import { TagHoleInfo } from '@/pages/hole/components/TagHoleInfo'
 import { FlashList, MasonryFlashList } from '@shopify/flash-list'
 import { LinearGradient } from 'expo-linear-gradient'
+import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
 
 /**
  * 适合用于底部弹出的瀑布流列表
@@ -62,7 +63,7 @@ export const ProfileHoleList = (props: any) => {
         FlatListComponent={BottomSheetMasonryList}
         renderItem={({ item: data }) => {
           return (
-            <View className={'w-[47vw] mx-auto mt-[10px]'}>
+            <View className={'w-[48vw] mx-auto mt-[5px]'}>
               <TagHoleInfo data={data as any} />
             </View>
           )
@@ -173,45 +174,6 @@ const ProfileScreenHeader: React.FC<{
   )
 }
 
-const AnimatedTabBar = memo(
-  Animated.createAnimatedComponent(forwardRef(TabBar)),
-)
-
-const ProfileScreenTabBar = (props: any) => {
-  const animatedBackgroundOpacity = useAnimatedStyle(() => {
-    const opacity = props.scrollTimeline.value > 80 ? 0 : 1
-    return {
-      // opacity: Math.min(1, Math.max(0, opacity)),
-      backgroundColor: `rgba(255,255,255,${opacity})`,
-    }
-  })
-  return (
-    <View>
-      <AnimatedTabBar
-        {...props}
-        style={[
-          {
-            elevation: 0,
-          },
-          animatedBackgroundOpacity,
-        ]}
-        indicatorStyle={{
-          backgroundColor: '#171821',
-        }}
-        renderLabel={({ route, focused }) => (
-          <Text
-            className={`${
-              focused ? 'text-black' : 'text-black/70'
-            } text-[14px]`}
-          >
-            {route.title}
-          </Text>
-        )}
-      />
-    </View>
-  )
-}
-
 // 简介
 const ProfileBio = () => {
   const [viewMore, setViewMore] = useState(false)
@@ -252,12 +214,6 @@ export function ProfileScreen() {
 
   const bottomSheetPosFrom = 60
 
-  // const tags = ['He', 'She', 'They', '原神', '小肥书', '摄影', '美食']
-  // const symbol: { [key: string]: { symbol: string; color: string } } = {
-  //   He: { symbol: '♂', color: '#5B9BD5' },
-  //   She: { symbol: '♀', color: '#FF7F50' },
-  //   They: { symbol: '⚥', color: '#FFD700' },
-  // }
   const tags = ['小肥书']
   const symbol: { [key: string]: { symbol: string; color: string } } = {
     He: { symbol: '♂', color: '#5B9BD5' },
@@ -508,16 +464,11 @@ export function ProfileScreen() {
           // handleComponent={}
         >
           <TabView
-            className={'flex-1'}
-            renderTabBar={(props) =>
-              (
-                <ProfileScreenTabBar
-                  {...props}
-                  scrollTimeline={scrollTimeline}
-                />
-              ) as any
-            }
+            renderTabBar={(props) => (
+              <ProfileScreenTabBar {...props} scrollTimeline={scrollTimeline} />
+            )}
             tabs={tabs}
+            className={'flex-1'}
           />
         </BottomSheet>
       </SafeAreaView>
