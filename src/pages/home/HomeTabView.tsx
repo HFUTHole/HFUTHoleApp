@@ -7,7 +7,6 @@ import {
 } from 'react-native-tab-view'
 import { View } from 'native-base'
 import {
-  Text,
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -15,21 +14,13 @@ import {
   Animated as ReactNativeAnimated,
 } from 'react-native'
 import { PostList } from '@/pages/home/component/PostList'
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated'
-import { Categories } from '@/shared/constants/category'
+import Animated, { useSharedValue } from 'react-native-reanimated'
 import clsx from 'clsx'
-import { MenuIcon, SearchIcon } from '@/components/icon'
 import { FollowedPostList } from '@/pages/home/FollowedPostList'
 import { MyAvatar } from '@/components/UserAvatar'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { MarketScreen } from '../market/MarketScreen'
+import { SearchIcon } from '@/components/icon'
 
 export interface HomeTabViewProps {}
 
@@ -84,10 +75,8 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
   )
 
   return (
-    <View className={'flex-row items-center bg-white py-2 px-2'}>
-      <TouchableOpacity onPress={() => {}}>
-        <MyAvatar size={35} />
-      </TouchableOpacity>
+    <View className={'flex-row items-center bg-white py-2 px-[2.5vw]'}>
+      <MyAvatar size={35} />
       <ScrollView
         ref={scrollViewRef}
         className={'overflow-visible flex-1 mb-2 ml-7'}
@@ -201,9 +190,6 @@ const HomeTabBarRenderer: React.FC<HomeTabProps> = (props) => {
         <View className="min-w-[24px]">
           <SearchIcon color={'#939496'} size={24} />
         </View>
-        {/* <View className={'flex-row items-center flex-1 '}>
-            <Text className={'text-[#939496]'}>搜索...</Text>
-          </View> */}
       </Pressable>
     </View>
   )

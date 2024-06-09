@@ -21,6 +21,7 @@ export function UserAvatar({ mode = 'sm', userId, ...props }: Props) {
 
   return (
     <TouchableOpacity
+      activeOpacity={userId ? 0.7 : 1}
       onPress={() => {
         if (userId && userData?.id !== userId) {
           userRoute.goOtherUserProfileScreen(userId)

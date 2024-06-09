@@ -19,17 +19,18 @@ import React, {
 // import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useBoolean } from 'ahooks'
 import { GoodsItem, GoodsItemCard } from './components/GoodsCard'
+import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
+import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 
 interface IGoodsListResponse {
   items: GoodsItem[]
   meta: {
-	totalItems: number
-	itemCount: number
-	itemsPerPage: number
-	totalPages: number
-	currentPage: number
+    totalItems: number
+    itemCount: number
+    itemsPerPage: number
+    totalPages: number
+    currentPage: number
   }
-  
 }
 
 // TODO 完善类型
@@ -55,12 +56,10 @@ type PickedFlatListProps<T> = Partial<
   >
 >
 
-const Item = memo(({ item, index }: { item: GoodsItem, index: number }) => {
-//   const { go } = useGoodsDetailRoute()
+const Item = memo(({ item, index }: { item: GoodsItem; index: number }) => {
+  //   const { go } = useGoodsDetailRoute()
 
-  return (
-	<GoodsItemCard item={item} index={index}/>
-  )
+  return <GoodsItemCard item={item} index={index} />
 })
 
 function InnerRefreshableGoodsList<
@@ -77,7 +76,7 @@ function InnerRefreshableGoodsList<
   const { data: flatListData, isEmpty: isGoodsListEmpty } =
     flatInfiniteQueryData(data)
 
-  const listRef = useRef<FlatList>()
+  const listRef = useRef<FlatList>(null)
 
   const CONTENT_OFFSET_THRESHOLD = 500
   const [PostFABOffset, setPostFABOffset] = useState(0)
@@ -97,17 +96,18 @@ function InnerRefreshableGoodsList<
   }
 
   const scrollToTopHandler = () => {
-    listRef.current!.scrollToOffset({ offset: 0, animated: true })
+    console.log(listRef)
+    // listRef.current!.scrollToOffset({ offset: 0, animated: true })
   }
 
   return (
     <>
       <View className={'absolute z-[100] bottom-20 right-2'}>
-        {/* <AnimatedHolePostFAB offset={PostFABOffset} />
+        <AnimatedHolePostFAB offset={PostFABOffset} />
         <AnimatedToTopFAB
           visible={isToTopFABVisible}
           goToTop={scrollToTopHandler}
-        /> */}
+        />
       </View>
       {isSuccess ? (
         <RefreshingFlatList

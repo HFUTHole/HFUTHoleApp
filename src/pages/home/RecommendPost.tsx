@@ -8,9 +8,6 @@ import { HomeTabView } from '@/pages/home/HomeTabView'
 export const RecommendPost: React.FC = () => {
   return (
     <SafeAreaView className={'bg-white flex-1'}>
-      {/* <View className={'px-4'}>
-        <HomeHeader />
-      </View> */}
       <View className={'bg-background flex-1'}>
         <HomeTabView />
       </View>

@@ -289,7 +289,7 @@ export function ProfileScreen() {
         <Image
           className={'absolute w-full h-[100%] top-[0]'}
           source={{
-            uri: 'https://c-ssl.duitang.com/uploads/blog/202206/18/20220618182459_fd9d9.png',
+            uri: 'https://static.xiaofeishu.lnyynet.com/insecure/q:30/rs:fill:400:800:no:0/plain/local:///2024_06_09/1799758420216123392.png',
           }}
           contentPosition={'center'}
           cachePolicy={'disk'}

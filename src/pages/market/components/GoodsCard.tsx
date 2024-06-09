@@ -3,6 +3,7 @@ import { Text } from 'react-native-paper'
 import { SvgXml } from 'react-native-svg'
 import clsx from 'clsx'
 import { UserAvatar } from '@/components/UserAvatar'
+import React from 'react'
 
 // 商品项目
 export interface GoodsItem {
@@ -33,48 +34,49 @@ export const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
 	`
 
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.7}
       className={clsx(
-        'bg-white p-2 rounded-xl flex-1 my-2 shadow-sm shadow-slate-400',
+        'bg-white rounded-xl overflow-hidden flex-1 my-1 shadow-sm mt-2',
         index % 2 === 0 ? 'ml-3 mr-2' : 'ml-2 mr-3',
       )}
     >
-      <View className="flex-1">
-        <Image
-          source={{ uri: item.imgs[0] }}
-          className=" w-full h-[160px] mr-2 rounded-xl"
-        />
-      </View>
-      <View className="my-2">
-        <Text className="font-bold" numberOfLines={1}>
+      <Image
+        source={{
+          uri: 'https://sns-webpic-qc.xhscdn.com/202406092139/a690cc957633c3a1ba5068807e1bdb38/1040g00830q4ip536ne005necnni08nu310h2p8g!nc_n_webp_mw_1',
+        }}
+        className="w-full h-52"
+      />
+      <View className={'p-2 space-y-2'}>
+        <Text className="font-bold" numberOfLines={1} ellipsizeMode={'tail'}>
           {item.body}
         </Text>
-      </View>
 
-      <View className="flex-row justify-between items-center">
-        <View className="flex-row items-center">
-          <View className="flex-row items-center space-x-2">
-            <UserAvatar
-				url={item.creator.avatar}
-				userId={item.creator.id}
-				size={20}
-			  />
-            <Text className="text-sm text-gray-600">
-              {item.creator.username}
-            </Text>
+        <View className="flex-row justify-between items-center">
+          <View className="flex-row items-center">
+            <View className="flex-row items-center space-x-2">
+              <UserAvatar
+                url={item.creator.avatar}
+                userId={item.creator.id}
+                size={20}
+              />
+              <Text className="text-sm text-gray-600">
+                {item.creator.username}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View className="flex-row justify-between items-center mt-2">
+          <View>
+            <Text className="text-sky-500 font-bold">¥{item.price}</Text>
+          </View>
+          <View className="flex-row items-center space-x-1">
+            <SvgXml xml={locationIcon} className="w-4 h-4" />
+            <Text>{item.area}</Text>
           </View>
         </View>
       </View>
-      <View className="flex-row justify-between items-center mt-2">
-        <View>
-          <Text className="text-sky-500 font-bold">¥{item.price}</Text>
-        </View>
-        <View className="flex-row items-center space-x-1">
-          <SvgXml xml={locationIcon} className="w-4 h-4" />
-          <Text>{item.area}</Text>
-        </View>
-      </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -100,13 +102,15 @@ export const GoodsItemCardHorizontal: React.FC<{ item: GoodsItem }> = ({
         />
         {/* mask */}
         {item.status === 1 && (
-          <View className="absolute w-[96px] h-[96px] top-0 left-0 bg-[#bababa]/50 rounded-xl">
-          </View>
+          <View className="absolute w-[96px] h-[96px] top-0 left-0 bg-[#bababa]/50 rounded-xl"></View>
         )}
       </View>
-      <View className="flex-1 justify-between" style={{
-		opacity: item.status === 1 ? 0.5 : 1
-	  }}>
+      <View
+        className="flex-1 justify-between"
+        style={{
+          opacity: item.status === 1 ? 0.5 : 1,
+        }}
+      >
         <View className="mb-2">
           <Text className="font-bold" numberOfLines={1}>
             {item.body}

@@ -1,20 +1,13 @@
-import { Pressable, StatusBar, TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useUserFavoriteHoleList, useUserPostedHoleList } from '@/swr/user/hole'
 import { useOtherUserData, useUserProfile } from '@/swr/user/profile'
 import { type ITabViewTabs, TabView, TabViewBar } from '@/components/TabView'
-import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { MyAvatar, UserAvatar } from '@/components/UserAvatar'
 import { Appbar, Button, Text, TouchableRipple } from 'react-native-paper'
-import { UserLevelBar } from '@/pages/user/components/UserLevelBar'
-import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
-import BottomSheet, {
-  BottomSheetFlatList,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet'
+import BottomSheet from '@gorhom/bottom-sheet'
 import { useEffect, useRef, useState } from 'react'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
-import { Image } from 'expo-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TabBar } from 'react-native-tab-view'
 import Animated, {
@@ -30,7 +23,7 @@ import { FollowButton } from '@/components/user/FollowButton'
 import { useParams } from '@/shared/hooks/useParams'
 import { LevelBanner, ProfileHoleList } from './ProfileScreen'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Noop } from '@/shared/constants/func'
+import { Image } from '@/components/image/Image'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
@@ -168,7 +161,7 @@ const ProfileBio = () => {
 
 export function OtherUserProfileScreen() {
   const { userId } = useParams<{ userId: number }>()
-  const { data, levelPercent } = useOtherUserData(userId)
+  const { data, levelPercent, isLoading } = useOtherUserData(userId)
 
   const { data: commentData } = useUserCommentsListQuery()
 
@@ -202,7 +195,7 @@ export function OtherUserProfileScreen() {
   })
 
   return (
-    <LoadingScreen isLoading={false}>
+    <LoadingScreen isLoading={isLoading}>
       {/* <StatusBar translucent={true} /> */}
       <ProfileScreenHeader data={data!} scrollTimeline={scrollTimeline} />
       <Animated.View
@@ -216,11 +209,8 @@ export function OtherUserProfileScreen() {
         <Image
           className={'absolute w-full h-[100%] top-[0]'}
           source={{
-            // TODO: 替换占位图
-            uri: 'https://c-ssl.duitang.com/uploads/blog/202206/18/20220618182459_fd9d9.png',
+            uri: 'https://static.xiaofeishu.lnyynet.com/insecure/q:30/rs:fill:400:800:no:0/plain/local:///2024_06_09/1799758420216123392.png',
           }}
-          contentPosition={'center'}
-          cachePolicy={'disk'}
         />
       </Animated.View>
 
