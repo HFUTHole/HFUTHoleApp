@@ -193,8 +193,8 @@ export const EmojiableText: React.FC<EmojiableTextProps> = (props) => {
     let line = 0
     // filter null value in 2 level
     const filtered = lineHeights.current.map((item) => item.filter(Boolean))
-    for (let i = 0; i < filtered.length; i++) {
-      for (let j = 0; j < filtered[i].length; j++) {
+    for (let i = 0; i < filtered?.length; i++) {
+      for (let j = 0; j < filtered[i]?.length; j++) {
         if (!filtered[i]?.[j]) {
           continue
         }
