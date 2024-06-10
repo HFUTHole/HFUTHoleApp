@@ -4,6 +4,7 @@ import { SvgXml } from 'react-native-svg'
 import clsx from 'clsx'
 import { UserAvatar } from '@/components/UserAvatar'
 import React from 'react'
+import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
 
 // 商品项目
 export interface GoodsItem {
@@ -27,6 +28,8 @@ export const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
   item,
   index,
 }) => {
+  const { goDetail } = useUsedGoodsRoute()
+
   const locationIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#8C8C8C" className="size-6">
 	  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 	  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -40,10 +43,11 @@ export const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
         'bg-white rounded-xl overflow-hidden flex-1 my-1 shadow-sm mt-2',
         index % 2 === 0 ? 'ml-3 mr-2' : 'ml-2 mr-3',
       )}
+      onPress={() => goDetail(item.id)}
     >
       <Image
         source={{
-          uri: 'https://sns-webpic-qc.xhscdn.com/202406092139/a690cc957633c3a1ba5068807e1bdb38/1040g00830q4ip536ne005necnni08nu310h2p8g!nc_n_webp_mw_1',
+          uri: item.imgs[0],
         }}
         className="w-full h-52"
       />

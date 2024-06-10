@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import React, { memo, useState } from 'react'
 import { GoodsItemCard } from './components/GoodsCard'
 import { RefreshableGoodsList } from './GoodsList'
-import { useMarketGoodsList } from '@/swr/market/goods'
+import { useUsedGoodsList } from '@/swr/market/goods'
 import { GoodsHomeHeader } from '@/pages/market/components/GoodsHomeHeader'
 
 const MarketGoodsFlashList = memo((props: any) => (
@@ -16,7 +16,7 @@ const MarketGoodsFlashList = memo((props: any) => (
 ))
 
 export const MarketScreen: React.FC = () => {
-  const marketGoodsListQuery = useMarketGoodsList()
+  const marketGoodsListQuery = useUsedGoodsList()
 
   return (
     <RefreshableGoodsList

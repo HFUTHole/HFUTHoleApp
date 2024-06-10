@@ -1,5 +1,3 @@
-import { ProfileScreen } from '@/pages/user/profile/ProfileScreen'
-import { EditProfileScreen } from '@/pages/user/profile/edit/EditProfileScreen'
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
@@ -11,6 +9,7 @@ import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MarketScreen } from '@/pages/market/MarketScreen'
 import { MarketFavoriteScreen } from '@/pages/market/MarketFavoriteScreen'
+import { UsedGoodsDetailScreen } from '@/pages/market/detail/UsedGoodsDetailScreen'
 
 const MarketStack = createNativeStackNavigator()
 
@@ -35,6 +34,13 @@ const MarketScreens: Screen[] = [
       title: '我的收藏',
     },
   },
+  {
+    name: 'detail',
+    component: UsedGoodsDetailScreen,
+    options: {
+      headerShown: false,
+    },
+  },
 ]
 
 const excludeSafeAreaScreens: string[] = []
@@ -42,26 +48,20 @@ const excludeSafeAreaScreens: string[] = []
 export const MarketStacks = () => {
   const { screen } = useParams<{ screen: string }>()
 
-  const isExcludeSafeAreaScreen = excludeSafeAreaScreens.find(
-    (item) => item === screen,
-  )
-  const ViewComponent = isExcludeSafeAreaScreen ? View : SafeAreaView
   return (
-    <ViewComponent className={'flex-1 bg-white'}>
-      <MarketStack.Navigator
-        screenOptions={{
-          header: Header,
-        }}
-      >
-        {MarketScreens.map((screen) => (
-          <MarketStack.Screen
-            key={screen.name}
-            name={screen.name}
-            component={screen.component}
-            options={screen.options}
-          />
-        ))}
-      </MarketStack.Navigator>
-    </ViewComponent>
+    <MarketStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      {MarketScreens.map((screen) => (
+        <MarketStack.Screen
+          key={screen.name}
+          name={screen.name}
+          component={screen.component}
+          options={screen.options}
+        />
+      ))}
+    </MarketStack.Navigator>
   )
 }

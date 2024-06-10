@@ -5,7 +5,9 @@ import {
   GetUserPostedHoleListRequest,
 } from '@/request/apis/user'
 import { useParams } from '@/shared/hooks/useParams'
-
+import { useBaseInfiniteQuery } from '@/swr/useBaseInfiniteQuery'
+import { Apis } from '@/request/apis'
+import { useBaseQuery } from '@/swr/useBaseQuery'
 
 const itemsData = {
   data: {
@@ -157,69 +159,47 @@ const itemsData = {
   code: 200,
 }
 
-
-export function useMarketGoodsList() {
-
-  const query = useInfiniteQuery(
-    'market.goods.list',
-    ({ pageParam = 1 }) =>
-      Promise.resolve({
-        ...itemsData.data,
-        meta: {
-          totalItems: 7*5,
-          itemCount: 7,
-          itemsPerPage: 7,
-          totalPages: 5,
-          currentPage: pageParam,
-        },
-      }),
-    {
-      getNextPageParam: (lastPages) => {
-        const nextPage = lastPages.meta.currentPage + 1
-
-        if (
-          nextPage > lastPages.meta.totalPages ||
-          lastPages.items.length === 0
-        ) {
-          return
-        }
-
-        return nextPage
-      },
+export function useUsedGoodsList() {
+  const query = useBaseInfiniteQuery({
+    queryKey: ['used-goods.list'],
+    queryFn: ({ pageParam = 1 }) => {
+      return Apis.usedGoods.getUsedGoodsList({
+        page: pageParam,
+        limit: 10,
+      })
     },
-  )
-
-  const client = useQueryClient()
-
-  const invalidateQuery = async (onlyFirstGroup = true) => {
-    client.setQueryData<InfiniteData<IHoleListResponse>>('market.goods.list', (oldData) => {
-      if (onlyFirstGroup) {
-        // 确保刷新时只更换第一组数据，其他组的数据全都销毁
-        oldData!.pages = oldData!.pages.slice(0, 1)
-      }
-      return oldData!
-    })
-    await client.invalidateQueries('market.goods.list', {
-      refetchPage: (lastPage, index) => index === 0,
-    })
-  }
+  })
 
   return {
     ...query,
-    invalidateQuery,
   }
 }
 
+export function useUsedGoodsDetail() {
+  const { id } = useParams<{ id: string }>()
+
+  const query = useBaseQuery({
+    queryKey: ['used-goods.detail', id],
+    queryFn: () => {
+      return Apis.usedGoods.getUsedGoodsDetail({
+        id,
+      })
+    },
+  })
+
+  return {
+    ...query,
+  }
+}
 
 export function useMarketFavoriteGoodsList() {
-
   const query = useInfiniteQuery(
     'market.goods.fav-list',
     ({ pageParam = 1 }) =>
       Promise.resolve({
         ...itemsData.data,
         meta: {
-          totalItems: 7*5,
+          totalItems: 7 * 5,
           itemCount: 7,
           itemsPerPage: 7,
           totalPages: 5,
@@ -245,13 +225,16 @@ export function useMarketFavoriteGoodsList() {
   const client = useQueryClient()
 
   const invalidateQuery = async (onlyFirstGroup = true) => {
-    client.setQueryData<InfiniteData<IHoleListResponse>>('market.goods.fav-list', (oldData) => {
-      if (onlyFirstGroup) {
-        // 确保刷新时只更换第一组数据，其他组的数据全都销毁
-        oldData!.pages = oldData!.pages.slice(0, 1)
-      }
-      return oldData!
-    })
+    client.setQueryData<InfiniteData<IHoleListResponse>>(
+      'market.goods.fav-list',
+      (oldData) => {
+        if (onlyFirstGroup) {
+          // 确保刷新时只更换第一组数据，其他组的数据全都销毁
+          oldData!.pages = oldData!.pages.slice(0, 1)
+        }
+        return oldData!
+      },
+    )
     await client.invalidateQueries('market.goods.fav-list', {
       refetchPage: (lastPage, index) => index === 0,
     })

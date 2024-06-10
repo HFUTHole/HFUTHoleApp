@@ -12,16 +12,24 @@ export const Header = (props: Props) => {
   return <BackHeader title={props.options.title} />
 }
 
+export const BackHeaderBackButton = () => {
+  const navigation = useNavigation()
+
+  return (
+    <IconButton
+      onPress={() => navigation.goBack()}
+      icon={() => <ArrowLeftIcon size={25} color={'#000'} />}
+    />
+  )
+}
+
 export const BackHeader = (props: { title?: string }) => {
   const navigation = useNavigation()
 
   return (
     <View className={'bg-white flex-row flex justify-between'}>
       <View className={'flex-1'}>
-        <IconButton
-          onPress={() => navigation.goBack()}
-          icon={() => <ArrowLeftIcon size={25} color={'#000'} />}
-        />
+        <BackHeaderBackButton />
       </View>
       <View className={'flex-1 justify-center'}>
         <Text className={'text-center'} variant={'titleMedium'}>

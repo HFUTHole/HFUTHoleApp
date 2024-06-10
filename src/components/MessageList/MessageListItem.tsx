@@ -10,6 +10,7 @@ import { InteractionNotifyTargetType } from '@/shared/enums/notify.enum'
 import { NotifyEventType } from '@/shared/enums'
 import clsx from 'clsx'
 import { match } from 'ts-pattern'
+import React from 'react'
 
 interface Props {
   data: MessageAbleItem & {
@@ -20,6 +21,38 @@ interface Props {
     type: NotifyEventType
   }
   onPress: Func
+}
+
+const TextType: React.FC<{ data: Props['data'] }> = ({ data }) => {
+  return (
+    <View>
+      {match(data.type)
+        .with(NotifyEventType.like, () => {
+          return (
+            <Text className={'flex-row flex-wrap text-primary-label text-md'}>
+              {`赞了你的${match(data.target)
+                .with(InteractionNotifyTargetType.reply, () => '回复')
+                .with(InteractionNotifyTargetType.comment, () => '评论')
+                .with(InteractionNotifyTargetType.post, () => '帖子')
+                .exhaustive()}`}
+            </Text>
+          )
+        })
+        .otherwise(() => {
+          return (
+            <EmojiableText
+              textStyle={{
+                fontSize: 12,
+                color: 'rgba(0, 0, 0, 0.75)',
+              }}
+              body={
+                data.body.replace(`${data.creator?.username} ` || '', '') || ''
+              }
+            />
+          )
+        })}
+    </View>
+  )
 }
 
 export function MessageListItem({ data, onPress }: Props) {
@@ -36,39 +69,18 @@ export function MessageListItem({ data, onPress }: Props) {
           },
         ])}
       >
-        <View className={'w-10/12 flex-row space-x-4 items-center flex-1'}>
+        <View className={'w-10/12 flex-row space-x-2 items-center flex-1'}>
           <View className={'flex-row space-x-1 items-center'}>
             <View className={'w-2'}>{isUnRead && <UnreadPointer />}</View>
             <View>
               <UserAvatar url={user?.avatar} mode={'lg'} />
             </View>
           </View>
-          <View className={'flex-1 flex-wrap'}>
-            <Text className={'text-lg'}>{user?.username}</Text>
-            <View className={'space-y-1'}>
-              <View className={'w-[60%]'}>
-                {match(data.type)
-                  .with(NotifyEventType.like, () => {
-                    return (
-                      <Text className={'flex-row flex-wrap text-textPrimary'}>
-                        {`赞了你的${match(data.target)
-                          .with(InteractionNotifyTargetType.reply, () => '回复')
-                          .with(
-                            InteractionNotifyTargetType.comment,
-                            () => '评论',
-                          )
-                          .with(InteractionNotifyTargetType.post, () => '帖子')
-                          .exhaustive()}`}
-                      </Text>
-                    )
-                  })
-                  .otherwise(() => {
-                    return <EmojiableText body={data.body || ''} />
-                  })}
-              </View>
-              <View>
-                <TimeText time={data.createAt} />
-              </View>
+          <View className={'flex-1 space-y-1'}>
+            <Text className={'text-sm'}>{data.creator?.username}</Text>
+            <View className={'w-full flex-row flex-wrap space-x-1'}>
+              <TextType data={data} />
+              <TimeText time={data.createAt} />
             </View>
           </View>
         </View>
@@ -76,9 +88,9 @@ export function MessageListItem({ data, onPress }: Props) {
           {data.post?.imgs?.length ? (
             <Image
               source={{
-                uri: data.post?.imgs[0],
+                uri: data.creator?.avatar,
               }}
-              className={'w-16 h-16 rounded-md'}
+              className={'w-16 h-20 rounded-md'}
             />
           ) : (
             <></>

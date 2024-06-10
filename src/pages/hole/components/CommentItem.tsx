@@ -54,7 +54,11 @@ export function CommentItem({
         <View>
           <View className={'w-full flex flex-row items-center space-x-2'}>
             <View className={'w-1/12'}>
-              <UserAvatar url={data.user?.avatar} size={30} />
+              <UserAvatar
+                url={data.user?.avatar}
+                userId={data.user?.id}
+                size={30}
+              />
             </View>
             <View
               className={'flex flex-row justify-between w-11/12 items-center'}

@@ -15,9 +15,8 @@ import { useMutation, UseMutationResult } from 'react-query'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { DeleteReplyLikeRequest, LikeReplyRequest } from '@/request/apis/hole'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
-import * as repl from 'repl'
-import { Image } from '@/components/image/Image'
 import { CommentImage } from '@/pages/hole/detail/components/CommentImage'
+import * as _ from 'lodash'
 
 const ReplyListItem: React.FC<{
   reply: Reply
@@ -50,7 +49,11 @@ const ReplyListItem: React.FC<{
         }}
       >
         <View className={'flex-row space-x-2 py-1'}>
-          <UserAvatar url={reply.user?.avatar} size={20} />
+          <UserAvatar
+            url={reply.user?.avatar}
+            userId={reply.user?.id}
+            size={20}
+          />
           <View className={'flex-1 space-y-1'}>
             <View className={'flex-row h-[20px] items-center'}>
               <Text className={'text-[#33333399]'}>{reply.user?.username}</Text>
@@ -148,7 +151,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
       <If condition={replies.length > 0}>
         <Then>
           <View>
-            {replies.map((reply, index) => (
+            {_.uniqBy(replies, 'id').map((reply, index) => (
               <ReplyListItem reply={reply} comment={data} key={reply.id} />
             ))}
             <View className={'mt-2 flex-row space-x-2 items-center'}>

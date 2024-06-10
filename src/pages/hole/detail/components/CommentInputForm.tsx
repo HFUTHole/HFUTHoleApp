@@ -103,9 +103,7 @@ export function CommentInputForm(props: Props) {
                     }}
                     onFocus={() => setShowEmojiArea(false)}
                     placeholder={
-                      isReply
-                        ? `回复 ${data!.user!.username}：`
-                        : '你若安不好，屁股给你拍八瓣'
+                      isReply ? `回复 ${data!.user!.username}：` : '发个评论吧~'
                     }
                   />
                 )}

@@ -8,6 +8,7 @@ import {
   PostHoleCommentReplyRequest,
   PostHoleDetailCommentRequest,
 } from '@/request/apis/hole'
+import { Apis } from '@/request/apis'
 
 export type IBottomCommentData = {
   id?: number
@@ -17,7 +18,9 @@ export type IBottomCommentData = {
 } & Omit<Partial<IHoleCommentListItem>, 'id'>
 
 export const [useBottomCommentContext, BottomCommentContext] = createStore(
-  () => {
+  (props: { isGoods?: boolean }) => {
+    const { isGoods = false } = props
+
     const [showInput, setShowInput] = useState(false)
     const [data, setData] = useState<IBottomCommentData | null>(null)
 
@@ -65,7 +68,9 @@ export const [useBottomCommentContext, BottomCommentContext] = createStore(
 
       const func = isReply
         ? PostHoleCommentReplyRequest
-        : PostHoleDetailCommentRequest
+        : isGoods
+          ? Apis.usedGoods.postUsedGoodsComment
+          : PostHoleDetailCommentRequest
 
       return func(params as any)
     }
