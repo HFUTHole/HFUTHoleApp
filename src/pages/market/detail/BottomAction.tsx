@@ -72,7 +72,7 @@ export const UsedGoodsDetailBottomAction: React.FC<
       <SafeAreaView edges={['bottom']}>
         <View
           className={
-            'px-[5vw] space-x-2 w-full bg-white flex-row justify-between items-center pb-4 pt-2 border-t-[1px] border-t-black/5'
+            'px-[5vw] space-x-2 w-full bg-white flex-row justify-between items-center pt-2 border-t-[1px] border-t-black/5'
           }
         >
           <Pressable
