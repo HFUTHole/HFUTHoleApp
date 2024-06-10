@@ -42,7 +42,9 @@ export const AnimatedLikeButton: React.FC<AnimatedLikeButtonProps> = (
 
   return (
     <Pressable onPress={onLikeIconPress}>
-      <View className={'flex-row items-center flex-1 space-x-1'}>
+      <View
+        className={'flex-row items-center flex-1 space-x-1 w-10 justify-center'}
+      >
         {!liked ? (
           <Animated.View
             entering={BounceIn.delay(250)}

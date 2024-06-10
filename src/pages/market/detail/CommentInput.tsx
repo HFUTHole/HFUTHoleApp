@@ -92,7 +92,7 @@ export const UsedGoodsDetailCommentInput: React.FC<
                       'flex-row items-center z-[3] bg-white py-2 justify-between px-[2.5vw]'
                     }
                   >
-                    <View className={'w-[80%] overflow-hidden'}>
+                    <View className={'w-[75%] overflow-hidden'}>
                       <View
                         className={
                           'bg-[#efefef] px-[2.5vw] pb-3 pt-1 rounded-xl'
@@ -103,7 +103,7 @@ export const UsedGoodsDetailCommentInput: React.FC<
                           control={control}
                           placeholder={'给卖家留个言吧~'}
                           style={{
-                            fontSize: 12,
+                            fontSize: 14,
                             maxHeight: 16 * 4,
                           }}
                           autoFocus={true}

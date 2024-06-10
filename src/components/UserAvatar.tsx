@@ -5,7 +5,7 @@ import { Pressable, TouchableOpacity } from 'react-native'
 import { Config } from '@/shared/config'
 
 interface Props {
-  userId?: number
+  userId?: number | null
 
   url?: string
 

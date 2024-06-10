@@ -72,11 +72,20 @@ const ReplyListItem: React.FC<{
                 body={reply.body}
                 fontSize={12}
               />
-              <View className={'mt-2'}>
-                <CommentImage data={reply as IHoleReplyListItem} />
-              </View>
+              <If condition={!!reply.imgs?.length}>
+                <Then>
+                  <View className={'my-1'}>
+                    <CommentImage data={reply as IHoleReplyListItem} />
+                  </View>
+                </Then>
+                <Else>
+                  <></>
+                </Else>
+              </If>
             </View>
-            <View className={'items-center flex-row justify-between'}>
+            <View
+              className={'items-center flex-row justify-between pr-[2.5vw]'}
+            >
               <View className={'flex-1'}>
                 <TimeText time={reply.createAt} />
               </View>
@@ -169,7 +178,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                   </Then>
                   <Else>
                     <TouchableOpacity onPress={onExpandCommentAreaPress}>
-                      <Text className={'text-textSecondary text-sm'}>
+                      <Text className={'text-textSecondary text-[13px]'}>
                         <If condition={isExpand}>
                           <Then>
                             <If condition={hasNextPage}>
@@ -183,10 +192,13 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                     </TouchableOpacity>
                   </Else>
                 </If>
-                <TouchableOpacity onPress={isExpandActions.setFalse}>
+                <TouchableOpacity
+                  className={'w-full'}
+                  onPress={isExpandActions.setFalse}
+                >
                   <If condition={isExpand && hasNextPage}>
                     <Then>
-                      <Text className={'ml-4 text-textSecondary text-sm'}>
+                      <Text className={'ml-4 text-textSecondary text-[13px]'}>
                         收起
                       </Text>
                     </Then>

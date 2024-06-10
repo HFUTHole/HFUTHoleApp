@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 import { StarIcon } from 'react-native-heroicons/outline'
 import { StarIcon as SolidStarIcon } from 'react-native-heroicons/solid'
 import { useBoolean } from 'ahooks'
@@ -10,6 +10,8 @@ import { useMutation } from 'react-query'
 import { Apis } from '@/request/apis'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { useBottomCommentContext } from '@/shared/context/hole/comment'
+import { Button } from '@/components/button'
+import { MyAvatar } from '@/components/UserAvatar'
 
 interface UsedGoodsDetailBottomActionProps {
   data: IUsedGoodsDetailResponse
@@ -48,10 +50,10 @@ const Star: React.FC<UsedGoodsDetailBottomActionProps> = ({ data }) => {
       <View className={'items-center'}>
         <If condition={isStared}>
           <Then>
-            <SolidStarIcon color={theme.colors.primary} />
+            <SolidStarIcon size={30} color={theme.colors.primary} />
           </Then>
           <Else>
-            <StarIcon color={'#000'} />
+            <StarIcon size={30} color={'#000'} />
           </Else>
         </If>
         <Text className={'text-tertiary-label text-xs'}>{count}</Text>
@@ -70,21 +72,24 @@ export const UsedGoodsDetailBottomAction: React.FC<
       <SafeAreaView edges={['bottom']}>
         <View
           className={
-            'px-[5vw] w-full bg-white flex-row justify-between items-center'
+            'px-[5vw] space-x-2 w-full bg-white flex-row justify-between items-center pb-4 pt-2 border-t-[1px] border-t-black/5'
           }
         >
-          <Star data={data} />
-          <TouchableOpacity
-            activeOpacity={0.7}
-            className={'bg-primary rounded-full px-4 py-2'}
+          <Pressable
+            className={
+              'bg-[#efefef] flex-1 py-2 px-3 rounded-full flex-row space-x-1 items-center'
+            }
+            onPress={() => openInput()}
           >
-            <Text
-              className={'text-white font-bold text-sm'}
-              onPress={() => openInput()}
-            >
+            <MyAvatar size={26} userId={null} />
+            <Text className={'text-tertiary-label'}>和卖家交流一下吧~</Text>
+          </Pressable>
+          <View className={'space-x-2 flex-row justify-end'}>
+            <Star data={data} />
+            <Button onPress={() => openInput()} mode={'contained'}>
               我想要
-            </Text>
-          </TouchableOpacity>
+            </Button>
+          </View>
         </View>
       </SafeAreaView>
     </View>
