@@ -39,4 +39,5 @@ interface Reply {
   user: User
   replyUser: User
   isLiked: boolean
+  imgs?: string[]
 }

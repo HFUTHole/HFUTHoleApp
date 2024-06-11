@@ -38,7 +38,7 @@ export const GoodsItemCard: React.FC<{ item: GoodsItem; index: number }> = ({
 
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       className={clsx(
         'bg-white rounded-xl overflow-hidden flex-1 my-1 shadow-sm mt-2',
         index % 2 === 0 ? 'ml-3 mr-2' : 'ml-2 mr-3',
