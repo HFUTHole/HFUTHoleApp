@@ -13,7 +13,7 @@ export const Button: React.FC<Props> = ({ children, error, ...props }) => {
 
   const onPress = (e: GestureResponderEvent) => {
     if (!props.loading) {
-      props?.onPress!(e)
+      props?.onPress?.(e)
     }
   }
 

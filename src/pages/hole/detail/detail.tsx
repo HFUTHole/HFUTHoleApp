@@ -7,6 +7,7 @@ import { CommentEventBusProvider } from '@/shared/context/comment/eventBus'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { HoleDetailHeader } from '@/pages/hole/detail/DetailHeader'
+import { BottomCommentContext } from '@/shared/context/hole/comment'
 
 export function HoleDetail() {
   const { isSuccess: isCommentSuccess } = useHoleComment()
@@ -17,14 +18,16 @@ export function HoleDetail() {
 
   return (
     <>
-      <LoadingScreen isLoading={!isAllSuccess}>
-        <CommentEventBusProvider>
-          <View className={'bg-white'}>
-            <HoleDetailComment />
-          </View>
-          <CommentMaskModal />
-        </CommentEventBusProvider>
-      </LoadingScreen>
+      <BottomCommentContext>
+        <LoadingScreen isLoading={!isAllSuccess}>
+          <CommentEventBusProvider>
+            <View className={'bg-white'}>
+              <HoleDetailComment />
+            </View>
+            <CommentMaskModal />
+          </CommentEventBusProvider>
+        </LoadingScreen>
+      </BottomCommentContext>
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { request } from '@/request/request'
 import { PaginateAble } from '@/shared/types'
+import { SchoolAreaEnum } from '@/shared/enums/school-area.enum'
 
 export function getUsedGoodsList(params: PaginateAble) {
   return request<IUsedGoodsResponse>({
@@ -45,6 +46,20 @@ export function postUsedGoodsComment(data: { id: string; body: string }) {
   return request({
     method: 'POST',
     url: '/used-goods/comment',
+    data,
+  })
+}
+
+export function createUsedGoods(data: {
+  body: string
+  price: number
+  imgs: string[]
+  category: string
+  area: SchoolAreaEnum
+}) {
+  return request({
+    method: 'POST',
+    url: '/used-goods/create',
     data,
   })
 }
