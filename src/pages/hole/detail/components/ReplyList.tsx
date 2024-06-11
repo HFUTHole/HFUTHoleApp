@@ -177,7 +177,10 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                     <LoadingIndicator color={'rgba(51,51,51,0.4)'} size={12} />
                   </Then>
                   <Else>
-                    <TouchableOpacity onPress={onExpandCommentAreaPress}>
+                    <TouchableOpacity
+                      className={'w-[50%] py-1'}
+                      onPress={onExpandCommentAreaPress}
+                    >
                       <Text className={'text-textSecondary text-[13px]'}>
                         <If condition={isExpand}>
                           <Then>
@@ -193,7 +196,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                   </Else>
                 </If>
                 <TouchableOpacity
-                  className={'w-full'}
+                  className={'w-[50%]'}
                   onPress={isExpandActions.setFalse}
                 >
                   <If condition={isExpand && hasNextPage}>

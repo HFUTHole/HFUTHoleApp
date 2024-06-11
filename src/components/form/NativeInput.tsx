@@ -43,6 +43,7 @@ export const NativeInput = <T extends object = PlainObject>({
             value={field.value}
             placeholderTextColor={theme.colors.surfaceVariant}
             cursorColor={theme.colors.primary}
+            selectionColor={theme.colors.primary}
             textAlignVertical={textAlignVertical ?? 'center'}
             ref={inputRef as MutableRefObject<TextInput>}
             {...props}

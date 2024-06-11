@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { MarketScreen } from '@/pages/market/MarketScreen'
 import { MarketFavoriteScreen } from '@/pages/market/MarketFavoriteScreen'
 import { UsedGoodsDetailScreen } from '@/pages/market/detail/UsedGoodsDetailScreen'
+import { UsedGoodsCreateScreen } from '@/pages/market/create/UsedGoodsCreateScreen'
 
 const MarketStack = createNativeStackNavigator()
 
@@ -37,6 +38,13 @@ const MarketScreens: Screen[] = [
   {
     name: 'detail',
     component: UsedGoodsDetailScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'create',
+    component: UsedGoodsCreateScreen,
     options: {
       headerShown: false,
     },

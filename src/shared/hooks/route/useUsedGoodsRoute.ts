@@ -11,7 +11,15 @@ export function useUsedGoodsRoute() {
     })
   }
 
+  const goCreate = () => {
+    // @ts-ignore
+    navigation.navigate('market', {
+      screen: 'create',
+    })
+  }
+
   return {
     goDetail,
+    goCreate,
   }
 }

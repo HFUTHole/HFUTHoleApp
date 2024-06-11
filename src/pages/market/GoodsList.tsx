@@ -21,6 +21,7 @@ import { useBoolean } from 'ahooks'
 import { GoodsItem, GoodsItemCard } from './components/GoodsCard'
 import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
 import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
+import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
 
 interface IGoodsListResponse {
   items: GoodsItem[]
@@ -76,6 +77,8 @@ function InnerRefreshableGoodsList<
   const { data: flatListData, isEmpty: isGoodsListEmpty } =
     flatInfiniteQueryData(data)
 
+  const { goCreate } = useUsedGoodsRoute()
+
   const listRef = useRef<FlatList>(null)
 
   const CONTENT_OFFSET_THRESHOLD = 500
@@ -103,7 +106,7 @@ function InnerRefreshableGoodsList<
   return (
     <>
       <View className={'absolute z-[100] bottom-20 right-2'}>
-        <AnimatedHolePostFAB offset={PostFABOffset} />
+        <AnimatedHolePostFAB onPress={goCreate} offset={PostFABOffset} />
         <AnimatedToTopFAB
           visible={isToTopFABVisible}
           goToTop={scrollToTopHandler}
