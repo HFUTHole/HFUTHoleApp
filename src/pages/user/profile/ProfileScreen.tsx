@@ -63,7 +63,7 @@ export const ProfileHoleList = (props: any) => {
         FlatListComponent={ProfileHoleListMasonryList}
         renderItem={({ item: data }) => {
           return (
-            <View className={'w-[48vw] mx-auto mt-[5px]'}>
+            <View className={'w-[48vw] mx-auto mt-[5px] h-screen'}>
               <TagHoleInfo data={data as any} />
             </View>
           )
