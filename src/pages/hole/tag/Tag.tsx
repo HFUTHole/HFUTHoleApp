@@ -50,7 +50,7 @@ const TagMasonryFlashList = memo(
     return (
       <MasonryFlashList
         numColumns={2}
-        estimatedItemSize={255}
+        estimatedItemSize={25}
         {...props}
         data={props.data}
       />
@@ -75,12 +75,6 @@ export function TagScreen() {
             </View>
           }
           FlatListComponent={TagMasonryFlashList}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 5,
-          }}
           renderItem={({ item: data }) => {
             return (
               <View className={'w-[48vw] mx-auto my-[5px]'}>
