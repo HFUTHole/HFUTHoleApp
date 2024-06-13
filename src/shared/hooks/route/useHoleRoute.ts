@@ -7,13 +7,13 @@ export function useHoleRoute() {
   const goTag = (params: { tag: string }) => {
     if (params.tag === '淘二手') {
       // @ts-ignore
-      navigation.navigate('market', {
+      navigation.push('market', {
         screen: 'market-index',
       })
-      return;
+      return
     }
     // @ts-ignore
-    navigation.navigate('hole', {
+    navigation.push('hole', {
       screen: 'tag',
       params,
     })

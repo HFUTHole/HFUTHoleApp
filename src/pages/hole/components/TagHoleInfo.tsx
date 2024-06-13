@@ -25,7 +25,7 @@ interface TagHoleInfoProps {
 }
 
 export function TagHoleInfo({ data }: TagHoleInfoProps) {
-  const { goTagDetail } = useHoleDetailRoute()
+  const { go } = useHoleDetailRoute()
   const image = data.imgs.length ? data.imgs[0] : null
   const mutation = useMutation({
     mutationKey: ['hole.tag.like'],
@@ -45,7 +45,7 @@ export function TagHoleInfo({ data }: TagHoleInfoProps) {
     <Pressable
       className="w-full"
       onPress={() => {
-        goTagDetail(data.id)
+        go(data.id)
       }}
     >
       <View className={'bg-white rounded-lg border-[1px] border-black/5'}>

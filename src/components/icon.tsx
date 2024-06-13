@@ -44,6 +44,11 @@ const withFontAV5Icon = (name: string) => withIconProps(FontAwesome5Icon, name)
 const withMaterialIcon = (name: string) => withIconProps(MaterialIcon, name)
 const withAntDesignIcon = (name: string) => withIconProps(AntDesignIcon, name)
 
+export const AntdIcon = {
+  caredown: withAntDesignIcon('caretdown'),
+  careup: withAntDesignIcon('careup'),
+}
+
 // export type
 
 export const LoveIcon = withAntDesignIcon('heart')

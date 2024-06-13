@@ -6,9 +6,12 @@ import { FollowButton } from '@/components/user/FollowButton'
 import { CarouselImage } from '@/components/image/CarouselImage'
 import { ScreenWidth } from '@/shared/utils/utils'
 import { useUsedGoodsDetail } from '@/swr/market/goods'
+import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
 
 export const UsedGoodsDetailBody: React.FC = () => {
   const { data } = useUsedGoodsDetail()
+
+  const { goCategory } = useUsedGoodsRoute()
 
   return (
     <View className={'space-y-5'}>
@@ -52,7 +55,7 @@ export const UsedGoodsDetailBody: React.FC = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            console.log('click category')
+            goCategory(data?.category.name!)
           }}
         >
           <Text className={'text-link mt-2 font-bold'}>

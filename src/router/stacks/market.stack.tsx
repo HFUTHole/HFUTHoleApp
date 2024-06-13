@@ -11,6 +11,10 @@ import { MarketScreen } from '@/pages/market/MarketScreen'
 import { MarketFavoriteScreen } from '@/pages/market/MarketFavoriteScreen'
 import { UsedGoodsDetailScreen } from '@/pages/market/detail/UsedGoodsDetailScreen'
 import { UsedGoodsCreateScreen } from '@/pages/market/create/UsedGoodsCreateScreen'
+import { UsedGoodsCategoryListScreen } from '@/pages/market/category-list/UsedGoodsCategoryList'
+import { UsedGoodsAreaListScreen } from '@/pages/market/area-list/UsedGoodsAreaListScreen'
+import { UsedGoodsUserGoodsListScreen } from '@/pages/market/my-goods/MyGoods'
+import { UsedGoodsEditorScreen } from '@/pages/market/my-goods/Editor'
 
 const MarketStack = createNativeStackNavigator()
 
@@ -49,13 +53,37 @@ const MarketScreens: Screen[] = [
       headerShown: false,
     },
   },
+  {
+    name: 'category',
+    component: UsedGoodsCategoryListScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'area',
+    component: UsedGoodsAreaListScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'my',
+    component: UsedGoodsUserGoodsListScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'my-goods-editor',
+    component: UsedGoodsEditorScreen,
+    options: {
+      headerShown: false,
+    },
+  },
 ]
 
-const excludeSafeAreaScreens: string[] = []
-
 export const MarketStacks = () => {
-  const { screen } = useParams<{ screen: string }>()
-
   return (
     <MarketStack.Navigator
       screenOptions={{

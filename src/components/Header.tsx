@@ -3,6 +3,7 @@ import { AngleLeftIcon, ArrowLeftIcon } from '@/components/icon'
 import { IconButton, Text } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import React from 'react'
 
 interface Props extends NativeStackHeaderProps {}
 
@@ -23,9 +24,10 @@ export const BackHeaderBackButton = () => {
   )
 }
 
-export const BackHeader = (props: { title?: string }) => {
-  const navigation = useNavigation()
-
+export const BackHeader = (props: {
+  title?: string
+  rightChild?: React.ReactNode
+}) => {
   return (
     <View className={'bg-white flex-row flex justify-between'}>
       <View className={'flex-1'}>
@@ -36,7 +38,9 @@ export const BackHeader = (props: { title?: string }) => {
           {props.title}
         </Text>
       </View>
-      <View className={'flex-1'} />
+      <View className={'flex-1 items-end justify-center'}>
+        {props.rightChild}
+      </View>
     </View>
   )
 }

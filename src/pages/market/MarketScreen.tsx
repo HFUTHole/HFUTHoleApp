@@ -4,6 +4,7 @@ import { GoodsItemCard } from './components/GoodsCard'
 import { RefreshableGoodsList } from './GoodsList'
 import { useUsedGoodsList } from '@/swr/market/goods'
 import { GoodsHomeHeader } from '@/pages/market/components/GoodsHomeHeader'
+import { UsedGoodsColumnList } from '@/pages/market/components/UsedGoodsColumnList'
 
 const MarketGoodsFlashList = memo((props: any) => (
   <FlashList
@@ -19,12 +20,9 @@ export const MarketScreen: React.FC = () => {
   const marketGoodsListQuery = useUsedGoodsList()
 
   return (
-    <RefreshableGoodsList
-      FlatListComponent={MarketGoodsFlashList}
-      renderItem={({ item, index }) => (
-        <GoodsItemCard item={item as any} index={index} />
-      )}
+    <UsedGoodsColumnList
       {...marketGoodsListQuery}
+      ListHeaderComponent={GoodsHomeHeader}
     />
   )
 }

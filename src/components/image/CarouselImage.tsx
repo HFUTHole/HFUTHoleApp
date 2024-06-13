@@ -47,7 +47,7 @@ export const CarouselImage: React.FC<CarouselImageProps> = (props) => {
                   <Image
                     className={'flex-1'}
                     source={{ uri }}
-                    resizeMode={'cover'}
+                    resizeMode={'contain'}
                     {...imageProps}
                   />
                 </Pressable>

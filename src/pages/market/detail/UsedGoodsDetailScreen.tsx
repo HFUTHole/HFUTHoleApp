@@ -14,9 +14,6 @@ import { BottomCommentContext } from '@/shared/context/hole/comment'
 export const UsedGoodsHeader: React.FC<{ data?: IUsedGoodsDetailResponse }> = (
   props,
 ) => {
-  const { data } = props
-
-  console.log(data)
   return (
     <View className={'w-full bg-white justify-between flex-row items-center'}>
       <View className={'flex-row space-x-2 items-center'}>
