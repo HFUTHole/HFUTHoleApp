@@ -15,6 +15,45 @@ import { BottomCommentContext } from '@/shared/context/hole/comment'
 import { Layout } from '@/layouts/layout'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as Updates from 'expo-updates'
+import { startActivityAsync, ActivityAction } from 'expo-intent-launcher';
+import Constants from "expo-constants";
+import { request } from '@/request/request'
+import { Linking, Platform } from 'react-native'
+import * as FileSystem from 'expo-file-system'
+
+const checkUpdate = async () => {
+  const runtimeVersion = Constants.nativeAppVersion;
+  const appVersion = await request<{
+      latest_version: string;
+      latest_url: string;
+  }>({
+    url: '/app/version',
+    method: 'GET',
+  })
+  if (appVersion.latest_version !== runtimeVersion) {
+    if (Platform.OS === 'android') {
+      const { latest_url } = appVersion;
+      const localUri = FileSystem.documentDirectory + `xfs-app-${appVersion.latest_version}.apk`;
+      const downloadResumable = FileSystem.createDownloadResumable(
+        latest_url,
+        localUri, 
+        {},
+      );
+      const result = await downloadResumable.downloadAsync();
+      if (result) {
+        await startActivityAsync("android.intent.action.INSTALL_PACKAGE", {
+          data: await FileSystem.getContentUriAsync(localUri),
+          type: 'application/vnd.android.package-archive',
+        });
+      }
+    } else if (Platform.OS === 'ios') {
+      // 跳转去AppStore
+      const id = ``;
+      const url = `itms-apps://apps.apple.com/cn/app/${id}`;
+      Linking.openURL(url)
+    }
+  }
+}
 
 const App = () => {
   async function onFetchUpdateAsync() {
@@ -31,6 +70,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    checkUpdate()
     onFetchUpdateAsync()
   }, [])
 
