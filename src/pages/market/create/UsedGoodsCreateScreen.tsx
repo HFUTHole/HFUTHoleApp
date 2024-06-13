@@ -17,7 +17,7 @@ import { useImagePicker } from '@/shared/hooks/useImagePicker'
 import { Image } from 'expo-image'
 import clsx from 'clsx'
 import { Closeable } from '@/components/Closeable'
-import { Portal, Switch, useTheme } from 'react-native-paper'
+import { Portal, Switch, TouchableRipple, useTheme } from 'react-native-paper'
 import { SchoolAreaEnum } from '@/shared/enums/school-area.enum'
 import { Else, If, Then } from 'react-if'
 import BottomSheet from '@gorhom/bottom-sheet'
@@ -30,9 +30,12 @@ import { Toast } from '@/shared/utils/toast'
 import { UploadHoleImgRequest } from '@/request/apis/hole'
 import { useMutation } from 'react-query'
 import { Apis } from '@/request/apis'
+import { useNavigation } from '@react-navigation/native'
 
 export const UsedGoodsCreateScreen: React.FC = () => {
   const theme = useTheme()
+
+  const navigation = useNavigation()
 
   const bottomSheetRef = useRef<BottomSheetMethods>(null)
 
@@ -85,6 +88,12 @@ export const UsedGoodsCreateScreen: React.FC = () => {
         price: +data.price,
         body: data.body,
       })
+    },
+    onSuccess() {
+      Toast.success({
+        text1: '商品发布成功！',
+      })
+      navigation.goBack()
     },
   })
 

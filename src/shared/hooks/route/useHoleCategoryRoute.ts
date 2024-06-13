@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { HoleClassification } from '@/shared/enums/category.enum'
 
 export type HoleCategoryNavigationCtx<
-  T extends HoleClassification = HoleClassification
+  T extends HoleClassification = HoleClassification,
 > = {
   name: T
   subName?: string
@@ -15,7 +15,7 @@ export function useHoleCategoryRoute() {
   const go = (ctx: HoleCategoryNavigationCtx) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    navigation.navigate('hole', {
+    navigation.push('hole', {
       screen: 'category',
       params: {
         screen: 'detail',

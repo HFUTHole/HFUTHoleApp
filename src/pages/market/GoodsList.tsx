@@ -22,6 +22,7 @@ import { GoodsItem, GoodsItemCard } from './components/GoodsCard'
 import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
 import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
+import { If, Then } from 'react-if'
 
 interface IGoodsListResponse {
   items: GoodsItem[]
@@ -40,7 +41,9 @@ export type RefreshableGoodsListProps<
 > = UseInfiniteQueryResult<T, any> & {
   invalidateQuery: Func
   FlatListComponent?: any
-} & PickedFlatListProps<T>
+} & PickedFlatListProps<T> & {
+    showFab?: boolean
+  }
 
 type PickedFlatListProps<T> = Partial<
   Pick<
@@ -65,15 +68,18 @@ const Item = memo(({ item, index }: { item: GoodsItem; index: number }) => {
 
 function InnerRefreshableGoodsList<
   T extends IGoodsListResponse = IGoodsListResponse,
->({
-  isSuccess,
-  data,
-  hasNextPage,
-  fetchNextPage,
-  invalidateQuery,
-  ListHeaderComponent,
-  ...props
-}: RefreshableGoodsListProps<T>) {
+>(_props: RefreshableGoodsListProps<T>) {
+  const {
+    isSuccess,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    invalidateQuery,
+    ListHeaderComponent,
+    showFab = true,
+    ...props
+  } = _props
+
   const { data: flatListData, isEmpty: isGoodsListEmpty } =
     flatInfiniteQueryData(data)
 
@@ -105,13 +111,17 @@ function InnerRefreshableGoodsList<
 
   return (
     <>
-      <View className={'absolute z-[100] bottom-20 right-2'}>
-        <AnimatedHolePostFAB onPress={goCreate} offset={PostFABOffset} />
-        <AnimatedToTopFAB
-          visible={isToTopFABVisible}
-          goToTop={scrollToTopHandler}
-        />
-      </View>
+      <If condition={showFab}>
+        <Then>
+          <View className={'absolute z-[100] bottom-20 right-2'}>
+            <AnimatedHolePostFAB onPress={goCreate} offset={PostFABOffset} />
+            <AnimatedToTopFAB
+              visible={isToTopFABVisible}
+              goToTop={scrollToTopHandler}
+            />
+          </View>
+        </Then>
+      </If>
       {isSuccess ? (
         <RefreshingFlatList
           ref={listRef as MutableRefObject<FlatList>}
