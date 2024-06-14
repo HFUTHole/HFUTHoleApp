@@ -24,6 +24,9 @@ import { CopyIcon, DangerIcon } from '@/components/icon'
 import * as Haptics from 'expo-haptics'
 import { copyToClipboard } from '@/shared/utils/keyboard'
 import { useBoolean } from 'ahooks'
+import { useParams } from '@/shared/hooks/useParams'
+import clsx from 'clsx'
+import { useUsedGoodsDetailParams } from '@/swr/market/goods'
 
 type Data =
   | (Omit<IHoleCommentListItem, 'replies' | 'repliesCount'> &
@@ -145,6 +148,7 @@ export function CommentItem({
   deleteLikeRequest,
   onLikeRequest,
 }: Props) {
+  const params = useUsedGoodsDetailParams()
   const [commentSheetVisible, commentSheetVisibleActions] = useBoolean(false)
 
   const mutation = useMutation({
@@ -160,7 +164,12 @@ export function CommentItem({
         commentSheetVisibleActions.setTrue()
       }}
       onPress={() => onBodyPress?.(data)}
-      className={'px-3'}
+      className={clsx([
+        'px-3',
+        {
+          'bg-background': params.commentId === data.id,
+        },
+      ])}
     >
       <View
         className={

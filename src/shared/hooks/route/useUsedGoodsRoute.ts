@@ -5,18 +5,22 @@ import { SchoolAreaEnum } from '@/shared/enums/school-area.enum'
 export function useUsedGoodsRoute() {
   const navigation = useNavigation()
 
-  const goDetail = (id: string) => {
+  const goDetail = (id: string, params: { commentId?: string } = {}) => {
     // @ts-ignore
     navigation.push('market', {
       screen: 'detail',
-      params: { id },
+      params: { id, ...params },
     })
   }
 
-  const goCreate = () => {
+  const goCreate = (id: string, params?: { isEditable: boolean }) => {
     // @ts-ignore
     navigation.push('market', {
       screen: 'create',
+      params: {
+        id,
+        ...params,
+      },
     })
   }
 

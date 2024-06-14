@@ -5,7 +5,6 @@ import {
 import { useInteractiveNotificationsQuery } from '@/swr/notify/useInteractiveNotifications'
 import { useMemo } from 'react'
 import { flatInfiniteQueryData } from '@/swr/utils'
-import { InteractiveNotifyItem } from '@/pages/notify/interaction/components/InteractiveNotifyItem'
 import { LoadMore } from '@/components/LoadMore'
 import { MessageList } from '@/components/MessageList/MessageList'
 

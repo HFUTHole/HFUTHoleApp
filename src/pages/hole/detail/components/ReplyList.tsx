@@ -17,6 +17,7 @@ import { DeleteReplyLikeRequest, LikeReplyRequest } from '@/request/apis/hole'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 import { CommentImage } from '@/pages/hole/detail/components/CommentImage'
 import * as _ from 'lodash'
+import { AntdIcon, FontV6Icon } from '@/components/icon'
 
 const ReplyListItem: React.FC<{
   reply: Reply
@@ -59,7 +60,9 @@ const ReplyListItem: React.FC<{
               <Text className={'text-[#33333399]'}>{reply.user?.username}</Text>
               <If condition={!!reply.replyUser}>
                 <Then>
-                  <Text className={'text-[#33333399] px-1'}>回复</Text>
+                  <View className={'px-2'}>
+                    <FontV6Icon.careright size={16} color={'#33333399'} />
+                  </View>
                   <Text className={'text-[#33333399]'}>
                     {reply.replyUser?.username}
                   </Text>
@@ -178,7 +181,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                   </Then>
                   <Else>
                     <TouchableOpacity
-                      className={'w-[50%] py-1'}
+                      className={'w-full py-1'}
                       onPress={onExpandCommentAreaPress}
                     >
                       <Text className={'text-textSecondary text-[13px]'}>
@@ -196,7 +199,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                   </Else>
                 </If>
                 <TouchableOpacity
-                  className={'w-[50%]'}
+                  className={'w-full'}
                   onPress={isExpandActions.setFalse}
                 >
                   <If condition={isExpand && hasNextPage}>

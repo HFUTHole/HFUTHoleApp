@@ -1,10 +1,16 @@
+enum SchoolAreaEnum {
+  xc = '宣城',
+  txl = '屯溪路',
+  fch = '翡翠湖',
+}
+
 declare interface IUsedGoodsDetailResponse {
   id: string
   createAt: string
   body: string
-  viewsCount: number
+  views: number
   price: number
-  area: string
+  area: SchoolAreaEnum
   collectorCounts: number
   commentsCount: number
   status: number

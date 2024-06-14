@@ -73,5 +73,6 @@ export function useImagePicker({ onSuccess, onError, ...options }: Options) {
     onImageSelect,
     removeImage,
     imgs,
+    setImgs,
   }
 }
