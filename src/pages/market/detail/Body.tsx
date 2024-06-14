@@ -48,7 +48,6 @@ export const UsedGoodsDetailBody: React.FC = () => {
             </View>
           </View>
         </View>
-        <FollowButton followingId={data?.creator.id!} />
       </View>
       <View className={'px-[2.5vw]'}>
         <View className={'flex-row'}>
