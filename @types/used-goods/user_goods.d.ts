@@ -7,7 +7,7 @@ interface Item {
   id: string
   createAt: string
   body: string
-  viewsCount: number
+  views: number
   price: number
   area: string
   collectorCounts: number

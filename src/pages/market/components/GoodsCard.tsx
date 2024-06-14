@@ -7,6 +7,7 @@ import React from 'react'
 import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
 import { InferArrayItem } from '@/shared/types'
 import { MapPinIcon } from 'react-native-heroicons/outline'
+import { UsedGoodsStatusEnum } from '@/shared/enums/used-goods-status.enum'
 
 // 商品项目
 export interface GoodsItem {
@@ -157,7 +158,7 @@ export const GoodsItemCardHorizontal: React.FC<{
             </Text>
           </View>
         </View>
-        {data.status === 1 && (
+        {data.status === UsedGoodsStatusEnum.offline && (
           <View className="absolute bottom-0 right-0 bg-[#8B8B8B] px-2 py-1 rounded-tl-xl rounded-br-xl">
             <Text className="text-white">已售出</Text>
           </View>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Pressable,
   ScrollView,
@@ -31,34 +31,39 @@ import { UploadHoleImgRequest } from '@/request/apis/hole'
 import { useMutation } from 'react-query'
 import { Apis } from '@/request/apis'
 import { useNavigation } from '@react-navigation/native'
+import { useUsedGoodsDetail } from '@/swr/market/goods'
+import { useImmer } from 'use-immer'
+import { useParams } from '@/shared/hooks/useParams'
 
 export const UsedGoodsCreateScreen: React.FC = () => {
   const theme = useTheme()
-
   const navigation = useNavigation()
-
   const bottomSheetRef = useRef<BottomSheetMethods>(null)
 
-  const [isAgree, isAgreeActions] = useBoolean(false)
+  const params = useParams<{ id: string; isEditable?: boolean }>()
+
+  const { data } = useUsedGoodsDetail()
+
   const [width, setWidth] = useState(0)
-  const [area, setArea] = useState<SchoolAreaEnum | null>(null)
-  const [category, setCategory] = useState<string>('数码')
+  const [area, setArea] = useState<SchoolAreaEnum | null>(data?.area || null)
+  const [category, setCategory] = useState<string>(
+    data?.category?.name || '数码',
+  )
 
   const {
     control,
     formState: { errors },
     handleSubmit,
     setValue,
-    getValues,
   } = useForm<UsedGoodsCreateValidator>({
     defaultValues: {
-      price: '0.00',
+      price: data?.price.toFixed(2).toString(),
     },
     resolver: classValidatorResolver(UsedGoodsCreateValidator),
     mode: 'onChange',
   })
 
-  const { imgs, onImageSelect, removeImage } = useImagePicker({
+  const { imgs, setImgs, onImageSelect, removeImage } = useImagePicker({
     selectionLimit: 9,
     quality: 0.9,
     allowsMultipleSelection: true,
@@ -68,12 +73,15 @@ export const UsedGoodsCreateScreen: React.FC = () => {
   })
 
   const mutation = useMutation({
-    mutationKey: ['used-goods-create', imgs, category, area],
+    mutationKey: ['used-goods-create', imgs, category, area, params.isEditable],
     mutationFn: async (data: UsedGoodsCreateValidator) => {
       let result: (never | string)[]
 
       try {
-        result = await UploadHoleImgRequest(imgs)
+        result = await UploadHoleImgRequest(
+          // 过滤已经上传了的图片，防止重复上传，拉取下来的图片只有一个uri属性，本地图片会有 .length > 1的特性
+          imgs.filter((img) => Object.keys(img).length > 1),
+        )
       } catch (err) {
         Toast.error({
           text1: '上传图片失败了~',
@@ -81,13 +89,26 @@ export const UsedGoodsCreateScreen: React.FC = () => {
 
         return
       }
-      return Apis.usedGoods.createUsedGoods({
+
+      const dto = {
         imgs: result!,
         category: category!,
         area: area!,
         price: +data.price,
         body: data.body,
-      })
+      }
+
+      return params.isEditable
+        ? Apis.usedGoods.editUsedGoods({
+            ...dto,
+            id: params.id,
+            imgs: result!.concat(
+              imgs
+                .filter((img) => Object.keys(img).length === 1)
+                .map((item) => item.uri),
+            ),
+          })
+        : Apis.usedGoods.createUsedGoods(dto)
     },
     onSuccess() {
       Toast.success({
@@ -96,6 +117,27 @@ export const UsedGoodsCreateScreen: React.FC = () => {
       navigation.goBack()
     },
   })
+
+  useEffect(() => {
+    if (data) {
+      const price = data.price.toFixed(2).toString()
+      const dataImgs = data.imgs
+
+      const body = data.body
+
+      setImgs((draft) => {
+        return dataImgs.map((item) => {
+          return {
+            uri: item,
+          }
+        })
+      })
+
+      setValue('body', body)
+
+      setValue('price', price)
+    }
+  }, [data?.price])
 
   const onSubmit = (data: UsedGoodsCreateValidator) => {
     if (imgs.length > 9 || imgs.length === 0) {

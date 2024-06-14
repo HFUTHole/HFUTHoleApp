@@ -8,12 +8,24 @@ import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 import { InferArrayItem } from '@/shared/types'
 import { Image } from 'expo-image'
 import { PriceText } from '@/pages/market/components/PriceText'
-import { MyGoodsOfflineGoods } from '@/pages/market/my-goods/MyGoodsButton'
+import {
+  MyGoodsEditGoodsButton,
+  MyGoodsOfflineGoods,
+} from '@/pages/market/my-goods/MyGoodsButton'
 import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
+import { UsedGoodsStatusEnum } from '@/shared/enums/used-goods-status.enum'
+import { TabView } from '@/components/TabView'
+import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
 
 export type UsedGoodsUserGoodsListItem = InferArrayItem<
   IUsedGoodsUserGoodsListResponse['items']
 >
+
+export const useOfflineGoodsListQuery = () => {
+  return useUsedGoodsUserPostedList({
+    type: 'offline',
+  })
+}
 
 const Item: React.FC<{ data: UsedGoodsUserGoodsListItem }> = (props) => {
   const { data } = props
@@ -42,17 +54,15 @@ const Item: React.FC<{ data: UsedGoodsUserGoodsListItem }> = (props) => {
               {data.price.toFixed(2)}
             </PriceText>
             <View className={'w-full flex-row justify-between items-center'}>
-              <Text className={'text-xs text-tertiary-label'}>浏览0</Text>
+              <Text className={'text-xs text-tertiary-label'}>
+                浏览 {data.views || 0}
+              </Text>
 
               <View className={'flex-row space-x-2'}>
                 <MyGoodsOfflineGoods data={data} />
-                <Pressable
-                  className={
-                    'px-3 py-1 rounded-full border-[1px] border-black/10'
-                  }
-                >
-                  <Text>编辑</Text>
-                </Pressable>
+                <View>
+                  <MyGoodsEditGoodsButton data={data} />
+                </View>
               </View>
             </View>
           </View>
@@ -62,22 +72,62 @@ const Item: React.FC<{ data: UsedGoodsUserGoodsListItem }> = (props) => {
   )
 }
 
-export const UsedGoodsUserGoodsListScreen: React.FC = () => {
+const PostedList = () => {
   const query = useUsedGoodsUserPostedList()
 
   return (
+    <LoadingScreen isLoading={query.isLoading}>
+      <View className={'px-[2.5vw]'}>
+        <RefreshableGoodsList
+          {...query}
+          showFab={false}
+          renderItem={({ item }) => {
+            return <Item data={item as unknown as Item} />
+          }}
+        />
+      </View>
+    </LoadingScreen>
+  )
+}
+
+const OfflineList = () => {
+  const query = useOfflineGoodsListQuery()
+
+  return (
+    <LoadingScreen isLoading={query.isLoading}>
+      <View className={'px-[2.5vw]'}>
+        <RefreshableGoodsList
+          {...query}
+          showFab={false}
+          renderItem={({ item }) => {
+            return <Item data={item as unknown as Item} />
+          }}
+        />
+      </View>
+    </LoadingScreen>
+  )
+}
+
+export const UsedGoodsUserGoodsListScreen: React.FC = () => {
+  return (
     <SafeAreaView className={'bg-white flex-1'}>
       <BackHeader title={'我发布的'} />
-      <LoadingScreen isLoading={query.isLoading}>
-        <View className={'flex-1 bg-[#efefef] px-[2.5vw]'}>
-          <RefreshableGoodsList
-            {...query}
-            renderItem={({ item }) => {
-              return <Item data={item as unknown as Item} />
-            }}
-          />
-        </View>
-      </LoadingScreen>
+      <View className={'flex-1 bg-[#efefef]'}>
+        <TabView
+          tabs={[
+            {
+              key: 'posted',
+              title: '出售中',
+              component: PostedList,
+            },
+            {
+              key: 'offline',
+              title: '已下架',
+              component: OfflineList,
+            },
+          ]}
+        />
+      </View>
     </SafeAreaView>
   )
 }

@@ -18,6 +18,7 @@ import React, {
 import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
 import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useBoolean } from 'ahooks'
+import { If, Then } from 'react-if'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -25,7 +26,9 @@ export type RefreshableHoleListProps<
 > = UseInfiniteQueryResult<T, any> & {
   invalidateQuery: Func
   FlatListComponent?: any
-} & PickedFlatListProps<T>
+} & PickedFlatListProps<T> & {
+    showFab?: boolean
+  }
 
 type PickedFlatListProps<T> = Partial<
   Pick<
@@ -65,6 +68,7 @@ function InnerRefreshableHoleList<
   fetchNextPage,
   invalidateQuery,
   ListHeaderComponent,
+  showFab = true,
   ...props
 }: RefreshableHoleListProps<T>) {
   const { data: flatListData, isEmpty: isHoleListEmpty } =
@@ -95,13 +99,17 @@ function InnerRefreshableHoleList<
 
   return (
     <>
-      <View className={'absolute z-[100] bottom-20 right-2'}>
-        <AnimatedHolePostFAB offset={PostFABOffset} />
-        <AnimatedToTopFAB
-          visible={isToTopFABVisible}
-          goToTop={scrollToTopHandler}
-        />
-      </View>
+      <If condition={showFab}>
+        <Then>
+          <View className={'absolute z-[100] bottom-20 right-2'}>
+            <AnimatedHolePostFAB offset={PostFABOffset} />
+            <AnimatedToTopFAB
+              visible={isToTopFABVisible}
+              goToTop={scrollToTopHandler}
+            />
+          </View>
+        </Then>
+      </If>
       {isSuccess ? (
         <RefreshingFlatList
           ref={listRef as MutableRefObject<FlatList>}

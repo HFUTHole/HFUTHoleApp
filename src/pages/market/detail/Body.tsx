@@ -16,27 +16,35 @@ export const UsedGoodsDetailBody: React.FC = () => {
   return (
     <View className={'space-y-5'}>
       <View className={'px-[2.5vw]'}>
-        <View className={'flex-row space-x-2 items-center'}>
+        <View className={'flex-row space-x-2 items-center w-full'}>
           <UserAvatar
             size={50}
             url={data?.creator.avatar}
             userId={data?.creator.id}
           />
 
-          <View>
+          <View className={'flex-1'}>
             <Text className={'text-primary-label text-lg font-bold'}>
               {data?.creator.username}
             </Text>
-            <View className={'flex-row'}>
-              <TimeText
-                style={{
-                  fontSize: 12,
-                }}
-                time={data?.createAt!}
-              />
-              <Text className={'text-tertiary-label text-xs'}>
-                发布于{data?.area!}
-              </Text>
+            <View className={'w-full flex-row justify-between'}>
+              <View className={'flex-row'}>
+                <TimeText
+                  style={{
+                    fontSize: 12,
+                  }}
+                  time={data?.createAt!}
+                />
+                <Text className={'text-tertiary-label text-xs'}>
+                  发布于{data?.area!}
+                </Text>
+              </View>
+
+              <View>
+                <Text className={'text-tertiary-label text-xs'}>
+                  {data?.views}浏览
+                </Text>
+              </View>
             </View>
           </View>
         </View>

@@ -10,12 +10,15 @@ export const useGoodsCommentsQuery = () => {
     replyId?: string
   }>()
 
+  console.log(params)
+
   const query = useBaseInfiniteQuery({
-    queryKey: ['goods.comments', params.id],
+    queryKey: ['goods.comments', params.id, params.commentId],
     queryFn: ({ pageParam = 1 }) => {
       return Apis.usedGoods.getUsedGoodsComment({
         id: params.id,
         page: pageParam,
+        commentId: params.commentId,
         limit: 10,
       })
     },

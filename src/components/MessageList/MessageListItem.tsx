@@ -11,6 +11,7 @@ import { NotifyEventType } from '@/shared/enums'
 import clsx from 'clsx'
 import { match } from 'ts-pattern'
 import React from 'react'
+import { If, Then } from 'react-if'
 
 interface Props {
   data: MessageAbleItem & {
@@ -19,6 +20,8 @@ interface Props {
     isRead?: boolean
     target: InteractionNotifyTargetType
     type: NotifyEventType
+  } & {
+    usedGoods?: INotifyInteractionListItem['usedGoods']
   }
   onPress: Func
 }
@@ -42,7 +45,7 @@ const TextType: React.FC<{ data: Props['data'] }> = ({ data }) => {
           return (
             <EmojiableText
               textStyle={{
-                fontSize: 12,
+                fontSize: 14,
                 color: 'rgba(0, 0, 0, 0.75)',
               }}
               body={
@@ -85,16 +88,31 @@ export function MessageListItem({ data, onPress }: Props) {
           </View>
         </View>
         <View className={'w-2/12 h-20 flex items-center'}>
-          {data.post?.imgs?.length ? (
-            <Image
-              source={{
-                uri: data.creator?.avatar,
-              }}
-              className={'w-16 h-20 rounded-md'}
-            />
-          ) : (
-            <></>
-          )}
+          <If condition={!!data?.post}>
+            <Then>
+              <Image
+                source={{
+                  uri: data.post?.imgs?.[0] || data.creator?.avatar,
+                }}
+                className={'w-16 h-20 rounded-md'}
+              />
+            </Then>
+          </If>
+
+          <If condition={!!data.usedGoods}>
+            <Then>
+              {data.usedGoods?.imgs?.length ? (
+                <Image
+                  source={{
+                    uri: data.usedGoods?.imgs?.[0],
+                  }}
+                  className={'w-16 h-20 rounded-md'}
+                />
+              ) : (
+                <></>
+              )}
+            </Then>
+          </If>
         </View>
       </View>
     </TouchableRipple>

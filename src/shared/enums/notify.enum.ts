@@ -8,4 +8,5 @@ export enum InteractionNotifyTargetType {
   comment = 'comment',
   reply = ' reply',
   post = 'post',
+  usedGoods = 'usedGoods',
 }

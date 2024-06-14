@@ -9,6 +9,13 @@ declare interface INotifyInteractionListResponse {
   meta: Meta
 }
 
+enum InteractionNotifyTargetType {
+  comment = 'comment',
+  reply = ' reply',
+  post = 'post',
+  usedGoods = 'usedGoods',
+}
+
 declare interface INotifyInteractionListItem {
   id: string
   createAt: string
@@ -19,6 +26,18 @@ declare interface INotifyInteractionListItem {
   post?: Hole
   comment?: IHoleCommentListItem
   reply?: IHoleReplyListItem
+  target?: InteractionNotifyTargetType
+  usedGoods?: {
+    id: string
+    createAt: string
+    body: string
+    views: number
+    price: number
+    area: string
+    collectorCounts: number
+    status: number
+    imgs: string[]
+  }
 }
 
 interface Hole {

@@ -175,8 +175,12 @@ export function useUsedGoodsList() {
   }
 }
 
+export const useUsedGoodsDetailParams = () => {
+  return useParams<{ id: string; commentId?: string }>()
+}
+
 export function useUsedGoodsDetail() {
-  const { id } = useParams<{ id: string }>()
+  const { id } = useUsedGoodsDetailParams()
 
   const query = useBaseQuery({
     queryKey: ['used-goods.detail', id],

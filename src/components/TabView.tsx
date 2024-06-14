@@ -9,6 +9,7 @@ import {
 } from 'react-native-tab-view'
 import { useTheme } from 'react-native-paper'
 import type { Props as RNTabViewProps } from 'react-native-tab-view/lib/typescript/src/TabBar'
+import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
 
 export interface ITabViewTabs extends Route {
   // 这里 component 写成 ReactNode 会报错，好奇怪
@@ -30,6 +31,8 @@ export const TabView = ({ tabs, ...props }: TabViewProps) => {
 
   return (
     <NativeTabView
+      lazy={true}
+      renderTabBar={ProfileScreenTabBar}
       navigationState={{ index, routes: tabs }}
       renderScene={renderScene}
       onIndexChange={setIndex}

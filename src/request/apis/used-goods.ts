@@ -35,7 +35,9 @@ export function postUsedGoodsCollect(data: { id: string }) {
   })
 }
 
-export function getUsedGoodsComment(params: { id: string } & PaginateAble) {
+export function getUsedGoodsComment(
+  params: { id: string; commentId?: string } & PaginateAble,
+) {
   return request<IHoleCommentListResponse>({
     method: 'GET',
     url: '/used-goods/comment',
@@ -83,7 +85,11 @@ export function getUsedGoodsCollectedList(params: PaginateAble) {
   })
 }
 
-export function getUsedGoodsUserGoodsList(params: PaginateAble) {
+export type GetUserUsedGoodsListType = 'posted' | 'offline'
+
+export function getUsedGoodsUserGoodsList(
+  params: PaginateAble & { type: GetUserUsedGoodsListType },
+) {
   return request<IUsedGoodsUserGoodsListResponse>({
     method: 'GET',
     url: '/used-goods/user/list',
@@ -95,7 +101,8 @@ export interface EditUsedGoodsData {
   id: string
   price?: number
   body?: string
-  status: UsedGoodsStatusEnum
+  status?: UsedGoodsStatusEnum
+  area?: SchoolAreaEnum
   imgs?: string[]
 }
 
@@ -104,5 +111,21 @@ export function editUsedGoods(data: EditUsedGoodsData) {
     method: 'POST',
     url: '/used-goods/edit',
     data,
+  })
+}
+
+export type UsedGoodsSearchPriceType = 'asc' | 'desc' | 'latest'
+
+export function searchUsedGoods(
+  params: {
+    keywords: string
+    area?: SchoolAreaEnum
+    price?: UsedGoodsSearchPriceType
+  } & PaginateAble,
+) {
+  return request<IUsedGoodsSearchResponse>({
+    method: 'GET',
+    url: '/used-goods/search',
+    params,
   })
 }

@@ -94,11 +94,11 @@ const tabs: ITabViewTabs[] = [
     title: '发表',
     component: UserHoleList,
   },
-  {
-    key: 'user-fav',
-    title: '收藏',
-    component: UserFavList,
-  },
+  // {
+  //   key: 'user-fav',
+  //   title: '收藏',
+  //   component: UserFavList,
+  // },
   {
     key: 'user-favorite-hole',
     title: '喜欢',
