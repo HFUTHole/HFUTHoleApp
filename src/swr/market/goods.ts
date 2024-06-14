@@ -179,10 +179,15 @@ export const useUsedGoodsDetailParams = () => {
   return useParams<{ id: string; commentId?: string }>()
 }
 
-export function useUsedGoodsDetail() {
+interface Options {
+  enabled?: boolean
+}
+
+export function useUsedGoodsDetail(options: Options = { enabled: true }) {
   const { id } = useUsedGoodsDetailParams()
 
   const query = useBaseQuery({
+    enabled: options.enabled,
     queryKey: ['used-goods.detail', id],
     queryFn: () => {
       return Apis.usedGoods.getUsedGoodsDetail({

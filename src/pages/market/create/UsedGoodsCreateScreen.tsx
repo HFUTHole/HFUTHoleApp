@@ -42,7 +42,9 @@ export const UsedGoodsCreateScreen: React.FC = () => {
 
   const params = useParams<{ id: string; isEditable?: boolean }>()
 
-  const { data } = useUsedGoodsDetail()
+  const { data } = useUsedGoodsDetail({
+    enabled: !!params.isEditable,
+  })
 
   const [width, setWidth] = useState(0)
   const [area, setArea] = useState<SchoolAreaEnum | null>(data?.area || null)
