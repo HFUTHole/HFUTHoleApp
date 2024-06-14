@@ -52,7 +52,7 @@ const goodsCategories = [
     icon: FontV6Icon.bed,
   },
   {
-    name: '其他',
+    name: '其它',
     icon: AntdIcon.appstore,
   },
 ]

@@ -38,6 +38,10 @@ export function PopoverSelect<T>(_props: PopoverSelectProps<T>) {
         width: 0,
         height: 0,
       }}
+      animationConfig={{
+        delay: 0,
+        duration: 50,
+      }}
       from={
         <TouchableOpacity
           activeOpacity={0.8}
