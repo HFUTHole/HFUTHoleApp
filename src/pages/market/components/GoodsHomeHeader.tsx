@@ -43,12 +43,12 @@ export const GoodsHomeHeader: React.FC = () => {
               height={60}
               numOfColumns={5}
               renderItem={(item) => (
-                <TouchableOpacity className="items-center justify-center bg-white rounded-xl  py-2 space-y-1 w-full">
+                <View className="items-center justify-center bg-white rounded-xl  py-2 space-y-1 w-full">
                   <View>
                     <item.component />
                   </View>
                   <Text className="text-xs">{item.name}</Text>
-                </TouchableOpacity>
+                </View>
               )}
             />
           </View>
