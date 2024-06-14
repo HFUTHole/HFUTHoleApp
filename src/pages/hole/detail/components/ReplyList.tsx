@@ -60,12 +60,14 @@ const ReplyListItem: React.FC<{
               <Text className={'text-[#33333399]'}>{reply.user?.username}</Text>
               <If condition={!!reply.replyUser}>
                 <Then>
-                  <View className={'px-2'}>
-                    <FontV6Icon.careright size={16} color={'#33333399'} />
+                  <View className={'px-1'}>
+                    <FontV6Icon.careright size={12} color={'#33333399'} />
                   </View>
-                  <Text className={'text-[#33333399]'}>
-                    {reply.replyUser?.username}
-                  </Text>
+                  <View>
+                    <Text className={'text-[#33333399]'}>
+                      {reply.replyUser?.username}
+                    </Text>
+                  </View>
                 </Then>
               </If>
             </View>

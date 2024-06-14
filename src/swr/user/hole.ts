@@ -58,30 +58,13 @@ export function useUserFavoriteHoleList() {
 
 export function useUserPostedHoleList() {
   const { userId = undefined } = useParams<{ userId: number }>()
-  const key = [SWRKeys.user.postedHoleList, userId]
+  const key = [SWRKeys.user.postedHoleList, userId, 1]
 
-  const query = useInfiniteQuery(
-    key,
-    ({ pageParam = 1 }) =>
-      GetUserPostedHoleListRequest({
-        limit: 10,
-        userId,
-        page: pageParam,
-      }),
-    {
-      getNextPageParam: (lastPages) => {
-        const nextPage = lastPages.meta.currentPage + 1
-
-        if (
-          nextPage > lastPages.meta.totalPages ||
-          lastPages.items.length === 0
-        ) {
-          return
-        }
-
-        return nextPage
-      },
-    },
+  const query = useInfiniteQuery(key, ({ pageParam = 1 }) =>
+    GetUserPostedHoleListRequest({
+      limit: 10,
+      page: pageParam,
+    }),
   )
 
   const client = useQueryClient()
