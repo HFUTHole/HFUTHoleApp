@@ -33,19 +33,19 @@ import { TagHoleInfo } from '@/pages/hole/components/TagHoleInfo'
 import { FlashList, MasonryFlashList } from '@shopify/flash-list'
 import { LinearGradient } from 'expo-linear-gradient'
 import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
+import { Tabs, useCurrentTabScrollY } from 'react-native-collapsible-tab-view'
 
 /**
  * 适合用于底部弹出的瀑布流列表
  */
-export const BottomSheetMasonryList = memo((props: any) => {
+export const ProfileHoleListMasonryList = memo((props: any) => {
   const { data } = props
   return (
     <View className="flex-1">
-      <MasonryFlashList
+      <Tabs.MasonryFlashList
         numColumns={2}
         estimatedItemSize={255}
         data={data}
-        renderScrollComponent={BottomSheetScrollView}
         {...props}
       />
     </View>
@@ -60,10 +60,10 @@ export const ProfileHoleList = (props: any) => {
     <View className="flex-1">
       <RefreshableHoleList
         {...props}
-        FlatListComponent={BottomSheetMasonryList}
+        FlatListComponent={ProfileHoleListMasonryList}
         renderItem={({ item: data }) => {
           return (
-            <View className={'w-[48vw] mx-auto mt-[5px]'}>
+            <View className={'w-[48vw] mx-auto mt-[5px] h-screen'}>
               <TagHoleInfo data={data as any} />
             </View>
           )
@@ -113,25 +113,25 @@ const ProfileScreenHeader: React.FC<{
   const navigation = useNavigation()
   // Header 背景透明度
   const animatedOpacity = useAnimatedStyle(() => {
-    const fromAt = 85
-    const toAt = 120
-    const opacity = 1 - (scrollTimeline.value - fromAt) / (toAt - fromAt)
+    const fromAt = 164 // opacity 0
+    const toAt = 246 // opacity 1
+    const opacity = (scrollTimeline.value - fromAt) / (toAt - fromAt)
     return {
       opacity: Math.min(1, Math.max(0, opacity)),
     }
   })
   // 用户名透明度
   const animatedNameOpacity = useAnimatedStyle(() => {
-    const fromAt = 85
-    const toAt = 120
-    const opacity = 1 - (scrollTimeline.value - fromAt) / (toAt - fromAt)
+    const fromAt = 164
+    const toAt = 246
+    const opacity = (scrollTimeline.value - fromAt) / (toAt - fromAt)
     return {
       opacity: Math.min(1, Math.max(0, opacity)),
     }
   })
   const [backColor, setBackColor] = useState('#fff')
   useDerivedValue(() => {
-    if (scrollTimeline.value < 120) {
+    if (scrollTimeline.value > 164) {
       runOnJS(setBackColor)('#333')
     } else {
       runOnJS(setBackColor)('#fff')
@@ -141,7 +141,7 @@ const ProfileScreenHeader: React.FC<{
   return (
     <Animated.View
       className={
-        'absolute w-screen top-[0] overflow-hidden flex flex-row items-center h-[80]  z-[2000] pt-[30] '
+        'w-screen top-[0] overflow-hidden flex flex-row items-center h-[80]  z-[2000] pt-[30] '
       }
     >
       <Animated.View
@@ -207,7 +207,7 @@ export const LevelBanner = ({ level }: { level: number }) => {
   )
 }
 
-export function ProfileScreen() {
+const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
   const { data, levelPercent } = useUserProfile()
 
   const { data: commentData } = useUserCommentsListQuery()
@@ -218,34 +218,23 @@ export function ProfileScreen() {
 
   const userProfileRoute = useUserProfileRoute()
 
-  const bottomSheetRef = useRef<BottomSheetMethods>()
-
-  // 大约从 163 (初始) 到 -110
-  // overDrag时会大于 163
-  const scrollTimeline = useSharedValue(163)
-
-  // 背景图片高度，跟随滚动变化
-  const animatedBgImgHeight = useAnimatedStyle(() => {
-    return {
-      height: scrollTimeline.value > 0 ? scrollTimeline.value + 15 : 15,
-    }
+  const scrollTimeline = useCurrentTabScrollY()
+  useDerivedValue(() => {
+    props.scrollTimeline.value = scrollTimeline.value
   })
 
-  const infoHeight = useSharedValue(20)
-
-  // 同步滚动移动
-  const syncedTranslateY = useAnimatedStyle(() => {
+  const animatedBgImgHeight = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: scrollTimeline.value - infoHeight.value }],
+      height: scrollTimeline.value < 310 ? 386 - scrollTimeline.value : 76,
+      marginTop: scrollTimeline.value < 310 ? -144 + scrollTimeline.value : 0, // Height of the header + margin: 64px + 80px
     }
   })
 
   return (
-    <LoadingScreen isLoading={false}>
-      <ProfileScreenHeader scrollTimeline={scrollTimeline} />
+    <View className={'mt-[64px]'} style={{ pointerEvents: 'box-none'}} >
       <Animated.View
-        className={'absolute w-full top-[0]'}
-        style={[animatedBgImgHeight]}
+        className={'absolute w-full top-[0] z-[0] mt-[-144px]'}
+        style={[animatedBgImgHeight, { pointerEvents: 'none' }]}
       >
         <View
           className={'absolute w-full h-[100%] top-[0] z-[1] bg-black/20'}
@@ -263,16 +252,11 @@ export function ProfileScreen() {
           cachePolicy={'disk'}
         />
       </Animated.View>
-
-      <Animated.View
-        className={'absolute w-100 h-100 z-[1] left-[16] right-[16]'}
-        style={[syncedTranslateY]}
-        onLayout={(e) => {
-          infoHeight.value = e.nativeEvent.layout.height
-        }}
-      >
+      <View className={'w-100 h-100 z-[1] px-4'} style={{ pointerEvents: 'box-none' }}>
         <View className={'flex-column'}>
-          <View className={'flex-row items-center space-x-4'}>
+          <View
+            className={'flex-row items-center space-x-4'}
+          >
             {/* 头像、用户名、id */}
             <MyAvatar size={72} />
             <View className={'ml-1 justify-center space-y-2'}>
@@ -367,9 +351,7 @@ export function ProfileScreen() {
             </View>
           </View>
 
-          <View className={'flex-row items-center space-x-2 mb-2'}>
-            {/* 板块 */}
-            {/* 横向滚动 */}
+          {/* <View className={'flex-row items-center space-x-2 mb-2'}>
             <ScrollView
               contentContainerStyle={{
                 display: 'flex',
@@ -381,51 +363,52 @@ export function ProfileScreen() {
               }}
               horizontal={true}
             >
-              {/*{blocks.map((block) => (*/}
-              {/*  <View*/}
-              {/*    key={block.id}*/}
-              {/*    className={*/}
-              {/*      'px-3 py-2 bg-white/20 rounded-3xl min-w-[80px] flex-column items-start justify-center'*/}
-              {/*    }*/}
-              {/*  >*/}
-              {/*    <Text className={'text-white/80 text-sm'}>{block.name}</Text>*/}
-              {/*    <Text className={'text-white/70 text-xs'}>*/}
-              {/*      {block.description}*/}
-              {/*    </Text>*/}
-              {/*  </View>*/}
-              {/*))}*/}
+               {blocks.map((block) => (
+                <View
+                  key={block.id}
+                  className={
+                    'px-3 py-2 bg-white/20 rounded-3xl min-w-[80px] flex-column items-start justify-center'
+                  }
+                >
+                  <Textfeishu className={'text-white/80 text-sm'}>{block.name}</Text>
+                  <Text className={'text-white/70 text-xs'}>
+                    {block.description}
+                  </Text>
+                </View>
+              ))}
             </ScrollView>
-          </View>
+          </View> */}
         </View>
-      </Animated.View>
-      <SafeAreaView className={'flex-1'}>
-        <BottomSheet
-          ref={bottomSheetRef as any}
-          snapPoints={Array.from(
-            { length: 120 - bottomSheetPosFrom },
-            (_, i) => `${bottomSheetPosFrom + i}%`,
-          )}
-          animatedPosition={scrollTimeline}
-          overDragResistanceFactor={10}
-          // enableDynamicSizing={true}
-          topInset={75}
-          handleIndicatorStyle={{
-            display: 'none',
-          }}
-          handleStyle={{
-            padding: 0,
-          }}
-          // handleComponent={}
-        >
-          <TabView
-            renderTabBar={(props) => (
-              <ProfileScreenTabBar {...props} scrollTimeline={scrollTimeline} />
-            )}
-            tabs={tabs}
-            className={'flex-1'}
-          />
-        </BottomSheet>
-      </SafeAreaView>
+      </View>
+      <View className="absolute w-full bottom-[0] bg-white h-2 rounded-t-2xl"></View>
+    </View>
+  )
+}
+
+export function ProfileScreen() {
+  const scrollTimeline = useSharedValue(0)
+
+  return (
+    <LoadingScreen isLoading={false}>
+      <ProfileScreenHeader scrollTimeline={scrollTimeline} />
+      <Tabs.Container
+        renderHeader={() => <ProfileHeader scrollTimeline={scrollTimeline} />}
+        headerHeight={300}
+        minHeaderHeight={0}
+        tabBarHeight={48}
+        allowHeaderOverscroll={true}
+        headerContainerStyle={{
+          backgroundColor: 'transparent',
+          shadowColor: 'transparent',
+        }}
+        renderTabBar={ProfileScreenTabBar}
+      >
+        {tabs.map((tab) => (
+          <Tabs.Tab key={tab.key} name={tab.key} label={tab.title}>
+            <tab.component />
+          </Tabs.Tab>
+        ))}
+      </Tabs.Container>
     </LoadingScreen>
   )
 }

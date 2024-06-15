@@ -40,23 +40,21 @@ const App = () => {
         <ReactQueryProvider>
           <SafeAreaProvider className={'flex-1'}>
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <PortalProvider>
-                <PaperProvider>
-                  <BottomCommentContext>
-                    <NavigationContainer>
-                      <KeyboardContextProvider>
-                        <HolePostContextProvider>
-                          <NativeBaseProvider>
-                            <BottomSheetModalProvider>
-                              <Layout />
-                            </BottomSheetModalProvider>
-                          </NativeBaseProvider>
-                        </HolePostContextProvider>
-                      </KeyboardContextProvider>
-                    </NavigationContainer>
-                  </BottomCommentContext>
-                </PaperProvider>
-              </PortalProvider>
+              <PaperProvider>
+                <NavigationContainer>
+                  <KeyboardContextProvider>
+                    <HolePostContextProvider>
+                      <NativeBaseProvider>
+                        <PortalProvider>
+                          <BottomSheetModalProvider>
+                            <Layout />
+                          </BottomSheetModalProvider>
+                        </PortalProvider>
+                      </NativeBaseProvider>
+                    </HolePostContextProvider>
+                  </KeyboardContextProvider>
+                </NavigationContainer>
+              </PaperProvider>
             </GestureHandlerRootView>
           </SafeAreaProvider>
         </ReactQueryProvider>
