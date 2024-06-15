@@ -233,8 +233,8 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
   return (
     <View className={'mt-[64px]'} style={{ pointerEvents: 'box-none' }}>
       <Animated.View
-        className={'absolute w-full top-[0] z-[0] mt-[-144px]'}
-        style={[animatedBgImgHeight, { pointerEvents: 'none' }]}
+        className={'absolute w-full  z-[0] mt-[-144px]'}
+        style={[animatedBgImgHeight, { pointerEvents: 'none', bottom: 0 }]}
       >
         <View
           className={'absolute w-full h-[100%] top-[0] z-[1] bg-black/20'}
@@ -253,7 +253,7 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
         />
       </Animated.View>
       <View
-        className={'w-100 h-100 z-[1] px-4'}
+        className={'w-100 z-[1] px-4'}
         style={{ pointerEvents: 'box-none' }}
       >
         <View className={'flex-column'}>
@@ -279,7 +279,7 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
             <ProfileBio />
           </View>
 
-          <View className={'flex-row items-center space-x-2 mb-2'}>
+          <View className={'flex-row items-center space-x-2 mb-4'}>
             <View
               className={
                 'flex-row justify-between align-center py-2 flex-[0.85]'
@@ -357,10 +357,10 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
     </View>
   )
 }
-
+ 
 export function ProfileScreen() {
   const scrollTimeline = useSharedValue(0)
-
+ 
   return (
     <LoadingScreen isLoading={false}>
       <ProfileScreenHeader scrollTimeline={scrollTimeline} />
@@ -371,7 +371,7 @@ export function ProfileScreen() {
         tabBarHeight={48}
         allowHeaderOverscroll={true}
         headerContainerStyle={{
-          backgroundColor: 'transparent',
+          backgroundColor: '#ffffff',
           shadowColor: 'transparent',
         }}
         renderTabBar={ProfileScreenTabBar}
