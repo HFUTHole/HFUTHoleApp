@@ -5,10 +5,12 @@ import { TouchableEffect } from '@/components/button/TouchableEffect'
 import * as Application from 'expo-application'
 import Constants from 'expo-constants'
 import { CommandLineIcon } from 'react-native-heroicons/outline'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { BackHeader } from '@/components/Header'
 
 export function SettingsScreen() {
   return (
-    <ScrollView className={'px-[2.5vw] space-y-4 py-2'}>
+    <SafeAreaView className={'flex-1 px-[2.5vw] space-y-4 bg-white'}>
       {/*<View className={'bg-white rounded-lg p-4'}>*/}
       {/*  <TouchableEffect onPress={() => {}}>*/}
       {/*    <View className={'flex-row items-center space-x-2'}>*/}
@@ -21,6 +23,7 @@ export function SettingsScreen() {
       {/*    </View>*/}
       {/*  </TouchableEffect>*/}
       {/*</View>*/}
+      <BackHeader title={'设置'} />
       <View>
         <LogoutButton />
       </View>
@@ -28,6 +31,6 @@ export function SettingsScreen() {
         小肥书版本：{Constants.manifest2?.runtimeVersion}(
         {Application.nativeApplicationVersion})
       </Text>
-    </ScrollView>
+    </SafeAreaView>
   )
 }
