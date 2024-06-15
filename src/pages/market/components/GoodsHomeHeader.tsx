@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Text, TextInput } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { CarouselAction } from '@/pages/market/components/CarouselAction'
@@ -38,19 +38,16 @@ export const GoodsHomeHeader: React.FC = () => {
       <View className="flex-1 mt-4">
         <View className="flex-1 px-4 mb-4">
           <View className="bg-white rounded-md py-2">
-            <CarouselAction
-              data={actions}
-              height={60}
-              numOfColumns={5}
-              renderItem={(item) => (
-                <View className="items-center justify-center bg-white rounded-xl  py-2 space-y-1 w-full">
+            <View className={'flex-row'}>
+              {actions.map((item) => (
+                <View className="flex-1 items-center justify-center bg-white rounded-xl  py-2 space-y-1 w-full">
                   <View>
                     <item.component />
                   </View>
                   <Text className="text-xs">{item.name}</Text>
                 </View>
-              )}
-            />
+              ))}
+            </View>
           </View>
         </View>
       </View>

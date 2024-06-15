@@ -62,6 +62,13 @@ export function useUsedGoodsRoute() {
     })
   }
 
+  const goAllCategories = () => {
+    // @ts-ignore
+    navigation.push('market', {
+      screen: 'all-categories',
+    })
+  }
+
   return {
     goDetail,
     goCreate,
@@ -70,6 +77,7 @@ export function useUsedGoodsRoute() {
     goMy,
     goMyGoodsEditor,
     goFavorite,
+    goAllCategories,
   }
 }
 

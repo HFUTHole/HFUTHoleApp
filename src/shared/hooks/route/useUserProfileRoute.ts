@@ -41,15 +41,18 @@ export function useUserProfileRoute() {
     linkTo('/user-nested/select-school')
   }
 
-  const goOtherUserProfileScreen = useCallback((userId: number) => {
-    // @ts-ignore
-    navigation.navigate('user-nested', {
-      screen: 'other-profile',
-      params: {
-        userId,
-      },
-    })
-  }, [navigation])
+  const goOtherUserProfileScreen = useCallback(
+    (userId: number) => {
+      // @ts-ignore
+      navigation.navigate('user-nested', {
+        screen: 'other-profile',
+        params: {
+          userId,
+        },
+      })
+    },
+    [navigation],
+  )
 
   // space
   const goSchoolCourseScreen = useCallback(() => {
@@ -59,6 +62,17 @@ export function useUserProfileRoute() {
   const goSchoolCalendarScreen = useCallback(() => {
     linkTo('/space-nested/school-calendar')
   }, [linkTo])
+
+  const goFollowingScreen = (userId: number, showFollowing = true) => {
+    // @ts-ignore
+    navigation.push('user-nested', {
+      screen: 'following',
+      params: {
+        showFollowing,
+        userId,
+      },
+    })
+  }
 
   return {
     goTo,
@@ -72,5 +86,6 @@ export function useUserProfileRoute() {
     goSchoolCourseScreen,
     goSchoolCalendarScreen,
     goOtherUserProfileScreen,
+    goFollowingScreen,
   }
 }

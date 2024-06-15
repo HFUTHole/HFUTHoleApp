@@ -16,7 +16,7 @@ import * as Linking from 'expo-linking'
 import { getQAQFont } from '@/shared/utils/utils'
 
 const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+  <View style={{ flex: 1, backgroundCoflor: '#ff4081' }} />
 )
 
 const SecondRoute = () => (
@@ -137,35 +137,34 @@ const Updater = (props: { url: string }) => {
 }
 
 export function Layout() {
-  const [visible, visibleActions] = useBoolean(false)
-  useQuery({
-    queryKey: ['app.version2'],
-    queryFn: getAppVersionRequest,
-    onSuccess(data) {
-      const runtimeVersion = Constants.manifest2?.runtimeVersion
-      const isLt =
-        compareVersion(runtimeVersion || '', data.latest_version) ===
-        VersionTag.lt
-
-      if (isLt && runtimeVersion === '1.0.0') {
-        Alert.alert(
-          '发现新版本',
-          `亲爱的同学，非常抱歉，由于一些技术上的疏忽，导致这次更新必须要手动下载安装
-点击确定后将会跳转到下载页面，私密马赛🙇🙇🙇${getQAQFont('sadness')}，
-如果浏览器打开失败就复制${data.latest_url}
-或者加群813152217获取最新安装包`,
-          [
-            {
-              text: '确定',
-              onPress() {
-                Linking.openURL(data.latest_url)
-              },
-            },
-          ],
-        )
-      }
-    },
-  })
+  //   useQuery({
+  //     queryKey: ['app.version2'],
+  //     queryFn: getAppVersionRequest,
+  //     onSuccess(data) {
+  //       const runtimeVersion = Constants.manifest2?.runtimeVersion
+  //       const isLt =
+  //         compareVersion(runtimeVersion || '', data.latest_version) ===
+  //         VersionTag.lt
+  //
+  //       if (isLt && runtimeVersion === '1.0.0') {
+  //         Alert.alert(
+  //           '发现新版本',
+  //           `亲爱的同学，非常抱歉，由于一些技术上的疏忽，导致这次更新必须要手动下载安装
+  // 点击确定后将会跳转到下载页面，私密马赛🙇🙇🙇${getQAQFont('sadness')}，
+  // 如果浏览器打开失败就复制${data.latest_url}
+  // 或者加群813152217获取最新安装包`,
+  //           [
+  //             {
+  //               text: '确定',
+  //               onPress() {
+  //                 Linking.openURL(data.latest_url)
+  //               },
+  //             },
+  //           ],
+  //         )
+  //       }
+  //     },
+  //   })
 
   return (
     <>

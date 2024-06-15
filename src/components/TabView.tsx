@@ -18,10 +18,11 @@ export interface ITabViewTabs extends Route {
 
 interface TabViewProps extends Partial<NativeTabViewProps<Route>> {
   tabs: ITabViewTabs[]
+  defaultIndex?: number
 }
 
-export const TabView = ({ tabs, ...props }: TabViewProps) => {
-  const [index, setIndex] = useState(0)
+export const TabView = ({ tabs, defaultIndex = 0, ...props }: TabViewProps) => {
+  const [index, setIndex] = useState(defaultIndex)
 
   const renderScene = useMemo(
     () =>

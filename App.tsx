@@ -42,17 +42,19 @@ const App = () => {
             <GestureHandlerRootView style={{ flex: 1 }}>
               <PortalProvider>
                 <PaperProvider>
-                  <NavigationContainer>
-                    <KeyboardContextProvider>
-                      <HolePostContextProvider>
-                        <NativeBaseProvider>
-                          <BottomSheetModalProvider>
-                            <Layout />
-                          </BottomSheetModalProvider>
-                        </NativeBaseProvider>
-                      </HolePostContextProvider>
-                    </KeyboardContextProvider>
-                  </NavigationContainer>
+                  <BottomCommentContext>
+                    <NavigationContainer>
+                      <KeyboardContextProvider>
+                        <HolePostContextProvider>
+                          <NativeBaseProvider>
+                            <BottomSheetModalProvider>
+                              <Layout />
+                            </BottomSheetModalProvider>
+                          </NativeBaseProvider>
+                        </HolePostContextProvider>
+                      </KeyboardContextProvider>
+                    </NavigationContainer>
+                  </BottomCommentContext>
                 </PaperProvider>
               </PortalProvider>
             </GestureHandlerRootView>

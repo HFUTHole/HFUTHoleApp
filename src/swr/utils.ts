@@ -24,6 +24,7 @@ export const SWRKeys = {
   },
   user: {
     profile: 'user.profile',
+    otherProfile: 'user.otherProfile',
     favoriteHoleList: 'user.favoriteHoleList',
     postedHoleList: 'user.postedHoleList',
     postedCommentList: 'user.postedCommentList',

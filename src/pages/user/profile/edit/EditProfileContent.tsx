@@ -8,6 +8,8 @@ import { EditProfileAvatar } from '@/pages/user/profile/edit/EditProfileAvatar'
 import { ProfileItemType } from '@/pages/user/profile/edit/singal'
 import { useEventEmitter } from 'ahooks'
 import { EditProfileUsername } from '@/pages/user/profile/edit/EditProfileUsername'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { BackHeader } from '@/components/Header'
 
 export function EditProfileContent() {
   const { data } = useUserProfile()
@@ -38,7 +40,8 @@ export function EditProfileContent() {
   }, [data, event$])
 
   return (
-    <View className={'p-4 bg-white space-y-4'}>
+    <SafeAreaView className={'p-4 bg-white space-y-4'}>
+      <BackHeader title={'编辑资料'} />
       {EditProfileItems.map((item) => (
         <Pressable onPress={item.onPress} key={item.text}>
           <View
@@ -54,6 +57,6 @@ export function EditProfileContent() {
           </View>
         </Pressable>
       ))}
-    </View>
+    </SafeAreaView>
   )
 }

@@ -28,11 +28,11 @@ interface Props {
 
 const TextType: React.FC<{ data: Props['data'] }> = ({ data }) => {
   return (
-    <View>
+    <Text>
       {match(data.type)
         .with(NotifyEventType.like, () => {
           return (
-            <Text className={'flex-row flex-wrap text-primary-label text-md'}>
+            <Text className={'flex-row flex-wrap text-black/60 text-[14px]'}>
               {`赞了你的${match(data.target)
                 .with(InteractionNotifyTargetType.reply, () => '回复')
                 .with(InteractionNotifyTargetType.comment, () => '评论')
@@ -46,7 +46,7 @@ const TextType: React.FC<{ data: Props['data'] }> = ({ data }) => {
             <EmojiableText
               textStyle={{
                 fontSize: 14,
-                color: 'rgba(0, 0, 0, 0.75)',
+                color: 'rgba(0, 0, 0, 0.65)',
               }}
               body={
                 data.body.replace(`${data.creator?.username} ` || '', '') || ''
@@ -54,7 +54,7 @@ const TextType: React.FC<{ data: Props['data'] }> = ({ data }) => {
             />
           )
         })}
-    </View>
+    </Text>
   )
 }
 
@@ -80,7 +80,30 @@ export function MessageListItem({ data, onPress }: Props) {
             </View>
           </View>
           <View className={'flex-1 space-y-1'}>
-            <Text className={'text-sm'}>{data.creator?.username}</Text>
+            <View className={'flex-row space-x-1 items-center'}>
+              <Text className={'text-[18px]'}>{data.creator?.username}</Text>
+              <View>
+                <If
+                  condition={
+                    data.target === InteractionNotifyTargetType.usedGoods
+                  }
+                >
+                  <Then>
+                    <View
+                      className={
+                        'bg-[#efefef] rounded-sm py-[1px] px-1 justify-center'
+                      }
+                    >
+                      <Text
+                        className={'text-[10px] text-center text-primary-label'}
+                      >
+                        二手
+                      </Text>
+                    </View>
+                  </Then>
+                </If>
+              </View>
+            </View>
             <View className={'w-full flex-row flex-wrap space-x-1'}>
               <TextType data={data} />
               <TimeText time={data.createAt} />

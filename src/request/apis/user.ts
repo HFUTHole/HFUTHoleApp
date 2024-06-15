@@ -82,3 +82,16 @@ export function isUserFollowedRequest(params: FollowUserParams) {
     params,
   })
 }
+
+export type UserFollowingType = 'following' | 'followers'
+
+export function getUserFollowingRequest(params: {
+  userId: number
+  type: UserFollowingType
+}) {
+  return request<IUserFollowingResponse>({
+    method: 'GET',
+    url: '/user/following/list',
+    params,
+  })
+}

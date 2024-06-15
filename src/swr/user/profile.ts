@@ -3,9 +3,13 @@ import { SWRKeys } from '@/swr/utils'
 import { GetUserProfileRequest } from '@/request/apis/user'
 import { useMemo } from 'react'
 import { Apis } from '@/request/apis'
+import { useBaseQuery } from '@/swr/useBaseQuery'
 
 export function useUserProfile() {
-  const query = useQuery(SWRKeys.user.profile, () => GetUserProfileRequest())
+  const query = useBaseQuery({
+    queryKey: [SWRKeys.user.profile],
+    queryFn: () => GetUserProfileRequest(),
+  })
 
   const levelPercent = useMemo(() => {
     return (
@@ -21,7 +25,7 @@ export function useUserProfile() {
 }
 
 export function useOtherUserData(userId: number) {
-  const query = useQuery([SWRKeys.user.profile, userId], () =>
+  const query = useQuery([SWRKeys.user.otherProfile, userId], () =>
     Apis.user.getAnotherUserProfileRequest({
       userId,
     }),

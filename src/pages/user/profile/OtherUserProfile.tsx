@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { useUserFavoriteHoleList, useUserPostedHoleList } from '@/swr/user/hole'
 import { useOtherUserData, useUserProfile } from '@/swr/user/profile'
@@ -24,6 +24,7 @@ import { useParams } from '@/shared/hooks/useParams'
 import { LevelBanner, ProfileHoleList } from './ProfileScreen'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Image } from '@/components/image/Image'
+import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
@@ -161,6 +162,7 @@ const ProfileBio = () => {
 
 export function OtherUserProfileScreen() {
   const { userId } = useParams<{ userId: number }>()
+  const route = useUserProfileRoute()
   const { data, levelPercent, isLoading } = useOtherUserData(userId)
 
   const { data: commentData } = useUserCommentsListQuery()
@@ -264,26 +266,36 @@ export function OtherUserProfileScreen() {
             <View
               className={'flex-row justify-start align-center space-x-3 mt-2'}
             >
-              <View className={'flex-row items-center space-x-1'}>
+              <Pressable
+                onPress={() => {
+                  route.goFollowingScreen(data?.id!, true)
+                }}
+                className={'flex-row items-center space-x-1'}
+              >
                 <Text className={'text-center text-black font-bold text-xl'}>
-                  {1}
+                  {data?.following}
                 </Text>
                 <Text className={'text-center text-black/60 text-sm'}>
                   关注
                 </Text>
-              </View>
-              <View className={'flex-row items-center space-x-1'}>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  route.goFollowingScreen(data?.id!, false)
+                }}
+                className={'flex-row items-center space-x-1'}
+              >
                 <Text className={'text-center text-black font-bold text-xl'}>
-                  {2}
+                  {data?.followers}
                 </Text>
                 <Text className={'text-center text-black/60 text-sm'}>
                   粉丝
                 </Text>
-              </View>
+              </Pressable>
               {/* TODO: 换些别的数据？🤔 */}
               <View className={'flex-row items-center space-x-1'}>
                 <Text className={'text-center text-black font-bold text-xl'}>
-                  {commentData?.pages[0].meta.totalItems}
+                  {data?.posts}
                 </Text>
                 <Text className={'text-center text-black/60 text-sm'}>
                   帖子

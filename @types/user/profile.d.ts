@@ -10,6 +10,9 @@ declare interface IUserProfile {
   username: string
   avatar: string
   role: Role
+  posts: number
+  followers: number
+  following: number
   level: {
     id: string
     level: number

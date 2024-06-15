@@ -51,10 +51,10 @@ export const FollowButton: React.FC<FollowButtonProps> = (props) => {
   return (
     <If condition={userData?.id !== followingId}>
       <Then>
-        <TouchableOpacity onPress={onFollowButtonPress}>
-          <Animated.View
+        <TouchableOpacity activeOpacity={0.8} onPress={onFollowButtonPress}>
+          <View
             className={clsx([
-              'flex-row  items-center space-x-1 bg-primary rounded-full justify-center px-4 py-[5px] transition-all',
+              'flex-row items-center space-x-1 bg-primary rounded-full justify-center px-4 py-[6px]',
               {
                 'bg-[#efefef] border-active-bg-border': isFollowed,
               },
@@ -79,7 +79,7 @@ export const FollowButton: React.FC<FollowButtonProps> = (props) => {
             >
               {isFollowed ? '已关注' : '关注'}
             </Text>
-          </Animated.View>
+          </View>
         </TouchableOpacity>
       </Then>
     </If>

@@ -23,13 +23,11 @@ interface Props extends Partial<BottomSheetModalProps> {
 export const BottomActionSheet = forwardRef<BottomSheetModalMethods, Props>(
   (
     { snapPoints, backgroundStyle, footerText, onFooterPress, ...props },
-    ref
+    ref,
   ) => {
-    const theme = useTheme()
-
     const memoSnapPoints = useMemo(
       () => snapPoints || ['25%', '50%'],
-      [snapPoints]
+      [snapPoints],
     )
 
     const renderBackdrop = useCallback(
@@ -40,7 +38,7 @@ export const BottomActionSheet = forwardRef<BottomSheetModalMethods, Props>(
           appearsOnIndex={0}
         />
       ),
-      []
+      [],
     )
 
     const close = () =>
@@ -48,12 +46,12 @@ export const BottomActionSheet = forwardRef<BottomSheetModalMethods, Props>(
 
     return (
       <BottomSheetModal
+        onDismiss={close}
         ref={ref}
         index={1}
         snapPoints={memoSnapPoints}
         backdropComponent={renderBackdrop}
         backgroundStyle={{
-          backgroundColor: theme.colors.background,
           ...(backgroundStyle as object),
         }}
         {...props}
@@ -61,5 +59,5 @@ export const BottomActionSheet = forwardRef<BottomSheetModalMethods, Props>(
         {props.children}
       </BottomSheetModal>
     )
-  }
+  },
 )

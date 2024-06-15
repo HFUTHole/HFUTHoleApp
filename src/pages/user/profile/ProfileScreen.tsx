@@ -212,41 +212,9 @@ export function ProfileScreen() {
 
   const { data: commentData } = useUserCommentsListQuery()
 
-  const bottomSheetPosFrom = 60
+  const { goFollowingScreen } = useUserProfileRoute()
 
-  const tags = ['小肥书']
-  const symbol: { [key: string]: { symbol: string; color: string } } = {
-    He: { symbol: '♂', color: '#5B9BD5' },
-    She: { symbol: '♀', color: '#FF7F50' },
-    They: { symbol: '⚥', color: '#FFD700' },
-  }
-  const blocks = [
-    // {
-    //   id: 1,
-    //   name: '原神',
-    //   description: '启动',
-    // },
-    {
-      id: 2,
-      name: '小肥书',
-      description: '启动',
-    },
-    {
-      id: 3,
-      name: '摄影',
-      description: '分享你的摄影作品',
-    },
-    // {
-    //   id: 4,
-    //   name: '美食',
-    //   description: 'AAAAAAAAAA',
-    // },
-    // {
-    //   id: 5,
-    //   name: 'BBB',
-    //   description: 'BBBBBBBBBB',
-    // },
-  ]
+  const bottomSheetPosFrom = 60
 
   const userProfileRoute = useUserProfileRoute()
 
@@ -325,30 +293,6 @@ export function ProfileScreen() {
             {/* 简介 */}
             <ProfileBio />
           </View>
-          <View className={'flex-row items-center space-x-2 mb-1'}>
-            {/* tag */}
-            {tags.map((tag) => (
-              <View
-                key={tag}
-                className={
-                  ' bg-white/30 rounded-full min-w-[30px] flex-row items-center justify-center'
-                }
-              >
-                {symbol[tag] ? (
-                  <Text
-                    className={'px-2 pt-1 text-[16px] leading-[16px]'}
-                    style={{ color: symbol[tag].color }}
-                  >
-                    {symbol[tag].symbol}
-                  </Text>
-                ) : (
-                  <Text className={'px-2 py-0.5 text-white/80 text-xs'}>
-                    {tag}
-                  </Text>
-                )}
-              </View>
-            ))}
-          </View>
 
           <View className={'flex-row items-center space-x-2 mb-2'}>
             <View
@@ -357,31 +301,41 @@ export function ProfileScreen() {
               }
             >
               {/* 数据 */}
-              <View className={'flex-col align-center'}>
+              <Pressable
+                onPress={() => {
+                  goFollowingScreen(data?.id!)
+                }}
+                className={'flex-col align-center'}
+              >
                 <Text
                   className={'text-center text-white font-bold text-[20px]'}
                 >
-                  {1}
+                  {data?.following}
                 </Text>
                 <Text className={'text-center text-white/70 text-[16px]'}>
                   关注
                 </Text>
-              </View>
-              <View className={'flex-col align-center'}>
+              </Pressable>
+              <Pressable
+                className={'flex-col align-center'}
+                onPress={() => {
+                  goFollowingScreen(data?.id!, false)
+                }}
+              >
                 <Text
                   className={'text-center text-white font-bold text-[20px]'}
                 >
-                  {2}
+                  {data?.followers}
                 </Text>
                 <Text className={'text-center text-white/70 text-[16px]'}>
                   粉丝
                 </Text>
-              </View>
+              </Pressable>
               <View className={'flex-col align-center'}>
                 <Text
                   className={'text-center text-white font-bold text-[20px]'}
                 >
-                  {commentData?.pages[0].meta.totalItems}
+                  {data?.posts}
                 </Text>
                 <Text className={'text-center text-white/70 text-[16px]'}>
                   帖子

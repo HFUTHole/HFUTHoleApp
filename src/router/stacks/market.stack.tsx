@@ -15,6 +15,7 @@ import { UsedGoodsCategoryListScreen } from '@/pages/market/category-list/UsedGo
 import { UsedGoodsAreaListScreen } from '@/pages/market/area-list/UsedGoodsAreaListScreen'
 import { UsedGoodsUserGoodsListScreen } from '@/pages/market/my-goods/MyGoods'
 import { UsedGoodsEditorScreen } from '@/pages/market/my-goods/Editor'
+import { UsedGoodsAllCategoriesScreen } from '@/pages/market/all-category/UsedGoodsAllCategoriesScreen'
 
 const MarketStack = createNativeStackNavigator()
 
@@ -80,6 +81,10 @@ const MarketScreens: Screen[] = [
     options: {
       headerShown: false,
     },
+  },
+  {
+    name: 'all-categories',
+    component: UsedGoodsAllCategoriesScreen,
   },
 ]
 
