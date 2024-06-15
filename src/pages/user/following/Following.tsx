@@ -4,7 +4,7 @@ import { BackHeader } from '@/components/Header'
 import { useParams } from '@/shared/hooks/useParams'
 import { useBaseQuery } from '@/swr/useBaseQuery'
 import { Apis } from '@/request/apis'
-import { TabView } from '@/components/TabView'
+import { DefaultTabBar, TabView } from '@/components/TabView'
 import { UserFollowingType } from '@/request/apis/user'
 import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { LoadingScreen } from '@/components/LoadingScreen'
@@ -15,6 +15,7 @@ import { TouchableRipple } from 'react-native-paper'
 import { UserAvatar } from '@/components/UserAvatar'
 import { FollowButton } from '@/components/user/FollowButton'
 import { InferArrayItem } from '@/shared/types'
+import { FlashList } from '@shopify/flash-list'
 
 const Item: React.FC<{
   data: InferArrayItem<IUserFollowingResponse['following']>
@@ -91,12 +92,12 @@ const FollowerList = () => {
 
   return (
     <LoadingScreen isLoading={query.isLoading}>
-      <View className={'flex-1 bg-white'}>
-        <FlatList
-          data={data?.following || []}
+      <View className={'flex-1 h-full'}>
+        <FlashList
+          data={data?.followers || []}
           ListEmptyComponent={<Empty text={'还没有关注哦~'} />}
           renderItem={({ item }) => {
-            return <Item data={item} />
+            return <Item key={item.id} data={item} />
           }}
           {...query}
         />
@@ -116,7 +117,7 @@ export const UserFollowingScreen: React.FC = () => {
         renderTabBar={(props) => {
           return (
             <View className={'px-[2.5vw] mb-2'}>
-              <ProfileScreenTabBar {...props} />
+              <DefaultTabBar {...props} />
             </View>
           )
         }}
