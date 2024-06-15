@@ -63,7 +63,7 @@ export const ProfileHoleList = (props: any) => {
         FlatListComponent={ProfileHoleListMasonryList}
         renderItem={({ item: data }) => {
           return (
-            <View className={'w-[48vw] mx-auto mt-[5px] h-screen'}>
+            <View className={'w-[48vw] mx-auto mt-[5px]'}>
               <TagHoleInfo data={data as any} />
             </View>
           )
@@ -231,7 +231,7 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
   })
 
   return (
-    <View className={'mt-[64px]'} style={{ pointerEvents: 'box-none'}} >
+    <View className={'mt-[64px]'} style={{ pointerEvents: 'box-none' }}>
       <Animated.View
         className={'absolute w-full top-[0] z-[0] mt-[-144px]'}
         style={[animatedBgImgHeight, { pointerEvents: 'none' }]}
@@ -252,11 +252,12 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
           cachePolicy={'disk'}
         />
       </Animated.View>
-      <View className={'w-100 h-100 z-[1] px-4'} style={{ pointerEvents: 'box-none' }}>
+      <View
+        className={'w-100 h-100 z-[1] px-4'}
+        style={{ pointerEvents: 'box-none' }}
+      >
         <View className={'flex-column'}>
-          <View
-            className={'flex-row items-center space-x-4'}
-          >
+          <View className={'flex-row items-center space-x-4'}>
             {/* 头像、用户名、id */}
             <MyAvatar size={72} />
             <View className={'ml-1 justify-center space-y-2'}>
@@ -350,34 +351,6 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
               </Button>
             </View>
           </View>
-
-          {/* <View className={'flex-row items-center space-x-2 mb-2'}>
-            <ScrollView
-              contentContainerStyle={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                padding: 8,
-                gap: 8,
-              }}
-              horizontal={true}
-            >
-               {blocks.map((block) => (
-                <View
-                  key={block.id}
-                  className={
-                    'px-3 py-2 bg-white/20 rounded-3xl min-w-[80px] flex-column items-start justify-center'
-                  }
-                >
-                  <Textfeishu className={'text-white/80 text-sm'}>{block.name}</Text>
-                  <Text className={'text-white/70 text-xs'}>
-                    {block.description}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
-          </View> */}
         </View>
       </View>
       <View className="absolute w-full bottom-[0] bg-white h-2 rounded-t-2xl"></View>

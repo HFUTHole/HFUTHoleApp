@@ -9,7 +9,7 @@ import {
 } from 'react-native-tab-view'
 import { useTheme } from 'react-native-paper'
 import type { Props as RNTabViewProps } from 'react-native-tab-view/lib/typescript/src/TabBar'
-import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
+import { Props } from 'react-native-tab-view/src/TabView'
 
 export interface ITabViewTabs extends Route {
   // 这里 component 写成 ReactNode 会报错，好奇怪
@@ -19,6 +19,32 @@ export interface ITabViewTabs extends Route {
 interface TabViewProps extends Partial<NativeTabViewProps<Route>> {
   tabs: ITabViewTabs[]
   defaultIndex?: number
+}
+
+export const DefaultTabBar = (props: Props<any>['renderTabBar']) => {
+  return (
+    <View className={'bg-white'}>
+      <TabBar
+        {...props}
+        style={{
+          backgroundColor: 'transparent',
+          elevation: 0,
+        }}
+        indicatorStyle={{
+          backgroundColor: '#171821',
+        }}
+        renderLabel={({ route, focused }) => (
+          <Text
+            className={`${
+              focused ? 'text-black' : 'text-black/70'
+            } text-[14px]`}
+          >
+            {route.title}
+          </Text>
+        )}
+      />
+    </View>
+  )
 }
 
 export const TabView = ({ tabs, defaultIndex = 0, ...props }: TabViewProps) => {
@@ -33,7 +59,7 @@ export const TabView = ({ tabs, defaultIndex = 0, ...props }: TabViewProps) => {
   return (
     <NativeTabView
       lazy={true}
-      renderTabBar={ProfileScreenTabBar}
+      renderTabBar={DefaultTabBar}
       navigationState={{ index, routes: tabs }}
       renderScene={renderScene}
       onIndexChange={setIndex}

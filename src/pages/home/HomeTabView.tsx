@@ -3,6 +3,7 @@ import {
   NavigationState,
   SceneMap,
   SceneRendererProps,
+  TabBar,
 } from 'react-native-tab-view'
 import { View } from 'native-base'
 import {
@@ -11,17 +12,15 @@ import {
   useWindowDimensions,
   Pressable,
   Animated as ReactNativeAnimated,
+  Text,
 } from 'react-native'
 import { PostList } from '@/pages/home/component/PostList'
-import Animated, { useSharedValue } from 'react-native-reanimated'
-import clsx from 'clsx'
 import { FollowedPostList } from '@/pages/home/FollowedPostList'
 import { MyAvatar } from '@/components/UserAvatar'
 import { useHoleSearchRoute } from '@/shared/hooks/route/useHoleSearchRoute'
 import { MarketScreen } from '../market/MarketScreen'
 import { SearchIcon } from '@/components/icon'
-import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
-import { TabView } from '@/components/TabView'
+import { DefaultTabBar, TabView } from '@/components/TabView'
 
 export interface HomeTabViewProps {}
 
@@ -43,7 +42,7 @@ export const HomeTabView: React.FC<HomeTabViewProps> = () => {
           >
             <MyAvatar />
             <View className={'flex-1'}>
-              <ProfileScreenTabBar {...props} />
+              <DefaultTabBar {...props} />
             </View>
             <Pressable
               className={'rounded-full px-3 flex-row items-center '}
