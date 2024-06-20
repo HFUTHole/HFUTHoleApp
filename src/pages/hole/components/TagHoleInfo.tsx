@@ -7,7 +7,7 @@ import { useMutation } from 'react-query'
 import { match } from 'ts-pattern'
 import { Image } from '@/components/image/Image'
 import { EmojiableText } from '@/components/Text/EmojiableText'
-import { If, Then } from 'react-if'
+import { Else, If, Then } from 'react-if'
 import { TimeText } from '@/components/Text/Time'
 import { Apis } from '@/request/apis'
 
@@ -48,12 +48,14 @@ export function TagHoleInfo({ data }: TagHoleInfoProps) {
         go(data.id)
       }}
     >
-      <View className={'bg-white rounded-lg border-[1px] border-black/5'}>
-        {image && (
-          <View className="w-full rounded-t-lg overflow-hidden">
-            <Image className="w-full h-60" source={{ uri: image }} />
-          </View>
-        )}
+      <View className={'bg-white rounded-lg'}>
+        <If condition={image}>
+          <Then>
+            <View className="w-full rounded-t-lg overflow-hidden">
+              <Image className="w-full h-60" source={{ uri: image! }} />
+            </View>
+          </Then>
+        </If>
 
         <View className={'px-2 pb-2'}>
           <View className={'py-2'}>

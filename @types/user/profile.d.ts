@@ -9,6 +9,7 @@ declare interface IUserProfile {
   createAt: string
   username: string
   avatar: string
+  desc: string
   role: Role
   posts: number
   followers: number

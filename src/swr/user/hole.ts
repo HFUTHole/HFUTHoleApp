@@ -65,6 +65,7 @@ export function useUserPostedHoleList() {
     queryKey: [SWRKeys.user.postedHoleList, userId],
     queryFn: ({ pageParam = 1 }) =>
       Apis.user.GetUserPostedHoleListRequest({
+        userId,
         limit: 10,
         page: pageParam,
       }),

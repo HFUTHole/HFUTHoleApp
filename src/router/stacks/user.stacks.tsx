@@ -17,6 +17,7 @@ import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { OtherUserProfileScreen } from '@/pages/user/profile/OtherUserProfile'
 import { UserFollowingScreen } from '@/pages/user/following/Following'
+import { EditProfileDesc } from '@/pages/user/profile/edit/EditProfileDesc'
 
 const UserStack = createNativeStackNavigator()
 
@@ -53,6 +54,13 @@ const UserScreens: Screen[] = [
     component: EditUsernameScreen,
     options: {
       title: '更改用户名',
+    },
+  },
+  {
+    name: 'edit-desc',
+    component: EditProfileDesc,
+    options: {
+      headerShown: false,
     },
   },
   {

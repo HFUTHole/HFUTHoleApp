@@ -8,3 +8,11 @@ export class EditProfileUsernameValidator {
   @IsString()
   username: string
 }
+
+export class EditProfileDescValidator {
+  @Length(1, 300, {
+    message: '最多只能输入300个字符哦',
+  })
+  @IsString()
+  desc: string
+}

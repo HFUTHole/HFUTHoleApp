@@ -6,37 +6,46 @@ import { useBaseQuery } from '@/swr/useBaseQuery'
 import { Apis } from '@/request/apis'
 import { DefaultTabBar, TabView } from '@/components/TabView'
 import { UserFollowingType } from '@/request/apis/user'
-import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { FlatList, Text, View } from 'react-native'
 import { Empty } from '@/components/image/Empty'
-import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
 import { TouchableRipple } from 'react-native-paper'
 import { UserAvatar } from '@/components/UserAvatar'
 import { FollowButton } from '@/components/user/FollowButton'
 import { InferArrayItem } from '@/shared/types'
 import { FlashList } from '@shopify/flash-list'
+import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
 
 const Item: React.FC<{
   data: InferArrayItem<IUserFollowingResponse['following']>
 }> = (props) => {
   const { data } = props
+  const route = useUserProfileRoute()
+
   return (
     <TouchableRipple
-      onPress={() => {}}
+      onPress={() => {
+        route.goOtherUserProfileScreen(data.id)
+      }}
       className={'flex-1 w-full py-3 px-[2.5vw]'}
     >
       <View className={'flex-row justify-between items-center'}>
-        <View className={'flex-row space-x-2 items-center'}>
-          <UserAvatar size={50} url={data!.avatar} />
+        <View className={'flex-row space-x-2 items-center flex-[3]'}>
+          <UserAvatar size={50} url={data!.avatar} userId={data.id} />
           <View className={''}>
             <Text className={'text-base'}>{data!.username}</Text>
-            <Text className={'text-xs text-quaternary-label'}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={'tail'}
+              className={'text-[13px] text-quaternary-label'}
+            >
               {data?.desc || 'Ta还没有简介哦'}
             </Text>
           </View>
         </View>
-        <FollowButton className={'rounded-md'} followingId={data.id} />
+        <View className={'flex-1'}>
+          <FollowButton className={'rounded-md'} followingId={data.id} />
+        </View>
       </View>
     </TouchableRipple>
   )

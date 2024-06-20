@@ -17,6 +17,7 @@ export function useNavigateToMessageTarget() {
   const { goDetail } = useUsedGoodsRoute()
 
   const onMessagePress = (data?: INotifyInteractionListItem) => {
+    console.log(data?.usedGoods)
     // 二手通知
     if (!data?.post && !data?.usedGoods) {
       return

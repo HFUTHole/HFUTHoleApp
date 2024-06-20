@@ -81,7 +81,7 @@ export function MessageListItem({ data, onPress }: Props) {
           </View>
           <View className={'flex-1 space-y-1'}>
             <View className={'flex-row space-x-1 items-center'}>
-              <Text className={'text-[18px]'}>{data.creator?.username}</Text>
+              <Text className={'text-[16px]'}>{data.creator?.username}</Text>
               <View>
                 <If
                   condition={
@@ -106,8 +106,8 @@ export function MessageListItem({ data, onPress }: Props) {
             </View>
             <View className={'w-full flex-row flex-wrap space-x-1'}>
               <TextType data={data} />
-              <TimeText time={data.createAt} />
             </View>
+            <TimeText time={data.createAt} />
           </View>
         </View>
         <View className={'w-2/12 h-20 flex items-center'}>

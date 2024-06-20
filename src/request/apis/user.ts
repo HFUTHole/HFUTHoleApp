@@ -38,6 +38,7 @@ export function GetUserPostedHoleListRequest(
 }
 
 export function PostUserProfileRequest(data: {
+  desc?: string
   avatar?: string
   username?: string
 }) {

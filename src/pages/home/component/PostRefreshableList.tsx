@@ -115,6 +115,7 @@ function InnerRefreshablePostList<
           onTopRefresh={invalidateQuery}
           ListEmptyComponent={() => <Empty />}
           ListHeaderComponent={ListHeaderComponent}
+          keyExtractor={(item) => item?.id}
           ListFooterComponent={() =>
             isHoleListEmpty ? (
               <></>

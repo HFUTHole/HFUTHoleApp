@@ -25,11 +25,13 @@ export function useUserProfile() {
 }
 
 export function useOtherUserData(userId: number) {
-  const query = useQuery([SWRKeys.user.otherProfile, userId], () =>
-    Apis.user.getAnotherUserProfileRequest({
-      userId,
-    }),
-  )
+  const query = useBaseQuery({
+    queryKey: [SWRKeys.user.otherProfile, userId],
+    queryFn: () =>
+      Apis.user.getAnotherUserProfileRequest({
+        userId,
+      }),
+  })
 
   const levelPercent = useMemo(() => {
     return (

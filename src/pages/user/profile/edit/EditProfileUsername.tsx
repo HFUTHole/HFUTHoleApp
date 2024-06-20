@@ -13,6 +13,8 @@ import { PostUserProfileRequest } from '@/request/apis/user'
 import { NativeInput } from '@/components/form/NativeInput'
 import { Toast } from '@/shared/utils/toast'
 import { useNavigation } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { BackHeader } from '@/components/Header'
 
 export function EditProfileUsername({ event }: ProfileItemWithEventProps) {
   const { data } = useUserProfile()
@@ -20,7 +22,7 @@ export function EditProfileUsername({ event }: ProfileItemWithEventProps) {
   const route = useUserProfileRoute()
 
   event.useSubscription(
-    (type) => type === 'username' && route.goEditUsernameScreen()
+    (type) => type === 'username' && route.goEditUsernameScreen(),
   )
 
   return <SecondaryText>{data!.username}</SecondaryText>
@@ -62,28 +64,31 @@ export function EditUsernameScreen() {
   }
 
   return (
-    <View
-      className={'flex flex-row justify-between items-center p-4 space-x-4'}
-    >
-      <View className={'flex-1'}>
-        <Input
-          name={'username'}
-          placeholder={'请输入你想修改的名字'}
-          control={control}
-          mode={'flat'}
-          transparent
-          autoFocus
-        />
+    <SafeAreaView className={'bg-white flex-1'}>
+      <BackHeader title={'修改名字'} />
+      <View
+        className={'flex-row space-x-2 justify-between items-center px-[2.5vw]'}
+      >
+        <View className={'flex-1'}>
+          <Input
+            name={'username'}
+            placeholder={'请输入你想修改的名字'}
+            control={control}
+            mode={'flat'}
+            transparent
+            autoFocus
+          />
+        </View>
+        <View>
+          <Button
+            loading={mutation.isLoading}
+            onPress={handleSubmit(onSubmit)}
+            mode={'contained'}
+          >
+            修改
+          </Button>
+        </View>
       </View>
-      <View>
-        <Button
-          loading={mutation.isLoading}
-          onPress={handleSubmit(onSubmit)}
-          mode={'contained'}
-        >
-          修改
-        </Button>
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }

@@ -92,6 +92,9 @@ const CommentBottomSheetAction: React.FC<{
 
   return (
     <BottomActionSheet
+      backgroundStyle={{
+        backgroundColor: '#efefef',
+      }}
       onDismiss={props.onDismiss}
       ref={sheetRef as MutableRefObject<BottomSheetModal>}
     >
@@ -165,7 +168,7 @@ export function CommentItem({
       }}
       onPress={() => onBodyPress?.(data)}
       className={clsx([
-        'px-3',
+        'pr-[2.5vw]',
         {
           'bg-background': params.commentId === data.id,
         },

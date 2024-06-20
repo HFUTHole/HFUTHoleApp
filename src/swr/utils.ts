@@ -12,6 +12,7 @@ export const SWRKeys = {
     like: 'hole.like',
     tagDetail: 'hole.tagDetail',
     tagList: 'hole.tagList',
+    delete: 'hole.delete',
   },
   home: {
     categories: 'home.categories',

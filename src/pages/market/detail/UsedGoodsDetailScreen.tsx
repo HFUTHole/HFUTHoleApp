@@ -32,7 +32,7 @@ export const UsedGoodsDetailScreen: React.FC = () => {
 
   return (
     <CommentEventBusProvider>
-      <BottomCommentContext isGoods={true}>
+      <BottomCommentContext isGoods={true} goodsId={data?.id}>
         <CommentEventBusProvider>
           <SafeAreaView className={'flex-1 bg-white'}>
             <UsedGoodsHeader data={data} />

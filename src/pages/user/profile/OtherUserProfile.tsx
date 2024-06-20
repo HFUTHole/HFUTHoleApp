@@ -6,7 +6,7 @@ import { type ITabViewTabs, TabView, TabViewBar } from '@/components/TabView'
 import { MyAvatar, UserAvatar } from '@/components/UserAvatar'
 import { Appbar, Button, Text, TouchableRipple } from 'react-native-paper'
 import BottomSheet from '@gorhom/bottom-sheet'
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TabBar } from 'react-native-tab-view'
@@ -35,7 +35,7 @@ import {
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
-  return <ProfileHoleList {...query} />
+  return <ProfileHoleList showFabs={false} {...query} />
 }
 
 const UserFavoriteHoleList = () => {
@@ -147,16 +147,16 @@ export const ProfileScreenTabBar = (props: TabBarProps) => {
   )
 }
 
-const ProfileBio = () => {
+const ProfileBio: React.FC<{ data: IUserProfile }> = ({ data }) => {
   const [viewMore, setViewMore] = useState(true)
   return (
     <View className={'flex-row space-x-2'}>
       <View className={'flex-1'}>
         <Text
           className={'text-black text-sm'}
-          numberOfLines={viewMore ? undefined : 1}
+          numberOfLines={viewMore ? undefined : 4}
         >
-          还没有简介哦
+          {data?.desc}
         </Text>
       </View>
       <View></View>
@@ -220,7 +220,7 @@ const OtherUserProfileHeader = (props: {
             <UserAvatar url={data?.avatar} size={96} />
             <View className={'ml-1 justify-center space-y-2'}>
               <View className={'flex-row space-x-3 items-center'}>
-                <Text className={'text-white font-bold text-[24px]'}>
+                <Text className={'text-white font-bold text-[20px]'}>
                   {data?.username}
                 </Text>
                 <View>
@@ -235,7 +235,7 @@ const OtherUserProfileHeader = (props: {
         </View>
       </View>
       <Animated.View
-        className={'px-[3.5vw] space-y-4 pb-4 bg-white rounded-t-2xl'}
+        className={'px-[3.5vw] space-y-4 pt-2 pb-3 bg-white rounded-t-2xl'}
         style={{
           pointerEvents: 'box-none',
         }}
@@ -250,9 +250,7 @@ const OtherUserProfileHeader = (props: {
             <Text className={'text-center text-black font-bold text-xl'}>
               {data?.following}
             </Text>
-            <Text className={'text-center text-black/60 text-sm'}>
-              关注
-            </Text>
+            <Text className={'text-center text-black/60 text-sm'}>关注</Text>
           </Pressable>
           <Pressable
             onPress={() => {
@@ -263,9 +261,7 @@ const OtherUserProfileHeader = (props: {
             <Text className={'text-center text-black font-bold text-xl'}>
               {data?.followers}
             </Text>
-            <Text className={'text-center text-black/60 text-sm'}>
-              粉丝
-            </Text>
+            <Text className={'text-center text-black/60 text-sm'}>粉丝</Text>
           </Pressable>
           {/* TODO: 换些别的数据？🤔 */}
           <View className={'flex-row items-center space-x-1'}>
@@ -276,7 +272,7 @@ const OtherUserProfileHeader = (props: {
           </View>
         </View>
         <View>
-          <ProfileBio />
+          <ProfileBio data={data!} />
         </View>
         <View className={'flex-row items-center space-x-2 mb-1'}>
           {/* tag */}
@@ -287,16 +283,7 @@ const OtherUserProfileHeader = (props: {
                 ' bg-black/10 rounded min-w-[30px] flex-row items-center justify-center'
               }
             >
-              {symbol[tag] ? (
-                <Text
-                  className={'px-2 pt-1 text-[16px] leading-[16px]'}
-                  style={{ color: symbol[tag].color }}
-                >
-                  {symbol[tag].symbol}
-                </Text>
-              ) : (
-                <Text className={'px-2 py-0.5 text-[#333] text-xs'}>{tag}</Text>
-              )}
+              <Text className={'px-2 py-1 text-black/60 text-xs'}>{tag}</Text>
             </View>
           ))}
         </View>

@@ -33,7 +33,7 @@ export const BackHeader = (props: {
       <View className={'flex-1'}>
         <BackHeaderBackButton />
       </View>
-      <View className={'flex-1 justify-center'}>
+      <View className={'flex-[2] justify-center'}>
         <Text className={'text-center'} variant={'titleMedium'}>
           {props.title}
         </Text>

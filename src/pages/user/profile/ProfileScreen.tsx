@@ -15,7 +15,7 @@ import BottomSheet, {
   SCROLLABLE_TYPE,
   createBottomSheetScrollableComponent,
 } from '@gorhom/bottom-sheet'
-import { forwardRef, memo, useRef, useState } from 'react'
+import React, { forwardRef, memo, useRef, useState } from 'react'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import { Image } from 'expo-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -60,7 +60,15 @@ export const ProfileHoleList = (props: any) => {
     <View className="flex-1">
       <RefreshableHoleList
         {...props}
+        showFab={false}
         FlatListComponent={ProfileHoleListMasonryList}
+        style={{
+          backgroundColor: '#fff',
+        }}
+        contentContainerStyle={{
+          backgroundColor: '#fff',
+          flex: 1,
+        }}
         renderItem={({ item: data }) => {
           return (
             <View className={'w-[48vw] mx-auto mt-[5px]'}>
@@ -175,25 +183,14 @@ const ProfileScreenHeader: React.FC<{
 }
 
 // 简介
-const ProfileBio = () => {
-  const [viewMore, setViewMore] = useState(false)
+const ProfileBio: React.FC<{ data: IUserProfile }> = ({ data }) => {
   return (
     <View className={'flex-row space-x-2'}>
       {/* <Text className={'text-black text-xs'}>还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦</Text> */}
       <View className={'flex-1'}>
-        <Text
-          className={'text-white/75 text-s'}
-          numberOfLines={viewMore ? undefined : 1}
-        >
-          还没有简介哦
+        <Text className={'text-white/75 text-s'} numberOfLines={1}>
+          {data?.desc || ''}
         </Text>
-      </View>
-      <View>
-        <Pressable onPress={() => setViewMore(!viewMore)}>
-          <Text className={'text-[#1A91DA] text-s px-2 '}>
-            {viewMore ? '收起' : '详情'}
-          </Text>
-        </Pressable>
       </View>
     </View>
   )
@@ -276,7 +273,7 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
           </View>
           <View className={'flex-row items-center space-x-4 mt-5 mb-3'}>
             {/* 简介 */}
-            <ProfileBio />
+            <ProfileBio data={data!} />
           </View>
 
           <View className={'flex-row items-center space-x-2 mb-4'}>
@@ -357,10 +354,10 @@ const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
     </View>
   )
 }
- 
+
 export function ProfileScreen() {
   const scrollTimeline = useSharedValue(0)
- 
+
   return (
     <LoadingScreen isLoading={false}>
       <ProfileScreenHeader scrollTimeline={scrollTimeline} />

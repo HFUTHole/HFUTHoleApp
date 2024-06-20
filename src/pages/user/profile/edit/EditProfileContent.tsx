@@ -10,9 +10,12 @@ import { useEventEmitter } from 'ahooks'
 import { EditProfileUsername } from '@/pages/user/profile/edit/EditProfileUsername'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BackHeader } from '@/components/Header'
+import { EditProfileDesc } from '@/pages/user/profile/edit/EditProfileDesc'
+import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
 
 export function EditProfileContent() {
   const { data } = useUserProfile()
+  const route = useUserProfileRoute()
 
   const event$ = useEventEmitter<ProfileItemType>()
 
@@ -27,14 +30,27 @@ export function EditProfileContent() {
       },
       {
         text: '名字',
-        component: <EditProfileUsername event={event$} />,
+        component: (
+          <Text className={'text-primary-label'}>{data?.username}</Text>
+        ),
         onPress: () => {
-          event$.emit('username')
+          route.goEditUsernameScreen()
         },
       },
       {
-        text: 'UID',
-        component: <SecondaryText>{data!.id}</SecondaryText>,
+        text: '个性签名',
+        component: (
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={'tail'}
+            className={'text-primary-label'}
+          >
+            {data?.desc}
+          </Text>
+        ),
+        onPress: () => {
+          route.goEditDesc()
+        },
       },
     ]
   }, [data, event$])

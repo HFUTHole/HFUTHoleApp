@@ -21,6 +21,10 @@ export function useUserProfileRoute() {
     linkTo('/user-nested/edit-username')
   }
 
+  const goEditDesc = () => {
+    linkTo('/user-nested/edit-desc')
+  }
+
   const goSettingsScreen = () => {
     linkTo('/user-nested/settings')
   }
@@ -87,5 +91,6 @@ export function useUserProfileRoute() {
     goSchoolCalendarScreen,
     goOtherUserProfileScreen,
     goFollowingScreen,
+    goEditDesc,
   }
 }

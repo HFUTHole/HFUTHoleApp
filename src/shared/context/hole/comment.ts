@@ -15,10 +15,12 @@ export type IBottomCommentData = {
   commentId?: string
   replyId?: string
   imgs?: string[]
+  type?: 'post' | 'goods'
+  goodsId?: string
 } & Omit<Partial<IHoleCommentListItem>, 'id'>
 
 export const [useBottomCommentContext, BottomCommentContext] = createStore(
-  (props: { isGoods?: boolean }) => {
+  (props: { isGoods?: boolean; goodsId?: string }) => {
     const { isGoods = false } = props
 
     const [showInput, setShowInput] = useState(false)
@@ -64,6 +66,11 @@ export const [useBottomCommentContext, BottomCommentContext] = createStore(
         }
       } else {
         params.id = param.id
+      }
+
+      if (isGoods && isReply) {
+        params.type = 'goods'
+        params.goodsId = props.goodsId
       }
 
       const func = isReply

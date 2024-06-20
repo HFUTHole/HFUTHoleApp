@@ -18,6 +18,8 @@ import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 import { CommentImage } from '@/pages/hole/detail/components/CommentImage'
 import * as _ from 'lodash'
 import { AntdIcon, FontV6Icon } from '@/components/icon'
+import { useParams } from '@/shared/hooks/useParams'
+import { useNavigation } from '@react-navigation/native'
 
 const ReplyListItem: React.FC<{
   reply: Reply
