@@ -1,19 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import {
-  NavigationState,
-  SceneMap,
-  SceneRendererProps,
-  TabBar,
-} from 'react-native-tab-view'
+import React from 'react'
 import { View } from 'native-base'
-import {
-  ScrollView,
-  TouchableOpacity,
-  useWindowDimensions,
-  Pressable,
-  Animated as ReactNativeAnimated,
-  Text,
-} from 'react-native'
+import { Pressable } from 'react-native'
 import { PostList } from '@/pages/home/component/PostList'
 import { FollowedPostList } from '@/pages/home/FollowedPostList'
 import { MyAvatar } from '@/components/UserAvatar'

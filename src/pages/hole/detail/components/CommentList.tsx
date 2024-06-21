@@ -9,7 +9,7 @@ import { HoleDetailCommentHeader } from '@/pages/hole/detail/components/CommentH
 import { LoadMore } from '@/components/LoadMore'
 import { HoleDetailCommentItem } from '@/pages/hole/detail/components/CommentItem'
 import { BilibiliPlayer } from '@/components/player/BilibiliPlayer'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
@@ -19,6 +19,7 @@ import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDeta
 import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 import clsx from 'clsx'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
+import { ScreenHeight } from '@/shared/utils/utils'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -89,6 +90,8 @@ const HoleTopDetail = React.memo(() => {
 })
 
 export function HoleDetailCommentList() {
+  const [topHeight, setTopHeight] = useState(0)
+
   const {
     flattenData,
     fetchNextPage,
@@ -113,6 +116,12 @@ export function HoleDetailCommentList() {
       })
     }
   }, [params, flatListRef.current])
+
+  useEffect(() => {
+    flatListRef.current?.scrollToOffset({
+      offset: topHeight,
+    })
+  }, [topHeight])
 
   scrollEvent.useSubscription((index) => {
     flatListRef.current?.scrollToIndex({
@@ -143,7 +152,17 @@ export function HoleDetailCommentList() {
           hasNextPage={hasNextPage}
           onTopRefresh={onTopRefresh}
           refreshing={isFetching}
-          ListHeaderComponent={HoleTopDetail}
+          ListHeaderComponent={() => {
+            return (
+              <View
+                onLayout={(e) => {
+                  setTopHeight(e.nativeEvent.layout.height)
+                }}
+              >
+                <HoleTopDetail />
+              </View>
+            )
+          }}
           ListFooterComponent={() => (
             <LoadMore
               text={isDataEmpty ? '没有更多评论了哦' : ''}

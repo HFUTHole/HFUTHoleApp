@@ -85,6 +85,7 @@ export function MessageListItem({ data, onPress }: Props) {
               <View>
                 <If
                   condition={
+                    data.target === InteractionNotifyTargetType.post ||
                     data.target === InteractionNotifyTargetType.usedGoods
                   }
                 >
@@ -97,7 +98,13 @@ export function MessageListItem({ data, onPress }: Props) {
                       <Text
                         className={'text-[10px] text-center text-primary-label'}
                       >
-                        二手
+                        {match(data.target)
+                          .with(
+                            InteractionNotifyTargetType.usedGoods,
+                            () => '二手',
+                          )
+                          .with(InteractionNotifyTargetType.post, () => '帖子')
+                          .otherwise(() => '')}
                       </Text>
                     </View>
                   </Then>

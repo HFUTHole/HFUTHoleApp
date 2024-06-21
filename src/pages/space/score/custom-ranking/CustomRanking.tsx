@@ -32,13 +32,13 @@ export const CustomRanking = () => {
         } else {
           return false
         }
-      })
-    )
+      }),
+    ),
   )
 
   const checkboxGroupChecked = useMemo(
     () => checkedState.map((group) => group.every((item) => item)),
-    [checkedState]
+    [checkedState],
   )
 
   const mutation = useMutation({
@@ -78,7 +78,7 @@ export const CustomRanking = () => {
       })
       mutation.mutate(selectCourse)
     },
-    { wait: 300 }
+    { wait: 300 },
   )
 
   const handleScoreTypeChange = (key: ScoreType) => setScoreType(key)
@@ -99,22 +99,23 @@ export const CustomRanking = () => {
 
   return (
     <View className="w-full h-[100%] p-3 space-y-2 relative">
-      <IconButton
-        className="absolute w-12 h-12 top-[40%] z-10 rounded-full"
-        containerColor={theme.colors.primary}
-        onPress={handleQueryClick}
-        icon={() => <SearchIcon color="white" size={20} />}
-        style={{
-          position: 'absolute',
-          width: 50,
-          height: 50,
-          right: 2,
-          top: 200,
-          zIndex: 10,
-          borderRadius: 9999,
-        }}
-        loading={mutation.isLoading}
-      />
+      <View className="absolute w-14 h-12 right-0 top-[5%] z-[10] rounded-full">
+        <IconButton
+          containerColor={theme.colors.primary}
+          onPress={handleQueryClick}
+          icon={() => <SearchIcon color="white" size={20} />}
+          style={{
+            position: 'absolute',
+            width: 50,
+            height: 50,
+            right: 2,
+            top: 200,
+            zIndex: 10,
+            borderRadius: 9999,
+          }}
+          loading={mutation.isLoading}
+        />
+      </View>
       <ScoreCard
         title="自定义排名"
         scoreButtonOptions={buttonOptions}

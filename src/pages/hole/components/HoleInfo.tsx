@@ -23,7 +23,7 @@ import { sliceHoleInfoCommentBody } from '@/pages/hole/components/utils'
 import { HoleInfoBottomCommentArea } from '@/pages/hole/components/HoleInfoBottomCommentArea'
 import { FollowButton } from '@/components/user/FollowButton'
 import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDetailImageCarousel'
-import { If, Then } from 'react-if'
+import { Else, If, Then } from 'react-if'
 import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 
 type Data = IHole
@@ -128,7 +128,14 @@ export const HomeListInfoHeader: React.FC<{ data: Data }> = ({ data }) => {
               <Text className={'text-[16px] text-black'}>
                 {data.user.username}
               </Text>
-              <TimeText time={data.createAt} />
+              <If condition={data.createAt === data.updateAt}>
+                <Then>
+                  <TimeText time={data.createAt} />
+                </Then>
+                <Else>
+                  <TimeText textLeft={'更新于'} time={data.updateAt} />
+                </Else>
+              </If>
             </View>
           </View>
 

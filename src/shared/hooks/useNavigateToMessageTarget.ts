@@ -17,7 +17,6 @@ export function useNavigateToMessageTarget() {
   const { goDetail } = useUsedGoodsRoute()
 
   const onMessagePress = (data?: INotifyInteractionListItem) => {
-    console.log(data?.usedGoods)
     // 二手通知
     if (!data?.post && !data?.usedGoods) {
       return
@@ -32,13 +31,13 @@ export function useNavigateToMessageTarget() {
 
     if ((data as INotifyInteractionListItem).type === 'reply') {
       if (!data.comment) {
-        Toast.error({
-          text1: '通知事件异常，请联系管理员处理',
+        go(data.post?.id!, {
+          replyId: data.reply?.id,
         })
         return
       }
 
-      go(data.post?.id, {
+      go(data.post?.id!, {
         commentId: data.comment?.id,
         replyId: data.reply?.id,
       })
