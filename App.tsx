@@ -21,8 +21,11 @@ const App = () => {
       const update = await Updates.checkForUpdateAsync()
 
       if (update.isAvailable) {
-        await Updates.fetchUpdateAsync()
-        await Updates.reloadAsync()
+        const result = await Updates.fetchUpdateAsync()
+
+        if (result.isNew) {
+          await Updates.reloadAsync()
+        }
       }
     } catch (error) {
       // alert(`Error fetching latest Expo update: ${error}`)

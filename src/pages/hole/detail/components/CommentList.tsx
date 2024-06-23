@@ -20,11 +20,12 @@ import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 import clsx from 'clsx'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 import { ScreenHeight } from '@/shared/utils/utils'
+import { useParams } from '@/shared/hooks/useParams'
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
-  const hasImages = (data?.imgs.length || 0) > 0
-  const hasTags = (data?.tags.length || 0) > 0
+  const hasImages = (data?.imgs?.length || 0) > 0
+  const hasTags = (data?.tags?.length || 0) > 0
 
   return (
     <View>
@@ -118,10 +119,12 @@ export function HoleDetailCommentList() {
   }, [params, flatListRef.current])
 
   useEffect(() => {
-    flatListRef.current?.scrollToOffset({
-      offset: topHeight,
-    })
-  }, [topHeight])
+    if (params.commentId) {
+      flatListRef.current?.scrollToOffset({
+        offset: topHeight,
+      })
+    }
+  }, [topHeight, params.commentId])
 
   scrollEvent.useSubscription((index) => {
     flatListRef.current?.scrollToIndex({
