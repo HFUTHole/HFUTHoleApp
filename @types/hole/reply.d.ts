@@ -9,6 +9,7 @@ declare interface IHoleReplyListItem {
   createAt: string
   body: string
   favoriteCounts: number
+  ip_location: string
   user: User
   comment: Comment
   isLiked: boolean

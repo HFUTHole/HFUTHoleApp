@@ -20,6 +20,7 @@ import * as _ from 'lodash'
 import { AntdIcon, FontV6Icon } from '@/components/icon'
 import { useParams } from '@/shared/hooks/useParams'
 import { useNavigation } from '@react-navigation/native'
+import { IpLocationText } from '@/pages/hole/detail/components/CommentList'
 
 const ReplyListItem: React.FC<{
   reply: Reply
@@ -93,8 +94,10 @@ const ReplyListItem: React.FC<{
             <View
               className={'items-center flex-row justify-between pr-[2.5vw]'}
             >
-              <View className={'flex-1'}>
-                <TimeText time={reply.createAt} />
+              <TimeText time={reply.createAt} />
+
+              <View className={'flex-1 flex-row space-x-2'}>
+                <IpLocationText text={reply.ip_location!} />
               </View>
               <ReplyItemLikeButton data={reply} mutation={mutation} />
             </View>

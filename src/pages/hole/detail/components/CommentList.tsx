@@ -10,7 +10,7 @@ import { LoadMore } from '@/components/LoadMore'
 import { HoleDetailCommentItem } from '@/pages/hole/detail/components/CommentItem'
 import { BilibiliPlayer } from '@/components/player/BilibiliPlayer'
 import React, { useEffect, useRef, useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
 import { TimeText } from '@/components/Text/Time'
@@ -21,6 +21,21 @@ import clsx from 'clsx'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
 import { ScreenHeight } from '@/shared/utils/utils'
 import { useParams } from '@/shared/hooks/useParams'
+
+export const IpLocationText: React.FC<{ text: string }> = ({ text }) => {
+  return (
+    <>
+      {text?.length ? (
+        <View className={'flex-row items-center'}>
+          <Text className={'text-tertiary-label text-xs mx-[2px]'}>·</Text>
+          <Text className={'text-tertiary-label text-xs'}>{text}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+    </>
+  )
+}
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
@@ -57,8 +72,9 @@ const DetailBody = React.memo(() => {
             </View>
           </Then>
         </If>
-        <View className={'py-4'}>
+        <View className={'py-4 flex-row'}>
           <TimeText time={data!.createAt}></TimeText>
+          <IpLocationText text={data?.ip_location!} />
         </View>
       </View>
     </View>

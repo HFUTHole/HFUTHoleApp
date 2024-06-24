@@ -15,7 +15,6 @@ import { TimeText } from '@/components/Text/Time'
 import { UsedGoodsDetailCommentInput } from '@/pages/market/detail/CommentInput'
 import { useBottomCommentContext } from '@/shared/context/hole/comment'
 import { FlashList } from '@shopify/flash-list'
-import { ScreenHeight } from '@/shared/utils/utils'
 
 type UsedGoodsDetailCommentAreaProps<T = any> = {
   ListHeaderComponent?: FlatListProps<T>['ListHeaderComponent']

@@ -27,6 +27,7 @@ import { useBoolean } from 'ahooks'
 import { useParams } from '@/shared/hooks/useParams'
 import clsx from 'clsx'
 import { useUsedGoodsDetailParams } from '@/swr/market/goods'
+import { IpLocationText } from '@/pages/hole/detail/components/CommentList'
 
 type Data =
   | (Omit<IHoleCommentListItem, 'replies' | 'repliesCount'> &
@@ -189,10 +190,10 @@ export function CommentItem({
             id: data.id,
           }}
         />
-        <View className={'w-1/12'}>
-          <UserAvatar url={data.user.avatar} userId={data.user.id} size={35} />
+        <View className={''}>
+          <UserAvatar url={data.user.avatar} userId={data.user.id} size={34} />
         </View>
-        <View className={'space-y-1 w-11/12'}>
+        <View className={'space-y-1 flex-1'}>
           <Text className={'text-tertiary-label text-sm'}>
             {data.user.username}
           </Text>
@@ -205,7 +206,10 @@ export function CommentItem({
             />
           </View>
           <View className={'justify-between flex-row items-center pr-[2.5vw]'}>
-            <TimeText time={data.createAt} />
+            <View className={'flex-row items-center'}>
+              <TimeText time={data.createAt} />
+              <IpLocationText text={data.ip_location} />
+            </View>
             <CommentItemIsLike mutation={mutation} data={data} />
           </View>
           <View>{bottom}</View>
