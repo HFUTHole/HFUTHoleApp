@@ -42,11 +42,20 @@ export function CommentInputForm(props: Props) {
   const mutation = useMutation({
     mutationFn: reqFunc,
     onSuccess(response: { incExperience: number }, vars) {
-      Toast.show({
-        type: 'success',
-        text1: '留言成功哦',
-        text2: `经验+${response.incExperience}`,
-      })
+      if (response.incExperience) {
+        Toast.show({
+          type: 'success',
+          text1: '留言成功哦',
+          text2: `经验+${response.incExperience}`,
+        })
+      } else {
+        Toast.show({
+          type: 'success',
+          text1: '留言成功哦',
+          text2: `水评不加经验~`,
+        })
+      }
+
       hideKeyboard()
       props.onCommentSuccess()
     },
@@ -103,9 +112,7 @@ export function CommentInputForm(props: Props) {
                     }}
                     onFocus={() => setShowEmojiArea(false)}
                     placeholder={
-                      isReply
-                        ? `回复 ${data!.user!.username}：`
-                        : '你若安不好，屁股给你拍八瓣'
+                      isReply ? `回复 ${data!.user!.username}：` : '发个评论吧~'
                     }
                   />
                 )}

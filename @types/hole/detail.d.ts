@@ -4,6 +4,7 @@ declare interface IHoleDetailResponse extends IHole {
   body: string
   imgs: string[]
   favoriteCounts: number
+  ip_location?: string
   user: User
   votes: any[]
   tags: Tag[]

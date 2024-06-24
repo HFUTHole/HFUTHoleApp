@@ -1,6 +1,12 @@
 import React from 'react'
 import { Text } from 'react-native-paper'
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native'
+import {
+  StyleProp,
+  TouchableOpacity,
+  View,
+  ViewProps,
+  ViewStyle,
+} from 'react-native'
 import { useUserProfile } from '@/swr/user/profile'
 import { useIsFollowedQuery } from '@/swr/user/follow'
 import clsx from 'clsx'
@@ -8,11 +14,12 @@ import { useMutation } from 'react-query'
 import { SWRKeys } from '@/swr/utils'
 import { Apis } from '@/request/apis'
 import { If, Then } from 'react-if'
+import Animated from 'react-native-reanimated'
+import { PlusIcon } from 'react-native-heroicons/solid'
 
-interface FollowButtonProps {
-  followingId: number,
-  style?: StyleProp<ViewStyle> | string,
-  textStyle?: StyleProp<ViewStyle> | string,
+interface FollowButtonProps extends ViewProps {
+  followingId: number
+  textStyle?: StyleProp<ViewStyle> | string
 }
 
 export const FollowButton: React.FC<FollowButtonProps> = (props) => {
@@ -44,30 +51,35 @@ export const FollowButton: React.FC<FollowButtonProps> = (props) => {
   return (
     <If condition={userData?.id !== followingId}>
       <Then>
-        <TouchableOpacity
-          className={clsx([
-            'bg-primary rounded-full justify-center items-center px-4 py-[5px]',
-            {
-              'bg-active-background border-[1px] border-active-bg-border':
-                isFollowed,
-            },
-            typeof props.style === 'string' ? props.style : '',
-          ])}
-          onPress={onFollowButtonPress}
-          style={[typeof props.style === 'string' ? {} : props.style]}
-        >
-          <Text
+        <TouchableOpacity activeOpacity={0.8} onPress={onFollowButtonPress}>
+          <View
             className={clsx([
-              'text-white',
+              'flex-row items-center space-x-1 bg-primary rounded-full justify-center px-4 py-[6px]',
               {
-                'text-black': isFollowed,
+                'bg-[#efefef] border-active-bg-border': isFollowed,
               },
-              typeof props.style === 'string' ? props.style : '',
+              props.className,
             ])}
-            style={[typeof props.style === 'string' ? {} : props.style]}
+            style={props.style}
           >
-            {isFollowed ? '取关' : '关注'}
-          </Text>
+            <If condition={!isFollowed}>
+              <Then>
+                <PlusIcon size={16} color={'#fff'} />
+              </Then>
+            </If>
+            <Text
+              className={clsx([
+                'text-white flex-row items-center justify-center',
+                {
+                  'text-black': isFollowed,
+                },
+                props.className,
+              ])}
+              style={props.textStyle as object}
+            >
+              {isFollowed ? '已关注' : '关注'}
+            </Text>
+          </View>
         </TouchableOpacity>
       </Then>
     </If>

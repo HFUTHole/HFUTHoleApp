@@ -9,6 +9,9 @@ done
 read -s -p "Password for $server: " SSHPASS
 export SSHPASS
 
+# echo password
+echo $SSHPASS
+
 runtime_version=$(jq -r '.expo.version' "$0../"+ 'app.json')
 
 echo $runtime_version

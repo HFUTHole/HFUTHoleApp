@@ -16,6 +16,8 @@ import { useParams } from '@/shared/hooks/useParams'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { OtherUserProfileScreen } from '@/pages/user/profile/OtherUserProfile'
+import { UserFollowingScreen } from '@/pages/user/following/Following'
+import { EditProfileDesc } from '@/pages/user/profile/edit/EditProfileDesc'
 
 const UserStack = createNativeStackNavigator()
 
@@ -55,6 +57,13 @@ const UserScreens: Screen[] = [
     },
   },
   {
+    name: 'edit-desc',
+    component: EditProfileDesc,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
     name: 'settings',
     component: SettingsScreen,
     options: {
@@ -82,6 +91,13 @@ const UserScreens: Screen[] = [
       title: '草稿箱',
     },
   },
+  {
+    name: 'following',
+    component: UserFollowingScreen,
+    options: {
+      headerShown: false,
+    },
+  },
   // {
   //   name: 'select-school',
   //   component: SelectSchoolScreen,
@@ -101,21 +117,19 @@ export const UserStacks = () => {
   )
   const ViewComponent = isExcludeSafeAreaScreen ? View : SafeAreaView
   return (
-    <ViewComponent className={'flex-1 bg-white'}>
-      <UserStack.Navigator
-        screenOptions={{
-          header: Header,
-        }}
-      >
-        {UserScreens.map((screen) => (
-          <UserStack.Screen
-            key={screen.name}
-            name={screen.name}
-            component={screen.component}
-            options={screen.options}
-          />
-        ))}
-      </UserStack.Navigator>
-    </ViewComponent>
+    <UserStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      {UserScreens.map((screen) => (
+        <UserStack.Screen
+          key={screen.name}
+          name={screen.name}
+          component={screen.component}
+          options={screen.options}
+        />
+      ))}
+    </UserStack.Navigator>
   )
 }

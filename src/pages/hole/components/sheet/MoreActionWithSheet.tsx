@@ -60,7 +60,12 @@ export function MoreActionWithSheet(props: Props) {
           color={'rgba(0,0,0,.5)'}
         />
       </TouchableOpacity>
-      <BottomActionSheet ref={sheetRef as MutableRefObject<BottomSheetModal>}>
+      <BottomActionSheet
+        backgroundStyle={{
+          backgroundColor: '#efefef',
+        }}
+        ref={sheetRef as MutableRefObject<BottomSheetModal>}
+      >
         <View className={'flex p-4 space-y-4'}>
           {list.map((Item) => {
             const onPress = async (e: GestureResponderEvent) => {

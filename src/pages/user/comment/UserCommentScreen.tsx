@@ -1,6 +1,8 @@
 import { useUserCommentsListQuery } from '@/swr/user/comment'
 import { LoadingScreen } from '@/components/LoadingScreen'
 import { MessageList } from '@/components/MessageList/MessageList'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { BackHeader } from '@/components/Header'
 
 export function UserCommentScreen() {
   const {
@@ -13,13 +15,16 @@ export function UserCommentScreen() {
 
   return (
     <LoadingScreen isLoading={isLoading}>
-      <MessageList
-        data={data}
-        fetchNextPage={fetchNextPage}
-        onTopRefresh={invalidateQuery}
-        hasNextPage={hasNextPage}
-        emptyText={'没有更多的评论了哦'}
-      />
+      <SafeAreaView className={'flex-1 bg-white'}>
+        <BackHeader title={'我发布的评论'} />
+        <MessageList
+          data={data}
+          fetchNextPage={fetchNextPage}
+          onTopRefresh={invalidateQuery}
+          hasNextPage={hasNextPage}
+          emptyText={'没有更多的评论了哦'}
+        />
+      </SafeAreaView>
     </LoadingScreen>
   )
 }

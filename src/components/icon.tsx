@@ -1,5 +1,7 @@
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome6Icon from 'react-native-vector-icons/FontAwesome6'
+import IoniconsIcon from 'react-native-vector-icons/Ionicons'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 import { IconProps } from 'react-native-vector-icons/Icon'
 import React from 'react'
@@ -43,6 +45,35 @@ export type IconComponentType = ReturnType<ReturnType<typeof withIconProps>>
 const withFontAV5Icon = (name: string) => withIconProps(FontAwesome5Icon, name)
 const withMaterialIcon = (name: string) => withIconProps(MaterialIcon, name)
 const withAntDesignIcon = (name: string) => withIconProps(AntDesignIcon, name)
+
+const withFontAV6Icon = (name: string) => withIconProps(FontAwesome6Icon, name)
+
+const withIoniconsIcon = (name: string) => withIconProps(IoniconsIcon, name)
+
+export const AntdIcon = {
+  caredown: withAntDesignIcon('caretdown'),
+  careup: withAntDesignIcon('careup'),
+  careright: withAntDesignIcon('caretright'),
+  appstore: withAntDesignIcon('appstore-o'),
+  star: withAntDesignIcon('staro'),
+  shopping: withAntDesignIcon('shoppingcart'),
+  isv: withAntDesignIcon('isv'),
+  camera: withAntDesignIcon('camerao'),
+  laptop: withAntDesignIcon('laptop'),
+  mobile: withAntDesignIcon('mobile1'),
+  car: withAntDesignIcon('car'),
+  search: withAntDesignIcon('search1'),
+}
+
+export const IoniconsIcons = {
+  food: withIoniconsIcon('fast-food-outline'),
+}
+
+export const FontV6Icon = {
+  careright: withFontAV6Icon('caret-right'),
+  dumbbell: withFontAV6Icon('dumbbell'),
+  bed: withFontAV6Icon('bed'),
+}
 
 // export type
 

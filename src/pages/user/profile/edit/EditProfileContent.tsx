@@ -8,9 +8,14 @@ import { EditProfileAvatar } from '@/pages/user/profile/edit/EditProfileAvatar'
 import { ProfileItemType } from '@/pages/user/profile/edit/singal'
 import { useEventEmitter } from 'ahooks'
 import { EditProfileUsername } from '@/pages/user/profile/edit/EditProfileUsername'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { BackHeader } from '@/components/Header'
+import { EditProfileDesc } from '@/pages/user/profile/edit/EditProfileDesc'
+import { useUserProfileRoute } from '@/shared/hooks/route/useUserProfileRoute'
 
 export function EditProfileContent() {
   const { data } = useUserProfile()
+  const route = useUserProfileRoute()
 
   const event$ = useEventEmitter<ProfileItemType>()
 
@@ -25,20 +30,34 @@ export function EditProfileContent() {
       },
       {
         text: '名字',
-        component: <EditProfileUsername event={event$} />,
+        component: (
+          <Text className={'text-primary-label'}>{data?.username}</Text>
+        ),
         onPress: () => {
-          event$.emit('username')
+          route.goEditUsernameScreen()
         },
       },
       {
-        text: 'UID',
-        component: <SecondaryText>{data!.id}</SecondaryText>,
+        text: '个性签名',
+        component: (
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={'tail'}
+            className={'text-primary-label'}
+          >
+            {data?.desc}
+          </Text>
+        ),
+        onPress: () => {
+          route.goEditDesc()
+        },
       },
     ]
   }, [data, event$])
 
   return (
-    <View className={'p-4 bg-white space-y-4'}>
+    <SafeAreaView className={'p-4 bg-white space-y-4'}>
+      <BackHeader title={'编辑资料'} />
       {EditProfileItems.map((item) => (
         <Pressable onPress={item.onPress} key={item.text}>
           <View
@@ -54,6 +73,6 @@ export function EditProfileContent() {
           </View>
         </Pressable>
       ))}
-    </View>
+    </SafeAreaView>
   )
 }

@@ -2,12 +2,23 @@ import { useLinkTo } from '@react-navigation/native'
 import { PostFAB } from '@/components/PostFAB'
 import { useCallback } from 'react'
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
+import { Func } from '@/shared/types'
 
-export function AnimatedHolePostFAB({ offset }: { offset: number }) {
+export function AnimatedHolePostFAB({
+  offset,
+  ...props
+}: {
+  offset: number
+  onPress?: Func
+}) {
   const linkTo = useLinkTo()
 
   const onPress = useCallback(() => {
-    linkTo('/hole/post')
+    if (props.onPress) {
+      props.onPress()
+    } else {
+      linkTo('/hole/post')
+    }
   }, [linkTo])
 
   const animatedStyle = useAnimatedStyle(() => {

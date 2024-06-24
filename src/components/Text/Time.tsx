@@ -4,9 +4,11 @@ import type { Props as TextProps } from 'react-native-paper/src/components/Typog
 
 type Props = {
   time: string
+  textLeft?: string
+  textRight?: string
 } & Partial<TextProps<any>>
 
-export function TimeText({ time, ...props }: Props) {
+export function TimeText({ time, textLeft, textRight, ...props }: Props) {
   return (
     <Text
       className={'text-xs text-tertiary-label'}
@@ -16,7 +18,9 @@ export function TimeText({ time, ...props }: Props) {
         ...(props.style as object),
       }}
     >
+      {textLeft}
       {formatDate(time)}
+      {textRight}
     </Text>
   )
 }

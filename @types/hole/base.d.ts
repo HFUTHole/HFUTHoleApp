@@ -1,6 +1,7 @@
 declare interface IHole {
   id: number
   createAt: string
+  updateAt: string
   bilibili: string | null
   title: string
   body: string

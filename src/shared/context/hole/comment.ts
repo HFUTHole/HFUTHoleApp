@@ -8,16 +8,21 @@ import {
   PostHoleCommentReplyRequest,
   PostHoleDetailCommentRequest,
 } from '@/request/apis/hole'
+import { Apis } from '@/request/apis'
 
 export type IBottomCommentData = {
   id?: number
   commentId?: string
   replyId?: string
   imgs?: string[]
+  type?: 'post' | 'goods'
+  goodsId?: string
 } & Omit<Partial<IHoleCommentListItem>, 'id'>
 
 export const [useBottomCommentContext, BottomCommentContext] = createStore(
-  () => {
+  (props: { isGoods?: boolean; goodsId?: string }) => {
+    const { isGoods = false } = props
+
     const [showInput, setShowInput] = useState(false)
     const [data, setData] = useState<IBottomCommentData | null>(null)
 
@@ -63,9 +68,16 @@ export const [useBottomCommentContext, BottomCommentContext] = createStore(
         params.id = param.id
       }
 
+      if (isGoods && isReply) {
+        params.type = 'goods'
+        params.goodsId = props.goodsId
+      }
+
       const func = isReply
         ? PostHoleCommentReplyRequest
-        : PostHoleDetailCommentRequest
+        : isGoods
+          ? Apis.usedGoods.postUsedGoodsComment
+          : PostHoleDetailCommentRequest
 
       return func(params as any)
     }

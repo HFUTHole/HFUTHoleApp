@@ -17,15 +17,15 @@ export const HomeHeader: React.FC = () => {
           <MyAvatar size={35} />
         </TouchableOpacity>
         <Pressable
-          className={'bg-[#eeeef0] flex-1 h-8 rounded-full px-3'}
+          className={'h-full rounded-full px-3 flex-row items-center'}
           onPress={() => {
             goIndex()
           }}
         >
-          <View className={'flex-row items-center flex-1 '}>
-            <SearchIcon color={'#939496'} size={20} />
+            <SearchIcon color={'#939496'} size={24} />
+          {/* <View className={'flex-row items-center flex-1 '}>
             <Text className={'text-[#939496]'}>搜索...</Text>
-          </View>
+          </View> */}
         </Pressable>
       </View>
     </>

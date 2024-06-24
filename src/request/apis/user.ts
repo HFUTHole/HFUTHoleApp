@@ -38,6 +38,7 @@ export function GetUserPostedHoleListRequest(
 }
 
 export function PostUserProfileRequest(data: {
+  desc?: string
   avatar?: string
   username?: string
 }) {
@@ -79,6 +80,19 @@ export function isUserFollowedRequest(params: FollowUserParams) {
   return request<{ isFollowed: boolean }>({
     method: 'GET',
     url: '/user/isFollowed',
+    params,
+  })
+}
+
+export type UserFollowingType = 'following' | 'followers'
+
+export function getUserFollowingRequest(params: {
+  userId: number
+  type: UserFollowingType
+}) {
+  return request<IUserFollowingResponse>({
+    method: 'GET',
+    url: '/user/following/list',
     params,
   })
 }

@@ -19,6 +19,8 @@ import { useBoolean } from 'ahooks'
 import clsx from 'clsx'
 import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
+import { LoadingScreen } from '@/components/LoadingScreen'
+import { Button } from '@/components/button'
 
 // TODO 完善类型
 export type RefreshableHoleListProps<
@@ -62,6 +64,7 @@ function InnerRefreshablePostList<
   fetchNextPage,
   invalidateQuery,
   ListHeaderComponent,
+  error,
   ...props
 }: RefreshableHoleListProps<T>) {
   const { data: flatListData, isEmpty: isHoleListEmpty } =
@@ -92,57 +95,76 @@ function InnerRefreshablePostList<
 
   return (
     <>
-      <View className={'absolute z-[1] bottom-20 right-2'}>
-        <AnimatedHolePostFAB offset={PostFABOffset} />
-        <AnimatedToTopFAB
-          visible={isToTopFABVisible}
-          goToTop={scrollToTopHandler}
-        />
-      </View>
-      {isSuccess ? (
-        <RefreshingFlatList
-          showsVerticalScrollIndicator={false}
-          ref={listRef as MutableRefObject<FlatList>}
-          onScroll={(event) => {
-            scrollHandler(event)
-            props.onScroll?.(event)
-            isScrollActions.setTrue()
-          }}
-          onScrollEndDrag={isScrollActions.setFalse}
-          data={flatListData}
-          hasNextPage={hasNextPage}
-          onRefreshing={fetchNextPage}
-          onTopRefresh={invalidateQuery}
-          ListEmptyComponent={() => <Empty />}
-          ListHeaderComponent={ListHeaderComponent}
-          ListFooterComponent={() =>
-            isHoleListEmpty ? (
-              <></>
-            ) : (
-              <View>
-                <LoadMore
-                  text={'没有更多帖子了哦'}
-                  hasNextPage={hasNextPage!}
-                />
+      <LoadingScreen
+        delayLoading={false}
+        isLoading={props.isLoading}
+        isError={props.isError}
+        errorBody={
+          <Button
+            mode={'outlined'}
+            loading={props.isFetching}
+            onPress={() => {
+              invalidateQuery()
+              props.refetch()
+            }}
+          >
+            重新加载
+          </Button>
+        }
+      >
+        <View className={'absolute z-[1] bottom-20 right-2'}>
+          <AnimatedHolePostFAB offset={PostFABOffset} />
+          <AnimatedToTopFAB
+            visible={isToTopFABVisible}
+            goToTop={scrollToTopHandler}
+          />
+        </View>
+        {isSuccess ? (
+          <RefreshingFlatList
+            showsVerticalScrollIndicator={false}
+            ref={listRef as MutableRefObject<FlatList>}
+            onScroll={(event) => {
+              scrollHandler(event)
+              props.onScroll?.(event)
+              isScrollActions.setTrue()
+            }}
+            onScrollEndDrag={isScrollActions.setFalse}
+            data={flatListData}
+            hasNextPage={hasNextPage}
+            onRefreshing={fetchNextPage}
+            onTopRefresh={invalidateQuery}
+            ListEmptyComponent={() => <Empty />}
+            ListHeaderComponent={ListHeaderComponent}
+            keyExtractor={(item) => item?.id!}
+            ListFooterComponent={() =>
+              isHoleListEmpty ? (
+                <></>
+              ) : (
+                <View>
+                  <LoadMore
+                    text={'没有更多帖子了哦'}
+                    hasNextPage={hasNextPage!}
+                  />
+                </View>
+              )
+            }
+            renderItem={({ item, index }) => (
+              <View
+                className={clsx([
+                  {
+                    'mt-2': index > 0,
+                  },
+                ])}
+              >
+                <Item key={item.id} item={item} />
               </View>
-            )
-          }
-          renderItem={({ item, index }) => (
-            <View
-              className={clsx([
-                {
-                  'mt-2': index > 0,
-                },
-              ])}
-            >
-              <Item key={item.id} item={item} />
-            </View>
-          )}
-          {...props}
-        />
-      ) : (
-        <SkeletonLoading nums={3} />
-      )}
+            )}
+            {...props}
+          />
+        ) : (
+          <></>
+        )}
+      </LoadingScreen>
     </>
   )
 }

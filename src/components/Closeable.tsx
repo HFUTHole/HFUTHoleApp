@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native'
+import { Pressable, TouchableOpacity, View } from 'react-native'
 import { CloseIcon } from '@/components/icon'
 import { Func } from '@/shared/types'
 
@@ -8,14 +8,18 @@ interface Props {
 
 export function Closeable(props: Props) {
   return (
-    <Pressable className={'absolute right-[-4]'} onPress={props.onPress}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      className={'absolute right-[-4]'}
+      onPress={props.onPress}
+    >
       <View
         className={
-          'w-4 h-4 rounded-full bg-gray-500/75 items-center justify-center'
+          'w-5 h-5 rounded-full bg-black/30 items-center justify-center'
         }
       >
-        <CloseIcon size={8} active={true} />
+        <CloseIcon size={10} color={'#fff'} />
       </View>
-    </Pressable>
+    </TouchableOpacity>
   )
 }

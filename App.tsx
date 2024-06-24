@@ -11,7 +11,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { PortalProvider } from '@gorhom/portal'
 import { KeyboardContextProvider } from '@/shared/context/keyboard'
-import { BottomCommentContext } from '@/shared/context/hole/comment'
 import { Layout } from '@/layouts/layout'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import * as Updates from 'expo-updates'
@@ -22,8 +21,11 @@ const App = () => {
       const update = await Updates.checkForUpdateAsync()
 
       if (update.isAvailable) {
-        await Updates.fetchUpdateAsync()
-        await Updates.reloadAsync()
+        const result = await Updates.fetchUpdateAsync()
+
+        if (result.isNew) {
+          await Updates.reloadAsync()
+        }
       }
     } catch (error) {
       // alert(`Error fetching latest Expo update: ${error}`)
@@ -40,23 +42,21 @@ const App = () => {
         <ReactQueryProvider>
           <SafeAreaProvider className={'flex-1'}>
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <PortalProvider>
-                <PaperProvider>
-                  <BottomCommentContext>
-                    <NavigationContainer>
-                      <KeyboardContextProvider>
-                        <HolePostContextProvider>
-                          <NativeBaseProvider>
-                            <BottomSheetModalProvider>
-                              <Layout />
-                            </BottomSheetModalProvider>
-                          </NativeBaseProvider>
-                        </HolePostContextProvider>
-                      </KeyboardContextProvider>
-                    </NavigationContainer>
-                  </BottomCommentContext>
-                </PaperProvider>
-              </PortalProvider>
+              <PaperProvider>
+                <NavigationContainer>
+                  <KeyboardContextProvider>
+                    <HolePostContextProvider>
+                      <NativeBaseProvider>
+                        <PortalProvider>
+                          <BottomSheetModalProvider>
+                            <Layout />
+                          </BottomSheetModalProvider>
+                        </PortalProvider>
+                      </NativeBaseProvider>
+                    </HolePostContextProvider>
+                  </KeyboardContextProvider>
+                </NavigationContainer>
+              </PaperProvider>
             </GestureHandlerRootView>
           </SafeAreaProvider>
         </ReactQueryProvider>

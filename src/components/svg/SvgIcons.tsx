@@ -4,6 +4,8 @@ import AppDenoSvg from '@/assets/svg/app_deno.svg'
 import TagSvg from '@/assets/svg/icons/tag.svg'
 import CommentSvg from '@/assets/svg/icons/comment.svg'
 import ShareSvg from '@/assets/svg/icons/share.svg'
+import CosmeticSvg from '@/assets/svg/icons/cosmetic.svg'
+import ClothingSvg from '@/assets/svg/icons/clothing.svg'
 import React from 'react'
 import { CopyIcon } from '@/components/icon'
 
@@ -25,10 +27,20 @@ const ShareIcon: React.FC<SvgIconProps> = (props) => {
   return <Svg SvgComponent={ShareSvg} size={props.size || 25} {...props} />
 }
 
+const CosmeticIcon: React.FC<SvgIconProps> = (props) => {
+  return <Svg SvgComponent={CosmeticSvg} size={props.size || 25} {...props} />
+}
+
+const ClothingIcon: React.FC<SvgIconProps> = (props) => {
+  return <Svg SvgComponent={ClothingSvg} size={props.size || 25} {...props} />
+}
+
 export const Icons = {
   AppDenoIcon,
   TagIcon,
+  ClothingIcon,
   CommentIcon,
   CopyIcon,
+  CosmeticIcon,
   ShareIcon,
 }

@@ -118,7 +118,7 @@ export const CarouselAction = <T extends any>(
           return (
             <View className={'flex-row px-3'}>
               {chunk.map((item, index) => (
-                <Pressable key={index} className={`w-[${100 / numOfColumns}%]`}>
+                <Pressable key={index} className={`flex-1`}>
                   {renderItem(item)}
                 </Pressable>
               ))}

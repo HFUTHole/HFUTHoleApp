@@ -1,6 +1,6 @@
 import { View, ScrollView, Pressable, Text } from 'react-native'
 import { StarIcon } from '@/components/icon'
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { TabView } from '@/components/TabView'
 import { useRoute } from '@react-navigation/native'
 import clsx from 'clsx'
@@ -16,7 +16,7 @@ import { RefreshableHoleList } from '@/pages/hole/components/HoleList'
 import { useParams } from '@/shared/hooks/useParams'
 import { useTagParams } from '@/pages/hole/tag/useTagParams'
 import { If, Then } from 'react-if'
-import { MasonryFlashList } from '@shopify/flash-list'
+import { MasonryFlashList, MasonryFlashListProps } from '@shopify/flash-list'
 
 function PostHeader() {
   const { tag } = useTagParams()
@@ -45,6 +45,19 @@ function PostHeader() {
   )
 }
 
+const TagMasonryFlashList = memo(
+  <T,>(props: MasonryFlashListProps<T> & { data: TagHoleInfoData[] }) => {
+    return (
+      <MasonryFlashList
+        numColumns={2}
+        estimatedItemSize={25}
+        {...props}
+        data={props.data}
+      />
+    )
+  },
+)
+
 export function TagScreen() {
   const { tag } = useTagParams()
 
@@ -61,23 +74,10 @@ export function TagScreen() {
               <PostHeader />
             </View>
           }
-          FlatListComponent={(props: any) => (
-            <MasonryFlashList
-              numColumns={2}
-              estimatedItemSize={255}
-              data={props.data}
-              {...props}
-            />
-          )}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 5,
-          }}
+          FlatListComponent={TagMasonryFlashList}
           renderItem={({ item: data }) => {
             return (
-              <View className={'w-[47vw] mx-auto my-[5px]'}>
+              <View className={'w-[48vw] mx-auto my-[5px]'}>
                 <TagHoleInfo data={data} />
               </View>
             )

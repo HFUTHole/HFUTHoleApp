@@ -12,6 +12,7 @@ export const SWRKeys = {
     like: 'hole.like',
     tagDetail: 'hole.tagDetail',
     tagList: 'hole.tagList',
+    delete: 'hole.delete',
   },
   home: {
     categories: 'home.categories',
@@ -24,6 +25,7 @@ export const SWRKeys = {
   },
   user: {
     profile: 'user.profile',
+    otherProfile: 'user.otherProfile',
     favoriteHoleList: 'user.favoriteHoleList',
     postedHoleList: 'user.postedHoleList',
     postedCommentList: 'user.postedCommentList',

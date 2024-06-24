@@ -30,7 +30,7 @@ export const NativeInput = <T extends object = PlainObject>({
 }: Props<T>) => {
   const theme = useTheme()
   const inputRef = useRef<TextInput>()
-
+  const error = get(control._formState.errors, name)
   return (
     <Controller
       name={name}
@@ -43,6 +43,7 @@ export const NativeInput = <T extends object = PlainObject>({
             value={field.value}
             placeholderTextColor={theme.colors.surfaceVariant}
             cursorColor={theme.colors.primary}
+            selectionColor={theme.colors.primary}
             textAlignVertical={textAlignVertical ?? 'center'}
             ref={inputRef as MutableRefObject<TextInput>}
             {...props}
@@ -52,6 +53,15 @@ export const NativeInput = <T extends object = PlainObject>({
               ...(props.style as object),
             }}
           />
+          {error?.message && (
+            <HelperText
+              type="error"
+              visible={error}
+              style={{ color: theme.colors.error }}
+            >
+              {error.message}
+            </HelperText>
+          )}
         </>
       )}
     />
@@ -154,7 +164,7 @@ const HighlightInput = <T extends object = PlainObject>({
           for (const match of matches) {
             newHighlightMap.push([text.slice(index, match.index), null])
             newHighlightMap.push([match[0], rule.style])
-            index = match.index + match[0].length
+            index = match.index! + match[0].length
           }
           newHighlightMap.push([text.slice(index), null])
         } else {

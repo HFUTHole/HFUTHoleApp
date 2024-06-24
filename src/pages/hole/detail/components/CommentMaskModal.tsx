@@ -121,7 +121,7 @@ export function CommentMaskModal() {
   })
 
   // 光标选择位置
-  const [cursor, setCursor] = useState({start: 0, end: 0})
+  const [cursor, setCursor] = useState({ start: 0, end: 0 })
   // 是否在将 cursor 位置更新到输入框
   const [shouldUpdateCursor, setShouldUpdateCursor] = useState(false)
 
@@ -130,10 +130,17 @@ export function CommentMaskModal() {
     //   shouldDirty: true,
     // })
     const body = getValues('body') || ''
-    setValue('body', `${body.slice(0, cursor.start)}${emoji.name}${body.slice(cursor.end)}`, {
-      shouldDirty: true,
+    setValue(
+      'body',
+      `${body.slice(0, cursor.start)}${emoji.name}${body.slice(cursor.end)}`,
+      {
+        shouldDirty: true,
+      },
+    )
+    setCursor({
+      start: cursor.start + emoji.name.length,
+      end: cursor.start + emoji.name.length,
     })
-    setCursor({ start: cursor.start + emoji.name.length, end: cursor.start + emoji.name.length })
     setShouldUpdateCursor(true)
   }
 
@@ -199,7 +206,7 @@ export function CommentMaskModal() {
                             placeholder={
                               isReply
                                 ? `回复 ${data!.user!.username}：`
-                                : '你若安不好，屁股给你拍八瓣'
+                                : '发个评论吧~'
                             }
                           />
                         )}

@@ -9,7 +9,7 @@ export function useHoleDetailRoute() {
   ) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    navigation.navigate('hole', {
+    navigation.push('hole', {
       screen: 'detail',
       params: {
         screen: 'index',
@@ -27,7 +27,7 @@ export function useHoleDetailRoute() {
   ) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    navigation.navigate('hole', {
+    navigation.push('hole', {
       screen: 'tag-detail',
       params: {
         id,

@@ -1,5 +1,3 @@
-import { ProfileScreen } from '@/pages/user/profile/ProfileScreen'
-import { EditProfileScreen } from '@/pages/user/profile/edit/EditProfileScreen'
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
@@ -11,6 +9,13 @@ import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MarketScreen } from '@/pages/market/MarketScreen'
 import { MarketFavoriteScreen } from '@/pages/market/MarketFavoriteScreen'
+import { UsedGoodsDetailScreen } from '@/pages/market/detail/UsedGoodsDetailScreen'
+import { UsedGoodsCreateScreen } from '@/pages/market/create/UsedGoodsCreateScreen'
+import { UsedGoodsCategoryListScreen } from '@/pages/market/category-list/UsedGoodsCategoryList'
+import { UsedGoodsAreaListScreen } from '@/pages/market/area-list/UsedGoodsAreaListScreen'
+import { UsedGoodsUserGoodsListScreen } from '@/pages/market/my-goods/MyGoods'
+import { UsedGoodsEditorScreen } from '@/pages/market/my-goods/Editor'
+import { UsedGoodsAllCategoriesScreen } from '@/pages/market/all-category/UsedGoodsAllCategoriesScreen'
 
 const MarketStack = createNativeStackNavigator()
 
@@ -35,33 +40,69 @@ const MarketScreens: Screen[] = [
       title: '我的收藏',
     },
   },
+  {
+    name: 'detail',
+    component: UsedGoodsDetailScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'create',
+    component: UsedGoodsCreateScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'category',
+    component: UsedGoodsCategoryListScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'area',
+    component: UsedGoodsAreaListScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'my',
+    component: UsedGoodsUserGoodsListScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'my-goods-editor',
+    component: UsedGoodsEditorScreen,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'all-categories',
+    component: UsedGoodsAllCategoriesScreen,
+  },
 ]
 
-const excludeSafeAreaScreens: string[] = []
-
 export const MarketStacks = () => {
-  const { screen } = useParams<{ screen: string }>()
-
-  const isExcludeSafeAreaScreen = excludeSafeAreaScreens.find(
-    (item) => item === screen,
-  )
-  const ViewComponent = isExcludeSafeAreaScreen ? View : SafeAreaView
   return (
-    <ViewComponent className={'flex-1 bg-white'}>
-      <MarketStack.Navigator
-        screenOptions={{
-          header: Header,
-        }}
-      >
-        {MarketScreens.map((screen) => (
-          <MarketStack.Screen
-            key={screen.name}
-            name={screen.name}
-            component={screen.component}
-            options={screen.options}
-          />
-        ))}
-      </MarketStack.Navigator>
-    </ViewComponent>
+    <MarketStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      {MarketScreens.map((screen) => (
+        <MarketStack.Screen
+          key={screen.name}
+          name={screen.name}
+          component={screen.component}
+          options={screen.options}
+        />
+      ))}
+    </MarketStack.Navigator>
   )
 }

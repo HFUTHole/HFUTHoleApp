@@ -9,8 +9,8 @@ import { HoleDetailCommentHeader } from '@/pages/hole/detail/components/CommentH
 import { LoadMore } from '@/components/LoadMore'
 import { HoleDetailCommentItem } from '@/pages/hole/detail/components/CommentItem'
 import { BilibiliPlayer } from '@/components/player/BilibiliPlayer'
-import React, { useEffect, useRef } from 'react'
-import { FlatList, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { FlatList, Text, View } from 'react-native'
 import { useHoleDetailCommentContext } from '@/shared/context/hole_detail'
 import { Empty } from '@/components/image/Empty'
 import { TimeText } from '@/components/Text/Time'
@@ -19,11 +19,28 @@ import { HoleDetailImageCarousel } from '@/pages/hole/detail/components/HoleDeta
 import { HoleDetailTags } from '@/pages/hole/detail/components/HoleDetailTags'
 import clsx from 'clsx'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
+import { ScreenHeight } from '@/shared/utils/utils'
+import { useParams } from '@/shared/hooks/useParams'
+
+export const IpLocationText: React.FC<{ text: string }> = ({ text }) => {
+  return (
+    <>
+      {text?.length ? (
+        <View className={'flex-row items-center'}>
+          <Text className={'text-tertiary-label text-xs mx-[2px]'}>·</Text>
+          <Text className={'text-tertiary-label text-xs'}>{text}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+    </>
+  )
+}
 
 const DetailBody = React.memo(() => {
   const { data } = useHoleDetail()
-  const hasImages = (data?.imgs.length || 0) > 0
-  const hasTags = (data?.tags.length || 0) > 0
+  const hasImages = (data?.imgs?.length || 0) > 0
+  const hasTags = (data?.tags?.length || 0) > 0
 
   return (
     <View>
@@ -55,8 +72,9 @@ const DetailBody = React.memo(() => {
             </View>
           </Then>
         </If>
-        <View className={'py-4'}>
+        <View className={'py-4 flex-row'}>
           <TimeText time={data!.createAt}></TimeText>
+          <IpLocationText text={data?.ip_location!} />
         </View>
       </View>
     </View>
@@ -89,6 +107,8 @@ const HoleTopDetail = React.memo(() => {
 })
 
 export function HoleDetailCommentList() {
+  const [topHeight, setTopHeight] = useState(0)
+
   const {
     flattenData,
     fetchNextPage,
@@ -113,6 +133,14 @@ export function HoleDetailCommentList() {
       })
     }
   }, [params, flatListRef.current])
+
+  useEffect(() => {
+    if (params.commentId) {
+      flatListRef.current?.scrollToOffset({
+        offset: topHeight,
+      })
+    }
+  }, [topHeight, params.commentId])
 
   scrollEvent.useSubscription((index) => {
     flatListRef.current?.scrollToIndex({
@@ -143,7 +171,17 @@ export function HoleDetailCommentList() {
           hasNextPage={hasNextPage}
           onTopRefresh={onTopRefresh}
           refreshing={isFetching}
-          ListHeaderComponent={HoleTopDetail}
+          ListHeaderComponent={() => {
+            return (
+              <View
+                onLayout={(e) => {
+                  setTopHeight(e.nativeEvent.layout.height)
+                }}
+              >
+                <HoleTopDetail />
+              </View>
+            )
+          }}
           ListFooterComponent={() => (
             <LoadMore
               text={isDataEmpty ? '没有更多评论了哦' : ''}

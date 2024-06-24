@@ -15,7 +15,7 @@ import BottomSheet, {
   SCROLLABLE_TYPE,
   createBottomSheetScrollableComponent,
 } from '@gorhom/bottom-sheet'
-import { forwardRef, memo, useRef, useState } from 'react'
+import React, { forwardRef, memo, useRef, useState } from 'react'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import { Image } from 'expo-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -29,23 +29,23 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'
 import { useUserCommentsListQuery } from '@/swr/user/comment'
-import { LinearGradient } from 'expo-linear-gradient'
 import { TagHoleInfo } from '@/pages/hole/components/TagHoleInfo'
 import { FlashList, MasonryFlashList } from '@shopify/flash-list'
-
+import { LinearGradient } from 'expo-linear-gradient'
+import { ProfileScreenTabBar } from '@/pages/user/profile/OtherUserProfile'
+import { Tabs, useCurrentTabScrollY } from 'react-native-collapsible-tab-view'
 
 /**
  * 适合用于底部弹出的瀑布流列表
  */
-export const BottomSheetMasonryList = memo((props: any) => {
+export const ProfileHoleListMasonryList = memo((props: any) => {
   const { data } = props
   return (
     <View className="flex-1">
-      <MasonryFlashList
+      <Tabs.MasonryFlashList
         numColumns={2}
         estimatedItemSize={255}
         data={data}
-        renderScrollComponent={BottomSheetScrollView}
         {...props}
       />
     </View>
@@ -60,10 +60,18 @@ export const ProfileHoleList = (props: any) => {
     <View className="flex-1">
       <RefreshableHoleList
         {...props}
-        FlatListComponent={BottomSheetMasonryList}
+        showFab={false}
+        FlatListComponent={ProfileHoleListMasonryList}
+        style={{
+          backgroundColor: '#fff',
+        }}
+        contentContainerStyle={{
+          backgroundColor: '#fff',
+          flex: 1,
+        }}
         renderItem={({ item: data }) => {
           return (
-            <View className={'w-[47vw] mx-auto mt-[10px]'}>
+            <View className={'w-[48vw] mx-auto mt-[5px]'}>
               <TagHoleInfo data={data as any} />
             </View>
           )
@@ -75,23 +83,17 @@ export const ProfileHoleList = (props: any) => {
 
 const UserHoleList = () => {
   const query = useUserPostedHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const UserFavList = () => {
   const query = useUserPostedHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const UserFavoriteHoleList = () => {
   const query = useUserFavoriteHoleList()
-  return (
-    <ProfileHoleList {...query} />
-  )
+  return <ProfileHoleList {...query} />
 }
 
 const tabs: ITabViewTabs[] = [
@@ -100,11 +102,11 @@ const tabs: ITabViewTabs[] = [
     title: '发表',
     component: UserHoleList,
   },
-  {
-    key: 'user-fav',
-    title: '收藏',
-    component: UserFavList,
-  },
+  // {
+  //   key: 'user-fav',
+  //   title: '收藏',
+  //   component: UserFavList,
+  // },
   {
     key: 'user-favorite-hole',
     title: '喜欢',
@@ -119,25 +121,25 @@ const ProfileScreenHeader: React.FC<{
   const navigation = useNavigation()
   // Header 背景透明度
   const animatedOpacity = useAnimatedStyle(() => {
-    const fromAt = 85
-    const toAt = 120
-    const opacity = 1 - (scrollTimeline.value - fromAt) / (toAt - fromAt)
+    const fromAt = 164 // opacity 0
+    const toAt = 246 // opacity 1
+    const opacity = (scrollTimeline.value - fromAt) / (toAt - fromAt)
     return {
       opacity: Math.min(1, Math.max(0, opacity)),
     }
   })
   // 用户名透明度
   const animatedNameOpacity = useAnimatedStyle(() => {
-    const fromAt = 85
-    const toAt = 120
-    const opacity = 1 - (scrollTimeline.value - fromAt) / (toAt - fromAt)
+    const fromAt = 164
+    const toAt = 246
+    const opacity = (scrollTimeline.value - fromAt) / (toAt - fromAt)
     return {
       opacity: Math.min(1, Math.max(0, opacity)),
     }
   })
   const [backColor, setBackColor] = useState('#fff')
   useDerivedValue(() => {
-    if (scrollTimeline.value < 120) {
+    if (scrollTimeline.value > 164) {
       runOnJS(setBackColor)('#333')
     } else {
       runOnJS(setBackColor)('#fff')
@@ -147,7 +149,7 @@ const ProfileScreenHeader: React.FC<{
   return (
     <Animated.View
       className={
-        'absolute w-screen top-[0] overflow-hidden flex flex-row items-center h-[80]  z-[2000] pt-[30] '
+        'w-screen top-[0] overflow-hidden flex flex-row items-center h-[80]  z-[2000] pt-[30] '
       }
     >
       <Animated.View
@@ -180,65 +182,15 @@ const ProfileScreenHeader: React.FC<{
   )
 }
 
-const AnimatedTabBar = memo(
-  Animated.createAnimatedComponent(forwardRef(TabBar)),
-)
-
-const ProfileScreenTabBar = (props: any) => {
-  const animatedBackgroundOpacity = useAnimatedStyle(() => {
-    const opacity = props.scrollTimeline.value > 80 ? 0 : 1
-    return {
-      // opacity: Math.min(1, Math.max(0, opacity)),
-      backgroundColor: `rgba(255,255,255,${opacity})`,
-    }
-  })
-  return (
-    <View>
-      <AnimatedTabBar
-        {...props}
-        style={[
-          {
-            elevation: 0,
-          },
-          animatedBackgroundOpacity,
-        ]}
-        indicatorStyle={{
-          backgroundColor: '#5B9BD5',
-        }}
-        renderLabel={({ route, focused }) => (
-          <Text
-            className={`${
-              focused ? 'text-black' : 'text-black/70'
-            } text-[14px]`}
-          >
-            {route.title}
-          </Text>
-        )}
-      />
-    </View>
-  )
-}
-
 // 简介
-const ProfileBio = () => {
-  const [viewMore, setViewMore] = useState(false)
+const ProfileBio: React.FC<{ data: IUserProfile }> = ({ data }) => {
   return (
     <View className={'flex-row space-x-2'}>
       {/* <Text className={'text-black text-xs'}>还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦 还没有简介哦</Text> */}
       <View className={'flex-1'}>
-        <Text
-          className={'text-white/75 text-s'}
-          numberOfLines={viewMore ? undefined : 1}
-        >
-          还没有简介哦 
+        <Text className={'text-white/75 text-s'} numberOfLines={1}>
+          {data?.desc || ''}
         </Text>
-      </View>
-      <View>
-        <Pressable onPress={() => setViewMore(!viewMore)}>
-          <Text className={'text-[#1A91DA] text-s px-2 '}>
-            {viewMore ? '收起' : '详情'}
-          </Text>
-        </Pressable>
       </View>
     </View>
   )
@@ -246,111 +198,44 @@ const ProfileBio = () => {
 
 export const LevelBanner = ({ level }: { level: number }) => {
   return (
-    <View className={'flex-row space-x-0 items-end rounded-sm overflow-hidden'}>
-      <View className={'bg-[#fff] font-bold h-[10px] px-0 py-0 align-bottom'}>
-        <Text
-          className={
-            'text-[#333] font-bold text-[12px] leading-[12px] px-0 py-0'
-          }
-        >
-          LV
-        </Text>
-      </View>
-      <View className={'bg-[#fff] font-bold h-[12px] px-0 py-0 align-bottom'}>
-        <Text
-          className={
-            'text-[#333] font-bold text-[14px] leading-[14px] px-0 py-0'
-          }
-          style={{
-            fontFamily: '',
-          }}
-        >
-          {level}
-        </Text>
-      </View>
+    <View>
+      <Text className={'text-white/75'}>Lv.{level}</Text>
     </View>
   )
 }
 
-export function ProfileScreen() {
+const ProfileHeader = (props: { scrollTimeline: SharedValue<number> }) => {
   const { data, levelPercent } = useUserProfile()
 
   const { data: commentData } = useUserCommentsListQuery()
 
-  const bottomSheetPosFrom = 60
+  const { goFollowingScreen } = useUserProfileRoute()
 
-  // const tags = ['He', 'She', 'They', '原神', '小肥书', '摄影', '美食']
-  // const symbol: { [key: string]: { symbol: string; color: string } } = {
-  //   He: { symbol: '♂', color: '#5B9BD5' },
-  //   She: { symbol: '♀', color: '#FF7F50' },
-  //   They: { symbol: '⚥', color: '#FFD700' },
-  // }
-  const tags = ['小肥书']
-  const symbol: { [key: string]: { symbol: string; color: string } } = {
-    He: { symbol: '♂', color: '#5B9BD5' },
-    She: { symbol: '♀', color: '#FF7F50' },
-    They: { symbol: '⚥', color: '#FFD700' },
-  }
-  const blocks = [
-    // {
-    //   id: 1,
-    //   name: '原神',
-    //   description: '启动',
-    // },
-    {
-      id: 2,
-      name: '小肥书',
-      description: '启动',
-    },
-    {
-      id: 3,
-      name: '摄影',
-      description: '分享你的摄影作品',
-    },
-    // {
-    //   id: 4,
-    //   name: '美食',
-    //   description: 'AAAAAAAAAA',
-    // },
-    // {
-    //   id: 5,
-    //   name: 'BBB',
-    //   description: 'BBBBBBBBBB',
-    // },
-  ]
+  const bottomSheetPosFrom = 60
 
   const userProfileRoute = useUserProfileRoute()
 
-  const bottomSheetRef = useRef<BottomSheetMethods>()
-
-  // 大约从 163 (初始) 到 -110
-  // overDrag时会大于 163
-  const scrollTimeline = useSharedValue(163)
-
-  // 背景图片高度，跟随滚动变化
-  const animatedBgImgHeight = useAnimatedStyle(() => {
-    return {
-      height: scrollTimeline.value > 0 ? scrollTimeline.value + 15 : 15,
-    }
+  const scrollTimeline = useCurrentTabScrollY()
+  useDerivedValue(() => {
+    props.scrollTimeline.value = scrollTimeline.value
   })
 
-  const infoHeight = useSharedValue(20)
-
-  // 同步滚动移动
-  const syncedTranslateY = useAnimatedStyle(() => {
+  const animatedBgImgHeight = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: scrollTimeline.value - infoHeight.value }],
+      height: scrollTimeline.value < 310 ? 386 - scrollTimeline.value : 76,
+      marginTop: scrollTimeline.value < 310 ? -144 + scrollTimeline.value : 0, // Height of the header + margin: 64px + 80px
     }
   })
 
   return (
-    <LoadingScreen isLoading={false}>
-      <ProfileScreenHeader scrollTimeline={scrollTimeline} />
+    <View className={'mt-[64px]'} style={{ pointerEvents: 'box-none' }}>
       <Animated.View
-        className={'absolute w-full top-[0]'}
-        style={[animatedBgImgHeight]}
+        className={'absolute w-full  z-[0] mt-[-144px]'}
+        style={[animatedBgImgHeight, { pointerEvents: 'none', bottom: 0 }]}
       >
-        {/* <View className={'absolute w-full h-[100%] top-[0] z-[1] bg-black/20'}></View> */}
+        <View
+          className={'absolute w-full h-[100%] top-[0] z-[1] bg-black/20'}
+        ></View>
         <LinearGradient
           className={'absolute w-full h-[100%] top-[0] z-[1]'}
           colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.8)']}
@@ -358,20 +243,15 @@ export function ProfileScreen() {
         <Image
           className={'absolute w-full h-[100%] top-[0]'}
           source={{
-            // TODO: 替换占位图
-            uri: 'https://xc.hfut.edu.cn/_upload/article/images/e3/c5/c149c3ed4cb1ae3f27b65d6c4dfd/dceea027-fc59-405a-ae15-5dfa296ddaa1.jpg',
+            uri: 'https://static.xiaofeishu.lnyynet.com/insecure/q:30/rs:fill:400:800:no:0/plain/local:///2024_06_09/1799758420216123392.png',
           }}
           contentPosition={'center'}
           cachePolicy={'disk'}
         />
       </Animated.View>
-
-      <Animated.View
-        className={'absolute w-100 h-100 z-[1] left-[16] right-[16]'}
-        style={[syncedTranslateY]}
-        onLayout={(e) => {
-          infoHeight.value = e.nativeEvent.layout.height
-        }}
+      <View
+        className={'w-100 z-[1] px-4'}
+        style={{ pointerEvents: 'box-none' }}
       >
         <View className={'flex-column'}>
           <View className={'flex-row items-center space-x-4'}>
@@ -393,65 +273,51 @@ export function ProfileScreen() {
           </View>
           <View className={'flex-row items-center space-x-4 mt-5 mb-3'}>
             {/* 简介 */}
-            <ProfileBio />
-          </View>
-          <View className={'flex-row items-center space-x-2 mb-1'}>
-            {/* tag */}
-            {tags.map((tag) => (
-              <View
-                key={tag}
-                className={
-                  ' bg-white/30 rounded-full min-w-[30px] flex-row items-center justify-center'
-                }
-              >
-                {symbol[tag] ? (
-                  <Text
-                    className={'px-2 pt-1 text-[16px] leading-[16px]'}
-                    style={{ color: symbol[tag].color }}
-                  >
-                    {symbol[tag].symbol}
-                  </Text>
-                ) : (
-                  <Text className={'px-2 py-0.5 text-white/80 text-xs'}>
-                    {tag}
-                  </Text>
-                )}
-              </View>
-            ))}
+            <ProfileBio data={data!} />
           </View>
 
-          <View className={'flex-row items-center space-x-2 mb-2'}>
+          <View className={'flex-row items-center space-x-2 mb-4'}>
             <View
               className={
                 'flex-row justify-between align-center py-2 flex-[0.85]'
               }
             >
               {/* 数据 */}
-              <View className={'flex-col align-center'}>
+              <Pressable
+                onPress={() => {
+                  goFollowingScreen(data?.id!)
+                }}
+                className={'flex-col align-center'}
+              >
                 <Text
                   className={'text-center text-white font-bold text-[20px]'}
                 >
-                  {1}
+                  {data?.following}
                 </Text>
                 <Text className={'text-center text-white/70 text-[16px]'}>
                   关注
                 </Text>
-              </View>
-              <View className={'flex-col align-center'}>
+              </Pressable>
+              <Pressable
+                className={'flex-col align-center'}
+                onPress={() => {
+                  goFollowingScreen(data?.id!, false)
+                }}
+              >
                 <Text
                   className={'text-center text-white font-bold text-[20px]'}
                 >
-                  {2}
+                  {data?.followers}
                 </Text>
                 <Text className={'text-center text-white/70 text-[16px]'}>
                   粉丝
                 </Text>
-              </View>
+              </Pressable>
               <View className={'flex-col align-center'}>
                 <Text
                   className={'text-center text-white font-bold text-[20px]'}
                 >
-                  {commentData?.pages[0].meta.totalItems}
+                  {data?.posts}
                 </Text>
                 <Text className={'text-center text-white/70 text-[16px]'}>
                   帖子
@@ -482,71 +348,37 @@ export function ProfileScreen() {
               </Button>
             </View>
           </View>
-
-          <View className={'flex-row items-center space-x-2 mb-2'}>
-            {/* 板块 */}
-            {/* 横向滚动 */}
-            <ScrollView
-              contentContainerStyle={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                padding: 8,
-                gap: 8,
-              }}
-              horizontal={true}
-            >
-              {blocks.map((block) => (
-                <View
-                  key={block.id}
-                  className={
-                    'px-2 py-1 bg-white/20 rounded-sm min-w-[80px] flex-column items-start justify-center space-y-2'
-                  }
-                >
-                  <Text className={'text-white/80'}>{block.name}</Text>
-                  <Text className={'text-white/80 text-xs'}>
-                    {block.description}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
         </View>
-      </Animated.View>
-      <SafeAreaView className={'flex-1'}>
-        <BottomSheet
-          ref={bottomSheetRef as any}
-          snapPoints={Array.from(
-            { length: 120 - bottomSheetPosFrom },
-            (_, i) => `${bottomSheetPosFrom + i}%`,
-          )}
-          animatedPosition={scrollTimeline}
-          overDragResistanceFactor={10}
-          // enableDynamicSizing={true}
-          topInset={75}
-          handleIndicatorStyle={{
-            display: 'none',
-          }}
-          handleStyle={{
-            padding: 0,
-          }}
-          // handleComponent={}
-        >
-          <TabView
-            className={'flex-1'}
-            renderTabBar={(props) =>
-              (
-                <ProfileScreenTabBar
-                  {...props}
-                  scrollTimeline={scrollTimeline}
-                />
-              ) as any
-            }
-            tabs={tabs}
-          />
-        </BottomSheet>
-      </SafeAreaView>
+      </View>
+      <View className="absolute w-full bottom-[0] bg-white h-2 rounded-t-2xl"></View>
+    </View>
+  )
+}
+
+export function ProfileScreen() {
+  const scrollTimeline = useSharedValue(0)
+
+  return (
+    <LoadingScreen isLoading={false}>
+      <ProfileScreenHeader scrollTimeline={scrollTimeline} />
+      <Tabs.Container
+        renderHeader={() => <ProfileHeader scrollTimeline={scrollTimeline} />}
+        headerHeight={300}
+        minHeaderHeight={0}
+        tabBarHeight={48}
+        allowHeaderOverscroll={true}
+        headerContainerStyle={{
+          backgroundColor: '#ffffff',
+          shadowColor: 'transparent',
+        }}
+        renderTabBar={ProfileScreenTabBar}
+      >
+        {tabs.map((tab) => (
+          <Tabs.Tab key={tab.key} name={tab.key} label={tab.title}>
+            <tab.component />
+          </Tabs.Tab>
+        ))}
+      </Tabs.Container>
     </LoadingScreen>
   )
 }

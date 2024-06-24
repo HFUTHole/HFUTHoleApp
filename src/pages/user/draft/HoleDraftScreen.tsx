@@ -3,6 +3,8 @@ import { useAppSelector } from '@/store/store'
 import { Button, Text, TouchableRipple } from 'react-native-paper'
 import { copyToClipboard } from '@/shared/utils/keyboard'
 import { Toast } from '@/shared/utils/toast'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { BackHeader } from '@/components/Header'
 
 export function HoleDraftScreen() {
   const draft = useAppSelector((state) => state.hole.draft)
@@ -15,7 +17,8 @@ export function HoleDraftScreen() {
   }
 
   return (
-    <View className={'p-3'}>
+    <SafeAreaView className={'px-[2.5vw] bg-white flex-1'}>
+      <BackHeader title={'草稿箱'} />
       <FlatList
         data={draft}
         showsVerticalScrollIndicator={false}
@@ -41,6 +44,6 @@ export function HoleDraftScreen() {
           )
         }}
       />
-    </View>
+    </SafeAreaView>
   )
 }

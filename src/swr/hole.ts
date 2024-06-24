@@ -97,7 +97,7 @@ export function useHoleDetail() {
 
 export function useHoleComment() {
   const params = useParams<{
-    id: number
+    id: number | string
     commentId?: string
     replyId?: string
   }>()

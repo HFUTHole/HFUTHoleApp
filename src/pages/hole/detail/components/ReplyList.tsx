@@ -15,9 +15,12 @@ import { useMutation, UseMutationResult } from 'react-query'
 import { AnimatedLikeButton } from '@/components/animation/LikeButton'
 import { DeleteReplyLikeRequest, LikeReplyRequest } from '@/request/apis/hole'
 import { useCommentEventBusContext } from '@/shared/context/comment/eventBus'
-import * as repl from 'repl'
-import { Image } from '@/components/image/Image'
 import { CommentImage } from '@/pages/hole/detail/components/CommentImage'
+import * as _ from 'lodash'
+import { AntdIcon, FontV6Icon } from '@/components/icon'
+import { useParams } from '@/shared/hooks/useParams'
+import { useNavigation } from '@react-navigation/native'
+import { IpLocationText } from '@/pages/hole/detail/components/CommentList'
 
 const ReplyListItem: React.FC<{
   reply: Reply
@@ -50,16 +53,24 @@ const ReplyListItem: React.FC<{
         }}
       >
         <View className={'flex-row space-x-2 py-1'}>
-          <UserAvatar url={reply.user?.avatar} size={20} />
+          <UserAvatar
+            url={reply.user?.avatar}
+            userId={reply.user?.id}
+            size={20}
+          />
           <View className={'flex-1 space-y-1'}>
             <View className={'flex-row h-[20px] items-center'}>
               <Text className={'text-[#33333399]'}>{reply.user?.username}</Text>
               <If condition={!!reply.replyUser}>
                 <Then>
-                  <Text className={'text-[#33333399] px-1'}>回复</Text>
-                  <Text className={'text-[#33333399]'}>
-                    {reply.replyUser?.username}
-                  </Text>
+                  <View className={'px-1'}>
+                    <FontV6Icon.careright size={12} color={'#33333399'} />
+                  </View>
+                  <View>
+                    <Text className={'text-[#33333399]'}>
+                      {reply.replyUser?.username}
+                    </Text>
+                  </View>
                 </Then>
               </If>
             </View>
@@ -69,13 +80,24 @@ const ReplyListItem: React.FC<{
                 body={reply.body}
                 fontSize={12}
               />
-              <View className={'mt-2'}>
-                <CommentImage data={reply as IHoleReplyListItem} />
-              </View>
+              <If condition={!!reply.imgs?.length}>
+                <Then>
+                  <View className={'my-1'}>
+                    <CommentImage data={reply as IHoleReplyListItem} />
+                  </View>
+                </Then>
+                <Else>
+                  <></>
+                </Else>
+              </If>
             </View>
-            <View className={'items-center flex-row justify-between'}>
-              <View className={'flex-1'}>
-                <TimeText time={reply.createAt} />
+            <View
+              className={'items-center flex-row justify-between pr-[2.5vw]'}
+            >
+              <TimeText time={reply.createAt} />
+
+              <View className={'flex-1 flex-row space-x-2'}>
+                <IpLocationText text={reply.ip_location!} />
               </View>
               <ReplyItemLikeButton data={reply} mutation={mutation} />
             </View>
@@ -148,7 +170,7 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
       <If condition={replies.length > 0}>
         <Then>
           <View>
-            {replies.map((reply, index) => (
+            {_.uniqBy(replies, 'id').map((reply, index) => (
               <ReplyListItem reply={reply} comment={data} key={reply.id} />
             ))}
             <View className={'mt-2 flex-row space-x-2 items-center'}>
@@ -165,8 +187,11 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                     <LoadingIndicator color={'rgba(51,51,51,0.4)'} size={12} />
                   </Then>
                   <Else>
-                    <TouchableOpacity onPress={onExpandCommentAreaPress}>
-                      <Text className={'text-textSecondary text-sm'}>
+                    <TouchableOpacity
+                      className={'w-full py-1'}
+                      onPress={onExpandCommentAreaPress}
+                    >
+                      <Text className={'text-textSecondary text-[13px]'}>
                         <If condition={isExpand}>
                           <Then>
                             <If condition={hasNextPage}>
@@ -180,10 +205,13 @@ export const ReplyList: React.FC<{ data: IHoleCommentListItem }> = ({
                     </TouchableOpacity>
                   </Else>
                 </If>
-                <TouchableOpacity onPress={isExpandActions.setFalse}>
+                <TouchableOpacity
+                  className={'w-full'}
+                  onPress={isExpandActions.setFalse}
+                >
                   <If condition={isExpand && hasNextPage}>
                     <Then>
-                      <Text className={'ml-4 text-textSecondary text-sm'}>
+                      <Text className={'ml-4 text-textSecondary text-[13px]'}>
                         收起
                       </Text>
                     </Then>

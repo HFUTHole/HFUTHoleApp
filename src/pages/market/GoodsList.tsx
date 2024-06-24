@@ -19,17 +19,20 @@ import React, {
 // import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
 import { useBoolean } from 'ahooks'
 import { GoodsItem, GoodsItemCard } from './components/GoodsCard'
+import { AnimatedHolePostFAB } from '@/pages/hole/PostFab'
+import { AnimatedToTopFAB } from '@/pages/hole/ToTopFab'
+import { useUsedGoodsRoute } from '@/shared/hooks/route/useUsedGoodsRoute'
+import { If, Then } from 'react-if'
 
 interface IGoodsListResponse {
   items: GoodsItem[]
   meta: {
-	totalItems: number
-	itemCount: number
-	itemsPerPage: number
-	totalPages: number
-	currentPage: number
+    totalItems: number
+    itemCount: number
+    itemsPerPage: number
+    totalPages: number
+    currentPage: number
   }
-  
 }
 
 // TODO 完善类型
@@ -38,7 +41,9 @@ export type RefreshableGoodsListProps<
 > = UseInfiniteQueryResult<T, any> & {
   invalidateQuery: Func
   FlatListComponent?: any
-} & PickedFlatListProps<T>
+} & PickedFlatListProps<T> & {
+    showFab?: boolean
+  }
 
 type PickedFlatListProps<T> = Partial<
   Pick<
@@ -55,29 +60,32 @@ type PickedFlatListProps<T> = Partial<
   >
 >
 
-const Item = memo(({ item, index }: { item: GoodsItem, index: number }) => {
-//   const { go } = useGoodsDetailRoute()
+const Item = memo(({ item, index }: { item: GoodsItem; index: number }) => {
+  //   const { go } = useGoodsDetailRoute()
 
-  return (
-	<GoodsItemCard item={item} index={index}/>
-  )
+  return <GoodsItemCard item={item} index={index} />
 })
 
 function InnerRefreshableGoodsList<
   T extends IGoodsListResponse = IGoodsListResponse,
->({
-  isSuccess,
-  data,
-  hasNextPage,
-  fetchNextPage,
-  invalidateQuery,
-  ListHeaderComponent,
-  ...props
-}: RefreshableGoodsListProps<T>) {
+>(_props: RefreshableGoodsListProps<T>) {
+  const {
+    isSuccess,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    invalidateQuery,
+    ListHeaderComponent,
+    showFab = true,
+    ...props
+  } = _props
+
   const { data: flatListData, isEmpty: isGoodsListEmpty } =
     flatInfiniteQueryData(data)
 
-  const listRef = useRef<FlatList>()
+  const { goCreate } = useUsedGoodsRoute()
+
+  const listRef = useRef<FlatList>(null)
 
   const CONTENT_OFFSET_THRESHOLD = 500
   const [PostFABOffset, setPostFABOffset] = useState(0)
@@ -97,18 +105,23 @@ function InnerRefreshableGoodsList<
   }
 
   const scrollToTopHandler = () => {
-    listRef.current!.scrollToOffset({ offset: 0, animated: true })
+    console.log(listRef)
+    // listRef.current!.scrollToOffset({ offset: 0, animated: true })
   }
 
   return (
     <>
-      <View className={'absolute z-[100] bottom-20 right-2'}>
-        {/* <AnimatedHolePostFAB offset={PostFABOffset} />
-        <AnimatedToTopFAB
-          visible={isToTopFABVisible}
-          goToTop={scrollToTopHandler}
-        /> */}
-      </View>
+      <If condition={showFab}>
+        <Then>
+          <View className={'absolute z-[100] bottom-20 right-2'}>
+            <AnimatedHolePostFAB onPress={goCreate} offset={PostFABOffset} />
+            <AnimatedToTopFAB
+              visible={isToTopFABVisible}
+              goToTop={scrollToTopHandler}
+            />
+          </View>
+        </Then>
+      </If>
       {isSuccess ? (
         <RefreshingFlatList
           ref={listRef as MutableRefObject<FlatList>}

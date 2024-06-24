@@ -7,6 +7,7 @@ declare interface IHoleCommentListItem {
   id: string
   createAt: string
   body: string
+  ip_location: string
   favoriteCounts: number
   user: User
   replies: Reply[]
@@ -35,8 +36,10 @@ interface Reply {
   id: string
   createAt: string
   body: string
+  ip_location?: string
   favoriteCounts: number
   user: User
   replyUser: User
   isLiked: boolean
+  imgs?: string[]
 }

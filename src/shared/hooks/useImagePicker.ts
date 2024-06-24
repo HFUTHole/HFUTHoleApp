@@ -2,6 +2,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { AwaitAble } from '@/shared/types'
 import { Toast } from '@/shared/utils/toast'
 import { Limit } from '@/shared/config'
+import { useImmer } from 'use-immer'
 
 interface Options extends ImagePicker.ImagePickerOptions {
   onSuccess: (data: ImagePicker.ImagePickerResult) => AwaitAble<void>
@@ -9,6 +10,23 @@ interface Options extends ImagePicker.ImagePickerOptions {
 }
 
 export function useImagePicker({ onSuccess, onError, ...options }: Options) {
+  const [imgs, setImgs] = useImmer<ImagePicker.ImagePickerAsset[]>([])
+
+  const removeImage = (asset: ImagePicker.ImagePickerAsset) => {
+    if (options.selectionLimit === imgs.length) {
+      Toast.error({
+        text1: `最多只能选择${options.selectionLimit}张图片哦`,
+      })
+      return
+    }
+
+    setImgs((draft) => {
+      draft = draft.filter((item) => item.uri !== asset.uri)
+
+      return draft
+    })
+  }
+
   const onImageSelect = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -34,6 +52,9 @@ export function useImagePicker({ onSuccess, onError, ...options }: Options) {
       }
 
       if (!result.canceled) {
+        setImgs((draft) => {
+          draft.push(...(result.assets || []))
+        })
         onSuccess(result)
       }
     } catch (err) {
@@ -50,5 +71,8 @@ export function useImagePicker({ onSuccess, onError, ...options }: Options) {
 
   return {
     onImageSelect,
+    removeImage,
+    imgs,
+    setImgs,
   }
 }

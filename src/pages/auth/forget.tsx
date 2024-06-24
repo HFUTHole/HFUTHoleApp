@@ -12,6 +12,7 @@ import { useAuthMutation } from './utils'
 import { ForgetOnePassword } from '@/pages/auth/ForgetOnePassword'
 import { NativeInput, NativeTextInput } from '@/components/form/NativeInput'
 import React from 'react'
+import { Snackbar } from '@/components/snackbar/snackbar'
 
 const ForgetForm = () => {
   const {
@@ -38,6 +39,16 @@ const ForgetForm = () => {
 
   return (
     <View className={'grid space-y-2'}>
+      {errors?.reqFailedError && (
+        <View className={'py-3'}>
+          <Snackbar
+            text={errors.reqFailedError?.message || '出错了'}
+            icon={'info'}
+            error
+          />
+        </View>
+      )}
+
       <View>
         <NativeTextInput<ForgetFormValidator>
           control={control}

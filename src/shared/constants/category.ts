@@ -68,13 +68,6 @@ export const Categories = [
     url: 'https://d-ssl.dtstatic.com/uploads/blog/202308/21/5zS3lYbehO5LyGm.thumb.1000_0.jpeg_webp',
     icon: LostAndFoundSvg,
   },
-  {
-    name: HoleClassification.taoSecondHand,
-    description: '一手太贵，还是来看看二手吧 QWQ',
-    color: { primary: '#BF8437', secondary: '#FFEEDF' },
-    url: 'https://d-ssl.dtstatic.com/uploads/blog/202308/21/5zS3lYbehO5LyGm.thumb.1000_0.jpeg_webp',
-    icon: SecondHandSvg,
-  },
 ]
 
 export const getCategoryByName = (name: HoleClassification) => {

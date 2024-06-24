@@ -42,7 +42,10 @@ export function HolePostHeader() {
             : ({} as any)),
         })
       } catch (err) {
-        console.log((err as AxiosError).response)
+        Toast.show({
+          type: 'error',
+          text1: '上传图片失败了~',
+        })
       }
     },
     onSuccess(data) {
